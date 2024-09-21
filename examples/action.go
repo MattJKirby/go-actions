@@ -3,7 +3,7 @@ package examples
 import "go-actions/ga/action"
 
 func init(){
-	action.NewAction(NewExampleAction)
+	action.NewActionDefinition(NewExampleAction)
 }
 
 type ExampleAction struct {

@@ -8,8 +8,8 @@ import (
 
 func main(){
 
-	testFn := action.NewAction(examples.NewExampleAction)
-	testStruct := action.NewAction(&examples.ExampleAction{})
+	testFn := action.NewActionDefinition(examples.NewExampleAction)
+	testStruct := action.NewActionDefinition(&examples.ExampleAction{})
 
 	fmt.Println(testFn.Name(), testFn.TypeName(), testFn.Type(), testFn.Value())
 	fmt.Println(testStruct.Name(), testStruct.TypeName(), testStruct.Type(), testStruct.Value())

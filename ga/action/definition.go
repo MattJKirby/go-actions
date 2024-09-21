@@ -13,7 +13,7 @@ type ActionDefinition struct {
 	t reflect.Type
 }
 
-func NewAction(defObj any) *ActionDefinition {
+func NewActionDefinition(defObj any) *ActionDefinition {
 	v := reflect.ValueOf(defObj)
 	t := v.Type()
 
