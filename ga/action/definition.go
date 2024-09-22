@@ -24,12 +24,10 @@ func NewActionDefinition(defObj any) *ActionDefinition {
 	if t.Kind() == reflect.Func {
 		// v = v.Call([]reflect.Value{})[0]
 		t = t.Out(0)
-		v = reflect.New(t)
 
-		if t.Kind() == reflect.Ptr {
+		if types.IsRefType(t) {
 			t = t.Elem()
 		}
-
 	}
 
 	s := strings.Split(t.String(), ".")
