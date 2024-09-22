@@ -8,6 +8,6 @@ import (
 
 func main(){
 
-	ex,_ := ga.GetAction(&examples.ExampleAction{})
+	ex,_ := ga.GetAction(examples.ExampleAction{})
 	fmt.Println(ex.Name(), ex.TypeName(), ex.Type(), ex.Value())
 }
