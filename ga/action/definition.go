@@ -17,13 +17,19 @@ func NewActionDefinition(defObj any) *ActionDefinition {
 	v := reflect.ValueOf(defObj)
 	t := v.Type()
 
-	if !types.IsActionType(t) {
+	if !types.IsRefType(t) {
 		panic("definition must be a ref type")
 	}
 
 	if t.Kind() == reflect.Func {
 		// v = v.Call([]reflect.Value{})[0]
-		t = t.Out(0)  
+		t = t.Out(0)
+		v = reflect.New(t)
+
+		if t.Kind() == reflect.Ptr {
+			t = t.Elem()
+		}
+
 	}
 
 	s := strings.Split(t.String(), ".")

@@ -15,9 +15,9 @@ func DefineAction(actionConstructor any) *action.ActionDefinition {
 func GetAction(def any) (*action.ActionDefinition, error) {
 	v := reflect.ValueOf(def)
 
-	// if v.Kind() != reflect.Struct {
-	// 	return nil, fmt.Errorf("")
-	// }
+	if v.Kind() == reflect.Pointer {
+		v = v.Elem()
+	}
 	
 	return ga.GetAction(v)
 }

@@ -29,12 +29,12 @@ func TypeName(i any) string {
 	return t.String()
 }
 
-func IsActionType(t reflect.Type) bool {
+func IsRefType(t reflect.Type) bool {
 	switch t.Kind(){
-	case reflect.Struct, reflect.Func:
+	case reflect.Func, reflect.Interface:
 		return true
 	case reflect.Pointer:
-		return t.Elem().Kind() == reflect.Struct || t.Elem().Kind() == reflect.Func
+		return t.Elem().Kind() == reflect.Struct
 	default:
 		return false
 	}
