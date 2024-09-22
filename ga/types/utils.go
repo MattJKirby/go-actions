@@ -30,8 +30,12 @@ func TypeName(i any) string {
 }
 
 func IsActionType(t reflect.Type) bool {
-	if t.Kind() == reflect.Pointer {
-		return t.Elem().Kind() == reflect.Struct
+	switch t.Kind(){
+	case reflect.Struct, reflect.Func:
+		return true
+	case reflect.Pointer:
+		return t.Elem().Kind() == reflect.Struct || t.Elem().Kind() == reflect.Func
+	default:
+		return false
 	}
-	return t.Kind() == reflect.Func || t.Kind() == reflect.Interface
 }
