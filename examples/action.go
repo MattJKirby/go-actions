@@ -1,9 +1,11 @@
 package examples
 
-import "go-actions/ga/action"
+import (
+	"go-actions/ga"
+)
 
 func init(){
-	action.NewActionDefinition(NewExampleAction)
+	ga.DefineAction(NewExampleAction)
 }
 
 type ExampleAction struct {

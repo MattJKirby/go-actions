@@ -3,14 +3,11 @@ package main
 import (
 	"fmt"
 	"go-actions/examples"
-	"go-actions/ga/action"
+	"go-actions/ga"
 )
 
 func main(){
 
-	testFn := action.NewActionDefinition(examples.NewExampleAction)
-	testStruct := action.NewActionDefinition(&examples.ExampleAction{})
-
-	fmt.Println(testFn.Name(), testFn.TypeName(), testFn.Type(), testFn.Value())
-	fmt.Println(testStruct.Name(), testStruct.TypeName(), testStruct.Type(), testStruct.Value())
+	ex,_ := ga.GetAction(&examples.ExampleAction{})
+	fmt.Println(ex.Name(), ex.TypeName(), ex.Type(), ex.Value())
 }

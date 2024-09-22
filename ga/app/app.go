@@ -1,6 +1,10 @@
 package app
 
-import "context"
+import (
+	"context"
+	"go-actions/ga/action"
+	"reflect"
+)
 
 type App struct {
 	ctx context.Context
@@ -12,4 +16,12 @@ func NewApp() *App{
 		ctx: context.Background(),
 		actionDefinitionRegistry: NewActionDefinitionRegistry(),
 	}
+}
+
+func (a *App) RegisterActionDef(actionDef *action.ActionDefinition) *action.ActionDefinition {
+	return a.actionDefinitionRegistry.acceptDefinition(actionDef)
+}
+
+func (a *App) GetAction(v reflect.Value) (*action.ActionDefinition, error) {
+	return a.actionDefinitionRegistry.getDefinition(v)
 }
