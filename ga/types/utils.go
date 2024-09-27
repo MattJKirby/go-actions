@@ -8,7 +8,7 @@ import (
 func TypeName(i any) string {
 	var t reflect.Type
 
-	switch o := i.(type){
+	switch o := i.(type) {
 	case reflect.Type:
 		t = o
 	case reflect.Value:
@@ -30,7 +30,7 @@ func TypeName(i any) string {
 }
 
 func IsRefType(t reflect.Type) bool {
-	switch t.Kind(){
+	switch t.Kind() {
 	case reflect.Func, reflect.Interface:
 		return true
 	case reflect.Pointer:

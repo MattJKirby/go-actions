@@ -7,8 +7,8 @@ import (
 )
 
 type ActionDefinitionRegistry struct {
-	actionsByName map[string] *action.ActionDefinition
-	actionsByType map[reflect.Type] *action.ActionDefinition
+	actionsByName map[string]*action.ActionDefinition
+	actionsByType map[reflect.Type]*action.ActionDefinition
 }
 
 func NewActionDefinitionRegistry() *ActionDefinitionRegistry {
@@ -20,7 +20,7 @@ func NewActionDefinitionRegistry() *ActionDefinitionRegistry {
 
 func (adr *ActionDefinitionRegistry) acceptDefinition(def *action.ActionDefinition) *action.ActionDefinition {
 	adr.actionsByName[def.Name()] = def
-	adr.actionsByType[def.Type()] = def
+	adr.actionsByType[def.ActionType()] = def
 	return def
 }
 

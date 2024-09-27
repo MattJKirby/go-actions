@@ -11,7 +11,7 @@ type Action struct {
 }
 
 func NewAction(def *ActionDefinition) *Action {
-	
+
 	return &Action{
 		def,
 	}

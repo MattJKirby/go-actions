@@ -1,54 +1,54 @@
 package action
 
 import (
+	"fmt"
 	"go-actions/ga/types"
 	"reflect"
 	"strings"
 )
 
 type ActionDefinition struct {
-	name string
+	name     string
 	typeName string
-	v reflect.Value
-	t reflect.Type
+	vCtor    reflect.Value
+	tCtor    reflect.Type
+	tAction reflect.Type
 }
 
-func NewActionDefinition(defObj any) *ActionDefinition {
-	v := reflect.ValueOf(defObj)
-	t := v.Type()
+func NewActionDefinition(actionDefCtor any) *ActionDefinition {
+	vCtor := reflect.ValueOf(actionDefCtor)
+	tCtor := vCtor.Type()
 
-	if !types.IsRefType(t) {
-		panic("definition must be a ref type")
+	if tCtor.Kind() != reflect.Func {
+		panic("definition constructor must be a function")
 	}
 
-	if t.Kind() == reflect.Func {
-		// v = v.Call([]reflect.Value{})[0]
-		t = t.Out(0)
-
-		if types.IsRefType(t) {
-			t = t.Elem()
-		}
+	tAction := tCtor.Out(0)
+	if types.IsRefType(tAction) {
+		tAction = tAction.Elem()
 	}
 
-	s := strings.Split(t.String(), ".")
-	name := s[len(s) -1]
+	s := strings.Split(tCtor.String(), ".")
+	name := s[len(s)-1]
 
+	fmt.Println(name, types.TypeName(tAction))
 
+	// v = v.Call([]reflect.Value{})[0]
 	return &ActionDefinition{
 		name:     name,
-		typeName: types.TypeName(t),
-		v:        v,
-		t:        t,
+		typeName: types.TypeName(tAction),
+		vCtor:    vCtor,
+		tCtor:    tCtor,
+		tAction:  tAction,
 	}
 }
 
-
-func (ad *ActionDefinition) Type() reflect.Type {
-	return ad.t
+func (ad *ActionDefinition) ActionType() reflect.Type {
+	return ad.tAction
 }
 
-func (ad *ActionDefinition) Value() reflect.Value {
-	return ad.v
+func (ad *ActionDefinition) ActionConstructor() reflect.Value {
+	return ad.vCtor
 }
 
 func (ad *ActionDefinition) Name() string {
@@ -58,5 +58,3 @@ func (ad *ActionDefinition) Name() string {
 func (ad *ActionDefinition) TypeName() string {
 	return ad.typeName
 }
-
-

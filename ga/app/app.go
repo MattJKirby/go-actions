@@ -7,13 +7,13 @@ import (
 )
 
 type App struct {
-	ctx context.Context
+	ctx                      context.Context
 	actionDefinitionRegistry *ActionDefinitionRegistry
 }
 
-func NewApp() *App{
+func NewApp() *App {
 	return &App{
-		ctx: context.Background(),
+		ctx:                      context.Background(),
 		actionDefinitionRegistry: NewActionDefinitionRegistry(),
 	}
 }

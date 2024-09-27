@@ -4,7 +4,7 @@ import (
 	"go-actions/ga"
 )
 
-func init(){
+func init() {
 	ga.DefineAction(NewExampleAction)
 }
 
@@ -18,6 +18,6 @@ func NewExampleAction() *ExampleAction {
 	}
 }
 
-func (ex* ExampleAction) Execute(){
-	
+func (ex *ExampleAction) Execute() {
+
 }

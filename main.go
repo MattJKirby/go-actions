@@ -6,8 +6,8 @@ import (
 	"go-actions/ga"
 )
 
-func main(){
+func main() {
 
-	ex,_ := ga.GetAction(examples.ExampleAction{})
+	ex, _ := ga.GetAction(examples.ExampleAction{})
 	fmt.Println(ex)
 }

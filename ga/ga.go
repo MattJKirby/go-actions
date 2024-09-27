@@ -18,6 +18,6 @@ func GetAction(def any) (*action.ActionDefinition, error) {
 	if v.Kind() == reflect.Pointer {
 		v = v.Elem()
 	}
-	
+
 	return ga.GetActionDef(v)
 }
