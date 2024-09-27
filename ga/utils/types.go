@@ -18,6 +18,7 @@ func GetType(i any) reflect.Type {
 }
 
 func GetValueType(t reflect.Type) reflect.Type {
+	// Might need interface check here
 	if IsRefType(t) {
 		return t.Elem()
 	}
@@ -33,7 +34,7 @@ func TypePath(i any) string {
 
 func TypeName(i any) string {
 	s := strings.Split(GetType(i).String(), ".")
-	return  s[len(s)-1]
+	return s[len(s)-1]
 }
 
 func IsRefType(t reflect.Type) bool {

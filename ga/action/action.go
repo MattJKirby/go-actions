@@ -1,10 +1,10 @@
 package action
 
-// type ActionConstructor = func () ActionConstructorValue
+type ActionConstructor[T any] func () T
 
-// type ActionConstructorValue interface {
-// 	Execute()
-// }
+type ActionFunction interface {
+	Execute()
+}
 
 type Action struct {
 	def *ActionDefinition
