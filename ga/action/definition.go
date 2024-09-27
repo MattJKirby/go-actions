@@ -1,10 +1,8 @@
 package action
 
 import (
-	"fmt"
-	"go-actions/ga/types"
+	"go-actions/ga/utils"
 	"reflect"
-	"strings"
 )
 
 type ActionDefinition struct {
@@ -12,7 +10,7 @@ type ActionDefinition struct {
 	typeName string
 	vCtor    reflect.Value
 	tCtor    reflect.Type
-	tAction reflect.Type
+	tAction  reflect.Type
 }
 
 func NewActionDefinition(actionDefCtor any) *ActionDefinition {
@@ -24,19 +22,12 @@ func NewActionDefinition(actionDefCtor any) *ActionDefinition {
 	}
 
 	tAction := tCtor.Out(0)
-	if types.IsRefType(tAction) {
-		tAction = tAction.Elem()
-	}
-
-	s := strings.Split(tCtor.String(), ".")
-	name := s[len(s)-1]
-
-	fmt.Println(name, types.TypeName(tAction))
+	tAction = utils.GetValueType(tAction)
 
 	// v = v.Call([]reflect.Value{})[0]
 	return &ActionDefinition{
-		name:     name,
-		typeName: types.TypeName(tAction),
+		name:     utils.TypeName(tAction),
+		typeName: utils.TypePath(tAction),
 		vCtor:    vCtor,
 		tCtor:    tCtor,
 		tAction:  tAction,
