@@ -19,5 +19,5 @@ func GetAction(def any) (*action.ActionDefinition, error) {
 		v = v.Elem()
 	}
 	
-	return ga.GetAction(v)
+	return ga.GetActionDef(v)
 }

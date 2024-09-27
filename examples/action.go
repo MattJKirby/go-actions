@@ -17,3 +17,7 @@ func NewExampleAction() *ExampleAction {
 		abc: "adf",
 	}
 }
+
+func (ex* ExampleAction) Execute(){
+	
+}
