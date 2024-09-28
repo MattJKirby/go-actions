@@ -22,6 +22,6 @@ func (a *App) RegisterActionDef(actionDef *action.ActionDefinition) *action.Acti
 	return a.actionDefinitionRegistry.acceptDefinition(actionDef)
 }
 
-func (a *App) GetActionDef(v reflect.Value) (*action.ActionDefinition, error) {
-	return a.actionDefinitionRegistry.getDefinition(v)
+func (a *App) GetActionDef(actionType reflect.Type) (*action.ActionDefinition, error) {
+	return a.actionDefinitionRegistry.getDefinition(actionType)
 }

@@ -24,9 +24,9 @@ func (adr *ActionDefinitionRegistry) acceptDefinition(def *action.ActionDefiniti
 	return def
 }
 
-func (adr *ActionDefinitionRegistry) getDefinition(v reflect.Value) (*action.ActionDefinition, error) {
-	if def, exists := adr.actionsByType[v.Type()]; exists {
+func (adr *ActionDefinitionRegistry) getDefinition(actionType reflect.Type) (*action.ActionDefinition, error) {
+	if def, exists := adr.actionsByType[actionType]; exists {
 		return def, nil
 	}
-	return nil, fmt.Errorf("could not retrive action '%s'", v)
+	return nil, fmt.Errorf("could not retrive action '%s'", actionType)
 }
