@@ -2,7 +2,6 @@ package examples
 
 import (
 	"go-actions/ga"
-	"go-actions/ga/action"
 )
 
 func init() {
@@ -21,8 +20,4 @@ func NewExampleAction() *ExampleAction {
 
 func (ex *ExampleAction) Execute() {
 
-}
-
-func Test() action.ActionFunction {
-	return NewExampleAction()
 }

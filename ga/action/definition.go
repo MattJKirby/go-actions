@@ -14,8 +14,8 @@ type ActionDefinition struct {
 	tAction  reflect.Type
 }
 
-func NewActionDefinition(actionDefCtor any) *ActionDefinition {
-	vCtor := reflect.ValueOf(actionDefCtor)
+func NewActionDefinition[T FunctionDefinition](actionCtor Constructor[T]) *ActionDefinition {
+	vCtor := reflect.ValueOf(actionCtor)
 	tCtor := vCtor.Type()
 
 	if tCtor.Kind() != reflect.Func {
@@ -26,15 +26,10 @@ func NewActionDefinition(actionDefCtor any) *ActionDefinition {
 	tAction = utils.GetValueType(tAction)
 	vAction := reflect.New(tAction)
 
-	// val, ok := vCtor.Interface().(ActionConstructor[tAction])
-	// if ok {
-	// 	println(true, val)
-	// }
-
-	// val, ok := vAction.Interface().(ActionFunction)
-	// if ok {
-	// 	println("OKAY", val)
-	// }
+	val, ok := vAction.Interface().(T)
+	if ok {
+		println("OKAY", val)
+	}
 
 	// v = v.Call([]reflect.Value{})[0]
 	return &ActionDefinition{

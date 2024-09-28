@@ -8,7 +8,7 @@ import (
 
 var ga = app.NewApp()
 
-func DefineAction(actionConstructor any) *action.ActionDefinition {
+func DefineAction[T action.FunctionDefinition](actionConstructor action.Constructor[T]) *action.ActionDefinition {
 	return ga.RegisterActionDef(action.NewActionDefinition(actionConstructor))
 }
 

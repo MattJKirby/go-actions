@@ -1,8 +1,8 @@
 package action
 
-type ActionConstructor[T any] func () T
+type Constructor[T FunctionDefinition] func () T
 
-type ActionFunction interface {
+type FunctionDefinition interface {
 	Execute()
 }
 
