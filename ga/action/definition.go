@@ -26,11 +26,6 @@ func NewActionDefinition[T FunctionDefinition](actionCtor Constructor[T]) *Actio
 	tAction = utils.GetValueType(tAction)
 	vAction := reflect.New(tAction)
 
-	val, ok := vAction.Interface().(T)
-	if ok {
-		println("OKAY", val)
-	}
-
 	// v = v.Call([]reflect.Value{})[0]
 	return &ActionDefinition{
 		name:     utils.TypeName(tAction),
