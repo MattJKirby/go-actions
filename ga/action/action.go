@@ -2,7 +2,6 @@ package action
 
 import (
 	"fmt"
-	"reflect"
 )
 
 type Constructor[T Action] func () T
@@ -22,8 +21,12 @@ func NewAction[T Action](def *ActionDefinition) *GoAction[T] {
 	}
 }
 
-func (a *GoAction[T]) GetDef() {
-	def := a.def.vCtor.Call([]reflect.Value{})[0]
-	
-	fmt.Println(def)
+func (a *GoAction[T]) GetDef() T {
+	def, ok := a.def.vCtor.Interface().(Constructor[T])
+	if !ok {
+		fmt.Println("ERRRR")
+	}
+
+
+	return def()
 }
