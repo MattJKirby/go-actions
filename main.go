@@ -11,6 +11,8 @@ func main() {
 	ex, _ := ga.GetActionDefinition(examples.ExampleAction{})
 	fmt.Println(ex)
 
-	action := ga.GetAction(examples.ExampleAction{})
+	action := ga.GetAction(&examples.ExampleAction{})
 	fmt.Println(action)
+
+	action.GetDef()
 }

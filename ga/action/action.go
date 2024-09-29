@@ -1,18 +1,29 @@
 package action
 
-type Constructor[T FunctionDefinition] func () T
+import (
+	"fmt"
+	"reflect"
+)
 
-type FunctionDefinition interface {
+type Constructor[T Action] func () T
+
+type Action interface {
 	Execute()
 }
 
-type Action struct {
+type GoAction[T Action] struct {
 	def *ActionDefinition
 }
 
-func NewAction(def *ActionDefinition) *Action {
+func NewAction[T Action](def *ActionDefinition) *GoAction[T] {
 
-	return &Action{
+	return &GoAction[T]{
 		def,
 	}
+}
+
+func (a *GoAction[T]) GetDef() {
+	def := a.def.vCtor.Call([]reflect.Value{})[0]
+	
+	fmt.Println(def)
 }

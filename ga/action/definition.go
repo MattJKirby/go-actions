@@ -14,7 +14,7 @@ type ActionDefinition struct {
 	tAction  reflect.Type
 }
 
-func NewActionDefinition[T FunctionDefinition](actionCtor Constructor[T]) *ActionDefinition {
+func NewActionDefinition[T Action](actionCtor Constructor[T]) *ActionDefinition {
 	vCtor := reflect.ValueOf(actionCtor)
 	tCtor := vCtor.Type()
 

@@ -2,9 +2,7 @@ package app
 
 import (
 	"context"
-	"fmt"
 	"go-actions/ga/action"
-	"go-actions/ga/utils"
 	"reflect"
 )
 
@@ -28,11 +26,12 @@ func (a *App) GetActionDef(actionType reflect.Type) (*action.ActionDefinition, e
 	return a.actionDefinitionRegistry.getDefinition(actionType)
 }
 
-func (a *App) GetAction(actionType reflect.Type) (*action.Action){
-	def, err := a.GetActionDef(actionType)
-	if err != nil {
-		panic(fmt.Sprintf("could not get action definition '%s'", utils.TypeName(actionType)))
+func NewAction[T action.Action](actionType reflect.Type) func (*App) (*action.GoAction[T], error) {
+	return func (a *App) (*action.GoAction[T], error) {
+		def, err := a.GetActionDef(actionType)
+		if err != nil {
+			return nil, err
+		}
+		return action.NewAction[T](def), nil
 	}
-	
-	return action.NewAction(def)
 }

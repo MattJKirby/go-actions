@@ -9,7 +9,7 @@ import (
 
 var ga = app.NewApp()
 
-func DefineAction[T action.FunctionDefinition](actionConstructor action.Constructor[T]) *action.ActionDefinition {
+func DefineAction[T action.Action](actionConstructor action.Constructor[T]) *action.ActionDefinition {
 	def := action.NewActionDefinition(actionConstructor)
 	return ga.RegisterActionDef(def)
 }
@@ -19,7 +19,12 @@ func GetActionDefinition(action any) (*action.ActionDefinition, error) {
 	return ga.GetActionDef(actionType)
 }
 
-func GetAction(action any) (*action.Action){
-	actionType := utils.GetValueType(reflect.TypeOf(action))
-	return ga.GetAction(actionType)
+func GetAction[T action.Action](a T) (*action.GoAction[T]){
+	actionType := utils.GetValueType(reflect.TypeOf(a))
+	action, err := app.NewAction[T](actionType)(ga)
+	if err != nil {
+		panic("aaa")
+	}
+
+	return action
 }
