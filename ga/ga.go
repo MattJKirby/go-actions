@@ -19,12 +19,7 @@ func GetActionDefinition[T action.Action](action T) (*action.ActionDefinition, e
 	return ga.GetActionDef(actionType)
 }
 
-func GetAction[T action.Action](a T) (*action.GoAction[T]){
+func GetAction[T action.Action](a T) (*action.GoAction[T], error){
 	actionType := utils.GetValueType(reflect.TypeOf(a))
-	action, err := app.NewAction[T](actionType)(ga)
-	if err != nil {
-		panic("aaa")
-	}
-
-	return action
+	return app.NewAction[T](actionType)(ga)
 }
