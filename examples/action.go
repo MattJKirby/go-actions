@@ -9,15 +9,15 @@ func init() {
 }
 
 type ExampleAction struct {
-	abc string
+	Abc string
 }
 
 func NewExampleAction() *ExampleAction {
 	return &ExampleAction{
-		abc: "adf",
+		Abc: "adf",
 	}
 }
 
-func (ex *ExampleAction) Execute() {
+func (ex ExampleAction) Execute() {
 
 }

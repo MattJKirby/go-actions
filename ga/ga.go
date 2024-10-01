@@ -14,7 +14,7 @@ func DefineAction[T action.Action](actionConstructor action.Constructor[T]) *act
 	return ga.RegisterActionDef(def)
 }
 
-func GetActionDefinition(action any) (*action.ActionDefinition, error) {
+func GetActionDefinition[T action.Action](action T) (*action.ActionDefinition, error) {
 	actionType := utils.GetValueType(reflect.TypeOf(action))
 	return ga.GetActionDef(actionType)
 }
