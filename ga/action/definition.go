@@ -26,7 +26,6 @@ func NewActionDefinition[T Action](actionCtor Constructor[T]) *ActionDefinition 
 	tAction = utils.GetValueType(tAction)
 	vAction := reflect.New(tAction)
 
-	// v = v.Call([]reflect.Value{})[0]
 	return &ActionDefinition{
 		name:     utils.TypeName(tAction),
 		typeName: utils.TypePath(tAction),
