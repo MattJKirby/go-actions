@@ -18,6 +18,6 @@ func NewExampleAction() *ExampleAction {
 	}
 }
 
-func (ex *ExampleAction) Execute() {
+func (ex ExampleAction) Execute() {
 
 }

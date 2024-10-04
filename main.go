@@ -8,10 +8,10 @@ import (
 
 func main() {
 
-	ex, _ := ga.GetActionDefinition(&examples.ExampleAction{})
+	ex, _ := ga.GetActionDefinition(examples.ExampleAction{})
 	fmt.Println(ex)
 
-	action,_ := ga.GetAction(&examples.ExampleAction{})
+	action,_ := ga.GetAction(examples.ExampleAction{})
 
 	fmt.Println(action)
 
