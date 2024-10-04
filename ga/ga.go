@@ -23,3 +23,5 @@ func GetAction[T action.Action](a T) (*action.GoAction[T], error){
 	actionType := utils.GetValueType(reflect.TypeOf(a))
 	return app.NewAction[T](actionType)(ga)
 }
+
+// func GetActionByName(name string)

@@ -35,7 +35,3 @@ func NewAction[T action.Action](actionType reflect.Type) func (*App) (*action.Go
 		return action.NewAction[T](def), nil
 	}
 }
-
-func (a *App) GetActionByName(name string) (*action.GoAction[action.Action]){
-	return nil
-}
