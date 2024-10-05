@@ -6,7 +6,7 @@ func isEven(n int) bool {
 	return n%2 == 0
 }
 
-func TestTestCases(t *testing.T){
+func TestCaseRunner(t *testing.T){
 
 	tests := []TestCase[int, bool]{
 		{"tc1", 1, false},
