@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type Constructor[T Action] func () *T
+type Constructor[T Action] func() *T
 
 type Action interface {
 	Execute()
@@ -26,7 +26,6 @@ func (a *GoAction[T]) GetDef() *T {
 	if !ok {
 		fmt.Println("ERRRR")
 	}
-
 
 	return def()
 }

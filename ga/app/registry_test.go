@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestAcceptDefinition(t *testing.T){
+func TestAcceptDefinition(t *testing.T) {
 	defReg := NewActionDefinitionRegistry()
 	def := action.ActionDefinition{}
 
@@ -42,14 +42,12 @@ func TestGetDefinition(t *testing.T) {
 	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, expection]) {
 		storedDef, err := defReg.getDefinition(test.Input)
 
-		if test.Expected.throws {
-			if err == nil {
-				t.Errorf("test %s: expected an error but got none", test.Name)
-			}
+		if test.Expected.throws && err == nil {
+			t.Errorf("test %s: expected an error but got none", test.Name)
 			return
-		} 
-			
-		if storedDef != test.Expected.def {
+		}
+
+		if !test.Expected.throws && storedDef != test.Expected.def {
 			t.Errorf("test %s: got %v, expected %v", test.Name, storedDef, test.Expected.def)
 		}
 	})

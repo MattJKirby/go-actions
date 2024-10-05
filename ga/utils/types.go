@@ -19,7 +19,7 @@ func GetType(i any) reflect.Type {
 
 func GetValueType(t reflect.Type) reflect.Type {
 	if t.Kind() == reflect.Func || t.Kind() == reflect.Interface {
-		return t 
+		return t
 	}
 
 	if IsRefType(t) {

@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestGetType(t *testing.T){
+func TestGetType(t *testing.T) {
 	tests := []cr.TestCase[any, reflect.Type]{
 		{Name: "type string", Input: "string", Expected: reflect.TypeOf("string")},
 		{Name: "type int", Input: 10, Expected: reflect.TypeOf(10)},
@@ -24,7 +24,7 @@ func TestGetType(t *testing.T){
 	})
 }
 
-func TestIsRefType(t *testing.T){
+func TestIsRefType(t *testing.T) {
 	tests := []cr.TestCase[reflect.Type, bool]{
 		{Name: "func", Input: reflect.TypeOf(func() {}), Expected: true},
 		{Name: "interface (stringer)", Input: reflect.TypeOf((*fmt.Stringer)(nil)).Elem(), Expected: true},
@@ -42,14 +42,14 @@ func TestIsRefType(t *testing.T){
 	})
 }
 
-func TestGetValueType(t *testing.T){
+func TestGetValueType(t *testing.T) {
 	pointerToStuctType := reflect.TypeOf(&struct{}{})
 	structType := reflect.TypeOf(struct{}{})
 	nonStructType := reflect.TypeOf(10)
 	intType := reflect.TypeOf(10)
 	interfaceStringerType := reflect.TypeOf((*fmt.Stringer)(nil)).Elem()
 	funcType := reflect.TypeOf(func() {})
-	
+
 	tests := []cr.TestCase[reflect.Type, reflect.Type]{
 		{Name: "pointer to struct", Input: pointerToStuctType, Expected: structType},
 		{Name: "struct", Input: structType, Expected: structType},
@@ -67,7 +67,7 @@ func TestGetValueType(t *testing.T){
 	})
 }
 
-type someStruct struct {}
+type someStruct struct{}
 
 func TestGetTypeName(t *testing.T) {
 	tests := []cr.TestCase[any, string]{
@@ -84,7 +84,7 @@ func TestGetTypeName(t *testing.T) {
 	})
 }
 
-func TestTypePath(t *testing.T){
+func TestTypePath(t *testing.T) {
 	tests := []cr.TestCase[any, string]{
 		{Name: "string path", Input: "someString", Expected: "/string"},
 		{Name: "int path", Input: 42, Expected: "/int"},

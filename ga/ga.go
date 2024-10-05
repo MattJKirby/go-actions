@@ -19,7 +19,7 @@ func GetActionDefinition[T action.Action](action T) (*action.ActionDefinition, e
 	return ga.GetActionDef(actionType)
 }
 
-func GetAction[T action.Action](a T) (*action.GoAction[T], error){
+func GetAction[T action.Action](a T) (*action.GoAction[T], error) {
 	actionType := utils.GetValueType(reflect.TypeOf(a))
 	return app.NewAction[T](actionType)(ga)
 }
