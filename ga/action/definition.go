@@ -17,11 +17,7 @@ type ActionDefinition struct {
 func NewActionDefinition[T Action](actionCtor Constructor[T]) *ActionDefinition {
 	vCtor := reflect.ValueOf(actionCtor)
 	tCtor := vCtor.Type()
-
-	if tCtor.Kind() != reflect.Func {
-		panic("definition constructor must be a function")
-	}
-
+	
 	tAction := tCtor.Out(0)
 	tAction = utils.GetValueType(tAction)
 	vAction := reflect.New(tAction)
