@@ -2,64 +2,44 @@ package utils
 
 import (
 	"fmt"
+	"go-actions/ga/cr"
+
 	"reflect"
 	"testing"
 )
 
-type getTypeTest struct {
-	name string
-	input any
-	expected reflect.Type
-}
-
 func TestGetType(t *testing.T){
-	tests := []getTypeTest{
-		{"type string", "string", reflect.TypeOf("string")},
-		{"type int", 10, reflect.TypeOf(10)},
-		{"type value int", reflect.ValueOf(10), reflect.TypeOf(10)},
-		{"type type int", reflect.TypeOf(10), reflect.TypeOf(10)},
+	tests := []cr.TestCase[any, reflect.Type]{
+		{Name: "type string", Input: "string", Expected: reflect.TypeOf("string")},
+		{Name: "type int", Input: 10, Expected: reflect.TypeOf(10)},
+		{Name: "type value int", Input: reflect.ValueOf(10), Expected: reflect.TypeOf(10)},
+		{Name: "type type int", Input: reflect.TypeOf(10), Expected: reflect.TypeOf(10)},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual := GetType(test.input)
-			if actual != test.expected {
-				t.Errorf("test %s: got %q, expected %q", test.name, actual, test.expected)
-			}
-		})	
-	}
-}
-
-type isRefTypeTest struct {
-	name string
-	input reflect.Type
-	expected bool
+	cr.CaseRunner(t, tests, func(test cr.TestCase[any, reflect.Type]) {
+		actual := GetType(test.Input)
+		if actual != test.Expected {
+			t.Errorf("test %s: got %q, expected %q", test.Name, actual, test.Expected)
+		}
+	})
 }
 
 func TestIsRefType(t *testing.T){
-	tests := []isRefTypeTest{
-		{"func", reflect.TypeOf(func() {}), true},
-		{"interface (stringer)", reflect.TypeOf((*fmt.Stringer)(nil)).Elem(), true},
-		{"pointer to struct", reflect.TypeOf(&struct{}{}), true},
-		{"pointer to non-struct", reflect.TypeOf(new(int)), false},
-		{"struct", reflect.TypeOf(struct{}{}), false},
-		{"non ref (int)", reflect.TypeOf(10), false},
+	tests := []cr.TestCase[reflect.Type, bool]{
+		{Name: "func", Input: reflect.TypeOf(func() {}), Expected: true},
+		{Name: "interface (stringer)", Input: reflect.TypeOf((*fmt.Stringer)(nil)).Elem(), Expected: true},
+		{Name: "pointer to struct", Input: reflect.TypeOf(&struct{}{}), Expected: true},
+		{Name: "pointer to non-struct", Input: reflect.TypeOf(new(int)), Expected: false},
+		{Name: "struct", Input: reflect.TypeOf(struct{}{}), Expected: false},
+		{Name: "non ref (int)", Input: reflect.TypeOf(10), Expected: false},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual := IsRefType(test.input)
-			if actual != test.expected {
-				t.Errorf("test %s: got %t, expected %t", test.name, actual, test.expected)
-			}
-		})
-	}
-}
-
-type getValueTypeTest struct {
-	name string
-	input reflect.Type
-	expected reflect.Type
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, bool]) {
+		actual := IsRefType(test.Input)
+		if actual != test.Expected {
+			t.Errorf("test %s: got %t, expected %t", test.Name, actual, test.Expected)
+		}
+	})
 }
 
 func TestGetValueType(t *testing.T){
@@ -70,67 +50,51 @@ func TestGetValueType(t *testing.T){
 	interfaceStringerType := reflect.TypeOf((*fmt.Stringer)(nil)).Elem()
 	funcType := reflect.TypeOf(func() {})
 	
-	tests := []getValueTypeTest{
-		{"pointer to struct", pointerToStuctType, structType},
-		{"struct", structType, structType},
-		{"pointer to non-struct", nonStructType, nonStructType},
-		{"int", intType, intType},
-		{"interface (stringer)", interfaceStringerType, interfaceStringerType},
-		{"func type", funcType, funcType},
+	tests := []cr.TestCase[reflect.Type, reflect.Type]{
+		{Name: "pointer to struct", Input: pointerToStuctType, Expected: structType},
+		{Name: "struct", Input: structType, Expected: structType},
+		{Name: "pointer to non-struct", Input: nonStructType, Expected: nonStructType},
+		{Name: "int", Input: intType, Expected: intType},
+		{Name: "interface (stringer)", Input: interfaceStringerType, Expected: interfaceStringerType},
+		{Name: "func type", Input: funcType, Expected: funcType},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual := GetValueType(test.input)
-			if actual != test.expected {
-				t.Errorf("test %s: got %q, expected %q", test.name, actual, test.expected)
-			}
-		})
-	}
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, reflect.Type]) {
+		actual := GetValueType(test.Input)
+		if actual != test.Expected {
+			t.Errorf("test %s: got %q, expected %q", test.Name, actual, test.Expected)
+		}
+	})
 }
 
-type typeNameTest struct {
-	name string
-	input any
-	expected string
-}
+type someStruct struct {}
 
 func TestGetTypeName(t *testing.T) {
-	tests := []typeNameTest{
-		{"string", "", "string"},
-		{"int", 10, "int"},
-		{"struct", typeNameTest{}, "typeNameTest"},
+	tests := []cr.TestCase[any, string]{
+		{Name: "string", Input: "", Expected: "string"},
+		{Name: "int", Input: 10, Expected: "int"},
+		{Name: "struct", Input: someStruct{}, Expected: "someStruct"},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual := TypeName(test.input)
-			if actual != test.expected {
-				t.Errorf("test %s: got %q, expected %s", test.name, actual, test.expected)
-			}
-		})
-	}
-}
-
-type typePathTest struct {
-	name string
-	input any
-	expected string
+	cr.CaseRunner(t, tests, func(test cr.TestCase[any, string]) {
+		actual := TypeName(test.Input)
+		if actual != test.Expected {
+			t.Errorf("test %s: got %q, expected %s", test.Name, actual, test.Expected)
+		}
+	})
 }
 
 func TestTypePath(t *testing.T){
-	tests := []typePathTest{
-		{"string path", "someString", "/string"},
-		{"int path", 42, "/int"},
-		{"interface path", typePathTest{}, "go-actions/ga/utils/utils.typePathTest"},
+	tests := []cr.TestCase[any, string]{
+		{Name: "string path", Input: "someString", Expected: "/string"},
+		{Name: "int path", Input: 42, Expected: "/int"},
+		{Name: "interface path", Input: someStruct{}, Expected: "go-actions/ga/utils/utils.someStruct"},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			actual := TypePath(test.input)
-			if actual != test.expected {
-				t.Errorf("test %s: got %q, expected %s", test.name, actual, test.expected)
-			}
-		})
-	}
+	cr.CaseRunner(t, tests, func(test cr.TestCase[any, string]) {
+		actual := TypePath(test.Input)
+		if actual != test.Expected {
+			t.Errorf("test %s: got %q, expected %s", test.Name, actual, test.Expected)
+		}
+	})
 }
