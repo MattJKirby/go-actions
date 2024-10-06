@@ -7,8 +7,10 @@ import (
 
 type TestCase[input any, expected any] struct {
 	Name     string
+	Description string
 	Input    input
 	Expected expected
+	Error bool
 }
 
 type AssertFn[input any, expected any] func(test TestCase[input, expected])

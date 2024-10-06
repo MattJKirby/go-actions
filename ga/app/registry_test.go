@@ -29,26 +29,21 @@ func TestGetDefinition(t *testing.T) {
 	def := action.ActionDefinition{}
 	defReg.acceptDefinition(&def)
 
-	type expection struct {
-		def    *action.ActionDefinition
-		throws bool
+	tests := []cr.TestCase[reflect.Type, *action.ActionDefinition]{
+		{Name: "existing def", Input: def.ActionType(), Expected: &def},
+		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
-	tests := []cr.TestCase[reflect.Type, expection]{
-		{Name: "existing def", Input: def.ActionType(), Expected: expection{def: &def, throws: false}},
-		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: expection{def: nil, throws: true}},
-	}
-
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, expection]) {
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *action.ActionDefinition]) {
 		storedDef, err := defReg.getDefinition(test.Input)
 
-		if test.Expected.throws && err == nil {
+		if test.Error && err == nil {
 			t.Errorf("test %s: expected an error but got none", test.Name)
 			return
 		}
 
-		if !test.Expected.throws && storedDef != test.Expected.def {
-			t.Errorf("test %s: got %v, expected %v", test.Name, storedDef, test.Expected.def)
+		if !test.Error && storedDef != test.Expected {
+			t.Errorf("test %s: got %v, expected %v", test.Name, storedDef, test.Expected)
 		}
 	})
 }

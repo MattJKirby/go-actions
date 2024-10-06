@@ -38,30 +38,25 @@ type myAction struct{}
 
 func (ma myAction) Execute() {}
 
-type expectation struct {
-	action *action.GoAction[myAction]
-	throws bool
-}
-
 func TestNewAction(t *testing.T) {
 	app := NewApp()
 	def := action.ActionDefinition{}
 	app.RegisterActionDef(&def)
 	expected := action.NewAction[myAction](&def)
 
-	tests := []cr.TestCase[reflect.Type, expectation]{
-		{Name: "valid def type", Input: def.ActionType(), Expected: expectation{action: expected, throws: false}},
-		{Name: "invalid def type", Input: reflect.TypeOf(""), Expected: expectation{action: nil, throws: true}},
+	tests := []cr.TestCase[reflect.Type, *action.GoAction[myAction]]{
+		{Name: "valid def type", Input: def.ActionType(), Expected: expected},
+		{Name: "invalid def type", Input: reflect.TypeOf(""), Expected: nil, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, expectation]) {
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *action.GoAction[myAction]]) {
 		result, err := NewAction[myAction](test.Input)(app)
-		if test.Expected.throws && err == nil {
+		if test.Error && err == nil {
 			t.Errorf("expected error got nil")
 			return
 		}
 
-		if !test.Expected.throws && *result != *expected {
+		if !test.Error && *result != *expected{
 			t.Errorf("error instatiating action: expected %v, got %v", *expected, *result)
 		}
 	})
