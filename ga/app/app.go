@@ -32,6 +32,7 @@ func NewAction[T action.Action](actionType reflect.Type) func(*App) (*action.GoA
 		if err != nil {
 			return nil, err
 		}
-		return action.NewAction[T](def), nil
+		inst := action.NewActionInstance(def)
+		return action.NewAction[T](def, inst), nil
 	}
 }

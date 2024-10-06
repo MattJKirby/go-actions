@@ -9,11 +9,12 @@ func (ta testAction) Execute(){}
 
 func TestNewAction(t *testing.T){
 	def := ActionDefinition{}
-	acn := NewAction[testAction](&def)
+	inst := ActionInstance{}
+	acn := NewAction[testAction](&def, &inst)
 
 	t.Run("test new action", func(t *testing.T) {
-		if acn.instance == nil{
-			t.Errorf("invalid action instance got %v", nil)
+		if acn.instance != &inst {
+			t.Errorf("invalid action instance: expected %v got %v", inst, acn.instance)
 		}
 	})
 }
