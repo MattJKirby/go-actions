@@ -2,6 +2,7 @@ package cr
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -24,3 +25,23 @@ func CaseRunner[input any, expected any](t *testing.T, cases []TestCase[input, e
 		})
 	}
 }
+
+// Can't test error paths without mocking testing.T which is a bitch without another lib.
+func EasyCaseRunner[in any, expect any](t *testing.T, cases []TestCase[in, expect], fn func(test TestCase[in, expect]) (expect, error)){
+	CaseRunner(t, cases, func(test TestCase[in, expect]) {
+		actual, err := fn(test)
+
+		if !test.Error && err != nil {
+			t.Errorf("case '%s': unexpected error: %v", test.Name, err)
+		}
+
+		if test.Error && err == nil {
+			t.Errorf("case '%s': expected error but got %v", test.Name, err)
+		}
+
+		if !reflect.DeepEqual(actual, test.Expected) {
+			t.Errorf("case '%s': expected %v but got %v", test.Name, test.Expected, actual)
+		}
+	})
+}
+
