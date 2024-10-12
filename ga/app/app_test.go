@@ -5,6 +5,12 @@ import (
 	"testing"
 )
 
+type myAction struct{}
+func (ma myAction) Execute() {}
+func myActionCtor() *myAction {
+	return &myAction{}
+}
+
 func TestRegisterDef(t *testing.T) {
 	app := NewApp()
 	def := action.ActionDefinition{}
@@ -30,12 +36,6 @@ func TestGetActionDef(t *testing.T) {
 			t.Errorf("Error getting definition: expected %v, got %v", &def, result)
 		}
 	})
-}
-
-type myAction struct{}
-func (ma myAction) Execute() {}
-func myActionCtor() *myAction {
-	return &myAction{}
 }
 
 func TestNewActionSuccessful(t *testing.T) {
