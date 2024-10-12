@@ -11,19 +11,19 @@ type Action interface {
 }
 
 type GoAction[T Action] struct {
-	definition *ActionDefinition
-	instance *ActionInstance
+	Definition *ActionDefinition
+	Instance *ActionInstance
 }
 
 func NewAction[T Action](def *ActionDefinition, inst *ActionInstance) *GoAction[T] {
 	return &GoAction[T]{
-		definition: def,
-		instance: inst,
+		Definition: def,
+		Instance: inst,
 	}
 }
 
 func (a *GoAction[T]) GetDef() *T {
-	def, ok := a.definition.vCtor.Interface().(Constructor[T])
+	def, ok := a.Definition.vCtor.Interface().(Constructor[T])
 	if !ok {
 		fmt.Println("ERRRR")
 	}

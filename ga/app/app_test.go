@@ -2,7 +2,6 @@ package app
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/cr"
 	"reflect"
 	"testing"
 )
@@ -34,29 +33,46 @@ func TestGetActionDef(t *testing.T) {
 	})
 }
 
-type myAction struct{}
+type myRegisteredAction struct{}
+func (ma myRegisteredAction) Execute() {}
+func myActionCtor() *myRegisteredAction {
+	return &myRegisteredAction{}
+}
 
-func (ma myAction) Execute() {}
-
-func TestNewAction(t *testing.T) {
+func TestNewActionSuccessful(t *testing.T) {
 	app := NewApp()
-	def := action.ActionDefinition{}
-	app.RegisterActionDef(&def)
+	def := action.NewActionDefinition(myActionCtor)
+	app.RegisterActionDef(def)
 
-	tests := []cr.TestCase[reflect.Type, *action.GoAction[myAction]]{
-		{Name: "valid def type", Input: def.ActionType()},
-		{Name: "invalid def type", Input: reflect.TypeOf(""), Expected: nil, Error: true},
-	}
-
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *action.GoAction[myAction]]) {
-		result, err := NewAction[myAction](test.Input)(app)
-		if test.Error && err == nil {
-			t.Errorf("expected error got nil")
-			return
-		}
-
-		if !test.Error && result == nil {
+	t.Run("test new action successful", func(t *testing.T) {
+		_, err := NewAction[myRegisteredAction](myRegisteredAction{})(app)
+		if err != nil {
 			t.Errorf("error instatiating action: got %v", nil)
+		}
+	})
+}
+
+func TestNewActionFail(t *testing.T) {
+	app := NewApp()
+
+	t.Run("test new action successful", func(t *testing.T) {
+		_, err := NewAction[myRegisteredAction](myRegisteredAction{})(app)
+		if err == nil {
+			t.Errorf("error instatiating action: got %v", nil)
+		}
+	})
+}
+
+
+func TestGetActionTypeFromDefType(t *testing.T){
+	app := NewApp()
+	expected := reflect.TypeOf(myRegisteredAction{})
+	actionType := app.getActionFromType(myRegisteredAction{})
+
+
+	t.Run("test action from type retrieval", func(t *testing.T) {
+		if actionType != expected {
+			t.Errorf("error getting action type: expected %v but got %v", expected, actionType)
 		}
 	})
 }

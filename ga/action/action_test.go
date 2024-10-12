@@ -13,8 +13,8 @@ func TestNewAction(t *testing.T){
 	acn := NewAction[testAction](&def, &inst)
 
 	t.Run("test new action", func(t *testing.T) {
-		if acn.instance != &inst {
-			t.Errorf("invalid action instance: expected %v got %v", inst, acn.instance)
+		if acn.Instance != &inst {
+			t.Errorf("invalid action instance: expected %v got %v", inst, acn.Instance)
 		}
 	})
 }

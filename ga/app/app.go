@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
+	"go-actions/ga/utils"
 	"reflect"
 )
 
@@ -26,9 +27,14 @@ func (a *App) GetActionDef(actionType reflect.Type) (*action.ActionDefinition, e
 	return a.actionDefinitionRegistry.getDefinition(actionType)
 }
 
-func NewAction[T action.Action](actionType reflect.Type) func(*App) (*action.GoAction[T], error) {
-	return func(a *App) (*action.GoAction[T], error) {
-		def, err := a.GetActionDef(actionType)
+func (a *App) getActionFromType(action action.Action) reflect.Type {
+	return utils.GetValueType(reflect.TypeOf(action))
+}
+
+func NewAction[T action.Action](a action.Action) func(*App) (*action.GoAction[T], error) {
+	return func(app *App) (*action.GoAction[T], error) {
+		actionType := app.getActionFromType(a)
+		def, err := app.GetActionDef(actionType)
 		if err != nil {
 			return nil, err
 		}
