@@ -2,7 +2,6 @@ package app
 
 import (
 	"go-actions/ga/action"
-	"reflect"
 	"testing"
 )
 
@@ -21,22 +20,22 @@ func TestRegisterDef(t *testing.T) {
 
 func TestGetActionDef(t *testing.T) {
 	app := NewApp()
-	def := action.ActionDefinition{}
-	app.RegisterActionDef(&def)
+	def := action.NewActionDefinition(myActionCtor)
+	app.RegisterActionDef(def)
 
-	result, _ := app.GetActionDef(def.ActionType())
+	result, _ := app.GetActionDef(myAction{})
 
 	t.Run("Test get def", func(t *testing.T) {
-		if result != &def {
+		if result != def {
 			t.Errorf("Error getting definition: expected %v, got %v", &def, result)
 		}
 	})
 }
 
-type myRegisteredAction struct{}
-func (ma myRegisteredAction) Execute() {}
-func myActionCtor() *myRegisteredAction {
-	return &myRegisteredAction{}
+type myAction struct{}
+func (ma myAction) Execute() {}
+func myActionCtor() *myAction {
+	return &myAction{}
 }
 
 func TestNewActionSuccessful(t *testing.T) {
@@ -45,7 +44,7 @@ func TestNewActionSuccessful(t *testing.T) {
 	app.RegisterActionDef(def)
 
 	t.Run("test new action successful", func(t *testing.T) {
-		_, err := NewAction[myRegisteredAction](myRegisteredAction{})(app)
+		_, err := NewAction[myAction](myAction{})(app)
 		if err != nil {
 			t.Errorf("error instatiating action: got %v", nil)
 		}
@@ -56,23 +55,9 @@ func TestNewActionFail(t *testing.T) {
 	app := NewApp()
 
 	t.Run("test new action successful", func(t *testing.T) {
-		_, err := NewAction[myRegisteredAction](myRegisteredAction{})(app)
+		_, err := NewAction[myAction](myAction{})(app)
 		if err == nil {
 			t.Errorf("error instatiating action: got %v", nil)
-		}
-	})
-}
-
-
-func TestGetActionTypeFromDefType(t *testing.T){
-	app := NewApp()
-	expected := reflect.TypeOf(myRegisteredAction{})
-	actionType := app.getActionFromType(myRegisteredAction{})
-
-
-	t.Run("test action from type retrieval", func(t *testing.T) {
-		if actionType != expected {
-			t.Errorf("error getting action type: expected %v but got %v", expected, actionType)
 		}
 	})
 }
