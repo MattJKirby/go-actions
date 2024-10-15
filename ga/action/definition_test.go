@@ -22,17 +22,12 @@ func TestNewDef(t *testing.T){
 	expectedTypeName := utils.TypePath(myAction{})
 	
 	def := NewActionDefinition(newMyAction)
-	defType := def.ActionType()
-	defValue := def.ActionValue()
-	defCtor := def.Constructor().Pointer()
-	defName := def.Name()
-	defTypeName := def.TypeName()
 
 	t.Run("test def attrs", func(t *testing.T) {
-		asserts.Equals(t, defType, expectedType)
-		asserts.Equals(t, defValue, expectedValue)
-		asserts.Equals(t, expectedCtor, defCtor)
-		asserts.Equals(t, expectedName, defName)
-		asserts.Equals(t, expectedTypeName, defTypeName)
+		asserts.Equals(t, expectedType, def.ActionType())
+		asserts.Equals(t, expectedValue, def.ActionValue())
+		asserts.Equals(t, expectedCtor, def.Constructor().Pointer())
+		asserts.Equals(t, expectedName, def.Name())
+		asserts.Equals(t, expectedTypeName, def.TypeName())
 	})
 }
