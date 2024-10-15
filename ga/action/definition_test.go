@@ -1,6 +1,7 @@
 package action
 
 import (
+	"go-actions/ga/cr/asserts"
 	"go-actions/ga/utils"
 	"reflect"
 	"testing"
@@ -28,24 +29,10 @@ func TestNewDef(t *testing.T){
 	defTypeName := def.TypeName()
 
 	t.Run("test def attrs", func(t *testing.T) {
-		if defType != expectedType{
-			t.Errorf("expected %v, got %v",expectedType, defType)
-		}
-
-		if defValue != expectedValue {
-			t.Errorf("expected %v, got %v",expectedValue, defValue)
-		}
-
-		if expectedCtor != defCtor {
-			t.Errorf("expected %v, got %v",expectedCtor, defCtor)
-		}
-
-		if expectedName != defName {
-			t.Errorf("expected %v, got %v",expectedName, defName)
-		}
-
-		if expectedTypeName != defTypeName {
-			t.Errorf("expected %v, got %v",expectedTypeName, defTypeName)
-		}
+		asserts.Equals(t, defType, expectedType)
+		asserts.Equals(t, defValue, expectedValue)
+		asserts.Equals(t, expectedCtor, defCtor)
+		asserts.Equals(t, expectedName, defName)
+		asserts.Equals(t, expectedTypeName, defTypeName)
 	})
 }
