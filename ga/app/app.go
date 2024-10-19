@@ -19,8 +19,11 @@ func NewApp() *App {
 	}
 }
 
-func (a *App) RegisterActionDef(actionDef *action.ActionDefinition) *action.ActionDefinition {
-	return a.actionDefinitionRegistry.acceptDefinition(actionDef)
+func RegisterAction[T action.Action](ctor action.Constructor[T]) func (*App) *action.ActionDefinition {
+	return func(app *App) *action.ActionDefinition {
+		def := action.NewActionDefinition(ctor)
+		return app.actionDefinitionRegistry.acceptDefinition(def)
+	}
 }
 
 func (a *App) GetActionDef(action action.Action) (*action.ActionDefinition, error) {

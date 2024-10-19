@@ -1,7 +1,6 @@
 package app
 
 import (
-	"go-actions/ga/action"
 	"testing"
 )
 
@@ -11,37 +10,22 @@ func myActionCtor() *myAction {
 	return &myAction{}
 }
 
-func TestRegisterDef(t *testing.T) {
+func TestRegisterActionAndGet(t *testing.T) {
 	app := NewApp()
-	def := action.ActionDefinition{}
-
-	result := app.RegisterActionDef(&def)
-
-	t.Run("Test register def", func(t *testing.T) {
-		if result != &def {
-			t.Errorf("Error during registration: expected %v, got %v", &def, result)
-		}
-	})
-}
-
-func TestGetActionDef(t *testing.T) {
-	app := NewApp()
-	def := action.NewActionDefinition(myActionCtor)
-	app.RegisterActionDef(def)
-
+	expected := RegisterAction(myActionCtor)(app)
 	result, _ := app.GetActionDef(myAction{})
 
-	t.Run("Test get def", func(t *testing.T) {
-		if result != def {
-			t.Errorf("Error getting definition: expected %v, got %v", &def, result)
+	t.Run("Test register def", func(t *testing.T) {
+		if result != expected {
+			t.Errorf("Error during registration: expected %v, got %v", expected, result)
 		}
 	})
 }
+
 
 func TestNewActionSuccessful(t *testing.T) {
 	app := NewApp()
-	def := action.NewActionDefinition(myActionCtor)
-	app.RegisterActionDef(def)
+	RegisterAction(myActionCtor)(app)
 
 	t.Run("test new action successful", func(t *testing.T) {
 		_, err := NewAction[myAction](myAction{})(app)
