@@ -4,7 +4,7 @@ import "testing"
 
 func TestNewActionInstance(t *testing.T){
 	typeName := "someName"
-	def := ActionDefinition{typeName:typeName}
+	def := ActionDefinition{typePath:typeName}
 	instance := NewActionInstance(&def)
 
 	t.Run("test new instance", func(t *testing.T){

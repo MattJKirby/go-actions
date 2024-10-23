@@ -23,7 +23,7 @@ func NewAction[T Action](def *ActionDefinition, inst *ActionInstance) *GoAction[
 }
 
 func (a *GoAction[T]) GetDef() *T {
-	def, ok := a.Definition.vCtor.Interface().(Constructor[T])
+	def, ok := a.Definition.ctorValue.Interface().(Constructor[T])
 	if !ok {
 		fmt.Println("ERRRR")
 	}

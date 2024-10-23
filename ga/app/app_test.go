@@ -12,7 +12,7 @@ func myActionCtor() *myAction {
 
 func TestRegisterActionAndGet(t *testing.T) {
 	app := NewApp()
-	expected := RegisterAction(myActionCtor)(app)
+	expected := RegisterAction[myAction](myActionCtor)(app)
 	result, _ := app.GetActionDef(myAction{})
 
 	t.Run("Test register def", func(t *testing.T) {
@@ -25,7 +25,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 
 func TestNewActionSuccessful(t *testing.T) {
 	app := NewApp()
-	RegisterAction(myActionCtor)(app)
+	RegisterAction[myAction](myActionCtor)(app)
 
 	t.Run("test new action successful", func(t *testing.T) {
 		_, err := NewAction[myAction](myAction{})(app)

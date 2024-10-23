@@ -12,9 +12,9 @@ type ActionInstance struct {
 }
 
 func NewActionInstance(def *ActionDefinition) *ActionInstance {
-	uid := fmt.Sprintf("Action:%s:%s", uuid.New(), def.typeName)
+	uid := fmt.Sprintf("Action:%s:%s", uuid.New(), def.typePath)
 	return &ActionInstance{
-		ActionName: def.typeName,
+		ActionName: def.typePath,
 		ActionUid: uid,
 	}
 }
