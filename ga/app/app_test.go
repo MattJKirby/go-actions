@@ -25,7 +25,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 
 func TestNewActionSuccessful(t *testing.T) {
 	app := NewApp()
-	RegisterAction[myAction](myActionCtor)(app)
+	RegisterAction(myActionCtor)(app)
 
 	t.Run("test new action successful", func(t *testing.T) {
 		_, err := NewAction[myAction](myAction{})(app)

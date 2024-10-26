@@ -37,7 +37,6 @@ func NewAction[T action.Action](a action.Action) func(*App) (*action.GoAction[T]
 		if err != nil {
 			return nil, err
 		}
-		inst := action.NewActionInstance(def)
-		return action.NewAction[T](def, inst), nil
+		return action.NewAction[T](def), nil
 	}
 }
