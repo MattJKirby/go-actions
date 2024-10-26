@@ -15,17 +15,17 @@ type ActionTypeDefinition struct {
 
 func NewTypeDefinition[T Action](def any) (*ActionTypeDefinition, error) {
 	if strc, ok := def.(T); ok {
-		return fromStruct(strc), nil
+		return TypeDefinitionFromStruct(strc), nil
 	}
 
 	if ctor, ok := def.(Constructor[T]); ok {
-		return fromConstructor(ctor), nil
+		return TypeDefinitionFromConstructor(ctor), nil
 	}
 
 	return nil, fmt.Errorf("error constructing Action Type Definition")
 }
 
-func fromConstructor[T Action](defCtor Constructor[T]) *ActionTypeDefinition {
+func TypeDefinitionFromConstructor[T Action](defCtor Constructor[T]) *ActionTypeDefinition {
 	vCtor := reflect.ValueOf(defCtor)
 	tCtor := vCtor.Type()
 	
@@ -41,7 +41,7 @@ func fromConstructor[T Action](defCtor Constructor[T]) *ActionTypeDefinition {
 	}
 }
 
-func fromStruct[T Action](def T) *ActionTypeDefinition {
+func TypeDefinitionFromStruct[T Action](def T) *ActionTypeDefinition {
 	var ctor Constructor[T] = func() *T { return &def }
 	
 	vAction := reflect.ValueOf(&def)

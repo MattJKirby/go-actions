@@ -11,11 +11,8 @@ type ActionDefinition struct {
 	ActionTypeDefinition
 }
 
-func NewActionDefinition[T Action](def any) (*ActionDefinition, error) {
-	typeDef, err := NewTypeDefinition[T](def)
-	if err != nil {
-		return nil, err
-	}
+func NewActionDefinition[T Action](def Constructor[T]) (*ActionDefinition, error) {
+	typeDef := TypeDefinitionFromConstructor(def)
 
 	return &ActionDefinition{
 		name:     utils.TypeName(typeDef.actionType),

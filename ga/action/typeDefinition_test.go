@@ -30,8 +30,8 @@ func TestActionTypeDefinitionValues(t *testing.T){
 }
 
 func TestConstructorStructParity(t *testing.T){
-	defCtor := fromConstructor(newMyAction)
-	defStruct := fromStruct(myAction{})
+	defCtor := TypeDefinitionFromConstructor(newMyAction)
+	defStruct := TypeDefinitionFromStruct(myAction{})
 
 	t.Run("test def attrs from constructor", func(t *testing.T) {
 		asserts.Equals(t, defCtor.actionType, defStruct.actionType)
