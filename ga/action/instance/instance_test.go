@@ -1,14 +1,12 @@
 package instance
 
 import (
-	"go-actions/ga/action/definition"
 	"testing"
 )
 
 func TestNewActionInstance(t *testing.T){
 	typeName := "someName"
-	def := definition.ActionDefinition{Name: typeName}
-	instance := NewActionInstance(&def)
+	instance := NewActionInstance(typeName)
 
 	t.Run("test new instance", func(t *testing.T){
 		if instance.ActionName != typeName {

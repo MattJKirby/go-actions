@@ -14,7 +14,7 @@ func TestNewAction(t *testing.T){
 	acn := NewAction[testAction](def)
 	t.Run("test new action", func(t *testing.T) {
 		if acn.Instance == nil {
-			t.Errorf("invalid action instance: expected %v got %v", instance.NewActionInstance(def), acn)
+			t.Errorf("invalid action instance: expected %v got %v", instance.NewActionInstance(def.Name), acn)
 		}
 	})
 }

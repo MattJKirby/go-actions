@@ -13,7 +13,7 @@ type Action[T action.GoAction] struct {
 }
 
 func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
-	instance := instance.NewActionInstance(definition)
+	instance := instance.NewActionInstance(definition.Name)
 	
 	return &Action[T]{
 		Definition: definition,
