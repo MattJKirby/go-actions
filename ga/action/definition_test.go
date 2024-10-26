@@ -13,8 +13,8 @@ func TestNewDef(t *testing.T){
 	defCtor, _ := NewActionDefinition(newMyAction)
 
 	t.Run("test def attrs", func(t *testing.T) {
-		asserts.Equals(t, defCtor.Name(), expectedTypeName)
-		asserts.Equals(t, defCtor.TypeName(), expectedTypePath)
+		asserts.Equals(t, defCtor.Name, expectedTypeName)
+		asserts.Equals(t, defCtor.TypePath, expectedTypePath)
 		asserts.Equals(t, defCtor.ActionType(), defCtor.actionType)
 		asserts.Equals(t, defCtor.Constructor(), defCtor.ctorValue)
 	})
