@@ -1,6 +1,7 @@
-package action
+package definition
 
 import (
+	"go-actions/ga/action"
 	"go-actions/ga/utils"
 )
 
@@ -10,7 +11,7 @@ type ActionDefinition struct {
 	ActionTypeDefinition
 }
 
-func NewActionDefinition[T GoAction](def GoActionConstructor[T]) (*ActionDefinition, error) {
+func NewActionDefinition[T action.GoAction](def action.GoActionConstructor[T]) (*ActionDefinition, error) {
 	typeDef := TypeDefinitionFromConstructor(def)
 
 	return &ActionDefinition{

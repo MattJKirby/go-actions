@@ -2,17 +2,18 @@ package ga
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 )
 
 var ga = app.NewApp()
 
-func DefineAction[T action.GoAction](actionConstructor action.GoActionConstructor[T]) *action.ActionDefinition {
+func DefineAction[T action.GoAction](actionConstructor action.GoActionConstructor[T]) *definition.ActionDefinition {
 	return app.RegisterAction(actionConstructor)(ga)
 }
 
-func GetActionDefinition[T action.GoAction](action T) (*action.ActionDefinition, error) {
+func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinition, error) {
 	return ga.GetActionDef(action)
 }
 

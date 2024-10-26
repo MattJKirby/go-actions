@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/utils"
 	"reflect"
@@ -20,14 +21,14 @@ func NewApp() *App {
 	}
 }
 
-func RegisterAction[T action.GoAction](ctor action.GoActionConstructor[T]) func (*App) *action.ActionDefinition {
-	return func(app *App) *action.ActionDefinition {
-		def, _ := action.NewActionDefinition(ctor)
+func RegisterAction[T action.GoAction](ctor action.GoActionConstructor[T]) func (*App) *definition.ActionDefinition {
+	return func(app *App) *definition.ActionDefinition {
+		def, _ := definition.NewActionDefinition(ctor)
 		return app.actionDefinitionRegistry.acceptDefinition(def)
 	}
 }
 
-func (a *App) GetActionDef(action action.GoAction) (*action.ActionDefinition, error) {
+func (a *App) GetActionDef(action action.GoAction) (*definition.ActionDefinition, error) {
 	actionType := utils.GetValueType(reflect.TypeOf(action))
 	return a.actionDefinitionRegistry.getDefinition(actionType)
 }

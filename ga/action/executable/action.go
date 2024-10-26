@@ -3,15 +3,17 @@ package executable
 import (
 	"fmt"
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
+	"go-actions/ga/action/instance"
 )
 
 type Action[T action.GoAction] struct {
-	Definition *action.ActionDefinition
-	Instance *action.ActionInstance
+	Definition *definition.ActionDefinition
+	Instance *instance.ActionInstance
 }
 
-func NewAction[T action.GoAction](definition *action.ActionDefinition) *Action[T] {
-	instance := action.NewActionInstance(definition)
+func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
+	instance := instance.NewActionInstance(definition)
 	
 	return &Action[T]{
 		Definition: definition,

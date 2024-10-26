@@ -1,7 +1,7 @@
 package app
 
 import (
-	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/cr"
 	"reflect"
 	"testing"
@@ -9,7 +9,7 @@ import (
 
 func TestAcceptDefinition(t *testing.T) {
 	defReg := NewActionDefinitionRegistry()
-	def := action.ActionDefinition{}
+	def := definition.ActionDefinition{}
 
 	defReg.acceptDefinition(&def)
 	abt := len(defReg.actionsByType)
@@ -26,15 +26,15 @@ func TestAcceptDefinition(t *testing.T) {
 
 func TestGetDefinition(t *testing.T) {
 	defReg := NewActionDefinitionRegistry()
-	def := action.ActionDefinition{}
+	def := definition.ActionDefinition{}
 	defReg.acceptDefinition(&def)
 
-	tests := []cr.TestCase[reflect.Type, *action.ActionDefinition]{
+	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition]{
 		{Name: "existing def", Input: def.ActionType, Expected: &def},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *action.ActionDefinition]) {
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition]) {
 		storedDef, err := defReg.getDefinition(test.Input)
 
 		if test.Error && err == nil {

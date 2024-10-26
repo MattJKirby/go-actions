@@ -1,7 +1,8 @@
-package action
+package instance
 
 import (
 	"fmt"
+	"go-actions/ga/action/definition"
 
 	"github.com/google/uuid"
 )
@@ -11,7 +12,7 @@ type ActionInstance struct {
 	ActionUid string
 }
 
-func NewActionInstance(def *ActionDefinition) *ActionInstance {
+func NewActionInstance(def *definition.ActionDefinition) *ActionInstance {
 	uid := fmt.Sprintf("Action:%s:%s", uuid.New(), def.Name)
 	return &ActionInstance{
 		ActionName: def.Name,

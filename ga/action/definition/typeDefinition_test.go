@@ -1,6 +1,7 @@
-package action
+package definition
 
 import (
+	"go-actions/ga/action"
 	"go-actions/ga/cr/asserts"
 	"reflect"
 	"testing"
@@ -8,7 +9,7 @@ import (
 
 type myAction struct {}
 func (ma myAction) Execute(){}
-var newMyAction GoActionConstructor[myAction] = func() *myAction {
+var newMyAction action.GoActionConstructor[myAction] = func() *myAction {
 	return &myAction{}
 }
 

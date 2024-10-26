@@ -1,4 +1,4 @@
-package action
+package definition
 
 import (
 	"go-actions/ga/cr/asserts"
@@ -9,7 +9,7 @@ import (
 
 func TestNewDef(t *testing.T){
 	expectedTypeName := "myAction"
-	expectedTypePath := "go-actions/ga/action/action.myAction"
+	expectedTypePath := "go-actions/ga/action/definition/definition.myAction"
 	defCtor, _ := NewActionDefinition(newMyAction)
 
 	t.Run("test def attrs", func(t *testing.T) {
