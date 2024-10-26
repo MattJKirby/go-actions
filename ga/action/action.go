@@ -4,27 +4,27 @@ import (
 	"fmt"
 )
 
-type Constructor[T Action] func() *T
+type Constructor[T GoAction] func() *T
 
-type Action interface {
+type GoAction interface {
 	Execute()
 }
 
-type GoAction[T Action] struct {
+type Action[T GoAction] struct {
 	Definition *ActionDefinition
 	Instance *ActionInstance
 }
 
-func NewAction[T Action](definition *ActionDefinition) *GoAction[T] {
+func NewAction[T GoAction](definition *ActionDefinition) *Action[T] {
 	instance := NewActionInstance(definition)
 	
-	return &GoAction[T]{
+	return &Action[T]{
 		Definition: definition,
 		Instance: instance,
 	}
 }
 
-func (a *GoAction[T]) GetDef() *T {
+func (a *Action[T]) GetDef() *T {
 	def, ok := a.Definition.ctorValue.Interface().(Constructor[T])
 	if !ok {
 		fmt.Println("ERRRR")

@@ -7,15 +7,15 @@ import (
 
 var ga = app.NewApp()
 
-func DefineAction[T action.Action](actionConstructor action.Constructor[T]) *action.ActionDefinition {
+func DefineAction[T action.GoAction](actionConstructor action.Constructor[T]) *action.ActionDefinition {
 	return app.RegisterAction(actionConstructor)(ga)
 }
 
-func GetActionDefinition[T action.Action](action T) (*action.ActionDefinition, error) {
+func GetActionDefinition[T action.GoAction](action T) (*action.ActionDefinition, error) {
 	return ga.GetActionDef(action)
 }
 
-func GetAction[T action.Action](a T) (*action.GoAction[T], error) {
+func GetAction[T action.GoAction](a T) (*action.Action[T], error) {
 	return app.NewAction[T](a)(ga)
 }
 

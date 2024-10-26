@@ -13,7 +13,7 @@ type ActionTypeDefinition struct {
 	actionType  reflect.Type
 }
 
-func NewTypeDefinition[T Action](def any) (*ActionTypeDefinition, error) {
+func NewTypeDefinition[T GoAction](def any) (*ActionTypeDefinition, error) {
 	if strc, ok := def.(T); ok {
 		return TypeDefinitionFromStruct(strc), nil
 	}
@@ -25,7 +25,7 @@ func NewTypeDefinition[T Action](def any) (*ActionTypeDefinition, error) {
 	return nil, fmt.Errorf("error constructing Action Type Definition")
 }
 
-func TypeDefinitionFromConstructor[T Action](defCtor Constructor[T]) *ActionTypeDefinition {
+func TypeDefinitionFromConstructor[T GoAction](defCtor Constructor[T]) *ActionTypeDefinition {
 	vCtor := reflect.ValueOf(defCtor)
 	tCtor := vCtor.Type()
 	
@@ -41,7 +41,7 @@ func TypeDefinitionFromConstructor[T Action](defCtor Constructor[T]) *ActionType
 	}
 }
 
-func TypeDefinitionFromStruct[T Action](def T) *ActionTypeDefinition {
+func TypeDefinitionFromStruct[T GoAction](def T) *ActionTypeDefinition {
 	var ctor Constructor[T] = func() *T { return &def }
 	
 	vAction := reflect.ValueOf(&def)
