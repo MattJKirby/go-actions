@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type Constructor[T GoAction] func() *T
+type GoActionConstructor[T GoAction] func() *T
 
 type GoAction interface {
 	Execute()
@@ -25,7 +25,7 @@ func NewAction[T GoAction](definition *ActionDefinition) *Action[T] {
 }
 
 func (a *Action[T]) GetDef() *T {
-	def, ok := a.Definition.ctorValue.Interface().(Constructor[T])
+	def, ok := a.Definition.ctorValue.Interface().(GoActionConstructor[T])
 	if !ok {
 		fmt.Println("ERRRR")
 	}

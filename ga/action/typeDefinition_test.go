@@ -8,7 +8,7 @@ import (
 
 type myAction struct {}
 func (ma myAction) Execute(){}
-var newMyAction Constructor[myAction] = func() *myAction {
+var newMyAction GoActionConstructor[myAction] = func() *myAction {
 	return &myAction{}
 }
 

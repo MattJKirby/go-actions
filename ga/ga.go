@@ -7,7 +7,7 @@ import (
 
 var ga = app.NewApp()
 
-func DefineAction[T action.GoAction](actionConstructor action.Constructor[T]) *action.ActionDefinition {
+func DefineAction[T action.GoAction](actionConstructor action.GoActionConstructor[T]) *action.ActionDefinition {
 	return app.RegisterAction(actionConstructor)(ga)
 }
 
