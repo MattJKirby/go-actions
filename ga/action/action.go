@@ -15,10 +15,12 @@ type GoAction[T Action] struct {
 	Instance *ActionInstance
 }
 
-func NewAction[T Action](def *ActionDefinition) *GoAction[T] {
+func NewAction[T Action](definition *ActionDefinition) *GoAction[T] {
+	instance := NewActionInstance(definition)
+	
 	return &GoAction[T]{
-		Definition: def,
-		Instance: NewActionInstance(def),
+		Definition: definition,
+		Instance: instance,
 	}
 }
 
