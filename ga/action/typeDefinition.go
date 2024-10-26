@@ -7,10 +7,10 @@ import (
 )
 
 type ActionTypeDefinition struct {
-	ctorValue    reflect.Value
-	ctorType    reflect.Type
-	actionValue  reflect.Value
-	actionType  reflect.Type
+	CtorValue    reflect.Value
+	CtorType    reflect.Type
+	ActionValue  reflect.Value
+	ActionType  reflect.Type
 }
 
 func NewTypeDefinition[T GoAction](def any) (*ActionTypeDefinition, error) {
@@ -34,10 +34,10 @@ func TypeDefinitionFromConstructor[T GoAction](defCtor GoActionConstructor[T]) *
 	vAction := reflect.New(tAction)
 
 	return &ActionTypeDefinition{
-		ctorValue:    vCtor,
-		ctorType:    tCtor,
-		actionValue:  vAction,
-		actionType:  tAction,
+		CtorValue:    vCtor,
+		CtorType:    tCtor,
+		ActionValue:  vAction,
+		ActionType:  tAction,
 	}
 }
 
@@ -50,10 +50,10 @@ func TypeDefinitionFromStruct[T GoAction](def T) *ActionTypeDefinition {
 	tCtor := vCtor.Type()
 
 	return &ActionTypeDefinition{
-		ctorValue: vCtor,
-		ctorType: tCtor,
-		actionValue: vAction,
-		actionType: tAction,
+		CtorValue: vCtor,
+		CtorType: tCtor,
+		ActionValue: vAction,
+		ActionType: tAction,
 	}
 }
 

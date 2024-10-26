@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
+	"go-actions/ga/action/executable"
 	"go-actions/ga/utils"
 	"reflect"
 )
@@ -31,12 +32,12 @@ func (a *App) GetActionDef(action action.GoAction) (*action.ActionDefinition, er
 	return a.actionDefinitionRegistry.getDefinition(actionType)
 }
 
-func NewAction[T action.GoAction](a action.GoAction) func(*App) (*action.Action[T], error) {
-	return func(app *App) (*action.Action[T], error) {
+func NewAction[T action.GoAction](a action.GoAction) func(*App) (*executable.Action[T], error) {
+	return func(app *App) (*executable.Action[T], error) {
 		def, err := app.GetActionDef(a)
 		if err != nil {
 			return nil, err
 		}
-		return action.NewAction[T](def), nil
+		return executable.NewAction[T](def), nil
 	}
 }

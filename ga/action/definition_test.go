@@ -15,7 +15,7 @@ func TestNewDef(t *testing.T){
 	t.Run("test def attrs", func(t *testing.T) {
 		asserts.Equals(t, defCtor.Name, expectedTypeName)
 		asserts.Equals(t, defCtor.TypePath, expectedTypePath)
-		asserts.Equals(t, defCtor.ActionType(), defCtor.actionType)
-		asserts.Equals(t, defCtor.Constructor(), defCtor.ctorValue)
+		asserts.Equals(t, defCtor.ActionType, defCtor.ActionType)
+		asserts.Equals(t, defCtor.CtorValue, defCtor.CtorValue)
 	})
 }

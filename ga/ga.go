@@ -2,6 +2,7 @@ package ga
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 )
 
@@ -15,7 +16,7 @@ func GetActionDefinition[T action.GoAction](action T) (*action.ActionDefinition,
 	return ga.GetActionDef(action)
 }
 
-func GetAction[T action.GoAction](a T) (*action.Action[T], error) {
+func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
 	return app.NewAction[T](a)(ga)
 }
 

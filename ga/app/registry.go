@@ -20,7 +20,7 @@ func NewActionDefinitionRegistry() *ActionDefinitionRegistry {
 
 func (adr *ActionDefinitionRegistry) acceptDefinition(def *action.ActionDefinition) *action.ActionDefinition {
 	adr.actionsByName[def.Name] = def
-	adr.actionsByType[def.ActionType()] = def
+	adr.actionsByType[def.ActionType] = def
 	return def
 }
 

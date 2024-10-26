@@ -22,10 +22,10 @@ func TestActionTypeDefinitionValues(t *testing.T){
 	defCtor, _ := NewTypeDefinition[myAction](newMyAction)
 
 	t.Run("test def attrs from constructor", func(t *testing.T) {
-		asserts.Equals(t, expectedType, defCtor.actionType)
-		asserts.Equals(t, expectedValue, defCtor.actionValue)
-		asserts.Equals(t, expectedCtor, defCtor.ctorValue.Pointer())
-		asserts.Equals(t, expectedCtorType, defCtor.ctorType)
+		asserts.Equals(t, expectedType, defCtor.ActionType)
+		asserts.Equals(t, expectedValue, defCtor.ActionValue)
+		asserts.Equals(t, expectedCtor, defCtor.CtorValue.Pointer())
+		asserts.Equals(t, expectedCtorType, defCtor.CtorType)
 	})
 }
 
@@ -34,9 +34,9 @@ func TestConstructorStructParity(t *testing.T){
 	defStruct := TypeDefinitionFromStruct(myAction{})
 
 	t.Run("test def attrs from constructor", func(t *testing.T) {
-		asserts.Equals(t, defCtor.actionType, defStruct.actionType)
-		asserts.Equals(t, defCtor.actionValue, defStruct.actionValue)
-		asserts.Equals(t, defCtor.ctorType, defStruct.ctorType)
+		asserts.Equals(t, defCtor.ActionType, defStruct.ActionType)
+		asserts.Equals(t, defCtor.ActionValue, defStruct.ActionValue)
+		asserts.Equals(t, defCtor.CtorType, defStruct.CtorType)
 	})
 }
 

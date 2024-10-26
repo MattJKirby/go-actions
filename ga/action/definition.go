@@ -2,7 +2,6 @@ package action
 
 import (
 	"go-actions/ga/utils"
-	"reflect"
 )
 
 type ActionDefinition struct {
@@ -15,16 +14,8 @@ func NewActionDefinition[T GoAction](def GoActionConstructor[T]) (*ActionDefinit
 	typeDef := TypeDefinitionFromConstructor(def)
 
 	return &ActionDefinition{
-		Name:     utils.TypeName(typeDef.actionType),
-		TypePath: utils.TypePath(typeDef.actionType),
+		Name:     utils.TypeName(typeDef.ActionType),
+		TypePath: utils.TypePath(typeDef.ActionType),
 		ActionTypeDefinition: *typeDef,
 	}, nil
-}
-
-func (ad *ActionDefinition) ActionType() reflect.Type {
-	return ad.actionType
-}
-
-func (ad *ActionDefinition) Constructor() reflect.Value {
-	return ad.ctorValue
 }

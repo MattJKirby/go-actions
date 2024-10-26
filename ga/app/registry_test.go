@@ -30,7 +30,7 @@ func TestGetDefinition(t *testing.T) {
 	defReg.acceptDefinition(&def)
 
 	tests := []cr.TestCase[reflect.Type, *action.ActionDefinition]{
-		{Name: "existing def", Input: def.ActionType(), Expected: &def},
+		{Name: "existing def", Input: def.ActionType, Expected: &def},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
