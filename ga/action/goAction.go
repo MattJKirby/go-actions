@@ -2,18 +2,18 @@ package action
 
 import "go-actions/ga/action/instance"
 
-type GoActionConstructor[T GoAction] func() *T
+type GoActionConstructor[T GoAction] func(GoActionInternals) *T
 
 type GoAction interface {
 	Execute()
 }
 
 type GoActionInternals struct {
-	instance *instance.ActionInstance
+	Instance *instance.ActionInstance
 }
 
-func NewGoActionInternals(actionName string) *GoActionInternals {
-	return &GoActionInternals{
-		instance: instance.NewActionInstance(actionName),
+func NewGoActionInternals(actionName string) GoActionInternals {
+	return GoActionInternals{
+		Instance: instance.NewActionInstance(actionName),
 	}
 }

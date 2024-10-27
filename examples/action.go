@@ -2,6 +2,7 @@ package examples
 
 import (
 	"go-actions/ga"
+	"go-actions/ga/action"
 )
 
 func init() {
@@ -12,7 +13,7 @@ type ExampleAction struct {
 	Abc string
 }
 
-func NewExampleAction() *ExampleAction {
+func NewExampleAction(action.GoActionInternals) *ExampleAction {
 	return &ExampleAction{
 		Abc: "adf",
 	}
