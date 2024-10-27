@@ -13,7 +13,7 @@ type ExampleAction struct {
 	Abc string
 }
 
-func NewExampleAction(action.GoActionInternals) *ExampleAction {
+func NewExampleAction(internals action.GoActionInternals) *ExampleAction {
 	return &ExampleAction{
 		Abc: "adf",
 	}
