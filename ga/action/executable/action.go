@@ -27,6 +27,6 @@ func (a *Action[T]) GetDef() *T {
 		fmt.Println("ERRRR")
 	}
 
-	internals := action.NewGoActionInternals("")
-	return def(internals)
+
+	return def(action.GoActionInternals{})
 }
