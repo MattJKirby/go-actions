@@ -1,9 +1,9 @@
 package parameter
 
-type Parameter[T any] interface {
-	Value() T
-	DefaultValue() T
-	SetValue(value T)
+type Parameter interface {
+	Value() any
+	DefaultValue() any
+	SetValue(value any)
 }
 
 type ActionParameter[T any] struct {

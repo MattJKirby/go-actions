@@ -18,12 +18,6 @@ func TestGetOrDefault(t *testing.T) {
 	expectedDefaultParam := NewActionParameter("defaultParam", 0)
 
 	t.Run("test Get path", func(t *testing.T) {
-		// untyped, ok := any(expectedGetParam).(Parameter[any])
-		// if !ok {
-		// 	t.Errorf("error getting untyped")
-		// }
-		
-		// store.parameters["getParam"] = untyped
 		param := GetOrDefault("getParam", 0)(store)
 		asserts.Equals(t, expectedGetParam, param)
 	})
