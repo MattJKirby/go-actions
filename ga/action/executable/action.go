@@ -17,7 +17,7 @@ func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Acti
 	
 	return &Action[T]{
 		Definition: definition,
-		Instance: internals.Instance,
+		Instance: internals.ActionInstance,
 	}
 }
 
