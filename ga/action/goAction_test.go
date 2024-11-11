@@ -9,8 +9,8 @@ import (
 func TestNewGoActionInternals(t *testing.T) {
 	internals := NewGoActionInternals("test")
 	expectedInstance := instance.NewActionInstance("test")
-	expectedInstance.ActionUid = internals.Instance.ActionUid
+	expectedInstance.ActionUid = internals.ActionUid
 	t.Run("test create new internals", func(t *testing.T) {
-		asserts.Equals(t, expectedInstance, internals.Instance)
+		asserts.Equals(t, expectedInstance, internals.ActionInstance)
 	})
 }

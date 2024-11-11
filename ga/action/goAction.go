@@ -9,11 +9,11 @@ type GoAction interface {
 }
 
 type GoActionInternals struct {
-	Instance *instance.ActionInstance
+	*instance.ActionInstance
 }
 
 func NewGoActionInternals(actionName string) GoActionInternals {
 	return GoActionInternals{
-		Instance: instance.NewActionInstance(actionName),
+		ActionInstance: instance.NewActionInstance(actionName),
 	}
 }
