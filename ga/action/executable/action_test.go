@@ -6,10 +6,11 @@ import (
 	"testing"
 )
 
-type testAction struct {}
-func (ta testAction) Execute(){}
+type testAction struct{}
 
-func TestNewAction(t *testing.T){
+func (ta testAction) Execute() {}
+
+func TestNewAction(t *testing.T) {
 	def := &definition.ActionDefinition{}
 	acn := NewAction[testAction](def)
 	t.Run("test new action", func(t *testing.T) {

@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-func TestCaseDefaults( t *testing.T){
+func TestCaseDefaults(t *testing.T) {
 	defaultTestCase := TestCase[int, bool]{}
 	exepcted := TestCase[int, bool]{
-		Name: "",
-		Input: 0,
-		Expected: false,
+		Name:        "",
+		Input:       0,
+		Expected:    false,
 		Description: "",
-		Error: false,
+		Error:       false,
 	}
 
 	t.Run("case defaults", func(t *testing.T) {
@@ -43,20 +43,20 @@ func TestCaseRunner(t *testing.T) {
 	CaseRunner(t, tests, assert)
 }
 
-func exampleCanError(n int) (bool, error){	
+func exampleCanError(n int) (bool, error) {
 	if n%3 == 0 {
 		return false, fmt.Errorf("error")
 	}
- return n%2 == 0, nil
+	return n%2 == 0, nil
 }
 
-func TestEqualityCaseRunner(t *testing.T){
+func TestEqualityCaseRunner(t *testing.T) {
 
 	tests := []TestCase[int, bool]{
 		{Name: "tc1", Input: 1, Expected: false, Error: false},
-		{Name: "tc2", Input: 2, Expected: true, Error:  false},
-		{Name: "tc3", Input: 2, Expected: true, Error:  false},
-		{Name: "tc4", Input: 3, Error:  true},
+		{Name: "tc2", Input: 2, Expected: true, Error: false},
+		{Name: "tc3", Input: 2, Expected: true, Error: false},
+		{Name: "tc4", Input: 3, Error: true},
 	}
 
 	EasyCaseRunner(t, tests, func(test TestCase[int, bool]) (bool, error) {

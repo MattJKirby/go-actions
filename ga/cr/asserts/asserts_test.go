@@ -2,8 +2,8 @@ package asserts
 
 import "testing"
 
-type testStruct struct { 
-	val int
+type testStruct struct {
+	val  int
 	flag bool
 }
 

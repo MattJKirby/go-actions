@@ -7,15 +7,15 @@ type Parameter interface {
 }
 
 type ActionParameter[T any] struct {
-	name string
-	value T
+	name         string
+	value        T
 	defaultValue T
 }
 
 func NewActionParameter[T any](Name string, DefaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		name: Name,
-		value: DefaultValue,
+		name:         Name,
+		value:        DefaultValue,
 		defaultValue: DefaultValue,
 	}
 }

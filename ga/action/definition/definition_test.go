@@ -5,9 +5,7 @@ import (
 	"testing"
 )
 
-
-
-func TestNewDef(t *testing.T){
+func TestNewDef(t *testing.T) {
 	expectedTypeName := "myAction"
 	expectedTypePath := "go-actions/ga/action/definition/definition.myAction"
 	defCtor, _ := NewActionDefinition(newMyAction)

@@ -16,7 +16,7 @@ func NewFlow() *Flow {
 	}
 }
 
-func NewAction[T action.GoAction](act *executable.Action[T]) func (*Flow) *executable.Action[T] {
+func NewAction[T action.GoAction](act *executable.Action[T]) func(*Flow) *executable.Action[T] {
 	return func(f *Flow) *executable.Action[T] {
 		a, ok := any(act).(executable.Action[action.GoAction])
 		if ok {

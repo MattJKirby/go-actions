@@ -7,15 +7,17 @@ import (
 	"testing"
 )
 
-type myAction struct {}
-func (ma myAction) Execute(){}
+type myAction struct{}
+
+func (ma myAction) Execute() {}
+
 var newMyAction action.GoActionConstructor[myAction] = func(action.GoActionInternals) *myAction {
 	return &myAction{}
 }
 
 type invalidAction struct{}
 
-func TestActionTypeDefinitionValues(t *testing.T){
+func TestActionTypeDefinitionValues(t *testing.T) {
 	expectedType := reflect.TypeOf(myAction{})
 	expectedValue := reflect.ValueOf(&myAction{})
 	expectedCtor := reflect.ValueOf(newMyAction).Pointer()
@@ -30,7 +32,7 @@ func TestActionTypeDefinitionValues(t *testing.T){
 	})
 }
 
-func TestConstructorStructParity(t *testing.T){
+func TestConstructorStructParity(t *testing.T) {
 	defCtor := TypeDefinitionFromConstructor(newMyAction)
 	defStruct := TypeDefinitionFromStruct(myAction{})
 
@@ -41,7 +43,7 @@ func TestConstructorStructParity(t *testing.T){
 	})
 }
 
-func TestNewActionTypeDefiniton(t *testing.T){
+func TestNewActionTypeDefiniton(t *testing.T) {
 	defCtor, ctorErr := NewTypeDefinition[myAction](newMyAction)
 	defStruct, structErr := NewTypeDefinition[myAction](myAction{})
 	defInvalid, invalidErr := NewTypeDefinition[myAction](invalidAction{})

@@ -10,7 +10,7 @@ func NewStore() *Store {
 	}
 }
 
-func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParameter[T]{
+func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParameter[T] {
 	return func(s *Store) *ActionParameter[T] {
 		_, exists := s.parameters[name]
 		if !exists {

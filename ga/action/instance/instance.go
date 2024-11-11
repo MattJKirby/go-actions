@@ -9,7 +9,7 @@ import (
 
 type ActionInstance struct {
 	ActionName string
-	ActionUid string
+	ActionUid  string
 	Parameters *parameter.Store
 }
 
@@ -17,7 +17,7 @@ func NewActionInstance(typename string) *ActionInstance {
 	uid := fmt.Sprintf("Action:%s:%s", uuid.New(), typename)
 	return &ActionInstance{
 		ActionName: typename,
-		ActionUid: uid,
+		ActionUid:  uid,
 		Parameters: parameter.NewStore(),
 	}
 }

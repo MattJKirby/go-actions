@@ -6,6 +6,7 @@ import (
 )
 
 type myAction struct{}
+
 func (ma myAction) Execute() {}
 func myActionCtor(action.GoActionInternals) *myAction {
 	return &myAction{}
@@ -22,7 +23,6 @@ func TestRegisterActionAndGet(t *testing.T) {
 		}
 	})
 }
-
 
 func TestNewActionSuccessful(t *testing.T) {
 	app := NewApp()

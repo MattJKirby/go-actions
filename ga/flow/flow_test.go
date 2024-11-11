@@ -10,7 +10,7 @@ import (
 func TestInitFlow(t *testing.T) {
 	flow := NewFlow()
 
-	t.Run("Assert new flow and properties", func(t *testing.T){
+	t.Run("Assert new flow and properties", func(t *testing.T) {
 		if flow == nil {
 			t.Errorf("expected type of %v but got %v", Flow{}, nil)
 		}
@@ -22,13 +22,14 @@ func TestInitFlow(t *testing.T) {
 	})
 }
 
-type testAction struct {}
-func (ta testAction) Execute(){}
+type testAction struct{}
+
+func (ta testAction) Execute() {}
 func testActionCtor(action.GoActionInternals) *testAction {
 	return &testAction{}
 }
 
-func TestNewAction(t *testing.T){
+func TestNewAction(t *testing.T) {
 	a := app.NewApp()
 	app.RegisterAction(testActionCtor)(a)
 	flow := NewFlow()

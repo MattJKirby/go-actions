@@ -7,11 +7,11 @@ import (
 )
 
 type TestCase[input any, expected any] struct {
-	Name     string
+	Name        string
 	Description string
-	Input    input
-	Expected expected
-	Error bool
+	Input       input
+	Expected    expected
+	Error       bool
 }
 
 type AssertFn[input any, expected any] func(test TestCase[input, expected])
@@ -27,7 +27,7 @@ func CaseRunner[input any, expected any](t *testing.T, cases []TestCase[input, e
 }
 
 // Can't test error paths without mocking testing.T which is a bitch without another lib.
-func EasyCaseRunner[in any, expect any](t *testing.T, cases []TestCase[in, expect], fn func(test TestCase[in, expect]) (expect, error)){
+func EasyCaseRunner[in any, expect any](t *testing.T, cases []TestCase[in, expect], fn func(test TestCase[in, expect]) (expect, error)) {
 	CaseRunner(t, cases, func(test TestCase[in, expect]) {
 		actual, err := fn(test)
 
@@ -44,4 +44,3 @@ func EasyCaseRunner[in any, expect any](t *testing.T, cases []TestCase[in, expec
 		}
 	})
 }
-
