@@ -2,6 +2,7 @@ package instance
 
 import (
 	"fmt"
+	"go-actions/ga/action/instance/parameter"
 
 	"github.com/google/uuid"
 )
@@ -9,6 +10,7 @@ import (
 type ActionInstance struct {
 	ActionName string
 	ActionUid string
+	Parameters *parameter.Store
 }
 
 func NewActionInstance(typename string) *ActionInstance {
@@ -16,5 +18,6 @@ func NewActionInstance(typename string) *ActionInstance {
 	return &ActionInstance{
 		ActionName: typename,
 		ActionUid: uid,
+		Parameters: parameter.NewStore(),
 	}
 }
