@@ -15,5 +15,9 @@ func main() {
 
 	fmt.Println(action)
 
-	action.GetDef()
+	def := action.GetDef()
+
+	fmt.Println(def.IntParam.Value())
+	def.IntParam.SetValue(20)
+	fmt.Println(def.IntParam.Value())
 }
