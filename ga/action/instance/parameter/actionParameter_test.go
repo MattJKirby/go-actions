@@ -1,6 +1,7 @@
 package parameter
 
 import (
+	"encoding/json"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -23,5 +24,18 @@ func TestNewParameter(t *testing.T) {
 		param.SetValue(newVal)
 		asserts.Equals(t, newVal, param.Value())
 		asserts.Equals(t, defaultVal, param.DefaultValue())
+	})
+}
+
+func TestMarshallParameter(t *testing.T){
+	parameter := NewActionParameter("parameterName", "defaultVal")
+
+	t.Run("test marshall parameter", func(t *testing.T) {
+		marshalled, err := json.Marshal(parameter)
+		if err != nil {
+			t.Errorf("error marshalling parameter: got %v", err)
+		}
+
+		asserts.Equals(t, `{"Name":"parameterName","Value":"defaultVal"}`, string(marshalled))
 	})
 }

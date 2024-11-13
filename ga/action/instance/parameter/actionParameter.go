@@ -1,5 +1,7 @@
 package parameter
 
+import "encoding/json"
+
 type Parameter interface {
 	Value() any
 	DefaultValue() any
@@ -10,6 +12,11 @@ type ActionParameter[T any] struct {
 	name         string
 	value        T
 	defaultValue T
+}
+
+type MarshalledActionParameter[T any] struct {
+	Name string
+	Value T
 }
 
 func NewActionParameter[T any](Name string, DefaultValue T) *ActionParameter[T] {
@@ -30,4 +37,11 @@ func (ap *ActionParameter[T]) DefaultValue() T {
 
 func (ap *ActionParameter[T]) SetValue(value T) {
 	ap.value = value
+}
+
+func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&MarshalledActionParameter[T]{
+		Name: ap.name,
+		Value: ap.value,
+	})
 }
