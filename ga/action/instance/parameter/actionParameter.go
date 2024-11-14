@@ -17,7 +17,7 @@ type ActionParameter[T any] struct {
 	defaultValue T
 }
 
-type MarshalledActionParameter[T any] struct {
+type marshalledActionParameter[T any] struct {
 	Name  string
 	Value T
 }
@@ -43,14 +43,14 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 }
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
-	return json.Marshal(&MarshalledActionParameter[T]{
+	return json.Marshal(&marshalledActionParameter[T]{
 		Name:  ap.name,
 		Value: ap.value,
 	})
 }
 
 func (ap *ActionParameter[T]) UnmarshalJSON(data []byte) error {
-	var marshalled MarshalledActionParameter[T]
+	var marshalled marshalledActionParameter[T]
 	if err := json.Unmarshal(data, &marshalled); err != nil {
 		return err
 	}
