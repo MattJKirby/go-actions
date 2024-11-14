@@ -1,6 +1,9 @@
 package parameter
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 type Parameter interface {
 	Value() any
@@ -44,4 +47,18 @@ func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 		Name: ap.name,
 		Value: ap.value,
 	})
+}
+
+func (ap *ActionParameter[T]) UnmarshalJSON(data []byte) error {
+	var marshalled MarshalledActionParameter[T]
+	if err := json.Unmarshal(data, &marshalled); err != nil {
+		return err
+	}
+
+	if marshalled.Name != ap.name {
+		return fmt.Errorf("failed to unmarshal action parameter: '%s': name '%s' does not match expected '%s'", ap.name, marshalled.Name, ap.name)
+	}
+
+	ap.SetValue(marshalled.Value)
+	return nil
 }
