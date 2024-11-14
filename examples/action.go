@@ -13,13 +13,13 @@ func init() {
 
 type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
-	StringParameter *parameter.ActionParameter[string]
+	StringParameter  *parameter.ActionParameter[string]
 }
 
 func NewExampleAction(action action.GoActionInternals) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: parameter.GetOrDefault("intParam", 10)(action.Parameters),
-		StringParameter: parameter.GetOrDefault("strParam", "test")(action.Parameters),
+		StringParameter:  parameter.GetOrDefault("strParam", "test")(action.Parameters),
 	}
 }
 

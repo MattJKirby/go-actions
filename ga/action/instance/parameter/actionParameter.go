@@ -18,7 +18,7 @@ type ActionParameter[T any] struct {
 }
 
 type MarshalledActionParameter[T any] struct {
-	Name string
+	Name  string
 	Value T
 }
 
@@ -44,7 +44,7 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&MarshalledActionParameter[T]{
-		Name: ap.name,
+		Name:  ap.name,
 		Value: ap.value,
 	})
 }

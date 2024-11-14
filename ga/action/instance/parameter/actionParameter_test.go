@@ -28,7 +28,7 @@ func TestNewParameter(t *testing.T) {
 	})
 }
 
-func TestMarshalParameter(t *testing.T){
+func TestMarshalParameter(t *testing.T) {
 	parameter := NewActionParameter("parameterName", "defaultVal")
 	expectedMarshalResult := `{"Name":"parameterName","Value":"defaultVal"}`
 
@@ -42,7 +42,7 @@ func TestMarshalParameter(t *testing.T){
 	})
 }
 
-func TestUnmarshalParameter(t *testing.T){
+func TestUnmarshalParameter(t *testing.T) {
 
 	tests := []cr.TestCase[string, string]{
 		{Name: "unmarshal valid marshalled input", Input: `{"Name":"parameterName","Value":"changedVal"}`, Expected: "changedVal", Error: false},
