@@ -8,13 +8,13 @@ import (
 )
 
 type ActionInstance struct {
-	ActionName string
-	ActionUid  string
-	Parameters *parameter.Store
+	ActionName string `json:"name"`
+	ActionUid  string `json:"uid"`
+	Parameters *parameter.Store `json:"parameters"`
 }
 
 func NewActionInstance(typename string) *ActionInstance {
-	uid := fmt.Sprintf("Action:%s:%s", uuid.New(), typename)
+	uid := fmt.Sprintf("Action:%s:%s", typename, uuid.New())
 	return &ActionInstance{
 		ActionName: typename,
 		ActionUid:  uid,
