@@ -1,18 +1,21 @@
 package parameter
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 )
-
-type Store struct {
-	parameters map[string]*TypedParameter[any]
-}
 
 type TypedParameter[T any] struct {
 	parameterType reflect.Type
 	parameterValue T
 }
+
+type Store struct {
+	parameters map[string]*TypedParameter[any]
+}
+
+type MarshalledStore = map[string]any
 
 func NewStore() *Store {
 	return &Store{
@@ -39,4 +42,13 @@ func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParame
 
 		return any(s.parameters[name].parameterValue).(*ActionParameter[T])
 	}
+}
+
+func (s *Store) MarshalJSON() ([]byte, error) {
+	parameters := make(map[string]any)
+	for name,value := range s.parameters {
+		parameters[name] = value.parameterValue
+	}
+	
+	return json.Marshal(parameters)
 }

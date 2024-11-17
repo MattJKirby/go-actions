@@ -1,6 +1,7 @@
 package parameter
 
 import (
+	"encoding/json"
 	"go-actions/ga/cr/asserts"
 	"reflect"
 	"testing"
@@ -51,5 +52,15 @@ func TestGet(t *testing.T) {
 			t.Errorf("expected nil but got %v", param)
 		}
 	})
+}
 
+func TestCustomMarshal(t *testing.T) {
+	store := NewStore()
+	GetOrDefault("param", 0)(store)
+	expectedJson := `{"param":{"name":"param","value":0}}`
+
+	t.Run("test custom json marshal", func(t *testing.T) {
+		marshalled, _ := json.Marshal(store)
+		asserts.Equals(t, expectedJson, string(marshalled))
+	})
 }
