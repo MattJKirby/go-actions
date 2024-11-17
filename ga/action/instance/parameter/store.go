@@ -3,52 +3,60 @@ package parameter
 import (
 	"encoding/json"
 	"fmt"
-	"reflect"
 )
 
-type TypedParameter[T any] struct {
-	parameterType reflect.Type
-	parameterValue T
-}
-
 type Store struct {
-	parameters map[string]*TypedParameter[any]
+	parameters map[string]any
 }
-
-type MarshalledStore = map[string]any
 
 func NewStore() *Store {
 	return &Store{
-		parameters: make(map[string]*TypedParameter[any]),
+		parameters: make(map[string]any),
 	}
-}
-
-func (s *Store) Get(name string) (*TypedParameter[any], error) {
-	val, exists := s.parameters[name]
-	if !exists {
-		return nil, fmt.Errorf("no such parameter with name '%s'", name)
-	}
-	return val, nil
 }
 
 func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParameter[T] {
 	return func(s *Store) *ActionParameter[T] {
 		_, exists := s.parameters[name]
 		if !exists {
-			parameterValue := NewActionParameter(name, defaultValue)
-			parameterType := reflect.TypeOf(defaultValue)
-			s.parameters[name] = &TypedParameter[any]{parameterType, parameterValue}
+			s.parameters[name] = NewActionParameter(name, defaultValue)
 		}
 
-		return any(s.parameters[name].parameterValue).(*ActionParameter[T])
+		return any(s.parameters[name]).(*ActionParameter[T])
 	}
 }
 
 func (s *Store) MarshalJSON() ([]byte, error) {
 	parameters := make(map[string]any)
 	for name,value := range s.parameters {
-		parameters[name] = value.parameterValue
+		parameters[name] = value
 	}
 	
 	return json.Marshal(parameters)
+}
+
+func (s *Store) UnmarshalJSON(data []byte) error {
+	parameters := make(map[string]any)
+	err := json.Unmarshal(data, &parameters)
+	if err != nil { 
+		return err
+	}
+
+	for name,val := range parameters {
+		param, exists := s.parameters[name]
+		if !exists {
+			return fmt.Errorf("error unmashalling parameters: parameter '%s' does not exist", name)
+		}
+
+		rawParam, err := json.Marshal(val)
+		if err != nil {
+			return err
+		}
+
+		err = json.Unmarshal(rawParam, param)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
