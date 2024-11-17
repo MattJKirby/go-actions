@@ -28,21 +28,21 @@ func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParame
 
 func (s *Store) MarshalJSON() ([]byte, error) {
 	parameters := make(map[string]any)
-	for name,value := range s.parameters {
+	for name, value := range s.parameters {
 		parameters[name] = value
 	}
-	
+
 	return json.Marshal(parameters)
 }
 
 func (s *Store) UnmarshalJSON(data []byte) error {
 	parameters := make(map[string]any)
 	err := json.Unmarshal(data, &parameters)
-	if err != nil { 
+	if err != nil {
 		return err
 	}
 
-	for name,val := range parameters {
+	for name, val := range parameters {
 		param, exists := s.parameters[name]
 		if !exists {
 			return fmt.Errorf("error unmashalling parameters: parameter '%s' does not exist", name)

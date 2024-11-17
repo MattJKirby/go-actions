@@ -8,8 +8,8 @@ import (
 )
 
 type ActionInstance struct {
-	ActionName string `json:"name"`
-	ActionUid  string `json:"uid"`
+	ActionName string           `json:"name"`
+	ActionUid  string           `json:"uid"`
 	Parameters *parameter.Store `json:"parameters"`
 }
 
