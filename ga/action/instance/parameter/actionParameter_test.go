@@ -30,7 +30,7 @@ func TestNewParameter(t *testing.T) {
 
 func TestMarshalParameter(t *testing.T) {
 	parameter := NewActionParameter("parameterName", "defaultVal")
-	expectedMarshalResult := `{"Name":"parameterName","Value":"defaultVal"}`
+	expectedMarshalResult := `{"name":"parameterName","value":"defaultVal"}`
 
 	t.Run("test custom parameter marshalling", func(t *testing.T) {
 		marshalled, err := json.Marshal(parameter)

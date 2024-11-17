@@ -18,8 +18,8 @@ type ActionParameter[T any] struct {
 }
 
 type marshalledActionParameter[T any] struct {
-	Name  string
-	Value T
+	Name  string `json:"name"`
+	Value T `json:"value"`
 }
 
 func NewActionParameter[T any](Name string, DefaultValue T) *ActionParameter[T] {
