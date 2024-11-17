@@ -29,5 +29,11 @@ func main() {
 	inst := action.Instance
 	marshalledInst, _ := json.Marshal(&inst)
 	fmt.Println(string(marshalledInst))
+	fmt.Println("--------")
+
+	mInst := `{"name":"ExampleAction","uid":"Action:ExampleAction:2aff3deb-eaa4-46b4-94a8-1e487a33d051","parameters":{"intParam":{"name":"intParam","value":300},"strParam":{"name":"strParam","value":"test"}}}`
+	json.Unmarshal([]byte(mInst), inst)
+
+	def.Execute()
 
 }
