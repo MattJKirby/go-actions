@@ -2,6 +2,7 @@ package parameter
 
 import (
 	"go-actions/ga/cr/asserts"
+	"reflect"
 	"testing"
 )
 
@@ -27,4 +28,28 @@ func TestGetOrDefault(t *testing.T) {
 		asserts.Equals(t, expectedDefaultParam, param)
 		asserts.Equals(t, &expectedDefaultParam, &param)
 	})
+}
+
+func TestGet(t *testing.T) {
+	store := NewStore()
+	expectedGetParam := NewActionParameter("intParam", 0)
+	GetOrDefault("intParam", 0)(store)
+
+	t.Run("test get with meta", func(t *testing.T) {
+		param, _ := store.Get("intParam")
+		asserts.Equals(t, reflect.TypeOf(0), param.parameterType)
+		asserts.Equals(t, any(expectedGetParam), param.parameterValue)
+	})
+
+	t.Run("test no such parameter", func(t *testing.T) {
+		param, err := store.Get("bad")
+		if err == nil {
+			t.Errorf("expected error but got nil")
+		}
+
+		if param != nil {
+			t.Errorf("expected nil but got %v", param)
+		}
+	})
+
 }

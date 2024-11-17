@@ -1,22 +1,40 @@
 package parameter
 
+import (
+	"fmt"
+	"reflect"
+)
+
 type Store struct {
-	parameters map[string]any
+	parameters map[string]*TypedParameter[any]
+}
+
+type TypedParameter[T any] struct {
+	parameterType reflect.Type
+	parameterValue T
 }
 
 func NewStore() *Store {
 	return &Store{
-		parameters: make(map[string]any),
+		parameters: make(map[string]*TypedParameter[any]),
 	}
+}
+
+func (s *Store) Get(name string) (*TypedParameter[any], error) {
+	val, exists := s.parameters[name]
+	if !exists {
+		return nil, fmt.Errorf("no such parameter with name '%s'", name)
+	}
+	return val, nil
 }
 
 func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParameter[T] {
 	return func(s *Store) *ActionParameter[T] {
 		_, exists := s.parameters[name]
 		if !exists {
-			s.parameters[name] = any(NewActionParameter(name, defaultValue))
+			s.parameters[name] = &TypedParameter[any]{parameterType: reflect.TypeOf(defaultValue), parameterValue: (NewActionParameter(name, defaultValue))}
 		}
 
-		return any(s.parameters[name]).(*ActionParameter[T])
+		return any(s.parameters[name].parameterValue).(*ActionParameter[T])
 	}
 }
