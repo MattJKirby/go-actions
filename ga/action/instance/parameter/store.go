@@ -32,7 +32,9 @@ func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParame
 	return func(s *Store) *ActionParameter[T] {
 		_, exists := s.parameters[name]
 		if !exists {
-			s.parameters[name] = &TypedParameter[any]{parameterType: reflect.TypeOf(defaultValue), parameterValue: (NewActionParameter(name, defaultValue))}
+			parameterValue := NewActionParameter(name, defaultValue)
+			parameterType := reflect.TypeOf(defaultValue)
+			s.parameters[name] = &TypedParameter[any]{parameterType, parameterValue}
 		}
 
 		return any(s.parameters[name].parameterValue).(*ActionParameter[T])
