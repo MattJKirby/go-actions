@@ -2,6 +2,7 @@ package parameter
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type Store struct {
@@ -36,16 +37,16 @@ func (s *Store) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	// for name, raw := range rawParameters {
-	// 	param, exists := s.parameters[name]
-	// 	if !exists {
-	// 		return fmt.Errorf("error unmashalling parameters: parameter '%s' does not exist", name)
-	// 	}
+	for name, raw := range rawParameters {
+		param, exists := s.parameters[name]
+		if !exists {
+			return fmt.Errorf("error unmashalling parameters: parameter '%s' does not exist", name)
+		}
 
-	// 	err = json.Unmarshal(raw, param)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// }
+		err = json.Unmarshal(raw, param)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
