@@ -4,15 +4,15 @@ import "fmt"
 
 type ActionReference struct {
 	actionId string
-	referenceName string
+	recieverId string
 	id string
 }
 
-func NewActionReference(actionId string, referenceId string, referenceType string) *ActionReference {
-	id := fmt.Sprintf("%s__ref:%s:%s", actionId, referenceType, referenceId)
+func NewActionReference(actionId string, recieverId string, referenceType string) *ActionReference {
+	id := fmt.Sprintf("%s__ref:%s:%s", actionId, referenceType, recieverId)
 	return &ActionReference{
 		actionId,
-		referenceId,
+		recieverId,
 		id,
 	}
 }
