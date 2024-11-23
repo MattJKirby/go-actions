@@ -7,9 +7,9 @@ type ActionReference interface {
 }
 
 type actionReference struct {
-	actionId string
+	actionId   string
 	resourceId string
-	id string
+	id         string
 }
 
 func newReference(actionId string, resourceId string, referenceType string) *actionReference {
@@ -33,7 +33,7 @@ type Output struct {
 func NewOutput(actionId string, outputId string) *Output {
 	return &Output{
 		actionReference: *newReference(actionId, outputId, "output"),
-		outputId: outputId,
+		outputId:        outputId,
 	}
 }
 
@@ -45,6 +45,6 @@ type Input struct {
 func NewInput(actionId string, inputId string) *Input {
 	return &Input{
 		actionReference: *newReference(actionId, inputId, "input"),
-		inputId: inputId,
+		inputId:         inputId,
 	}
 }

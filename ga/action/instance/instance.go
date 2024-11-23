@@ -9,11 +9,11 @@ import (
 )
 
 type ActionInstance struct {
-	ActionName string           `json:"name"`
-	ActionUid  string           `json:"uid"`
-	Parameters *parameter.Store `json:"parameters"`
-	Inputs *reference.Store[reference.Input] `json:"inputs"`
-	Outputs *reference.Store[reference.Output] `json:"outputs"`
+	ActionName string                             `json:"name"`
+	ActionUid  string                             `json:"uid"`
+	Parameters *parameter.Store                   `json:"parameters"`
+	Inputs     *reference.Store[reference.Input]  `json:"inputs"`
+	Outputs    *reference.Store[reference.Output] `json:"outputs"`
 }
 
 func NewActionInstance(typename string) *ActionInstance {
@@ -22,7 +22,7 @@ func NewActionInstance(typename string) *ActionInstance {
 		ActionName: typename,
 		ActionUid:  uid,
 		Parameters: parameter.NewStore(),
-		Inputs: reference.NewActionReferenceStore[reference.Input](),
-		Outputs: reference.NewActionReferenceStore[reference.Output](),
+		Inputs:     reference.NewActionReferenceStore[reference.Input](),
+		Outputs:    reference.NewActionReferenceStore[reference.Output](),
 	}
 }

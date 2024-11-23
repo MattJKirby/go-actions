@@ -1,6 +1,5 @@
 package reference
 
-
 type Store[T ActionReference] struct {
 	references map[string]*T
 }
@@ -15,7 +14,7 @@ func (ars *Store[T]) Add(ref *T) {
 	ars.references[(*ref).Id()] = ref
 }
 
-func (ars *Store[T]) GetOrDefault(ref *T) *T{
+func (ars *Store[T]) GetOrDefault(ref *T) *T {
 	refId := (*ref).Id()
 	_, exists := ars.references[refId]
 	if !exists {

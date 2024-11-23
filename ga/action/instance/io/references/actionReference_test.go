@@ -7,7 +7,7 @@ import (
 
 func TestNewActionReference(t *testing.T) {
 	ref := newReference("actionId", "recieverId", "refType")
-	
+
 	t.Run("assert reference id", func(t *testing.T) {
 		asserts.Equals(t, "actionId__ref:refType:recieverId", ref.id)
 	})
