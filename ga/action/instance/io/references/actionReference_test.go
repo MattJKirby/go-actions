@@ -1,4 +1,4 @@
-package io
+package references
 
 import (
 	"go-actions/ga/cr/asserts"

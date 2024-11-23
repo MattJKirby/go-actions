@@ -1,4 +1,4 @@
-package io
+package references
 
 
 type ActionReferenceStore[T ActionReference] struct {
