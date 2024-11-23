@@ -20,5 +20,13 @@ func TestNewActionInstance(t *testing.T) {
 		if instance.Parameters == nil {
 			t.Errorf("invalid parameter store: expected parameter store, got %v", nil)
 		}
+
+		if instance.Inputs == nil {
+			t.Errorf("invalid reference store: expected reference store got %v", nil)
+		}
+
+		if instance.Outputs == nil {
+			t.Errorf("invalid reference store: expected reference store got %v", nil)
+		}
 	})
 }
