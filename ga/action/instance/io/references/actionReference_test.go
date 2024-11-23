@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewActionReference(t *testing.T) {
-	ref := newActionReference("actionId", "recieverId", "refType")
+	ref := newReference("actionId", "recieverId", "refType")
 	
 	t.Run("assert reference id", func(t *testing.T) {
 		asserts.Equals(t, "actionId__ref:refType:recieverId", ref.id)
@@ -14,14 +14,14 @@ func TestNewActionReference(t *testing.T) {
 }
 
 func TestNewActionOutputReference(t *testing.T) {
-	outputRef := NewActionOutputReference("actionId", "outputId")
+	outputRef := NewOutput("actionId", "outputId")
 	t.Run("assert output id", func(t *testing.T) {
 		asserts.Equals(t, "outputId", outputRef.outputId)
 	})
 }
 
 func TestNewActionInputReference(t *testing.T) {
-	inputRef := NewActionInputReference("actionId", "inputId")
+	inputRef := NewInput("actionId", "inputId")
 	t.Run("assert input id", func(t *testing.T) {
 		asserts.Equals(t, "inputId", inputRef.inputId)
 	})

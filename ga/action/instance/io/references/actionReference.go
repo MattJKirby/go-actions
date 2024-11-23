@@ -8,15 +8,15 @@ type ActionReference interface {
 
 type actionReference struct {
 	actionId string
-	recieverId string
+	resourceId string
 	id string
 }
 
-func newActionReference(actionId string, recieverId string, referenceType string) *actionReference {
-	id := fmt.Sprintf("%s__ref:%s:%s", actionId, referenceType, recieverId)
+func newReference(actionId string, resourceId string, referenceType string) *actionReference {
+	id := fmt.Sprintf("%s__ref:%s:%s", actionId, referenceType, resourceId)
 	return &actionReference{
 		actionId,
-		recieverId,
+		resourceId,
 		id,
 	}
 }
@@ -25,26 +25,26 @@ func (ar actionReference) Id() string {
 	return ar.id
 }
 
-type ActionOutputReference struct {
+type Output struct {
 	actionReference
 	outputId string
 }
 
-func NewActionOutputReference(actionId string, outputId string) *ActionOutputReference {
-	return &ActionOutputReference{
-		actionReference: *newActionReference(actionId, outputId, "output"),
+func NewOutput(actionId string, outputId string) *Output {
+	return &Output{
+		actionReference: *newReference(actionId, outputId, "output"),
 		outputId: outputId,
 	}
 }
 
-type ActionInputReference struct {
+type Input struct {
 	actionReference
 	inputId string
 }
 
-func NewActionInputReference(actionId string, inputId string) *ActionInputReference {
-	return &ActionInputReference{
-		actionReference: *newActionReference(actionId, inputId, "input"),
+func NewInput(actionId string, inputId string) *Input {
+	return &Input{
+		actionReference: *newReference(actionId, inputId, "input"),
 		inputId: inputId,
 	}
 }

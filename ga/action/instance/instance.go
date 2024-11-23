@@ -12,8 +12,8 @@ type ActionInstance struct {
 	ActionName string           `json:"name"`
 	ActionUid  string           `json:"uid"`
 	Parameters *parameter.Store `json:"parameters"`
-	Inputs *references.ActionReferenceStore[references.ActionInputReference] `json:"inputs"`
-	Outputs *references.ActionReferenceStore[references.ActionOutputReference] `json:"outputs"`
+	Inputs *references.Store[references.Input] `json:"inputs"`
+	Outputs *references.Store[references.Output] `json:"outputs"`
 }
 
 func NewActionInstance(typename string) *ActionInstance {
@@ -22,7 +22,7 @@ func NewActionInstance(typename string) *ActionInstance {
 		ActionName: typename,
 		ActionUid:  uid,
 		Parameters: parameter.NewStore(),
-		Inputs: references.NewActionReferenceStore[references.ActionInputReference](),
-		Outputs: references.NewActionReferenceStore[references.ActionOutputReference](),
+		Inputs: references.NewActionReferenceStore[references.Input](),
+		Outputs: references.NewActionReferenceStore[references.Output](),
 	}
 }
