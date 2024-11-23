@@ -2,7 +2,7 @@ package instance
 
 import (
 	"fmt"
-	"go-actions/ga/action/instance/io/references"
+	reference "go-actions/ga/action/instance/io/references"
 	"go-actions/ga/action/instance/parameter"
 
 	"github.com/google/uuid"
@@ -12,8 +12,8 @@ type ActionInstance struct {
 	ActionName string           `json:"name"`
 	ActionUid  string           `json:"uid"`
 	Parameters *parameter.Store `json:"parameters"`
-	Inputs *references.Store[references.Input] `json:"inputs"`
-	Outputs *references.Store[references.Output] `json:"outputs"`
+	Inputs *reference.Store[reference.Input] `json:"inputs"`
+	Outputs *reference.Store[reference.Output] `json:"outputs"`
 }
 
 func NewActionInstance(typename string) *ActionInstance {
@@ -22,7 +22,7 @@ func NewActionInstance(typename string) *ActionInstance {
 		ActionName: typename,
 		ActionUid:  uid,
 		Parameters: parameter.NewStore(),
-		Inputs: references.NewActionReferenceStore[references.Input](),
-		Outputs: references.NewActionReferenceStore[references.Output](),
+		Inputs: reference.NewActionReferenceStore[reference.Input](),
+		Outputs: reference.NewActionReferenceStore[reference.Output](),
 	}
 }

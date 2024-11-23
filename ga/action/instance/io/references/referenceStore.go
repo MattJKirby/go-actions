@@ -1,4 +1,4 @@
-package references
+package reference
 
 
 type Store[T ActionReference] struct {
