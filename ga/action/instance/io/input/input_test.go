@@ -1,6 +1,8 @@
 package input
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-actions/ga/action/instance/io"
 	"go-actions/ga/cr/asserts"
 	"testing"
@@ -9,9 +11,12 @@ import (
 func TestNewInput(t *testing.T) {
 	input := newInput("name", "actionUid")
 
+	z,_ := json.Marshal(input)
+	fmt.Println(string(z))
+
 	t.Run("test new input", func(t *testing.T) {
-		asserts.Equals(t, "name", input.Name())
-		asserts.Equals(t, "actionUid__Input:name", input.Id())
+		asserts.Equals(t, "name", input.name)
+		asserts.Equals(t, "actionUid__Input:name", input.id)
 	})
 }
 
@@ -26,3 +31,11 @@ func TestGetOrDefault(t *testing.T) {
 
 	})
 }
+
+// func TestCustomMarshalling(t *testing.T){
+// 	input := newInput("name", "actionUid")
+
+// 	t.Run("custom marshalling", func(t *testing.T) {
+// 		asserts.Equals()
+// 	})
+// }

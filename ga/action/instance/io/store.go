@@ -1,24 +1,31 @@
 package io
 
-import "go-actions/ga/utils/resourceStore"
+import (
+	"encoding/json"
+)
 
-type ioResource interface {
-	Name() string
-	Id() string
-}
-
-type Store[T ioResource] struct {
+type Store[T any] struct {
 	actionUid string
-	resources *resourceStore.Store[T]
+	resources map[string]*T
 }
 
-func NewStore[T ioResource](actionUid string) *Store[T] {
+
+func NewStore[T any](actionUid string) *Store[T] {
 	return &Store[T]{
 		actionUid: actionUid,
-		resources: resourceStore.NewStore[T](),
+		resources: make(map[string]*T),
 	}
 }
-func (s *Store[T]) GetOrDefaultResource(name string, ctor func(string, string) *T) *T {
-	resource := ctor(name, s.actionUid)
-	return s.resources.GetOrDefault(name, resource)
+
+func (s *Store[T]) GetOrDefault(name string, ctor func(string, string) *T) *T {
+	_, exists := s.resources[name]
+	if !exists {
+		s.resources[name] = ctor(name, s.actionUid)
+	}
+
+	return s.resources[name]
+}
+
+func (s *Store[T]) MarshalJSON() ([]byte, error) {	
+	return json.Marshal(s.resources)
 }

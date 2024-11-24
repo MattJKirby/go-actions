@@ -1,6 +1,7 @@
 package io
 
 import (
+	"encoding/json"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -25,7 +26,17 @@ func TestNewStore(t *testing.T) {
 
 	t.Run("test get", func(t *testing.T) {
 		expected := newTestResource("name", "uid")
-		input := store.GetOrDefaultResource("name", newTestResource)
+		input := store.GetOrDefault("name", newTestResource)
 		asserts.Equals(t, expected, input)
+	})
+}
+
+func TestMarshalStore(t *testing.T) {
+	store := NewStore[testResource]("uid")
+	store.GetOrDefault("resource1", newTestResource)
+
+	t.Run("test marshal", func(t *testing.T) {
+		marshalled, _ := json.Marshal(store)
+		asserts.Equals(t, `{"resource1":{}}`, string(marshalled))
 	})
 }

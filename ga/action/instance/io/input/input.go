@@ -1,13 +1,18 @@
 package input
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-actions/ga/action/instance/io"
 )
 
 type Input struct {
-	name string
-	id   string
+	name string 
+	id   string 
+}
+
+type MarshalledInput struct {
+	Name string `json:"name"`
 }
 
 func newInput(name string, actionUid string) *Input {
@@ -18,16 +23,14 @@ func newInput(name string, actionUid string) *Input {
 	}
 }
 
-func (i Input) Name() string {
-	return i.name
-}
-
-func (i Input) Id() string {
-	return i.id
-}
-
 func GetOrDefaultInput(name string) func(*io.Store[Input]) *Input {
 	return func(s *io.Store[Input]) *Input {
-		return s.GetOrDefaultResource(name, newInput)
+		return s.GetOrDefault(name, newInput)
 	}
+}
+
+func (i *Input) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&MarshalledInput{
+		Name: "vvv",
+	})
 }
