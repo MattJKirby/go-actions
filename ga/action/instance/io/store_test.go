@@ -25,7 +25,7 @@ func TestNewStore(t *testing.T) {
 
 	t.Run("test get", func(t *testing.T) {
 		expected := newTestResource("name", "uid")
-		input := store.GetOrDefault("name", newTestResource)
+		input := store.GetOrDefaultResource("name", newTestResource)
 		asserts.Equals(t, expected, input)
 	})
 }

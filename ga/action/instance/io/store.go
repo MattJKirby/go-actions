@@ -18,7 +18,7 @@ func NewStore[T ioResource](actionUid string) *Store[T] {
 		resources: resourceStore.NewStore[T](),
 	}
 }
-func (s *Store[T]) GetOrDefault(name string, ctor func(string, string) *T) *T {
+func (s *Store[T]) GetOrDefaultResource(name string, ctor func(string, string) *T) *T {
 	resource := ctor(name, s.actionUid)
 	return s.resources.GetOrDefault(name, resource)
 }

@@ -28,6 +28,6 @@ func (i Input) Id() string {
 
 func GetOrDefaultInput(name string) func(*io.Store[Input]) *Input {
 	return func(s *io.Store[Input]) *Input {
-		return s.GetOrDefault(name, newInput)
+		return s.GetOrDefaultResource(name, newInput)
 	}
 }
