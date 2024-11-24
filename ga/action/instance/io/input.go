@@ -6,8 +6,8 @@ import (
 )
 
 type Input struct {
-	Name string `json:"name"`
-	Id   string `json:"id"`
+	Name            string            `json:"name"`
+	Id              string            `json:"id"`
 	OutputReference *reference.Output `json:"reference"`
 }
 

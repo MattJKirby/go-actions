@@ -2,7 +2,6 @@ package reference
 
 import "fmt"
 
-
 type actionReference struct {
 	actionId   string
 	resourceId string
@@ -17,7 +16,6 @@ func newReference(actionId string, resourceId string, referenceType string) *act
 		id,
 	}
 }
-
 
 type Output struct {
 	actionReference

@@ -25,7 +25,7 @@ func TestMarshalStore(t *testing.T) {
 		marshalled, _ := json.Marshal(store)
 		marshalledinput, _ := json.Marshal(input)
 		expected := fmt.Sprintf(`{"resource1":%s}`, marshalledinput)
-		
+
 		asserts.Equals(t, expected, string(marshalled))
 	})
 }
