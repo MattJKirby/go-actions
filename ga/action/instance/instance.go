@@ -2,7 +2,7 @@ package instance
 
 import (
 	"fmt"
-	reference "go-actions/ga/action/instance/io/references"
+	"go-actions/ga/action/instance/io/reference"
 	"go-actions/ga/action/instance/parameter"
 
 	"github.com/google/uuid"
