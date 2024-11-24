@@ -1,7 +1,8 @@
-package io
+package input
 
 import (
 	"fmt"
+	"go-actions/ga/action/instance/io"
 )
 
 type Input struct {
@@ -25,8 +26,8 @@ func (i Input) Id() string {
 	return i.id
 }
 
-// func GetOrDefault[T any](name string) func(*resourceStore.Store[T]) {
-// 	return func(s *resourceStore.Store[T]) {
-// 		s.GetOrDefault()
-// 	}
-// }
+func GetOrDefaultInput(name string) func(*io.Store[Input]) *Input {
+	return func(s *io.Store[Input]) *Input {
+		return s.GetOrDefault(name, newInput)
+	}
+}

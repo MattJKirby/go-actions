@@ -3,10 +3,9 @@ package io
 import "go-actions/ga/utils/resourceStore"
 
 type ioResource interface {
-	Name () string
-	Id () string
+	Name() string
+	Id() string
 }
-
 
 type Store[T ioResource] struct {
 	actionUid string
@@ -20,6 +19,6 @@ func NewStore[T ioResource](actionUid string) *Store[T] {
 	}
 }
 func (s *Store[T]) GetOrDefault(name string, ctor func(string, string) *T) *T {
-		resource := ctor(name, s.actionUid)
-		return s.resources.GetOrDefault(name, resource)
+	resource := ctor(name, s.actionUid)
+	return s.resources.GetOrDefault(name, resource)
 }

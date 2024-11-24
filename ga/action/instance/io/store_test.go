@@ -5,12 +5,27 @@ import (
 	"testing"
 )
 
+type testResource struct {
+}
+
+func (tr testResource) Name() string {
+	return ""
+}
+
+func (tr testResource) Id() string {
+	return ""
+}
+
+func newTestResource(string, string) *testResource {
+	return &testResource{}
+}
+
 func TestNewStore(t *testing.T) {
-	store := NewStore[Input]("uid")
+	store := NewStore[testResource]("uid")
 
 	t.Run("test get", func(t *testing.T) {
-		expected := newInput("name", "uid")
-		input := store.GetOrDefault("name", newInput)
+		expected := newTestResource("name", "uid")
+		input := store.GetOrDefault("name", newTestResource)
 		asserts.Equals(t, expected, input)
 	})
 }

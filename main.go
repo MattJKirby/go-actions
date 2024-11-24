@@ -22,6 +22,8 @@ func main() {
 	def.IntegerParameter.SetValue(20)
 	def.Execute()
 
+	fmt.Println(def.Input)
+
 	fmt.Println("--------")
 
 	// gotIntParam := parameter.GetOrDefault("testInt", 0)
@@ -35,5 +37,7 @@ func main() {
 	json.Unmarshal([]byte(mInst), inst)
 
 	def.Execute()
+
+
 
 }
