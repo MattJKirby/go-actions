@@ -33,7 +33,7 @@ func main() {
 	fmt.Println(string(marshalledInst))
 	fmt.Println("--------")
 
-	mInst := `{"name":"ExampleAction","uid":"Action:ExampleAction:2aff3deb-eaa4-46b4-94a8-1e487a33d051","parameters":{"intParam":{"name":"intParam","value":300},"strParam":{"name":"strParam","value":"HELLO"}}}`
+	mInst := `{"name":"ExampleAction","uid":"Action:ExampleAction:dad7805d-3cd1-4622-912e-c560398e9af1","parameters":{"intParam":{"name":"intParam","value":200},"strParam":{"name":"strParam","value":"HELL)"}},"inputs":{"test":{"name":"test","id":"Action:ExampleAction:dad7805d-3cd1-4622-912e-c560398e9af1__Input:test"}}}`
 	json.Unmarshal([]byte(mInst), inst)
 
 	def.Execute()
