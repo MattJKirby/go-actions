@@ -3,6 +3,7 @@ package io
 import (
 	"encoding/json"
 	"fmt"
+	"go-actions/ga/action/instance/io/reference"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -36,6 +37,16 @@ func TestMarshalling(t *testing.T) {
 
 	t.Run("marshalling", func(t *testing.T) {
 		marshalled, _ := json.Marshal(input)
-		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name","reference":null}`, string(marshalled))
+		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name","outputRef":null}`, string(marshalled))
+	})
+}
+
+func TestAssignOutput(t *testing.T) {
+	input := newInput("name", "actionUid")
+	outputRef := reference.NewReference("otherAction", "res", "output")
+
+	t.Run("assing output", func(t *testing.T) {
+		input.AssignOutput(outputRef)
+		asserts.Equals(t, outputRef, input.OutputReference)
 	})
 }

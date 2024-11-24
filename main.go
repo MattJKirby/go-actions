@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-actions/examples"
 	"go-actions/ga"
+	"go-actions/ga/action/instance/io/reference"
 )
 
 func main() {
@@ -23,6 +24,9 @@ func main() {
 	def.Execute()
 
 	fmt.Println(def.Input)
+	outRef := reference.NewReference("someAction", "someResource", "output")
+	
+	def.Input.AssignOutput(outRef)
 
 	fmt.Println("--------")
 

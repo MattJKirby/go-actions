@@ -6,9 +6,9 @@ import (
 )
 
 type Input struct {
-	Name            string            `json:"name"`
-	Id              string            `json:"id"`
-	OutputReference *reference.Output `json:"reference"`
+	Name            string                     `json:"name"`
+	Id              string                     `json:"id"`
+	OutputReference *reference.ActionReference `json:"outputRef"`
 }
 
 func newInput(name string, actionUid string) *Input {
@@ -18,6 +18,10 @@ func newInput(name string, actionUid string) *Input {
 		id,
 		nil,
 	}
+}
+
+func (i *Input) AssignOutput(ref *reference.ActionReference){
+	i.OutputReference = ref
 }
 
 func GetOrDefaultInput(name string) func(*Store[Input]) *Input {
