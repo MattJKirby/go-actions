@@ -36,6 +36,6 @@ func TestMarshalling(t *testing.T) {
 
 	t.Run("marshalling", func(t *testing.T) {
 		marshalled, _ := json.Marshal(input)
-		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name"}`, string(marshalled))
+		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name","reference":null}`, string(marshalled))
 	})
 }

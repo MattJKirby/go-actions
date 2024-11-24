@@ -2,11 +2,13 @@ package io
 
 import (
 	"fmt"
+	"go-actions/ga/action/instance/io/reference"
 )
 
 type Input struct {
 	Name string `json:"name"`
 	Id   string `json:"id"`
+	OutputReference *reference.Output `json:"reference"`
 }
 
 func newInput(name string, actionUid string) *Input {
@@ -14,6 +16,7 @@ func newInput(name string, actionUid string) *Input {
 	return &Input{
 		name,
 		id,
+		nil,
 	}
 }
 
