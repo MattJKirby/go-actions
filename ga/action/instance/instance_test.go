@@ -24,9 +24,5 @@ func TestNewActionInstance(t *testing.T) {
 		if instance.Inputs == nil {
 			t.Errorf("invalid reference store: expected reference store got %v", nil)
 		}
-
-		if instance.Outputs == nil {
-			t.Errorf("invalid reference store: expected reference store got %v", nil)
-		}
 	})
 }

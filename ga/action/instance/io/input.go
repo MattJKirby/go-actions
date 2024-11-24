@@ -1,10 +1,12 @@
 package io
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Input struct {
 	name string
-	id string
+	id   string
 }
 
 func newInput(name string, actionUid string) *Input {
@@ -15,10 +17,16 @@ func newInput(name string, actionUid string) *Input {
 	}
 }
 
-func (i *Input) Name() string {
+func (i Input) Name() string {
 	return i.name
 }
 
-func (i *Input) Id() string {
+func (i Input) Id() string {
 	return i.id
 }
+
+// func GetOrDefault[T any](name string) func(*resourceStore.Store[T]) {
+// 	return func(s *resourceStore.Store[T]) {
+// 		s.GetOrDefault()
+// 	}
+// }
