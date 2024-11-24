@@ -1,9 +1,8 @@
-package input
+package io
 
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/action/instance/io"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -11,17 +10,17 @@ import (
 func TestNewInput(t *testing.T) {
 	input := newInput("name", "actionUid")
 
-	z,_ := json.Marshal(input)
+	z, _ := json.Marshal(input)
 	fmt.Println(string(z))
 
 	t.Run("test new input", func(t *testing.T) {
-		asserts.Equals(t, "name", input.name)
-		asserts.Equals(t, "actionUid__Input:name", input.id)
+		asserts.Equals(t, "name", input.Name)
+		asserts.Equals(t, "actionUid__Input:name", input.Id)
 	})
 }
 
 func TestGetOrDefault(t *testing.T) {
-	store := io.NewStore[Input]("uid")
+	store := NewStore[Input]("uid")
 
 	t.Run("test default", func(t *testing.T) {
 		expected := newInput("name", "uid")
@@ -32,10 +31,11 @@ func TestGetOrDefault(t *testing.T) {
 	})
 }
 
-// func TestCustomMarshalling(t *testing.T){
-// 	input := newInput("name", "actionUid")
+func TestMarshalling(t *testing.T) {
+	input := newInput("name", "actionUid")
 
-// 	t.Run("custom marshalling", func(t *testing.T) {
-// 		asserts.Equals()
-// 	})
-// }
+	t.Run("marshalling", func(t *testing.T) {
+		marshalled, _ := json.Marshal(input)
+		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name"}`, string(marshalled))
+	})
+}

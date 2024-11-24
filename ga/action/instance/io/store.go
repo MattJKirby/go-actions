@@ -9,7 +9,6 @@ type Store[T any] struct {
 	resources map[string]*T
 }
 
-
 func NewStore[T any](actionUid string) *Store[T] {
 	return &Store[T]{
 		actionUid: actionUid,
@@ -26,6 +25,6 @@ func (s *Store[T]) GetOrDefault(name string, ctor func(string, string) *T) *T {
 	return s.resources[name]
 }
 
-func (s *Store[T]) MarshalJSON() ([]byte, error) {	
+func (s *Store[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(s.resources)
 }

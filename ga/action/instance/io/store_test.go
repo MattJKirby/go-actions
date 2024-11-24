@@ -6,37 +6,22 @@ import (
 	"testing"
 )
 
-type testResource struct {
-}
-
-func (tr testResource) Name() string {
-	return ""
-}
-
-func (tr testResource) Id() string {
-	return ""
-}
-
-func newTestResource(string, string) *testResource {
-	return &testResource{}
-}
-
 func TestNewStore(t *testing.T) {
-	store := NewStore[testResource]("uid")
+	store := NewStore[Input]("uid")
 
 	t.Run("test get", func(t *testing.T) {
-		expected := newTestResource("name", "uid")
-		input := store.GetOrDefault("name", newTestResource)
+		expected := newInput("name", "uid")
+		input := store.GetOrDefault("name", newInput)
 		asserts.Equals(t, expected, input)
 	})
 }
 
 func TestMarshalStore(t *testing.T) {
-	store := NewStore[testResource]("uid")
-	store.GetOrDefault("resource1", newTestResource)
+	store := NewStore[Input]("uid")
+	store.GetOrDefault("resource1", newInput)
 
 	t.Run("test marshal", func(t *testing.T) {
 		marshalled, _ := json.Marshal(store)
-		asserts.Equals(t, `{"resource1":{}}`, string(marshalled))
+		asserts.Equals(t, `{"resource1":{"name":"resource1","id":"uid__Input:resource1"}}`, string(marshalled))
 	})
 }
