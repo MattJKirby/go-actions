@@ -32,21 +32,30 @@ func TestGetOrDefault(t *testing.T) {
 	})
 }
 
-func TestMarshalling(t *testing.T) {
-	input := newInput("name", "actionUid")
-
-	t.Run("marshalling", func(t *testing.T) {
-		marshalled, _ := json.Marshal(input)
-		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name","outputRef":null}`, string(marshalled))
-	})
-}
-
 func TestAssignOutput(t *testing.T) {
 	input := newInput("name", "actionUid")
 	outputRef := reference.NewReference("otherAction", "res", "output")
 
-	t.Run("assing output", func(t *testing.T) {
+	t.Run("assign output", func(t *testing.T) {
 		input.AssignOutput(outputRef)
 		asserts.Equals(t, outputRef, input.OutputReference)
+	})
+}
+
+func TestMarshalling(t *testing.T) {
+	input := newInput("name", "actionUid")
+
+	t.Run("marshalling no output", func(t *testing.T) {
+		marshalled, _ := json.Marshal(input)
+		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name","outputRef":null}`, string(marshalled))
+	})
+
+	t.Run("marshalling with output", func(t *testing.T) {
+		outputRef := reference.NewReference("otherAction", "res", "output")
+		marshalledRef, _ := json.Marshal(outputRef)
+		input.AssignOutput(outputRef)
+		marshalled, _ := json.Marshal(input)
+		expected := fmt.Sprintf( `{"name":"name","id":"actionUid__Input:name","outputRef":%s}`, string(marshalledRef))
+		asserts.Equals(t,expected, string(marshalled))
 	})
 }

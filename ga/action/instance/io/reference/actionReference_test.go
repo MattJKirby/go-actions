@@ -22,3 +22,15 @@ func TestMarshalReference(t *testing.T) {
 		asserts.Equals(t, `{"actionUid":"a","resourceName":"output"}`, string(marshalled))
 	})
 }
+
+func TestUnmarshalReference(t *testing.T) {
+	marshalled := []byte(`{"actionUid":"a","resourceName":"output"}`)
+	ref := NewReference("", "", "")
+
+	t.Run("unmarshal", func(t *testing.T) {
+		json.Unmarshal(marshalled, ref)
+
+		asserts.Equals(t, "a", ref.ActionUid)
+		asserts.Equals(t, "output", ref.ResourceName)
+	})
+}
