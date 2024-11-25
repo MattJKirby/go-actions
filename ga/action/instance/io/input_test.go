@@ -63,13 +63,22 @@ func TestUnmarshalling(t *testing.T){
 	input.AssignOutput(ref)
 	marshalled, _ := json.Marshal(input)
 
-	t.Run("test unmarshalling", func(t *testing.T) {
-		newInput := newInput("", "")
+	t.Run("test valid unmarshalling", func(t *testing.T) {
+		newInput := newInput("i", "")
 		json.Unmarshal(marshalled, newInput)
 
 		asserts.Equals(t, input.Id, newInput.Id)
 		asserts.Equals(t, input.Name, newInput.Name)
 		asserts.Equals(t, input.OutputReference.ActionUid, newInput.OutputReference.ActionUid)
 		asserts.Equals(t, input.OutputReference.ResourceName, newInput.OutputReference.ResourceName)
+	})
+
+	t.Run("test invalid unmarshalling", func(t *testing.T) {
+		newInput := newInput("badName", "")
+		err := json.Unmarshal(marshalled, newInput)
+
+		if err == nil {
+			t.Errorf("expected err but got %v", nil)
+		}
 	})
 }
