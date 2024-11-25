@@ -15,11 +15,11 @@ func newReference(ActionUid string, ResourceName string, referenceType string) *
 }
 
 type OutputReference struct {
-	*actionReference
+	actionReference
 }
 
 func NewOutputReference(ActionUid string, outputName string) *OutputReference {
 	return &OutputReference{
-		actionReference: newReference(ActionUid, outputName, "output"),
+		actionReference: *newReference(ActionUid, outputName, "output"),
 	}
 }

@@ -11,9 +11,6 @@ import (
 func TestNewInput(t *testing.T) {
 	input := newInput("name", "actionUid")
 
-	z, _ := json.Marshal(input)
-	fmt.Println(string(z))
-
 	t.Run("test new input", func(t *testing.T) {
 		asserts.Equals(t, "name", input.Name)
 		asserts.Equals(t, "actionUid__Input:name", input.Id)
@@ -43,19 +40,36 @@ func TestAssignOutput(t *testing.T) {
 }
 
 func TestMarshalling(t *testing.T) {
-	input := newInput("name", "actionUid")
-	outputRef := reference.NewOutputReference("otherAction", "res")
-	marshalledRef, _ := json.Marshal(outputRef)
+	input := newInput("i", "u")
+	ref := reference.NewOutputReference("a", "o")
+	marshalledRef, _ := json.Marshal(ref)
 
 	t.Run("marshalling no output", func(t *testing.T) {
 		marshalled, _ := json.Marshal(input)
-		asserts.Equals(t, `{"name":"name","id":"actionUid__Input:name","outputRef":null}`, string(marshalled))
+		asserts.Equals(t, `{"name":"i","id":"u__Input:i","output":null}`, string(marshalled))
 	})
 
 	t.Run("marshalling with output", func(t *testing.T) {
-		input.AssignOutput(outputRef)
+		input.AssignOutput(ref)
 		marshalled, _ := json.Marshal(input)
-		expected := fmt.Sprintf(`{"name":"name","id":"actionUid__Input:name","outputRef":%s}`, string(marshalledRef))
+		expected := fmt.Sprintf(`{"name":"i","id":"u__Input:i","output":%s}`, string(marshalledRef))
 		asserts.Equals(t, expected, string(marshalled))
+	})
+}
+
+func TestUnmarshalling(t *testing.T){
+	input := newInput("i", "u")
+	ref := reference.NewOutputReference("a", "o")
+	input.AssignOutput(ref)
+	marshalled, _ := json.Marshal(input)
+
+	t.Run("test unmarshalling", func(t *testing.T) {
+		newInput := newInput("", "")
+		json.Unmarshal(marshalled, newInput)
+
+		asserts.Equals(t, input.Id, newInput.Id)
+		asserts.Equals(t, input.Name, newInput.Name)
+		asserts.Equals(t, input.OutputReference.ActionUid, newInput.OutputReference.ActionUid)
+		asserts.Equals(t, input.OutputReference.ResourceName, newInput.OutputReference.ResourceName)
 	})
 }
