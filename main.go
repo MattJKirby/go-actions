@@ -25,7 +25,7 @@ func main() {
 
 	fmt.Println(def.Input)
 	outRef := reference.NewReference("someAction", "someResource", "output")
-	
+
 	def.Input.AssignOutput(outRef)
 
 	fmt.Println("--------")

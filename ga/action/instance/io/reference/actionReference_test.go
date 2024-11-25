@@ -7,22 +7,22 @@ import (
 )
 
 func TestMarshalReference(t *testing.T) {
-	outputRef := NewReference("a", "output", "type")
+	outputRef := NewOutputReference("a", "o")
 
 	t.Run("marshal", func(t *testing.T) {
 		marshalled, _ := json.Marshal(outputRef)
-		asserts.Equals(t, `{"actionUid":"a","resourceName":"output"}`, string(marshalled))
+		asserts.Equals(t, `{"actionUid":"a","resourceName":"o"}`, string(marshalled))
 	})
 }
 
 func TestUnmarshalReference(t *testing.T) {
-	marshalled := []byte(`{"actionUid":"a","resourceName":"output"}`)
-	ref := NewReference("", "", "")
+	marshalled := []byte(`{"actionUid":"a","resourceName":"o"}`)
+	ref := NewOutputReference("", "")
 
 	t.Run("unmarshal", func(t *testing.T) {
 		json.Unmarshal(marshalled, ref)
 
 		asserts.Equals(t, "a", ref.ActionUid)
-		asserts.Equals(t, "output", ref.ResourceName)
+		asserts.Equals(t, "o", ref.ResourceName)
 	})
 }

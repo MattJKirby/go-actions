@@ -8,7 +8,7 @@ import (
 type Input struct {
 	Name            string                     `json:"name"`
 	Id              string                     `json:"id"`
-	OutputReference *reference.ActionReference `json:"outputRef"`
+	OutputReference *reference.OutputReference `json:"outputRef"`
 }
 
 func newInput(name string, actionUid string) *Input {
@@ -20,7 +20,7 @@ func newInput(name string, actionUid string) *Input {
 	}
 }
 
-func (i *Input) AssignOutput(ref *reference.ActionReference){
+func (i *Input) AssignOutput(ref *reference.OutputReference) {
 	i.OutputReference = ref
 }
 
