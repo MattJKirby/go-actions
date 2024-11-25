@@ -44,6 +44,8 @@ func TestAssignOutput(t *testing.T) {
 
 func TestMarshalling(t *testing.T) {
 	input := newInput("name", "actionUid")
+	outputRef := reference.NewReference("otherAction", "res", "output")
+	marshalledRef, _ := json.Marshal(outputRef)
 
 	t.Run("marshalling no output", func(t *testing.T) {
 		marshalled, _ := json.Marshal(input)
@@ -51,8 +53,6 @@ func TestMarshalling(t *testing.T) {
 	})
 
 	t.Run("marshalling with output", func(t *testing.T) {
-		outputRef := reference.NewReference("otherAction", "res", "output")
-		marshalledRef, _ := json.Marshal(outputRef)
 		input.AssignOutput(outputRef)
 		marshalled, _ := json.Marshal(input)
 		expected := fmt.Sprintf( `{"name":"name","id":"actionUid__Input:name","outputRef":%s}`, string(marshalledRef))
