@@ -1,8 +1,8 @@
 package reference
 
 type actionReference struct {
-	ActionUid    string `json:"actionUid"`
-	ResourceName string `json:"resourceName"`
+	ActionUid     string `json:"actionUid"`
+	ResourceName  string `json:"resourceName"`
 	referenceType string
 }
 

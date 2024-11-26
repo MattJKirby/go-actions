@@ -28,7 +28,7 @@ func (i *Input) AssignOutput(ref *reference.OutputReference) {
 func (i *Input) UnmarshalJSON(data []byte) error {
 	type alias Input
 	var unmarshalled alias
-	err := json.Unmarshal(data, &unmarshalled) 
+	err := json.Unmarshal(data, &unmarshalled)
 	if err != nil {
 		return err
 	}

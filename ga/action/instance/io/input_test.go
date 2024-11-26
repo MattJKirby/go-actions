@@ -57,7 +57,7 @@ func TestMarshalling(t *testing.T) {
 	})
 }
 
-func TestUnmarshalling(t *testing.T){
+func TestUnmarshalling(t *testing.T) {
 	input := newInput("i", "u")
 	ref := reference.NewOutputReference("a", "o")
 	input.AssignOutput(ref)
@@ -76,7 +76,6 @@ func TestUnmarshalling(t *testing.T){
 	t.Run("test invalid unmarshalling", func(t *testing.T) {
 		newInput := newInput("badName", "")
 		err := json.Unmarshal(marshalled, newInput)
-
 		if err == nil {
 			t.Errorf("expected err but got %v", nil)
 		}
