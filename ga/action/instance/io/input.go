@@ -28,16 +28,12 @@ func (i *Input) AssignOutput(ref *reference.OutputReference) {
 func (i *Input) UnmarshalJSON(data []byte) error {
 	type alias Input
 	var unmarshalled alias
-	err := json.Unmarshal(data, &unmarshalled)
-	if err != nil {
-		return err
+	if err := json.Unmarshal(data, &unmarshalled); err != nil {
+		return nil
 	}
 
 	if unmarshalled.Name != i.Name {
-		return fmt.Errorf(
-			"error unmarshalling input: name '%s' does not match expected '%s'",
-			unmarshalled.Name, i.Name,
-		)
+		return fmt.Errorf("error unmarshalling input: name '%s' does not match expected '%s'",unmarshalled.Name, i.Name)
 	}
 
 	*i = Input(unmarshalled)

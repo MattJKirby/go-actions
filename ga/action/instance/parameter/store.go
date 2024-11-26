@@ -32,8 +32,7 @@ func (s *Store) MarshalJSON() ([]byte, error) {
 
 func (s *Store) UnmarshalJSON(data []byte) error {
 	rawParameters := make(map[string]json.RawMessage)
-	err := json.Unmarshal(data, &rawParameters)
-	if err != nil {
+	if err := json.Unmarshal(data, &rawParameters); err != nil {
 		return err
 	}
 
@@ -43,8 +42,7 @@ func (s *Store) UnmarshalJSON(data []byte) error {
 			return fmt.Errorf("error unmashalling parameters: parameter '%s' does not exist", name)
 		}
 
-		err = json.Unmarshal(raw, param)
-		if err != nil {
+		if err := json.Unmarshal(raw, param); err != nil {
 			return err
 		}
 	}
