@@ -3,6 +3,7 @@ package io
 import (
 	"encoding/json"
 	"fmt"
+	"go-actions/ga/cr"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -30,21 +31,25 @@ func TestMarshalStore(t *testing.T) {
 	})
 }
 
-// func TestUnmarshalStore(t *testing.T) {
-// 	tests := []cr.TestCase[string, any]{
-// 		{Name: "valid", Input: `{"input":{"name":"input","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: false},
-// 	}
+func TestUnmarshalStore(t *testing.T) {
+	tests := []cr.TestCase[string, any]{
+		{Name: "valid", Input: `{"input":{"name":"input","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: false},
+		{Name: "valid no ref", Input: `{"input":{"name":"input","id":"id","output":null}}`, Error: false},
+		{Name: "invalid key", Input: `{"inputx":{"name":"input","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: true},
+		{Name: "invalid name", Input: `{"input":{"name":"inputx","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: true},
+		{Name: "bad json", Input: `true`, Error: true},
+	}
 
-// 	cr.CaseRunner(t, tests, func(test cr.TestCase[string, any]) {
-// 		store := NewStore[Input]("uid")
-// 		input := store.GetOrDefault("input", newInput)
-// 		err := json.Unmarshal([]byte(test.Input), store)
+	cr.CaseRunner(t, tests, func(test cr.TestCase[string, any]) {
+		store := NewStore[Input]("uid")
+		store.GetOrDefault("input", newInput)
+		err := json.Unmarshal([]byte(test.Input), store)
 
-// 		hasErr := err != nil
-// 		if test.Error != hasErr {
-// 			t.Errorf("error unmarshalling store: got %v", err)
-// 		}
+		hasErr := err != nil
+		if test.Error != hasErr {
+			t.Errorf("error unmarshalling store: got %v", err)
+		}
 
-// 		asserts.Equals(t, "", input.OutputReference.ActionUid)
-// 	})
-// }
+
+	})
+}

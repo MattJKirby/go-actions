@@ -2,6 +2,7 @@ package io
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type Store[T any] struct {
@@ -29,23 +30,21 @@ func (s *Store[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(s.resources)
 }
 
-// func (s *Store[T]) UnmarshalJSON(data []byte) error {
-// 	rawInputs := make(map[string]*T)
-// 	err := json.Unmarshal(data, &rawInputs)
-// 	if err != nil {
-// 		return err
-// 	}
+func (s *Store[T]) UnmarshalJSON(data []byte) error {
+	rawInputs := make(map[string]json.RawMessage)
+	if err := json.Unmarshal(data, &rawInputs); err != nil {
+		return err
+	}
 
-// 	// for name, raw := range rawInputs {
-// 	// 	_, exists := s.resources[name]
-// 	// 	if !exists {
-// 	// 		return fmt.Errorf("error unmashalling parameters: parameter '%s' does not exist", name)
-// 	// 	}
+	for name, raw := range rawInputs {
+		if _, exists := s.resources[name]; !exists {
+			return fmt.Errorf("error unmashalling resource: resource '%s' does not exist", name)
+		}
 
-// 	// 	s.resources[name] = raw
-// 	// }
-// 	fmt.Println("AAAAA")
-// 	s.resources = rawInputs
+		if err := json.Unmarshal(raw, s.resources[name]); err != nil {
+			return err
+		}
+	}
 
-// 	return nil
-// }
+	return nil
+}
