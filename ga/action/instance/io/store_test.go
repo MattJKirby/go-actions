@@ -50,6 +50,5 @@ func TestUnmarshalStore(t *testing.T) {
 			t.Errorf("error unmarshalling store: got %v", err)
 		}
 
-
 	})
 }

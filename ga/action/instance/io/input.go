@@ -33,7 +33,7 @@ func (i *Input) UnmarshalJSON(data []byte) error {
 	}
 
 	if unmarshalled.Name != i.Name {
-		return fmt.Errorf("error unmarshalling input: name '%s' does not match expected '%s'",unmarshalled.Name, i.Name)
+		return fmt.Errorf("error unmarshalling input: name '%s' does not match expected '%s'", unmarshalled.Name, i.Name)
 	}
 
 	*i = Input(unmarshalled)
