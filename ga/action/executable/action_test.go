@@ -6,7 +6,6 @@ import (
 )
 
 type testAction struct{}
-
 func (ta testAction) Execute() {}
 
 func TestNewAction(t *testing.T) {
