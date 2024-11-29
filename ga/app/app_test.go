@@ -1,14 +1,14 @@
 package app
 
 import (
-	"go-actions/ga/action/internals"
+	"go-actions/ga/action"
 	"testing"
 )
 
 type myAction struct{}
 
 func (ma myAction) Execute() {}
-func myActionCtor(internals.GoActionInternals) *myAction {
+func myActionCtor(action.GoActionInternals) *myAction {
 	return &myAction{}
 }
 

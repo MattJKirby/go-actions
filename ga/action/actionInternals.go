@@ -1,4 +1,4 @@
-package internals
+package action
 
 import (
 	"go-actions/ga/action/instance"

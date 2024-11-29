@@ -5,7 +5,6 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/instance"
-	"go-actions/ga/action/internals"
 )
 
 type Action[T action.GoAction] struct {
@@ -14,7 +13,7 @@ type Action[T action.GoAction] struct {
 }
 
 func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
-	internals := internals.NewGoActionInternals(definition.Name)
+	internals := action.NewGoActionInternals(definition.Name)
 
 	return &Action[T]{
 		Definition: definition,
@@ -28,7 +27,7 @@ func (a *Action[T]) GetDef() *T {
 		fmt.Println("ERRRR")
 	}
 
-	return def(internals.GoActionInternals{
+	return def(action.GoActionInternals{
 		ActionInstance: a.Instance,
 	})
 }

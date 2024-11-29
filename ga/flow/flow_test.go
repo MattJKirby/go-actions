@@ -1,7 +1,7 @@
 package flow
 
 import (
-	"go-actions/ga/action/internals"
+	"go-actions/ga/action"
 	"go-actions/ga/app"
 	"go-actions/ga/cr/asserts"
 	"testing"
@@ -25,7 +25,7 @@ func TestInitFlow(t *testing.T) {
 type testAction struct{}
 
 func (ta testAction) Execute() {}
-func testActionCtor(internals.GoActionInternals) *testAction {
+func testActionCtor(action.GoActionInternals) *testAction {
 	return &testAction{}
 }
 

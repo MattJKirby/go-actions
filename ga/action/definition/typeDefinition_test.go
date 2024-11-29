@@ -2,7 +2,7 @@ package definition
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/internals"
+
 	"go-actions/ga/cr/asserts"
 	"reflect"
 	"testing"
@@ -12,7 +12,7 @@ type myAction struct{}
 
 func (ma myAction) Execute() {}
 
-var newMyAction action.GoActionConstructor[myAction] = func(internals.GoActionInternals) *myAction {
+var newMyAction action.GoActionConstructor[myAction] = func(action.GoActionInternals) *myAction {
 	return &myAction{}
 }
 
