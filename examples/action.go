@@ -3,9 +3,9 @@ package examples
 import (
 	"fmt"
 	"go-actions/ga"
-	"go-actions/ga/action"
 	"go-actions/ga/action/instance/io"
 	"go-actions/ga/action/instance/parameter"
+	"go-actions/ga/action/internals"
 )
 
 func init() {
@@ -18,7 +18,7 @@ type ExampleAction struct {
 	Input            *io.Input
 }
 
-func NewExampleAction(action action.GoActionInternals) *ExampleAction {
+func NewExampleAction(action internals.GoActionInternals) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: parameter.GetOrDefault("intParam", 10)(action.Parameters),
 		StringParameter:  parameter.GetOrDefault("strParam", "test")(action.Parameters),

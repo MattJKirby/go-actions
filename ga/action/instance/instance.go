@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"go-actions/ga/action/instance/io"
 	"go-actions/ga/action/instance/parameter"
-
-	"github.com/google/uuid"
 )
 
 type ActionInstance struct {
@@ -15,12 +13,16 @@ type ActionInstance struct {
 	Inputs     *io.Store[io.Input] `json:"inputs"`
 }
 
-func NewActionInstance(typename string) *ActionInstance {
-	uid := fmt.Sprintf("%s:%s", typename, uuid.New())
+type ActionInstanceConfig interface {
+	GenerateUid() string
+}
+
+func NewActionInstance(typename string, config ActionInstanceConfig) *ActionInstance {
+	ActionUid := fmt.Sprintf("%s:%s", typename ,config.GenerateUid())
 	return &ActionInstance{
 		ActionName: typename,
-		ActionUid:  uid,
+		ActionUid: ActionUid,
 		Parameters: parameter.NewStore(),
-		Inputs:     io.NewStore[io.Input](uid),
+		Inputs:     io.NewStore[io.Input](ActionUid),
 	}
 }

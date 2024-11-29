@@ -2,7 +2,6 @@ package executable
 
 import (
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/instance"
 	"testing"
 )
 
@@ -15,7 +14,7 @@ func TestNewAction(t *testing.T) {
 	acn := NewAction[testAction](def)
 	t.Run("test new action", func(t *testing.T) {
 		if acn.Instance == nil {
-			t.Errorf("invalid action instance: expected %v got %v", instance.NewActionInstance(def.Name), acn)
+			t.Errorf("invalid action: instance expected but got nil")
 		}
 	})
 }
