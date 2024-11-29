@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestGenerateUid(t *testing.T){
+func TestGenerateUid(t *testing.T) {
 	config := NewInstanceConfig()
 	t.Run("default config", func(t *testing.T) {
 		if config.GenerateUid() == "" {

@@ -18,10 +18,10 @@ type ActionInstanceConfig interface {
 }
 
 func NewActionInstance(typename string, config ActionInstanceConfig) *ActionInstance {
-	ActionUid := fmt.Sprintf("%s:%s", typename ,config.GenerateUid())
+	ActionUid := fmt.Sprintf("%s:%s", typename, config.GenerateUid())
 	return &ActionInstance{
 		ActionName: typename,
-		ActionUid: ActionUid,
+		ActionUid:  ActionUid,
 		Parameters: parameter.NewStore(),
 		Inputs:     io.NewStore[io.Input](ActionUid),
 	}

@@ -6,7 +6,8 @@ import (
 	"testing"
 )
 
-type cnfg struct {}
+type cnfg struct{}
+
 func (c *cnfg) GenerateUid() string {
 	return "uid"
 }
@@ -18,7 +19,7 @@ func TestNewActionInstance(t *testing.T) {
 	})
 }
 
-func TestMarshalEmptyInstance(t *testing.T){
+func TestMarshalEmptyInstance(t *testing.T) {
 	instance := NewActionInstance("someName", &cnfg{})
 	mashalled, _ := json.Marshal(instance)
 	t.Run("empty instance", func(t *testing.T) {
