@@ -7,9 +7,9 @@ import (
 )
 
 type ModelInstance struct {
-	ActionName string              `json:"name"`
-	ActionUid  string              `json:"uid"`
-	Parameters *parameter.Store    `json:"parameters"`
+	ActionName string                `json:"name"`
+	ActionUid  string                `json:"uid"`
+	Parameters *parameter.Store      `json:"parameters"`
 	Inputs     *io.IOStore[io.Input] `json:"inputs"`
 }
 

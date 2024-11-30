@@ -6,12 +6,12 @@ import (
 )
 
 type ResourceStore[T any] struct {
-	resources map[string] *T
+	resources map[string]*T
 }
 
 func NewResourceStore[T any]() *ResourceStore[T] {
 	return &ResourceStore[T]{
-		resources: make(map[string] *T),
+		resources: make(map[string]*T),
 	}
 }
 
