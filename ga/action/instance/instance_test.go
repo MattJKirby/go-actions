@@ -27,7 +27,7 @@ func TestMarshalEmptyInstance(t *testing.T) {
 	})
 }
 
-func TestUnmarshalInstance(t *testing.T){
+func TestUnmarshalInstance(t *testing.T) {
 	instance := NewActionInstance("someName", &cnfg{})
 	marshalled := `{"name":"otherName","uid":"otherUid","parameters":{},"inputs":{}}`
 
