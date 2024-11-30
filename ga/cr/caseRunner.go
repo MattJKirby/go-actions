@@ -28,6 +28,7 @@ func CaseRunner[input any, expected any](t *testing.T, cases []TestCase[input, e
 
 // Can't test error paths without mocking testing.T which is a bitch without another lib.
 func EasyCaseRunner[in any, expect any](t *testing.T, cases []TestCase[in, expect], fn func(test TestCase[in, expect]) (expect, error)) {
+	t.Helper()
 	CaseRunner(t, cases, func(test TestCase[in, expect]) {
 		actual, err := fn(test)
 
