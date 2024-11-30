@@ -1,7 +1,6 @@
 package parameter
 
 import (
-	"encoding/json"
 	"go-actions/ga/action/model/resources"
 )
 
@@ -13,14 +12,6 @@ func NewStore() *Store {
 	return &Store{
 		resources.NewResourceStore[any](),
 	}
-}
-
-func (s *Store) MarshalJSON() ([]byte, error) {
-	return json.Marshal(s.ResourceStore)
-}
-
-func (s *Store) UnmarshalJSON(data []byte) error {
-	return s.ResourceStore.UnmarshalJSON(data)
 }
 
 func GetOrDefault[T any](name string, defaultValue T) func(*Store) *ActionParameter[T] {
