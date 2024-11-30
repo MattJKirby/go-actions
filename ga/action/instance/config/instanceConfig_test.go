@@ -7,10 +7,7 @@ import (
 
 func TestGenerateUid(t *testing.T) {
 	config := NewInstanceConfig()
-	t.Run("default config", func(t *testing.T) {
-		if config.GenerateUid() == "" {
-			t.Errorf("uuidGenerator can't be empty string")
-		}
+	t.Run("default config uid", func(t *testing.T) {
 		asserts.Equals(t, 36, len(config.GenerateUid()))
 	})
 }

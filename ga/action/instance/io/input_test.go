@@ -17,15 +17,13 @@ func TestNewInput(t *testing.T) {
 	})
 }
 
-func TestGetOrDefault(t *testing.T) {
+func TestGetOrDefaultInput(t *testing.T) {
 	store := NewStore[Input]("uid")
+	expected := newInput("name", "uid")
 
 	t.Run("test default", func(t *testing.T) {
-		expected := newInput("name", "uid")
 		input := GetOrDefaultInput("name")(store)
-
 		asserts.Equals(t, expected, input)
-
 	})
 }
 

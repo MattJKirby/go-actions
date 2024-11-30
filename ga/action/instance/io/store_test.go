@@ -8,31 +8,30 @@ import (
 	"testing"
 )
 
-func TestNewStore(t *testing.T) {
+func TestStoreGetOrDefault(t *testing.T) {
 	store := NewStore[Input]("uid")
+	expectedInput := newInput("name", "uid")
 
 	t.Run("test default", func(t *testing.T) {
-		expected := newInput("name", "uid")
 		input := store.GetOrDefault("name", newInput)
-		asserts.Equals(t, expected, input)
+		asserts.Equals(t, expectedInput, input)
 	})
 }
 
 func TestMarshalStore(t *testing.T) {
 	store := NewStore[Input]("uid")
 	input := store.GetOrDefault("resource1", newInput)
+	marshalledinput, _ := json.Marshal(input)
 
 	t.Run("test marshal", func(t *testing.T) {
-		marshalled, _ := json.Marshal(store)
-		marshalledinput, _ := json.Marshal(input)
-		expected := fmt.Sprintf(`{"resource1":%s}`, marshalledinput)
-
-		asserts.Equals(t, expected, string(marshalled))
+		marshalled, err := json.Marshal(store)
+		asserts.Equals(t, err, nil)
+		asserts.Equals(t, fmt.Sprintf(`{"resource1":%s}`, marshalledinput), string(marshalled))
 	})
 }
 
 func TestUnmarshalStore(t *testing.T) {
-	tests := []cr.TestCase[string, any]{
+	tests := []cr.TestCase[string, int]{
 		{Name: "valid", Input: `{"input":{"name":"input","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: false},
 		{Name: "valid no ref", Input: `{"input":{"name":"input","id":"id","output":null}}`, Error: false},
 		{Name: "invalid key", Input: `{"inputx":{"name":"input","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: true},
@@ -40,15 +39,12 @@ func TestUnmarshalStore(t *testing.T) {
 		{Name: "bad json", Input: `true`, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[string, any]) {
+	cr.CaseRunner(t, tests, func(test cr.TestCase[string, int]) {
 		store := NewStore[Input]("uid")
 		store.GetOrDefault("input", newInput)
 		err := json.Unmarshal([]byte(test.Input), store)
 
 		hasErr := err != nil
-		if test.Error != hasErr {
-			t.Errorf("error unmarshalling store: got %v", err)
-		}
-
+		asserts.Equals(t, test.Error, hasErr)
 	})
 }
