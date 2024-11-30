@@ -1,4 +1,4 @@
-package store
+package resources
 
 import (
 	"encoding/json"
@@ -32,14 +32,14 @@ func (rs *ResourceStore[T]) MarshalJSON() ([]byte, error) {
 }
 
 func (rs *ResourceStore[T]) UnmarshalJSON(data []byte) error {
-	rawInputs := make(map[string]json.RawMessage)
-	if err := json.Unmarshal(data, &rawInputs); err != nil {
+	rawResources := make(map[string]json.RawMessage)
+	if err := json.Unmarshal(data, &rawResources); err != nil {
 		return err
 	}
 
-	for name, raw := range rawInputs {
+	for name, raw := range rawResources {
 		if _, exists := rs.resources[name]; !exists {
-			return fmt.Errorf("error unmashalling resource: resource '%s' does not exist", name)
+			return fmt.Errorf("error unmashalling: resource '%s' does not exist", name)
 		}
 
 		if err := json.Unmarshal(raw, rs.resources[name]); err != nil {

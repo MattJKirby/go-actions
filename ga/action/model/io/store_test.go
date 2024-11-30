@@ -36,7 +36,8 @@ func TestUnmarshalStore(t *testing.T) {
 		{Name: "valid no ref", Input: `{"input":{"name":"input","id":"id","output":null}}`, Error: false},
 		{Name: "invalid key", Input: `{"inputx":{"name":"input","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: true},
 		{Name: "invalid name", Input: `{"input":{"name":"inputx","id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: true},
-		{Name: "bad json", Input: `true`, Error: true},
+		{Name: "bad store json ", Input: `true`, Error: true},
+		{Name: "bad resource json", Input: `{"input":{"name":true,"id":"id","output":{"actionUid":"","resourceName":""}}}`, Error: true},
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[string, int]) {
@@ -45,6 +46,7 @@ func TestUnmarshalStore(t *testing.T) {
 		err := json.Unmarshal([]byte(test.Input), store)
 
 		hasErr := err != nil
+		fmt.Println(err)
 		asserts.Equals(t, test.Error, hasErr)
 	})
 }
