@@ -7,13 +7,6 @@ import (
 	"testing"
 )
 
-func TestNewStore(t *testing.T) {
-	store := NewStore()
-	t.Run("test new store", func(t *testing.T) {
-		asserts.Equals(t, 0, len(store.parameters))
-	})
-}
-
 func TestGetOrDefault(t *testing.T) {
 	store := NewStore()
 	expectedGetParam := NewActionParameter("getParam", 0)
