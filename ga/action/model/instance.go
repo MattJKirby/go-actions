@@ -1,9 +1,9 @@
-package instance
+package model
 
 import (
 	"fmt"
-	"go-actions/ga/action/instance/io"
-	"go-actions/ga/action/instance/parameter"
+	"go-actions/ga/action/model/io"
+	"go-actions/ga/action/model/parameter"
 )
 
 type ActionInstance struct {

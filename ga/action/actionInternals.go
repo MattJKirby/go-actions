@@ -1,16 +1,16 @@
 package action
 
 import (
-	"go-actions/ga/action/instance"
-	"go-actions/ga/action/instance/config"
+	"go-actions/ga/action/model"
+	"go-actions/ga/action/model/config"
 )
 
 type GoActionInternals struct {
-	*instance.ActionInstance
+	*model.ActionInstance
 }
 
 func NewGoActionInternals(actionName string) GoActionInternals {
 	return GoActionInternals{
-		ActionInstance: instance.NewActionInstance(actionName, config.NewInstanceConfig()),
+		ActionInstance: model.NewActionInstance(actionName, config.NewInstanceConfig()),
 	}
 }

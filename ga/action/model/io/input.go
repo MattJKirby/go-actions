@@ -3,7 +3,7 @@ package io
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/action/instance/io/reference"
+	"go-actions/ga/action/model/io/reference"
 )
 
 type Input struct {

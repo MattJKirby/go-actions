@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/instance"
+	"go-actions/ga/action/model"
 )
 
 type Action[T action.GoAction] struct {
 	Definition *definition.ActionDefinition
-	Instance   *instance.ActionInstance
+	Instance   *model.ActionInstance
 }
 
 func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {

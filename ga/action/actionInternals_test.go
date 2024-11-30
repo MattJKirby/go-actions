@@ -1,16 +1,16 @@
 package action
 
 import (
-	"go-actions/ga/action/instance"
-	"go-actions/ga/action/instance/config"
-	"go-actions/ga/action/instance/io"
+	"go-actions/ga/action/model"
+	"go-actions/ga/action/model/config"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
 
 func TestNewGoActionInternals(t *testing.T) {
 	internals := NewGoActionInternals("test")
-	expectedInstance := instance.NewActionInstance("test", &config.InstanceConfig{})
+	expectedInstance := model.NewActionInstance("test", &config.InstanceConfig{})
 	expectedInstance.ActionUid = internals.ActionUid
 	expectedInstance.Inputs = io.NewStore[io.Input](internals.ActionUid)
 
