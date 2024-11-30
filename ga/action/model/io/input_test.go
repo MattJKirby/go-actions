@@ -18,7 +18,7 @@ func TestNewInput(t *testing.T) {
 }
 
 func TestGetOrDefaultInput(t *testing.T) {
-	store := NewStore[Input]("uid")
+	store := NewIOStore[Input]("uid")
 	expected := newInput("name", "uid")
 
 	t.Run("test default", func(t *testing.T) {

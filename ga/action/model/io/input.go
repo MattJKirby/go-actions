@@ -41,8 +41,8 @@ func (i *Input) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func GetOrDefaultInput(name string) func(*Store[Input]) *Input {
-	return func(s *Store[Input]) *Input {
+func GetOrDefaultInput(name string) func(*IOStore[Input]) *Input {
+	return func(s *IOStore[Input]) *Input {
 		return s.GetOrDefault(name, newInput)
 	}
 }

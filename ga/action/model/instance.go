@@ -10,7 +10,7 @@ type ModelInstance struct {
 	ActionName string              `json:"name"`
 	ActionUid  string              `json:"uid"`
 	Parameters *parameter.Store    `json:"parameters"`
-	Inputs     *io.Store[io.Input] `json:"inputs"`
+	Inputs     *io.IOStore[io.Input] `json:"inputs"`
 }
 
 type ModelInstanceConfig interface {
@@ -23,6 +23,6 @@ func NewModelInstance(typename string, config ModelInstanceConfig) *ModelInstanc
 		ActionName: typename,
 		ActionUid:  ActionUid,
 		Parameters: parameter.NewStore(),
-		Inputs:     io.NewStore[io.Input](ActionUid),
+		Inputs:     io.NewIOStore[io.Input](ActionUid),
 	}
 }
