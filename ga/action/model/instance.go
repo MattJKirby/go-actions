@@ -6,20 +6,20 @@ import (
 	"go-actions/ga/action/model/parameter"
 )
 
-type ActionInstance struct {
+type ModelInstance struct {
 	ActionName string              `json:"name"`
 	ActionUid  string              `json:"uid"`
 	Parameters *parameter.Store    `json:"parameters"`
 	Inputs     *io.Store[io.Input] `json:"inputs"`
 }
 
-type ActionInstanceConfig interface {
+type ModelInstanceConfig interface {
 	GenerateUid() string
 }
 
-func NewActionInstance(typename string, config ActionInstanceConfig) *ActionInstance {
+func NewModelInstance(typename string, config ModelInstanceConfig) *ModelInstance {
 	ActionUid := fmt.Sprintf("%s:%s", typename, config.GenerateUid())
-	return &ActionInstance{
+	return &ModelInstance{
 		ActionName: typename,
 		ActionUid:  ActionUid,
 		Parameters: parameter.NewStore(),

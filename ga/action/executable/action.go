@@ -9,7 +9,7 @@ import (
 
 type Action[T action.GoAction] struct {
 	Definition *definition.ActionDefinition
-	Instance   *model.ActionInstance
+	Instance   *model.ModelInstance
 }
 
 func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
@@ -17,7 +17,7 @@ func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Acti
 
 	return &Action[T]{
 		Definition: definition,
-		Instance:   internals.ActionInstance,
+		Instance:   internals.ModelInstance,
 	}
 }
 
@@ -28,6 +28,6 @@ func (a *Action[T]) GetDef() *T {
 	}
 
 	return def(action.GoActionInternals{
-		ActionInstance: a.Instance,
+		ModelInstance: a.Instance,
 	})
 }

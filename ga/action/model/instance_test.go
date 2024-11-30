@@ -12,15 +12,15 @@ func (c *cnfg) GenerateUid() string {
 	return "uid"
 }
 
-func TestNewActionInstance(t *testing.T) {
-	instance := NewActionInstance("someName", &cnfg{})
-	t.Run("test new instance", func(t *testing.T) {
+func TestNewModelInstance(t *testing.T) {
+	instance := NewModelInstance("someName", &cnfg{})
+	t.Run("test new model", func(t *testing.T) {
 		asserts.Equals(t, "someName:uid", instance.ActionUid)
 	})
 }
 
-func TestMarshalEmptyInstance(t *testing.T) {
-	instance := NewActionInstance("someName", &cnfg{})
+func TestMarshalEmptyModel(t *testing.T) {
+	instance := NewModelInstance("someName", &cnfg{})
 	mashalled, _ := json.Marshal(instance)
 	t.Run("empty instance", func(t *testing.T) {
 		asserts.Equals(t, `{"name":"someName","uid":"someName:uid","parameters":{},"inputs":{}}`, string(mashalled))
@@ -28,7 +28,7 @@ func TestMarshalEmptyInstance(t *testing.T) {
 }
 
 func TestUnmarshalInstance(t *testing.T) {
-	instance := NewActionInstance("someName", &cnfg{})
+	instance := NewModelInstance("someName", &cnfg{})
 	marshalled := `{"name":"otherName","uid":"otherUid","parameters":{},"inputs":{}}`
 
 	t.Run("test unmarsh", func(t *testing.T) {
