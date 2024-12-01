@@ -6,11 +6,11 @@ import (
 )
 
 type GoActionInternals struct {
-	*model.ModelInstance
+	*model.ActionModel
 }
 
 func NewGoActionInternals(actionName string) GoActionInternals {
 	return GoActionInternals{
-		ModelInstance: model.NewModelInstance(actionName, config.NewInstanceConfig()),
+		ActionModel: model.NewActionModel(actionName, config.NewModelConfig()),
 	}
 }

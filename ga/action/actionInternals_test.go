@@ -10,9 +10,9 @@ import (
 
 func TestNewGoActionInternals(t *testing.T) {
 	internals := NewGoActionInternals("test")
-	expectedInstance := model.NewModelInstance("test", &config.InstanceConfig{})
+	expectedInstance := model.NewActionModel("test", &config.ModelConfig{})
 	expectedInstance.ActionUid = internals.ActionUid
 	expectedInstance.Inputs = io.NewIOStore[io.Input](internals.ActionUid)
 
-	asserts.Equals(t, expectedInstance, internals.ModelInstance)
+	asserts.Equals(t, expectedInstance, internals.ActionModel)
 }

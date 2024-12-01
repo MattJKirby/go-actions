@@ -6,7 +6,7 @@ import (
 )
 
 func TestGenerateUid(t *testing.T) {
-	config := NewInstanceConfig()
+	config := NewModelConfig()
 
 	asserts.Equals(t, 36, len(config.GenerateUid()))
 }
