@@ -20,6 +20,24 @@ func TestAdd(t *testing.T) {
 	asserts.Equals(t, 1, len(store.resources))
 }
 
+func TestGet(t *testing.T) {
+	store := NewResourceStore[testResource]()
+	resource := &testResource{}
+	store.Add("r", resource)
+	
+	t.Run("test valid", func(t *testing.T) {
+		val, err := store.Get("r")
+		asserts.Equals(t, err, nil)
+		asserts.Equals(t, resource, val)
+	})
+
+	t.Run("test invalid", func(t *testing.T) {
+		val, err := store.Get("x")
+		asserts.Equals(t, true, err != nil)
+		asserts.Equals(t, nil, val)
+	})
+}
+
 func TestGetOrDefault(t *testing.T) {
 	resource := &testResource{"r", "v"}
 

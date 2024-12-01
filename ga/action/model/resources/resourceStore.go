@@ -19,6 +19,13 @@ func (rs *ResourceStore[T]) Add(name string, resource *T) {
 	rs.resources[name] = resource
 }
 
+func (rs *ResourceStore[T]) Get(name string) (*T, error) {
+	if resource, exists := rs.resources[name]; exists {
+		return resource, nil
+	}
+	return nil, fmt.Errorf("could not retrieve resource '%s'", name)
+}
+
 func (rs *ResourceStore[T]) GetOrDefault(name string, resource *T) *T {
 	_, exists := rs.resources[name]
 	if !exists {
