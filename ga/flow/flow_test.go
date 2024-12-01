@@ -22,7 +22,7 @@ func TestInitFlow(t *testing.T) {
 type testAction struct{}
 
 func (ta testAction) Execute() {}
-func testActionCtor(action.GoActionInternals) *testAction {
+func testActionCtor(action.ActionInstance) *testAction {
 	return &testAction{}
 }
 

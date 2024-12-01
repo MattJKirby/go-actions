@@ -18,7 +18,7 @@ type ExampleAction struct {
 	Input            *io.Input
 }
 
-func NewExampleAction(action action.GoActionInternals) *ExampleAction {
+func NewExampleAction(action action.ActionInstance) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: parameter.GetOrDefault("intParam", 10)(action.Parameters),
 		StringParameter:  parameter.GetOrDefault("strParam", "test")(action.Parameters),

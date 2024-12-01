@@ -13,7 +13,7 @@ type Action[T action.GoAction] struct {
 }
 
 func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
-	internals := action.NewGoActionInternals(definition.Name)
+	internals := action.NewActionInstance(definition.Name)
 
 	return &Action[T]{
 		Definition: definition,
@@ -27,7 +27,7 @@ func (a *Action[T]) GetDef() *T {
 		fmt.Println("ERRRR")
 	}
 
-	return def(action.GoActionInternals{
+	return def(action.ActionInstance{
 		ActionModel: a.Instance,
 	})
 }

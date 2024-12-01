@@ -5,12 +5,12 @@ import (
 	"go-actions/ga/action/model/config"
 )
 
-type GoActionInternals struct {
+type ActionInstance struct {
 	*model.ActionModel
 }
 
-func NewGoActionInternals(actionName string) GoActionInternals {
-	return GoActionInternals{
+func NewActionInstance(actionName string) ActionInstance {
+	return ActionInstance{
 		ActionModel: model.NewActionModel(actionName, config.NewModelConfig()),
 	}
 }

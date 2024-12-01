@@ -12,7 +12,7 @@ type myAction struct{}
 
 func (ma myAction) Execute() {}
 
-var newMyAction action.GoActionConstructor[myAction] = func(action.GoActionInternals) *myAction {
+var newMyAction action.GoActionConstructor[myAction] = func(action.ActionInstance) *myAction {
 	return &myAction{}
 }
 

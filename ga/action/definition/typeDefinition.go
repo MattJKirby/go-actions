@@ -44,7 +44,7 @@ func TypeDefinitionFromConstructor[T action.GoAction](defCtor action.GoActionCon
 }
 
 func TypeDefinitionFromStruct[T action.GoAction](def T) *ActionTypeDefinition {
-	var ctor action.GoActionConstructor[T] = func(action.GoActionInternals) *T { return &def }
+	var ctor action.GoActionConstructor[T] = func(action.ActionInstance) *T { return &def }
 
 	vAction := reflect.ValueOf(&def)
 	tAction := reflect.TypeOf(def)
