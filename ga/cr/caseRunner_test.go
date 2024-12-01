@@ -15,11 +15,9 @@ func TestCaseDefaults(t *testing.T) {
 		Error:       false,
 	}
 
-	t.Run("case defaults", func(t *testing.T) {
-		if defaultTestCase != exepcted {
-			t.Errorf("expected %v, got %v", exepcted, defaultTestCase)
-		}
-	})
+	if defaultTestCase != exepcted {
+		t.Errorf("expected %v, got %v", exepcted, defaultTestCase)
+	}
 }
 
 func exampleIsEven(n int) bool {

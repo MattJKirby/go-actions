@@ -25,23 +25,19 @@ func TestActionTypeDefinitionValues(t *testing.T) {
 	expectedCtorType := reflect.TypeOf(newMyAction)
 	defCtor, _ := NewTypeDefinition[myAction](newMyAction)
 
-	t.Run("test def attrs from constructor", func(t *testing.T) {
-		asserts.Equals(t, expectedType, defCtor.ActionType)
-		asserts.Equals(t, expectedValue, defCtor.ActionValue)
-		asserts.Equals(t, expectedCtor, defCtor.CtorValue.Pointer())
-		asserts.Equals(t, expectedCtorType, defCtor.CtorType)
-	})
+	asserts.Equals(t, expectedType, defCtor.ActionType)
+	asserts.Equals(t, expectedValue, defCtor.ActionValue)
+	asserts.Equals(t, expectedCtor, defCtor.CtorValue.Pointer())
+	asserts.Equals(t, expectedCtorType, defCtor.CtorType)
 }
 
 func TestConstructorStructParity(t *testing.T) {
 	defCtor := TypeDefinitionFromConstructor(newMyAction)
 	defStruct := TypeDefinitionFromStruct(myAction{})
 
-	t.Run("test def attrs from constructor", func(t *testing.T) {
-		asserts.Equals(t, defCtor.ActionType, defStruct.ActionType)
-		asserts.Equals(t, defCtor.ActionValue, defStruct.ActionValue)
-		asserts.Equals(t, defCtor.CtorType, defStruct.CtorType)
-	})
+	asserts.Equals(t, defCtor.ActionType, defStruct.ActionType)
+	asserts.Equals(t, defCtor.ActionValue, defStruct.ActionValue)
+	asserts.Equals(t, defCtor.CtorType, defStruct.CtorType)
 }
 
 func TestNewActionTypeDefiniton(t *testing.T) {
@@ -49,17 +45,15 @@ func TestNewActionTypeDefiniton(t *testing.T) {
 	defStruct, structErr := NewTypeDefinition[myAction](myAction{})
 	defInvalid, invalidErr := NewTypeDefinition[myAction](invalidAction{})
 
-	t.Run("assert correct type", func(t *testing.T) {
-		if defCtor == nil || ctorErr != nil {
-			t.Errorf("error generating Type Def from constructor: expected %v, got %v", nil, ctorErr)
-		}
+	if defCtor == nil || ctorErr != nil {
+		t.Errorf("error generating Type Def from constructor: expected %v, got %v", nil, ctorErr)
+	}
 
-		if defStruct == nil || structErr != nil {
-			t.Errorf("error generating Type Def from struct: expected %v, got %v", nil, structErr)
-		}
+	if defStruct == nil || structErr != nil {
+		t.Errorf("error generating Type Def from struct: expected %v, got %v", nil, structErr)
+	}
 
-		if defInvalid != nil || invalidErr == nil {
-			t.Errorf("error generating Type Def from invalid: expected err, got %v", nil)
-		}
-	})
+	if defInvalid != nil || invalidErr == nil {
+		t.Errorf("error generating Type Def from invalid: expected err, got %v", nil)
+	}
 }

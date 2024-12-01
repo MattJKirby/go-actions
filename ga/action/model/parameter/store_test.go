@@ -29,14 +29,11 @@ func TestCustomMarshal(t *testing.T) {
 	GetOrDefault("param", 0)(store)
 	expectedJson := `{"param":{"name":"param","value":0}}`
 
-	t.Run("test custom json marshal", func(t *testing.T) {
-		marshalled, _ := json.Marshal(store)
-		asserts.Equals(t, expectedJson, string(marshalled))
-	})
+	marshalled, _ := json.Marshal(store)
+	asserts.Equals(t, expectedJson, string(marshalled))
 }
 
 func TestCustomUnmarshal(t *testing.T) {
-
 	tests := []cr.TestCase[string, int]{
 		{Name: "test valid input", Input: `{"param":{"name":"param","value":100}}`, Expected: 100, Error: false},
 		{Name: "test bad input", Input: "0", Expected: 0, Error: true},

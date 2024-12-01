@@ -15,10 +15,9 @@ type testResource struct {
 
 func TestAdd(t *testing.T) {
 	store := NewResourceStore[testResource]()
-	t.Run("add resource", func(t *testing.T) {
-		store.Add("r", &testResource{})
-		asserts.Equals(t, 1, len(store.resources))
-	})
+	
+	store.Add("r", &testResource{})
+	asserts.Equals(t, 1, len(store.resources))
 }
 
 func TestGetOrDefault(t *testing.T) {
@@ -44,12 +43,10 @@ func TestCustomMarshalling(t *testing.T) {
 	marshalledResource, _ := json.Marshal(resource)
 	store.Add("r", resource)
 
-	t.Run("custom mashalling", func(t *testing.T) {
-		expected := fmt.Sprintf(`{"r":%s}`, string(marshalledResource))
-		marshalledStore, err := json.Marshal(store)
-		asserts.Equals(t, nil, err)
-		asserts.Equals(t, []byte(expected), marshalledStore)
-	})
+	expected := fmt.Sprintf(`{"r":%s}`, string(marshalledResource))
+	marshalledStore, err := json.Marshal(store)
+	asserts.Equals(t, nil, err)
+	asserts.Equals(t, []byte(expected), marshalledStore)
 }
 
 func TestCustomUnmarshalling(t *testing.T) {

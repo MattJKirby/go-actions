@@ -32,18 +32,15 @@ func TestMarshalParameter(t *testing.T) {
 	parameter := NewActionParameter("parameterName", "defaultVal")
 	expectedMarshalResult := `{"name":"parameterName","value":"defaultVal"}`
 
-	t.Run("test custom parameter marshalling", func(t *testing.T) {
-		marshalled, err := json.Marshal(parameter)
-		if err != nil {
-			t.Errorf("error marshalling parameter: got %v", err)
-		}
+	marshalled, err := json.Marshal(parameter)
+	if err != nil {
+		t.Errorf("error marshalling parameter: got %v", err)
+	}
 
-		asserts.Equals(t, expectedMarshalResult, string(marshalled))
-	})
+	asserts.Equals(t, expectedMarshalResult, string(marshalled))
 }
 
 func TestUnmarshalParameter(t *testing.T) {
-
 	tests := []cr.TestCase[string, string]{
 		{Name: "unmarshal valid marshalled input", Input: `{"Name":"parameterName","Value":"changedVal"}`, Expected: "changedVal", Error: false},
 		{Name: "unmarshal invalid marshalled input (bad name)", Input: `{"Name":"badName","Value":"changedVal"}`, Expected: "defaultVal", Error: true},

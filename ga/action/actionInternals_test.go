@@ -14,7 +14,5 @@ func TestNewGoActionInternals(t *testing.T) {
 	expectedInstance.ActionUid = internals.ActionUid
 	expectedInstance.Inputs = io.NewIOStore[io.Input](internals.ActionUid)
 
-	t.Run("test create new internals", func(t *testing.T) {
-		asserts.Equals(t, expectedInstance, internals.ModelInstance)
-	})
+	asserts.Equals(t, expectedInstance, internals.ModelInstance)
 }

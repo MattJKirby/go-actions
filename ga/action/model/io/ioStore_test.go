@@ -23,11 +23,9 @@ func TestMarshalStore(t *testing.T) {
 	input := store.GetOrDefault("resource1", newInput)
 	marshalledinput, _ := json.Marshal(input)
 
-	t.Run("test marshal", func(t *testing.T) {
-		marshalled, err := json.Marshal(store)
-		asserts.Equals(t, err, nil)
-		asserts.Equals(t, fmt.Sprintf(`{"resource1":%s}`, marshalledinput), string(marshalled))
-	})
+	marshalled, err := json.Marshal(store)
+	asserts.Equals(t, err, nil)
+	asserts.Equals(t, fmt.Sprintf(`{"resource1":%s}`, marshalledinput), string(marshalled))
 }
 
 func TestUnmarshalStore(t *testing.T) {

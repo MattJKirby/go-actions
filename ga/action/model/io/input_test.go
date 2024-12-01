@@ -11,30 +11,24 @@ import (
 func TestNewInput(t *testing.T) {
 	input := newInput("name", "actionUid")
 
-	t.Run("test new input", func(t *testing.T) {
-		asserts.Equals(t, "name", input.Name)
-		asserts.Equals(t, "actionUid__Input:name", input.Id)
-	})
+	asserts.Equals(t, "name", input.Name)
+	asserts.Equals(t, "actionUid__Input:name", input.Id)
 }
 
 func TestGetOrDefaultInput(t *testing.T) {
 	store := NewIOStore[Input]("uid")
 	expected := newInput("name", "uid")
 
-	t.Run("test default", func(t *testing.T) {
-		input := GetOrDefaultInput("name")(store)
-		asserts.Equals(t, expected, input)
-	})
+	input := GetOrDefaultInput("name")(store)
+	asserts.Equals(t, expected, input)
 }
 
 func TestAssignOutput(t *testing.T) {
 	input := newInput("name", "actionUid")
 	outputRef := reference.NewOutputReference("otherAction", "res")
 
-	t.Run("assign output", func(t *testing.T) {
-		input.AssignOutput(outputRef)
-		asserts.Equals(t, outputRef, input.OutputReference)
-	})
+	input.AssignOutput(outputRef)
+	asserts.Equals(t, outputRef, input.OutputReference)
 }
 
 func TestMarshalling(t *testing.T) {
