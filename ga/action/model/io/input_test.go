@@ -9,22 +9,14 @@ import (
 )
 
 func TestNewInput(t *testing.T) {
-	input := newInput("name", "actionUid")
+	input := NewInput("name", "actionUid")
 
 	asserts.Equals(t, "name", input.Name)
 	asserts.Equals(t, "actionUid__Input:name", input.Id)
 }
 
-func TestGetOrDefaultInput(t *testing.T) {
-	store := NewIOStore[Input]("uid")
-	expected := newInput("name", "uid")
-
-	input := GetOrDefaultInput("name")(store)
-	asserts.Equals(t, expected, input)
-}
-
 func TestAssignOutput(t *testing.T) {
-	input := newInput("name", "actionUid")
+	input := NewInput("name", "actionUid")
 	outputRef := reference.NewOutputReference("otherAction", "res")
 
 	input.AssignOutput(outputRef)
@@ -32,7 +24,7 @@ func TestAssignOutput(t *testing.T) {
 }
 
 func TestMarshalling(t *testing.T) {
-	input := newInput("i", "u")
+	input := NewInput("i", "u")
 	ref := reference.NewOutputReference("a", "o")
 	marshalledRef, _ := json.Marshal(ref)
 
@@ -50,13 +42,13 @@ func TestMarshalling(t *testing.T) {
 }
 
 func TestUnmarshalling(t *testing.T) {
-	input := newInput("i", "u")
+	input := NewInput("i", "u")
 	ref := reference.NewOutputReference("a", "o")
 	input.AssignOutput(ref)
 	marshalled, _ := json.Marshal(input)
 
 	t.Run("test valid unmarshalling", func(t *testing.T) {
-		newInput := newInput("i", "")
+		newInput := NewInput("i", "")
 		json.Unmarshal(marshalled, newInput)
 
 		asserts.Equals(t, input.Id, newInput.Id)
@@ -66,7 +58,7 @@ func TestUnmarshalling(t *testing.T) {
 	})
 
 	t.Run("test invalid unmarshalling", func(t *testing.T) {
-		newInput := newInput("badName", "")
+		newInput := NewInput("badName", "")
 		err := json.Unmarshal(marshalled, newInput)
 		if err == nil {
 			t.Errorf("expected err but got %v", nil)

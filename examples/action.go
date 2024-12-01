@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-actions/ga"
 	"go-actions/ga/action"
+	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 )
@@ -18,11 +19,11 @@ type ExampleAction struct {
 	Input            *io.Input
 }
 
-func NewExampleAction(action action.ActionInstance) *ExampleAction {
+func NewExampleAction(instance action.ActionInstance) *ExampleAction {
 	return &ExampleAction{
-		IntegerParameter: parameter.GetOrDefault("intParam", 10)(action.Parameters),
-		StringParameter:  parameter.GetOrDefault("strParam", "test")(action.Parameters),
-		Input:            io.GetOrDefaultInput("test")(action.Inputs),
+		IntegerParameter: model.Parameter("intParam", 10)(instance.ActionModel),
+		StringParameter:  model.Parameter("strParam", "test")(instance.ActionModel),
+		Input:            model.Input("test")(instance.ActionModel),
 	}
 }
 

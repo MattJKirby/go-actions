@@ -10,7 +10,7 @@ type ActionModel struct {
 	ActionName string                `json:"name"`
 	ActionUid  string                `json:"uid"`
 	Parameters *parameter.Store      `json:"parameters"`
-	Inputs     *io.IOStore[io.Input] `json:"inputs"`
+	Inputs     *io.Store[io.Input] `json:"inputs"`
 }
 
 type ActionModelConfig interface {
@@ -23,6 +23,23 @@ func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
 		ActionName: typename,
 		ActionUid:  ActionUid,
 		Parameters: parameter.NewStore(),
-		Inputs:     io.NewIOStore[io.Input](ActionUid),
+		Inputs:     io.NewStore[io.Input](ActionUid),
 	}
 }
+
+
+func Parameter[T any](name string, defaultValue T) func(*ActionModel) *parameter.ActionParameter[T] {
+	return func(m *ActionModel) *parameter.ActionParameter[T] {
+		defaultAsAny := any(parameter.NewActionParameter(name, defaultValue))
+		got := m.Parameters.GetOrDefault(name, &defaultAsAny)
+		return (*got).(*parameter.ActionParameter[T])
+	}
+}
+
+func Input(name string) func(*ActionModel) *io.Input {
+	return func(m *ActionModel) *io.Input {
+		defaultInput := io.NewInput(name, m.ActionUid)
+		return m.Inputs.GetOrDefault(name, defaultInput)
+	}
+}
+

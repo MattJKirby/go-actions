@@ -12,7 +12,7 @@ type Input struct {
 	OutputReference *reference.OutputReference `json:"output"`
 }
 
-func newInput(name string, actionUid string) *Input {
+func NewInput(name string, actionUid string) *Input {
 	id := fmt.Sprintf("%s__Input:%s", actionUid, name)
 	return &Input{
 		name,
@@ -39,10 +39,4 @@ func (i *Input) UnmarshalJSON(data []byte) error {
 
 	*i = Input(temp)
 	return nil
-}
-
-func GetOrDefaultInput(name string) func(*IOStore[Input]) *Input {
-	return func(s *IOStore[Input]) *Input {
-		return s.GetOrDefault(name, newInput)
-	}
 }

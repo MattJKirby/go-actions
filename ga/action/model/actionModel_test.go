@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -34,4 +35,22 @@ func TestUnmarshalmodel(t *testing.T) {
 	asserts.Equals(t, err, nil)
 	asserts.Equals(t, model.ActionName, "otherName")
 	asserts.Equals(t, model.ActionUid, "otherUid")
+}
+
+func TestParameter(t *testing.T) {
+	model := NewActionModel("modelName", &mockConfig{"uid"})
+	expected := Parameter("paramName", 0)(model)
+
+	param, err := model.Parameters.Get("paramName") 
+	asserts.Equals(t, nil, err)
+	asserts.Equals(t, expected, any(*param).(*parameter.ActionParameter[int]))
+}
+
+func TestInput(t *testing.T) {
+	model := NewActionModel("modelName", &mockConfig{"uid"})
+	expected := Input("inputName")(model)
+
+	input, err := model.Inputs.Get("inputName")
+	asserts.Equals(t, nil, err)
+	asserts.Equals(t, expected, input)
 }
