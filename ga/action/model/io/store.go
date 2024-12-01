@@ -5,13 +5,11 @@ import (
 )
 
 type Store[T any] struct {
-	actionUid string
 	*resources.ResourceStore[T]
 }
 
-func NewStore[T any](actionUid string) *Store[T] {
+func NewStore[T any]() *Store[T] {
 	return &Store[T]{
-		actionUid,
 		resources.NewResourceStore[T](),
 	}
 }

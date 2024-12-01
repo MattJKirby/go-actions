@@ -23,7 +23,7 @@ func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
 		ActionName: typename,
 		ActionUid:  ActionUid,
 		Parameters: parameter.NewStore(),
-		Inputs:     io.NewStore[io.Input](ActionUid),
+		Inputs:     io.NewStore[io.Input](),
 	}
 }
 

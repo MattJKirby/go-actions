@@ -12,7 +12,7 @@ func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test")
 	model := model.NewActionModel("test", &config.ModelConfig{})
 	model.ActionUid = instance.ActionUid
-	model.Inputs = io.NewStore[io.Input](instance.ActionUid)
+	model.Inputs = io.NewStore[io.Input]()
 
 	asserts.Equals(t, model, instance.ActionModel)
 }

@@ -9,7 +9,7 @@ import (
 )
 
 func TestStoreGetOrDefault(t *testing.T) {
-	store := NewStore[Input]("uid")
+	store := NewStore[Input]()
 	expectedInput := NewInput("name", "uid")
 
 	t.Run("test default", func(t *testing.T) {
@@ -19,7 +19,7 @@ func TestStoreGetOrDefault(t *testing.T) {
 }
 
 func TestMarshalStore(t *testing.T) {
-	store := NewStore[Input]("uid")
+	store := NewStore[Input]()
 	input := store.GetOrDefault("resource1", NewInput("name", "uid"))
 	marshalledinput, _ := json.Marshal(input)
 
@@ -39,7 +39,7 @@ func TestUnmarshalStore(t *testing.T) {
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[string, int]) {
-		store := NewStore[Input]("uid")
+		store := NewStore[Input]()
 		store.GetOrDefault("input", NewInput("input", "uid"))
 		err := json.Unmarshal([]byte(test.Input), store)
 
