@@ -7,16 +7,17 @@ import (
 	"testing"
 )
 
-type mockConfig struct{
+type mockConfig struct {
 	uid string
 }
+
 func (mc mockConfig) GenerateUid() string {
 	return mc.uid
 }
 
 func TestNewModelInstance(t *testing.T) {
 	model := NewActionModel("someName", &mockConfig{"uid"})
-	
+
 	asserts.Equals(t, "someName:uid", model.ActionUid)
 }
 
@@ -41,7 +42,7 @@ func TestParameter(t *testing.T) {
 	model := NewActionModel("modelName", &mockConfig{"uid"})
 	expected := Parameter("paramName", 0)(model)
 
-	param, err := model.Parameters.Get("paramName") 
+	param, err := model.Parameters.Get("paramName")
 	asserts.Equals(t, nil, err)
 	asserts.Equals(t, expected, any(*param).(*parameter.ActionParameter[int]))
 }

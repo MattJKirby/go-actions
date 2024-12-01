@@ -15,7 +15,7 @@ type testResource struct {
 
 func TestAdd(t *testing.T) {
 	store := NewResourceStore[testResource]()
-	
+
 	store.Add("r", &testResource{})
 	asserts.Equals(t, 1, len(store.resources))
 }
@@ -24,7 +24,7 @@ func TestGet(t *testing.T) {
 	store := NewResourceStore[testResource]()
 	resource := &testResource{}
 	store.Add("r", resource)
-	
+
 	t.Run("test valid", func(t *testing.T) {
 		val, err := store.Get("r")
 		asserts.Equals(t, err, nil)

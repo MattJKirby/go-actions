@@ -7,9 +7,9 @@ import (
 )
 
 type ActionModel struct {
-	ActionName string                `json:"name"`
-	ActionUid  string                `json:"uid"`
-	Parameters *parameter.Store      `json:"parameters"`
+	ActionName string              `json:"name"`
+	ActionUid  string              `json:"uid"`
+	Parameters *parameter.Store    `json:"parameters"`
 	Inputs     *io.Store[io.Input] `json:"inputs"`
 }
 
@@ -27,7 +27,6 @@ func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
 	}
 }
 
-
 func Parameter[T any](name string, defaultValue T) func(*ActionModel) *parameter.ActionParameter[T] {
 	return func(m *ActionModel) *parameter.ActionParameter[T] {
 		defaultAsAny := any(parameter.NewActionParameter(name, defaultValue))
@@ -42,4 +41,3 @@ func Input(name string) func(*ActionModel) *io.Input {
 		return m.Inputs.GetOrDefault(name, defaultInput)
 	}
 }
-

@@ -13,4 +13,3 @@ func NewStore() *Store {
 		resources.NewResourceStore[any](),
 	}
 }
-
