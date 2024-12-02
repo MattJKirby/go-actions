@@ -49,7 +49,7 @@ func TestParameter(t *testing.T) {
 
 func TestInput(t *testing.T) {
 	model := NewActionModel("modelName", &mockConfig{"uid"})
-	expected := Input("inputName")(model)
+	expected := Input("inputName", false)(model)
 
 	input, err := model.Inputs.Get("inputName")
 	asserts.Equals(t, nil, err)

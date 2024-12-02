@@ -14,6 +14,6 @@ func main() {
 	fmt.Println(action)
 
 	action.GetDef()
-	marshalledInstance,_ := json.Marshal(action.Instance)
+	marshalledInstance, _ := json.Marshal(action.Instance)
 	fmt.Println(string(marshalledInstance))
 }

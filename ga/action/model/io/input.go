@@ -10,14 +10,16 @@ type Input struct {
 	Name            string                     `json:"name"`
 	Id              string                     `json:"id"`
 	OutputReference *reference.OutputReference `json:"output"`
+	required        bool
 }
 
-func NewInput(name string, actionUid string) *Input {
+func NewInput(name string, actionUid string, required bool) *Input {
 	id := fmt.Sprintf("%s__Input:%s", actionUid, name)
 	return &Input{
 		name,
 		id,
 		nil,
+		required,
 	}
 }
 

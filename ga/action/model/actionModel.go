@@ -35,9 +35,9 @@ func Parameter[T any](name string, defaultValue T) func(*ActionModel) *parameter
 	}
 }
 
-func Input(name string) func(*ActionModel) *io.Input {
+func Input(name string, required bool) func(*ActionModel) *io.Input {
 	return func(m *ActionModel) *io.Input {
-		defaultInput := io.NewInput(name, m.ActionUid)
+		defaultInput := io.NewInput(name, m.ActionUid, required)
 		return m.Inputs.GetOrDefault(name, defaultInput)
 	}
 }

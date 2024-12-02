@@ -23,7 +23,7 @@ func NewExampleAction(instance action.ActionInstance) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: model.Parameter("intParam", 10)(instance.ActionModel),
 		StringParameter:  model.Parameter("strParam", "test")(instance.ActionModel),
-		Input:            model.Input("test")(instance.ActionModel),
+		Input:            model.Input("test", true)(instance.ActionModel),
 	}
 }
 
