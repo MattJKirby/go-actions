@@ -23,3 +23,13 @@ func NewOutputReference(ActionUid string, outputName string) *OutputReference {
 		actionReference: *newReference(ActionUid, outputName, "output"),
 	}
 }
+
+type InputReference struct {
+	actionReference
+}
+
+func NewInputReference(ActionUid string, outputName string) *OutputReference {
+	return &OutputReference{
+		actionReference: *newReference(ActionUid, outputName, "input"),
+	}
+}
