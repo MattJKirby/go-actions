@@ -28,8 +28,8 @@ type InputReference struct {
 	actionReference
 }
 
-func NewInputReference(ActionUid string, outputName string) *OutputReference {
-	return &OutputReference{
+func NewInputReference(ActionUid string, outputName string) *InputReference {
+	return &InputReference{
 		actionReference: *newReference(ActionUid, outputName, "input"),
 	}
 }
