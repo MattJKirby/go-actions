@@ -1,6 +1,7 @@
 package io
 
 import (
+	"encoding/json"
 	"go-actions/ga/action/model/io/reference"
 	"go-actions/ga/cr/asserts"
 	"testing"
@@ -20,4 +21,13 @@ func TestAssignInputRef(t *testing.T) {
 	output.AssignInputReference(inputRef)
 	asserts.Equals(t, 1, len(output.InputReferences))
 	asserts.Equals(t, inputRef, output.InputReferences[0])
+}
+
+func TestMarshal(t *testing.T) {
+	output := NewActionOutput("o", "uid")
+	t.Run("no inputs", func(t *testing.T) {
+		marshalled, err := json.Marshal(output)
+		asserts.Equals(t, nil, err)
+		asserts.Equals(t, `{"name":"o","id":"uid__Output:o","inputs":[]}`, string(marshalled))
+	})
 }

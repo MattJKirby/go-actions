@@ -6,9 +6,9 @@ import (
 )
 
 type ActionOutput struct {
-	Name string
-	Id string
-	InputReferences []*reference.InputReference
+	Name            string                      `json:"name"`
+	Id              string                      `json:"id"`
+	InputReferences []*reference.InputReference `json:"inputs"`
 }
 
 func NewActionOutput(name string, actionUid string) *ActionOutput {
@@ -21,6 +21,6 @@ func NewActionOutput(name string, actionUid string) *ActionOutput {
 	}
 }
 
-func (ao *ActionOutput) AssignInputReference(ref *reference.InputReference){
+func (ao *ActionOutput) AssignInputReference(ref *reference.InputReference) {
 	ao.InputReferences = append(ao.InputReferences, ref)
 }
