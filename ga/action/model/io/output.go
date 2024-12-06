@@ -1,6 +1,7 @@
 package io
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-actions/ga/action/model/io/reference"
 )
@@ -23,4 +24,20 @@ func NewActionOutput(name string, actionUid string) *ActionOutput {
 
 func (ao *ActionOutput) AssignInputReference(ref *reference.InputReference) {
 	ao.InputReferences = append(ao.InputReferences, ref)
+}
+
+func (ao *ActionOutput) UnmarshalJSON(data []byte) (error) {
+	type alias ActionOutput
+	var temp alias
+
+	if err := json.Unmarshal(data, &temp); err != nil {
+		return err
+	}
+
+	if temp.Name != ao.Name {
+		return fmt.Errorf("name mismatch: got '%s', expected '%s'", temp.Name, ao.Name)
+	}
+
+	*ao = ActionOutput(temp)
+	return nil
 }

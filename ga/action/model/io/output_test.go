@@ -43,3 +43,28 @@ func TestMarshal(t *testing.T) {
 		asserts.Equals(t, expected, string(marshalledOutput))
 	})
 }
+
+func TestUnmarshal(t *testing.T){
+	output := NewActionOutput("o", "uid")
+	inputRef := reference.NewInputReference("uid", "input")
+	output.AssignInputReference(inputRef)
+
+	t.Run("valid with inputs", func(t *testing.T) {
+		marshalled, _ := json.Marshal(output)
+		newOutput := NewActionOutput("o", "uid")
+		json.Unmarshal(marshalled, newOutput)
+
+		asserts.Equals(t, output.Name, newOutput.Name)
+		asserts.Equals(t, output.Id, newOutput.Id)
+		asserts.Equals(t, len(output.InputReferences), len(newOutput.InputReferences))
+	})
+
+	t.Run("invalid", func(t *testing.T) {
+		marshalled, _ := json.Marshal(output)
+		newOutput := NewActionOutput("badName", "uid")
+		err := json.Unmarshal(marshalled, newOutput)
+		if err == nil {
+			t.Errorf("expected err but got %v", nil)
+		}
+	})
+}
