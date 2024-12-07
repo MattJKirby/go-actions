@@ -27,8 +27,7 @@ func (rs *ResourceStore[T]) Get(name string) (*T, error) {
 }
 
 func (rs *ResourceStore[T]) GetOrDefault(name string, resource *T) *T {
-	_, exists := rs.resources[name]
-	if !exists {
+	if _, exists := rs.resources[name]; !exists {
 		rs.resources[name] = resource
 	}
 	return rs.resources[name]
