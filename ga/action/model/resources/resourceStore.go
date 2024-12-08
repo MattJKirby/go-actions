@@ -5,6 +5,11 @@ import (
 	"fmt"
 )
 
+type marshalledResource[T any] struct {
+	Id string `json:"id"`
+	Resource *T `json:"resource"`
+} 
+
 type ResourceStore[T any] struct {
 	resources map[string]*T
 }
@@ -34,21 +39,26 @@ func (rs *ResourceStore[T]) GetOrDefault(name string, resource *T) *T {
 }
 
 func (rs *ResourceStore[T]) MarshalJSON() ([]byte, error) {
-	return json.Marshal(rs.resources)
+	resourceList := make([]marshalledResource[T], 0, len(rs.resources))
+	for name, res := range rs.resources {
+		resourceList = append(resourceList, marshalledResource[T]{name, res})
+	}
+	
+	return json.Marshal(resourceList)
 }
 
 func (rs *ResourceStore[T]) UnmarshalJSON(data []byte) error {
-	rawResources := make(map[string]json.RawMessage)
+	rawResources := make([]marshalledResource[json.RawMessage], 0, len(rs.resources))
 	if err := json.Unmarshal(data, &rawResources); err != nil {
 		return err
 	}
 
-	for name, raw := range rawResources {
-		if _, exists := rs.resources[name]; !exists {
-			return fmt.Errorf("error unmashalling: resource '%s' does not exist", name)
+	for _, raw := range rawResources {
+		if _, exists := rs.resources[raw.Id]; !exists {
+			return fmt.Errorf("error unmashalling: resource with identifier '%s' does not exist", raw.Id)
 		}
 
-		if err := json.Unmarshal(raw, rs.resources[name]); err != nil {
+		if err := json.Unmarshal(*raw.Resource, rs.resources[raw.Id]); err != nil {
 			return err
 		}
 	}

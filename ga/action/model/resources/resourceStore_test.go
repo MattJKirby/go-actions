@@ -61,7 +61,7 @@ func TestCustomMarshalling(t *testing.T) {
 	marshalledResource, _ := json.Marshal(resource)
 	store.Add("r", resource)
 
-	expected := fmt.Sprintf(`{"r":%s}`, string(marshalledResource))
+	expected := fmt.Sprintf(`[{"id":"r","resource":%s}]`, string(marshalledResource))
 	marshalledStore, err := json.Marshal(store)
 	asserts.Equals(t, nil, err)
 	asserts.Equals(t, []byte(expected), marshalledStore)
@@ -73,17 +73,19 @@ func TestCustomUnmarshalling(t *testing.T) {
 	store.Add("r", existingResource)
 
 	tests := []cr.TestCase[string, *testResource]{
-		{Name: "valid json, existing resource", Input: `{"r":{"name":"a","value":"b"}}`, Expected: &testResource{"a", "b"}, Error: false},
-		{Name: "valid json, non-existing resource", Input: `{"x":{"name":"x","value":"v"}}`, Expected: existingResource, Error: true},
-		{Name: "wrong json", Input: `{"r":{"asdf":"x","ghjk":"v"}}`, Expected: existingResource, Error: false},
-		{Name: "invalid resource json", Input: `{"r":true}`, Expected: existingResource, Error: true},
+		{Name: "valid json, existing resource", Input: `[{"id":"r","resource":{"name":"a","value":"b"}}]`, Expected: &testResource{"a", "b"}, Error: false},
+		{Name: "valid json, non-existing resource", Input: `[{"id":"x","resource":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
+		{Name: "wrong resource json", Input: `[{"idx":"r","resx":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
+		{Name: "wrong resource value json", Input: `[{"id":"r","resource":{"namex":"a","valuex":"b"}}]`, Expected: existingResource, Error: false},
+		{Name: "invalid resource json", Input: `[{"id":0,"resource":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
+		{Name: "invalid resource value json", Input: `[{"id":"r","resource":{"name":0,"value":0}}]`, Expected: existingResource, Error: true},
 		{Name: "invalid store json", Input: `true`, Expected: existingResource, Error: true},
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[string, *testResource]) {
 		err := json.Unmarshal([]byte(test.Input), store)
 		hasErr := err != nil
-		fmt.Println(err)
+		// fmt.Println(err)
 
 		asserts.Equals(t, test.Error, hasErr)
 		asserts.Equals(t, store.resources["r"], test.Expected)
