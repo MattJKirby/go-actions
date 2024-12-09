@@ -7,7 +7,7 @@ import (
 
 type marshalledResource[T any] struct {
 	Id string `json:"id"`
-	Resource *T `json:"resource"`
+	Resource *T `json:"attributes"`
 } 
 
 type ResourceStore[T any] struct {
