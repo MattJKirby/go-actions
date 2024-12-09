@@ -68,13 +68,13 @@ func TestCustomMarshalling(t *testing.T) {
 }
 
 func TestCustomUnmarshalling(t *testing.T) {
-	store := NewResourceStore[testResource]()
+
 	existingResource := &testResource{"r", "v"}
-	store.Add("r", existingResource)
+
 
 	tests := []cr.TestCase[string, *testResource]{
 		{Name: "valid json, existing resource", Input: `[{"id":"r","attributes":{"name":"a","value":"b"}}]`, Expected: &testResource{"a", "b"}, Error: false},
-		{Name: "valid json, non-existing resource", Input: `[{"id":"x","attributes":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
+		{Name: "valid json, non-existing resource id", Input: `[{"id":"x","attributes":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
 		{Name: "wrong resource json", Input: `[{"idx":"r","resx":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
 		{Name: "wrong resource value json", Input: `[{"id":"r","attributes":{"namex":"a","valuex":"b"}}]`, Expected: existingResource, Error: false}, // this should err true
 		{Name: "invalid resource json", Input: `[{"id":0,"attributes":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
@@ -83,6 +83,9 @@ func TestCustomUnmarshalling(t *testing.T) {
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[string, *testResource]) {
+		store := NewResourceStore[testResource]()
+		store.Add("r", existingResource)
+
 		err := json.Unmarshal([]byte(test.Input), store)
 		hasErr := err != nil
 		// fmt.Println(err)
