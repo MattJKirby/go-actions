@@ -17,13 +17,15 @@ type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *io.Input
+	Output           *io.ActionOutput
 }
 
 func NewExampleAction(instance action.ActionInstance) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: model.Parameter("intParam", 10)(instance.ActionModel),
 		StringParameter:  model.Parameter("strParam", "test")(instance.ActionModel),
-		Input:            model.Input("test", true)(instance.ActionModel),
+		Input:            model.Input("input", true)(instance.ActionModel),
+		Output:           model.Output("output")(instance.ActionModel),
 	}
 }
 
