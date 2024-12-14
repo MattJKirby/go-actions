@@ -32,9 +32,9 @@ func (rs *ResourceStore[T]) Get(name string) (*T, error) {
 	return nil, fmt.Errorf("could not retrieve resource '%s'", name)
 }
 
-func (rs *ResourceStore[T]) GetOrDefault(name string, resource *T) *T {
+func (rs *ResourceStore[T]) GetOrDefault(name string, resourceFn func() *T) *T {
 	if _, exists := rs.resources[name]; !exists {
-		rs.resources[name] = resource
+		rs.resources[name] = resourceFn()
 	}
 	return rs.resources[name]
 }

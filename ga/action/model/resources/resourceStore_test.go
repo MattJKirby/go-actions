@@ -44,13 +44,17 @@ func TestGetOrDefault(t *testing.T) {
 	t.Run("test get path", func(t *testing.T) {
 		store := NewResourceStore[testResource]()
 		store.Add(resource.Name, resource)
-		retrieved := store.GetOrDefault(resource.Name, &testResource{"r", "v"})
+		retrieved := store.GetOrDefault(resource.Name, func() *testResource {
+			return &testResource{"r", "v"}
+		})
 		asserts.Equals(t, resource, retrieved)
 	})
 
 	t.Run("test default path", func(t *testing.T) {
 		store := NewResourceStore[testResource]()
-		retrieved := store.GetOrDefault("someResource", &testResource{"r", "v"})
+		retrieved := store.GetOrDefault("someResource", func() *testResource {
+			return &testResource{"r", "v"}
+		})
 		asserts.Equals(t, resource, retrieved)
 	})
 }
