@@ -7,11 +7,11 @@ import (
 )
 
 type ActionModel struct {
-	ActionName string                     `json:"name"`
-	ActionUid  string                     `json:"uid"`
-	Parameters *parameter.Store           `json:"parameters"`
-	Inputs     *io.Store[io.Input]        `json:"inputs"`
-	Outputs    *io.Store[io.ActionOutput] `json:"outputs"`
+	ActionName string               `json:"name"`
+	ActionUid  string               `json:"uid"`
+	Parameters *parameter.Store     `json:"parameters"`
+	Inputs     *io.Store[io.Input]  `json:"inputs"`
+	Outputs    *io.Store[io.Output] `json:"outputs"`
 }
 
 type ActionModelConfig interface {
@@ -25,7 +25,7 @@ func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
 		ActionUid:  ActionUid,
 		Parameters: parameter.NewStore(),
 		Inputs:     io.NewStore[io.Input](),
-		Outputs:    io.NewStore[io.ActionOutput](),
+		Outputs:    io.NewStore[io.Output](),
 	}
 }
 
@@ -44,8 +44,8 @@ func Input(name string, required bool) func(*ActionModel) *io.Input {
 	}
 }
 
-func Output(name string) func(*ActionModel) *io.ActionOutput {
-	return func(m *ActionModel) *io.ActionOutput {
+func Output(name string) func(*ActionModel) *io.Output {
+	return func(m *ActionModel) *io.Output {
 		defaultOutput := io.NewActionOutput(name, m.ActionName)
 		return m.Outputs.GetOrDefault(name, defaultOutput)
 	}

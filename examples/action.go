@@ -17,7 +17,7 @@ type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *io.Input
-	Output           *io.ActionOutput
+	Output           *io.Output
 }
 
 func NewExampleAction(instance action.ActionInstance) *ExampleAction {

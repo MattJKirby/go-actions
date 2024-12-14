@@ -6,28 +6,28 @@ import (
 	"go-actions/ga/utils/marshalling"
 )
 
-type ActionOutput struct {
+type Output struct {
 	Name            string                      `json:"name"`
 	Id              string                      `json:"id"`
 	InputReferences []*reference.InputReference `json:"inputs"`
 }
 
-func NewActionOutput(name string, actionUid string) *ActionOutput {
+func NewActionOutput(name string, actionUid string) *Output {
 	id := fmt.Sprintf("%s__Output:%s", actionUid, name)
 	inputReferences := []*reference.InputReference{}
-	return &ActionOutput{
+	return &Output{
 		name,
 		id,
 		inputReferences,
 	}
 }
 
-func (ao *ActionOutput) AssignInputReference(ref *reference.InputReference) {
+func (ao *Output) AssignInputReference(ref *reference.InputReference) {
 	ao.InputReferences = append(ao.InputReferences, ref)
 }
 
-func (ao *ActionOutput) UnmarshalJSON(data []byte) error {
-	type alias ActionOutput
+func (ao *Output) UnmarshalJSON(data []byte) error {
+	type alias Output
 	var temp alias
 
 	if _, err := marshalling.StrictDecode(data, &temp); err != nil {
@@ -38,6 +38,6 @@ func (ao *ActionOutput) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("name mismatch: got '%s', expected '%s'", temp.Name, ao.Name)
 	}
 
-	*ao = ActionOutput(temp)
+	*ao = Output(temp)
 	return nil
 }
