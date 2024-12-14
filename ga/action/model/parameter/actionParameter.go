@@ -3,6 +3,7 @@ package parameter
 import (
 	"encoding/json"
 	"fmt"
+	"go-actions/ga/utils/marshalling"
 )
 
 type Parameter interface {
@@ -51,7 +52,7 @@ func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 
 func (ap *ActionParameter[T]) UnmarshalJSON(data []byte) error {
 	var marshalled marshalledActionParameter[T]
-	if err := json.Unmarshal(data, &marshalled); err != nil {
+	if _, err := marshalling.StrictDecode(data, &marshalled); err != nil {
 		return err
 	}
 

@@ -1,9 +1,9 @@
 package io
 
 import (
-	"encoding/json"
 	"fmt"
 	"go-actions/ga/action/model/io/reference"
+	"go-actions/ga/utils/marshalling"
 )
 
 type Input struct {
@@ -31,7 +31,7 @@ func (i *Input) UnmarshalJSON(data []byte) error {
 	type alias Input
 	var temp alias
 
-	if err := json.Unmarshal(data, &temp); err != nil {
+	if _,err := marshalling.StrictDecode(data, &temp); err != nil {
 		return err
 	}
 

@@ -3,6 +3,7 @@ package resources
 import (
 	"encoding/json"
 	"fmt"
+	"go-actions/ga/utils/marshalling"
 )
 
 type marshalledResource[T any] struct {
@@ -49,7 +50,7 @@ func (rs *ResourceStore[T]) MarshalJSON() ([]byte, error) {
 
 func (rs *ResourceStore[T]) UnmarshalJSON(data []byte) error {
 	rawResources := make([]marshalledResource[json.RawMessage], 0, len(rs.resources))
-	if err := json.Unmarshal(data, &rawResources); err != nil {
+	if _, err := marshalling.StrictDecode(data, &rawResources); err != nil {
 		return err
 	}
 
@@ -58,7 +59,7 @@ func (rs *ResourceStore[T]) UnmarshalJSON(data []byte) error {
 			return fmt.Errorf("error unmashalling: resource with identifier '%s' does not exist", raw.Id)
 		}
 
-		if err := json.Unmarshal(*raw.Resource, rs.resources[raw.Id]); err != nil {
+		if _,err := marshalling.StrictDecode(*raw.Resource, rs.resources[raw.Id]); err != nil {
 			return err
 		}
 	}

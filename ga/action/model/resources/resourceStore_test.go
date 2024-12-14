@@ -76,7 +76,7 @@ func TestCustomUnmarshalling(t *testing.T) {
 		{Name: "valid json, existing resource", Input: `[{"id":"r","attributes":{"name":"a","value":"b"}}]`, Expected: &testResource{"a", "b"}, Error: false},
 		{Name: "valid json, non-existing resource id", Input: `[{"id":"x","attributes":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
 		{Name: "wrong resource json", Input: `[{"idx":"r","resx":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
-		{Name: "wrong resource value json", Input: `[{"id":"r","attributes":{"namex":"a","valuex":"b"}}]`, Expected: existingResource, Error: false}, // this should err true
+		{Name: "wrong resource value json", Input: `[{"id":"r","attributes":{"namex":"a","valuex":"b"}}]`, Expected: existingResource, Error: true},
 		{Name: "invalid resource json", Input: `[{"id":0,"attributes":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},
 		{Name: "invalid resource value json", Input: `[{"id":"r","attributes":{"name":0,"value":0}}]`, Expected: existingResource, Error: true},
 		{Name: "invalid store json", Input: `true`, Expected: existingResource, Error: true},
