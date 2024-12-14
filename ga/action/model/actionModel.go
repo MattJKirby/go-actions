@@ -10,7 +10,7 @@ import (
 type ActionModel struct {
 	ActionName string                              `json:"name"`
 	ActionUid  string                              `json:"uid"`
-	Parameters *parameter.Store                    `json:"parameters"`
+	Parameters *resources.ResourceStore[any]       `json:"parameters"`
 	Inputs     *resources.ResourceStore[io.Input]  `json:"inputs"`
 	Outputs    *resources.ResourceStore[io.Output] `json:"outputs"`
 }
@@ -24,7 +24,7 @@ func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
 	return &ActionModel{
 		ActionName: typename,
 		ActionUid:  ActionUid,
-		Parameters: parameter.NewStore(),
+		Parameters: resources.NewResourceStore[any](),
 		Inputs:     resources.NewResourceStore[io.Input](),
 		Outputs:    resources.NewResourceStore[io.Output](),
 	}
