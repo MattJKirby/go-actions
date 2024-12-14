@@ -7,9 +7,9 @@ import (
 )
 
 type marshalledResource[T any] struct {
-	Id string `json:"id"`
-	Resource *T `json:"attributes"`
-} 
+	Id       string `json:"id"`
+	Resource *T     `json:"attributes"`
+}
 
 type ResourceStore[T any] struct {
 	resources map[string]*T
@@ -44,7 +44,7 @@ func (rs *ResourceStore[T]) MarshalJSON() ([]byte, error) {
 	for name, res := range rs.resources {
 		resourceList = append(resourceList, marshalledResource[T]{name, res})
 	}
-	
+
 	return json.Marshal(resourceList)
 }
 
@@ -59,7 +59,7 @@ func (rs *ResourceStore[T]) UnmarshalJSON(data []byte) error {
 			return fmt.Errorf("error unmashalling: resource with identifier '%s' does not exist", raw.Id)
 		}
 
-		if _,err := marshalling.StrictDecode(*raw.Resource, rs.resources[raw.Id]); err != nil {
+		if _, err := marshalling.StrictDecode(*raw.Resource, rs.resources[raw.Id]); err != nil {
 			return err
 		}
 	}

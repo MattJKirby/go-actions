@@ -26,7 +26,7 @@ func (ao *ActionOutput) AssignInputReference(ref *reference.InputReference) {
 	ao.InputReferences = append(ao.InputReferences, ref)
 }
 
-func (ao *ActionOutput) UnmarshalJSON(data []byte) (error) {
+func (ao *ActionOutput) UnmarshalJSON(data []byte) error {
 	type alias ActionOutput
 	var temp alias
 

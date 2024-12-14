@@ -13,7 +13,7 @@ func TestStrictDecode(t *testing.T) {
 	}
 
 	tests := []cr.TestCase[string, *decodeType]{
-		{Name: "valid", Input: `{"A":"atest","B":"btest"}`, Expected: &decodeType{"atest","btest"}, Error: false},
+		{Name: "valid", Input: `{"A":"atest","B":"btest"}`, Expected: &decodeType{"atest", "btest"}, Error: false},
 		{Name: "unexpected value", Input: `{"A":"","B":"","C":"ctest"}`, Expected: &decodeType{}, Error: true},
 	}
 

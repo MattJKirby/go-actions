@@ -44,7 +44,7 @@ func TestMarshal(t *testing.T) {
 	})
 }
 
-func TestUnmarshal(t *testing.T){
+func TestUnmarshal(t *testing.T) {
 	output := NewActionOutput("o", "uid")
 	inputRef := reference.NewInputReference("uid", "input")
 	output.AssignInputReference(inputRef)

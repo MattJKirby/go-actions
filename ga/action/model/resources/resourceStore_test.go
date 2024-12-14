@@ -71,7 +71,6 @@ func TestCustomUnmarshalling(t *testing.T) {
 
 	existingResource := &testResource{"r", "v"}
 
-
 	tests := []cr.TestCase[string, *testResource]{
 		{Name: "valid json, existing resource", Input: `[{"id":"r","attributes":{"name":"a","value":"b"}}]`, Expected: &testResource{"a", "b"}, Error: false},
 		{Name: "valid json, non-existing resource id", Input: `[{"id":"x","attributes":{"name":"a","value":"b"}}]`, Expected: existingResource, Error: true},

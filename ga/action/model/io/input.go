@@ -31,7 +31,7 @@ func (i *Input) UnmarshalJSON(data []byte) error {
 	type alias Input
 	var temp alias
 
-	if _,err := marshalling.StrictDecode(data, &temp); err != nil {
+	if _, err := marshalling.StrictDecode(data, &temp); err != nil {
 		return err
 	}
 
