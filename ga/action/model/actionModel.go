@@ -46,7 +46,7 @@ func Input(name string, required bool) func(*ActionModel) *io.Input {
 
 func Output(name string) func(*ActionModel) *io.Output {
 	return func(m *ActionModel) *io.Output {
-		defaultOutput := io.NewActionOutput(name, m.ActionName)
+		defaultOutput := io.NewActionOutput(name, m.ActionUid)
 		return m.Outputs.GetOrDefault(name, defaultOutput)
 	}
 }
