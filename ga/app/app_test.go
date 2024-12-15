@@ -8,7 +8,7 @@ import (
 type myAction struct{}
 
 func (ma myAction) Execute() {}
-func myActionCtor(action.ActionInstance) *myAction {
+func myActionCtor(*action.ActionInstance) *myAction {
 	return &myAction{}
 }
 

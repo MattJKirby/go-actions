@@ -20,7 +20,8 @@ type ExampleAction struct {
 	Output           *io.Output
 }
 
-func NewExampleAction(instance action.ActionInstance) *ExampleAction {
+func NewExampleAction(instance *action.ActionInstance) *ExampleAction {
+	
 	return &ExampleAction{
 		IntegerParameter: model.Parameter("intParam", 10)(instance.ActionModel),
 		StringParameter:  model.Parameter("strParam", "test")(instance.ActionModel),

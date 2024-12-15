@@ -27,7 +27,7 @@ func (a *Action[T]) GetDef() *T {
 		fmt.Println("ERRRR")
 	}
 
-	return def(action.ActionInstance{
+	return def(&action.ActionInstance{
 		ActionModel: a.Instance,
 	})
 }
