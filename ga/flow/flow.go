@@ -22,7 +22,7 @@ func NewAction[T action.GoAction](act *executable.Action[T]) func(*Flow) *execut
 		if ok {
 			fmt.Errorf("could not add action to flow")
 		}
-		f.actions[act.Instance.ActionUid] = a
+		f.actions[act.Instance.Model.ActionUid] = a
 		return act
 	}
 }

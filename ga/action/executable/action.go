@@ -4,20 +4,19 @@ import (
 	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/model"
 )
 
 type Action[T action.GoAction] struct {
 	Definition *definition.ActionDefinition
-	Instance   *model.ActionModel
+	Instance   *action.ActionInstance
 }
 
 func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
-	internals := action.NewActionInstance(definition.Name)
+	instance := action.NewActionInstance(definition.Name)
 
 	return &Action[T]{
 		Definition: definition,
-		Instance:   internals.Model,
+		Instance:   instance,
 	}
 }
 
@@ -28,6 +27,6 @@ func (a *Action[T]) GetDef() *T {
 	}
 
 	return def(&action.ActionInstance{
-		Model: a.Instance,
+		Model: a.Instance.Model,
 	})
 }
