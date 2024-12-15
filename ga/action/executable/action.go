@@ -17,7 +17,7 @@ func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Acti
 
 	return &Action[T]{
 		Definition: definition,
-		Instance:   internals.ActionModel,
+		Instance:   internals.Model,
 	}
 }
 
@@ -28,6 +28,6 @@ func (a *Action[T]) GetDef() *T {
 	}
 
 	return def(&action.ActionInstance{
-		ActionModel: a.Instance,
+		Model: a.Instance,
 	})
 }

@@ -10,7 +10,7 @@ import (
 func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test")
 	model := model.NewActionModel("test", &config.ModelConfig{})
-	model.ActionUid = instance.ActionUid
+	model.ActionUid = instance.Model.ActionUid
 
-	asserts.Equals(t, model, instance.ActionModel)
+	asserts.Equals(t, model, instance.Model)
 }
