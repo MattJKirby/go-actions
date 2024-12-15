@@ -22,7 +22,7 @@ type ExampleAction struct {
 
 func NewExampleAction(instance action.ActionInstance) *ExampleAction {
 	return &ExampleAction{
-		IntegerParameter: model.Parameter("intParam", 10)(instance.ActionModel),
+		IntegerParameter: model.Parameter("intParam", 10)(instance),
 		StringParameter:  model.Parameter("strParam", "test")(instance.ActionModel),
 		Input:            model.Input("input", true)(instance.ActionModel),
 		Output:           model.Output("output")(instance.ActionModel),
