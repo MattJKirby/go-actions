@@ -6,12 +6,6 @@ import (
 	"go-actions/ga/utils/marshalling"
 )
 
-type Parameter interface {
-	Value() any
-	DefaultValue() any
-	SetValue(value any)
-}
-
 type ActionParameter[T any] struct {
 	name         string
 	value        T
