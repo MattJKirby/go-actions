@@ -7,12 +7,12 @@ import (
 )
 
 type Flow struct {
-	actions map[string]executable.Action[action.GoAction]
+	actions map[string]*executable.Action[action.GoAction]
 }
 
 func NewFlow() *Flow {
 	return &Flow{
-		actions: make(map[string]executable.Action[action.GoAction]),
+		actions: make(map[string]*executable.Action[action.GoAction]),
 	}
 }
 
@@ -22,7 +22,7 @@ func NewAction[T action.GoAction](act *executable.Action[T]) func(*Flow) *execut
 		if ok {
 			fmt.Errorf("could not add action to flow")
 		}
-		f.actions[act.Instance.Model.ActionUid] = a
+		f.actions[act.Instance.Model.ActionUid] = &a
 		return act
 	}
 }
