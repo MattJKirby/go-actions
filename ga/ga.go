@@ -11,7 +11,7 @@ import (
 var ga = app.NewApp()
 
 func DefineAction[T action.GoAction](actionConstructor action.GoActionConstructor[T]) *definition.ActionDefinition {
-	return app.RegisterAction(actionConstructor)(ga)
+	return app.DefineAction(actionConstructor)(ga)
 }
 
 func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinition, error) {
@@ -20,6 +20,10 @@ func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinit
 
 func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
 	return app.NewAction[T](a)(ga)
+}
+
+func AddFlowAction[T action.GoAction](a T) func (*flow.Flow) *executable.Action[T] {
+	return flow.AddAction(a)
 }
 
 func NewFlow() *flow.Flow {

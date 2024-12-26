@@ -14,7 +14,7 @@ func myActionCtor(*action.ActionInstance) *myAction {
 
 func TestRegisterActionAndGet(t *testing.T) {
 	app := NewApp()
-	expected := RegisterAction[myAction](myActionCtor)(app)
+	expected := DefineAction[myAction](myActionCtor)(app)
 	result, _ := app.GetActionDef(myAction{})
 
 	if result != expected {
@@ -24,7 +24,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 
 func TestNewActionSuccessful(t *testing.T) {
 	app := NewApp()
-	RegisterAction(myActionCtor)(app)
+	DefineAction(myActionCtor)(app)
 
 	_, err := NewAction[myAction](myAction{})(app)
 	if err != nil {
