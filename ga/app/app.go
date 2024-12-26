@@ -35,7 +35,7 @@ func GetActionDefinition(action action.GoAction) func(*App) (*definition.ActionD
 	}
 }
 
-func NewAction[T action.GoAction](a action.GoAction) func(*App) (*executable.Action[T], error) {
+func GetAction[T action.GoAction](a action.GoAction) func(*App) (*executable.Action[T], error) {
 	return func(app *App) (*executable.Action[T], error) {
 		def, err := GetActionDefinition(a)(app)
 		if err != nil {

@@ -22,20 +22,20 @@ func TestRegisterActionAndGet(t *testing.T) {
 	}
 }
 
-func TestNewActionSuccessful(t *testing.T) {
+func TestGetActionSuccessful(t *testing.T) {
 	app := NewApp()
 	DefineAction(myActionCtor)(app)
 
-	_, err := NewAction[myAction](myAction{})(app)
+	_, err := GetAction[myAction](myAction{})(app)
 	if err != nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
 }
 
-func TestNewActionFail(t *testing.T) {
+func TestGetActionFail(t *testing.T) {
 	app := NewApp()
 
-	_, err := NewAction[myAction](myAction{})(app)
+	_, err := GetAction[myAction](myAction{})(app)
 	if err == nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}

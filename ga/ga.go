@@ -19,7 +19,7 @@ func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinit
 }
 
 func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
-	return app.NewAction[T](a)(ga)
+	return app.GetAction[T](a)(ga)
 }
 
 func AddFlowAction[T action.GoAction](a T) func(*flow.Flow) *executable.Action[T] {
