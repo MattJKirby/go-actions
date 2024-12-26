@@ -28,14 +28,16 @@ func DefineAction[T action.GoAction](ctor action.GoActionConstructor[T]) func(*A
 	}
 }
 
-func (a *App) GetActionDef(action action.GoAction) (*definition.ActionDefinition, error) {
-	actionType := utils.GetValueType(reflect.TypeOf(action))
-	return a.actionDefinitionRegistry.getDefinition(actionType)
+func GetActionDefinition(action action.GoAction) func (*App) (*definition.ActionDefinition, error) {
+	return func(app *App) (*definition.ActionDefinition, error) {
+		actionType := utils.GetValueType(reflect.TypeOf(action))
+		return app.actionDefinitionRegistry.getDefinition(actionType)
+	}
 }
 
 func NewAction[T action.GoAction](a action.GoAction) func(*App) (*executable.Action[T], error) {
 	return func(app *App) (*executable.Action[T], error) {
-		def, err := app.GetActionDef(a)
+		def, err := GetActionDefinition(a)(app)
 		if err != nil {
 			return nil, err
 		}

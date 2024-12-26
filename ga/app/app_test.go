@@ -15,7 +15,7 @@ func myActionCtor(*action.ActionInstance) *myAction {
 func TestRegisterActionAndGet(t *testing.T) {
 	app := NewApp()
 	expected := DefineAction[myAction](myActionCtor)(app)
-	result, _ := app.GetActionDef(myAction{})
+	result, _ := GetActionDefinition(myAction{})(app)
 
 	if result != expected {
 		t.Errorf("Error during registration: expected %v, got %v", expected, result)

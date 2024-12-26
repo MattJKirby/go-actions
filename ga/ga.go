@@ -15,7 +15,7 @@ func DefineAction[T action.GoAction](actionConstructor action.GoActionConstructo
 }
 
 func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinition, error) {
-	return ga.GetActionDef(action)
+	return app.GetActionDefinition(action)(ga)
 }
 
 func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
