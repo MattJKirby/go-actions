@@ -1,6 +1,8 @@
 package flow
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/app"
 	"go-actions/ga/cr/asserts"
@@ -51,8 +53,22 @@ func TestAddAction(t *testing.T) {
 
 			f := NewFlow(a)
 			AddAction(testAction{})(f)
-			asserts.Equals(t, tc.expectedActions, len(f.actions))
+			asserts.Equals(t, tc.expectedActions, len(f.actionInstances))
 		})
 	}
+}
+
+func TestMarshalJSON(t *testing.T) {
+	flowApp := app.NewApp()
+	app.RegisterAction(testActionCtor)(flowApp)
+	flow := NewFlow(flowApp)
+	action := AddAction(testAction{})(flow)
+
+	marshalledActionInstance, _ := json.Marshal(action.Instance)
+	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))
+
+	marshalledFlow, _ := json.Marshal(flow)
+
+	asserts.Equals(t, string(expected), string(marshalledFlow))
 
 }

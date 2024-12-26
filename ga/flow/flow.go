@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"encoding/json"
 	"go-actions/ga/action"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
@@ -8,17 +9,17 @@ import (
 
 type Flow struct {
 	flowApp *app.App
-	actions map[string]*action.ActionInstance
+	actionInstances map[string]*action.ActionInstance
 }
 
-// type marshalledFlow struct {
-// 	Actions []action.ActionInstance `json:"actions"`
-// }
+type marshalledFlow struct {
+	Instances []action.ActionInstance `json:"actions"`
+}
 
 func NewFlow(app *app.App) *Flow {
 	return &Flow{
 		flowApp: app,
-		actions: make(map[string]*action.ActionInstance),
+		actionInstances: make(map[string]*action.ActionInstance),
 	}
 }
 
@@ -29,7 +30,16 @@ func AddAction[T action.GoAction](a T) func(*Flow) *executable.Action[T] {
 			panic("could not retireve action from app")
 		}
 
-		f.actions[act.Instance.Model.ActionUid] = act.Instance
+		f.actionInstances[act.Instance.Model.ActionUid] = act.Instance
 		return act
 	}
+}
+
+func (f *Flow) MarshalJSON() ([]byte, error) {
+	Instances := make([]action.ActionInstance, 0)
+	for _, instance := range f.actionInstances {
+		Instances = append(Instances, *instance)
+	}
+
+	return json.Marshal(marshalledFlow{Instances})
 }
