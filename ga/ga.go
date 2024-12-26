@@ -22,7 +22,7 @@ func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
 	return app.NewAction[T](a)(ga)
 }
 
-func AddFlowAction[T action.GoAction](a T) func (*flow.Flow) *executable.Action[T] {
+func AddFlowAction[T action.GoAction](a T) func(*flow.Flow) *executable.Action[T] {
 	return flow.AddAction(a)
 }
 

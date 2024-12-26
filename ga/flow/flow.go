@@ -8,7 +8,7 @@ import (
 )
 
 type Flow struct {
-	flowApp *app.App
+	flowApp         *app.App
 	actionInstances map[string]*action.ActionInstance
 }
 
@@ -18,7 +18,7 @@ type marshalledFlow struct {
 
 func NewFlow(app *app.App) *Flow {
 	return &Flow{
-		flowApp: app,
+		flowApp:         app,
 		actionInstances: make(map[string]*action.ActionInstance),
 	}
 }

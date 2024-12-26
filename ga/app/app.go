@@ -28,7 +28,7 @@ func DefineAction[T action.GoAction](ctor action.GoActionConstructor[T]) func(*A
 	}
 }
 
-func GetActionDefinition(action action.GoAction) func (*App) (*definition.ActionDefinition, error) {
+func GetActionDefinition(action action.GoAction) func(*App) (*definition.ActionDefinition, error) {
 	return func(app *App) (*definition.ActionDefinition, error) {
 		actionType := utils.GetValueType(reflect.TypeOf(action))
 		return app.actionDefinitionRegistry.getDefinition(actionType)
