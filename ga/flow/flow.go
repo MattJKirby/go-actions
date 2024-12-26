@@ -22,14 +22,14 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func NewAction[T action.GoAction](a T) func(*Flow) *executable.Action[T] {
+func AddAction[T action.GoAction](a T) func(*Flow) *executable.Action[T] {
 	return func(f *Flow) *executable.Action[T] {
-		a, err := app.NewAction[T](a)(f.flowApp)
+		act, err := app.NewAction[T](a)(f.flowApp)
 		if err != nil {
 			panic("could not retireve action from app")
 		}
 
-		f.actions[a.Instance.Model.ActionUid] = a.Instance
-		return a
+		f.actions[act.Instance.Model.ActionUid] = act.Instance
+		return act
 	}
 }

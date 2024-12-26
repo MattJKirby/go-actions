@@ -50,12 +50,8 @@ func TestAddAction(t *testing.T) {
 			}()
 
 			f := NewFlow(a)
-			NewAction(testAction{})(f)
-
-			// Only assert if no panic is expected
-			if !tc.expectPanic {
-				asserts.Equals(t, tc.expectedActions, len(f.actions))
-			}
+			AddAction(testAction{})(f)
+			asserts.Equals(t, tc.expectedActions, len(f.actions))
 		})
 	}
 

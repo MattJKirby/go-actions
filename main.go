@@ -16,8 +16,6 @@ func main() {
 	// marshalledInstance, _ := json.Marshal(action.Instance)
 	// fmt.Println(string(marshalledInstance))
 
-	// f := flow.NewFlow()
-	// flow.NewAction(action)(f)
-	// flow.NewAction(action)(f)
+
 
 }
