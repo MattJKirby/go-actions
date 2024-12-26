@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-actions/examples"
 	"go-actions/ga"
+	"go-actions/ga/flow"
 )
 
 func main() {
@@ -16,6 +17,8 @@ func main() {
 	// marshalledInstance, _ := json.Marshal(action.Instance)
 	// fmt.Println(string(marshalledInstance))
 
-
+	f := ga.NewFlow()
+	exa := flow.AddAction(examples.ExampleAction{})(f)
+	exa.GetDef().Execute()
 
 }
