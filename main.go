@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"go-actions/examples"
 	"go-actions/ga"
@@ -13,7 +12,12 @@ func main() {
 	fmt.Println(definition)
 	fmt.Println(action)
 
-	action.GetDef()
-	marshalledInstance, _ := json.Marshal(action.Instance)
-	fmt.Println(string(marshalledInstance))
+	// action.GetDef()
+	// marshalledInstance, _ := json.Marshal(action.Instance)
+	// fmt.Println(string(marshalledInstance))
+
+	// f := flow.NewFlow()
+	// flow.NewAction(action)(f)
+	// flow.NewAction(action)(f)
+
 }

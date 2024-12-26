@@ -7,18 +7,6 @@ import (
 	"testing"
 )
 
-func TestInitFlow(t *testing.T) {
-	flow := NewFlow()
-
-	if flow == nil {
-		t.Errorf("expected type of %v but got %v", Flow{}, nil)
-	}
-
-	if flow.actions == nil {
-		t.Errorf("error initialising flow actions: expected map but got %v", nil)
-	}
-}
-
 type testAction struct{}
 
 func (ta testAction) Execute() {}
@@ -26,13 +14,49 @@ func testActionCtor(*action.ActionInstance) *testAction {
 	return &testAction{}
 }
 
-func TestNewAction(t *testing.T) {
-	a := app.NewApp()
-	app.RegisterAction(testActionCtor)(a)
-	flow := NewFlow()
-	action, _ := app.NewAction[testAction](testAction{})(a)
-	result := NewAction(action)(flow)
+func TestInitFlow(t *testing.T) {
+	app := app.NewApp()
+	flow := NewFlow(app)
 
-	asserts.Equals(t, 1, len(flow.actions))
-	asserts.Equals(t, action, result)
+	if flow == nil {
+		t.Errorf("expected type of %v but got %v", Flow{}, nil)
+	}
+}
+
+func TestAddAction(t *testing.T) {
+	type test struct {
+		name             string
+		actionRegistered bool
+		expectedActions  int
+		expectPanic      bool
+	}
+
+	cases := []test{
+		{name: "registered action", actionRegistered: true, expectedActions: 1, expectPanic: false},
+		{name: "unregistered action", actionRegistered: false, expectedActions: 0, expectPanic: true},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			a := app.NewApp()
+
+			if tc.actionRegistered {
+				app.RegisterAction(testActionCtor)(a)
+			}
+
+			defer func() {
+				didPanic := recover() != nil
+				asserts.Equals(t, tc.expectPanic, didPanic)
+			}()
+
+			f := NewFlow(a)
+			NewAction(testAction{})(f)
+
+			// Only assert if no panic is expected
+			if !tc.expectPanic {
+				asserts.Equals(t, tc.expectedActions, len(f.actions))
+			}
+		})
+	}
+
 }

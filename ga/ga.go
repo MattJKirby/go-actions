@@ -5,6 +5,7 @@ import (
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
+	"go-actions/ga/flow"
 )
 
 var ga = app.NewApp()
@@ -19,6 +20,10 @@ func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinit
 
 func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
 	return app.NewAction[T](a)(ga)
+}
+
+func NewFlow() *flow.Flow {
+	return flow.NewFlow(ga)
 }
 
 // func GetActionByName(name string)
