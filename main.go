@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	definition, _ := ga.GetActionDefinition(examples.ExampleAction{})
-	action, _ := ga.GetAction(examples.ExampleAction{})
+	definition, _ := ga.GetActionDefinition(examples.ExampleActionConstruct{})
+	action, _ := ga.GetAction(examples.ExampleActionConstruct{})
 	fmt.Println(definition)
 	fmt.Println(action)
 
@@ -17,7 +17,7 @@ func main() {
 	// fmt.Println(string(marshalledInstance))
 
 	flow := ga.NewFlow()
-	exa := ga.NewAction(flow, examples.ExampleAction{})
+	exa := ga.NewAction(flow, examples.ExampleActionConstruct{})
 	
 	
 	exa.GetDef().Execute()

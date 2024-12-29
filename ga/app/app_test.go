@@ -6,15 +6,16 @@ import (
 )
 
 type myAction struct{}
-
 func (ma myAction) Execute() {}
 func myActionCtor(*action.ActionInstance) *myAction {
 	return &myAction{}
 }
 
+var registation = &action.GoActionRegistration[myAction, any]{Constructor: myActionCtor}
+
 func TestRegisterActionAndGet(t *testing.T) {
 	app := NewApp()
-	expected := DefineAction[myAction](myActionCtor)(app)
+	expected := DefineAction(registation)(app)
 	result, _ := GetActionDefinition(myAction{})(app)
 
 	if result != expected {
@@ -24,7 +25,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 
 func TestGetActionSuccessful(t *testing.T) {
 	app := NewApp()
-	DefineAction(myActionCtor)(app)
+	DefineAction(registation)(app)
 
 	_, err := GetAction[myAction](myAction{})(app)
 	if err != nil {

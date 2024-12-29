@@ -10,8 +10,8 @@ import (
 
 var ga = app.NewApp()
 
-func DefineAction[T action.GoAction](actionConstructor action.GoActionConstructor[T]) *definition.ActionDefinition {
-	return app.DefineAction(actionConstructor)(ga)
+func DefineAction[T action.GoAction, Props any](registration *action.GoActionRegistration[T, Props]) *definition.ActionDefinition {
+	return app.DefineAction(registration)(ga)
 }
 
 func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinition, error) {
