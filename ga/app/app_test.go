@@ -15,7 +15,7 @@ var registation = &action.GoActionRegistration[myAction, any]{Constructor: myAct
 
 func TestRegisterActionAndGet(t *testing.T) {
 	app := NewApp()
-	expected := DefineAction(registation)(app)
+	expected := RegisterAction(registation)(app)
 	result, _ := GetActionDefinition(myAction{})(app)
 
 	if result != expected {
@@ -25,7 +25,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 
 func TestGetActionSuccessful(t *testing.T) {
 	app := NewApp()
-	DefineAction(registation)(app)
+	RegisterAction(registation)(app)
 
 	_, err := GetAction[myAction](myAction{})(app)
 	if err != nil {

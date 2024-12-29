@@ -21,7 +21,7 @@ func NewApp() *App {
 	}
 }
 
-func DefineAction[T action.GoAction, Props any](reg *action.GoActionRegistration[T, Props]) func(*App) *definition.ActionDefinition {
+func RegisterAction[T action.GoAction, Props any](reg *action.GoActionRegistration[T, Props]) func(*App) *definition.ActionDefinition {
 	return func(app *App) *definition.ActionDefinition {
 		def, _ := definition.NewActionDefinition(reg.Constructor)
 		return app.actionDefinitionRegistry.acceptDefinition(def)
