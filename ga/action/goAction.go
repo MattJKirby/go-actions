@@ -1,8 +1,8 @@
 package action
 
-type GoActionRegistration[Type GoAction, Props any] struct {
-	Props Props
-	Constructor GoActionConstructor[Type]
+type GoActionRegistration[Action GoAction, Props any] struct {
+	Constructor GoActionConstructor[Action]
+  Props Props
 }
 
 type GoActionConstructor[T GoAction] func(*ActionInstance) *T

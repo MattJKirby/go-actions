@@ -10,13 +10,13 @@ import (
 )
 
 func init() {
-	ga.DefineAction(&action.GoActionRegistration[ExampleActionConstruct, ExampleAction]{
-    Props: ExampleAction{},
-    Constructor: new,
+	ga.DefineAction(&action.GoActionRegistration[ExampleActionConstruct, ExampleActionProps]{
+		Constructor: new,
+    Props: ExampleActionProps{},
   })
 }
 
-type ExampleAction struct {
+type ExampleActionProps struct {
   
 }
 
