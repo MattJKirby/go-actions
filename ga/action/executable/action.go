@@ -9,7 +9,7 @@ import (
 type Action[T action.GoAction, Props any] struct {
 	Definition *definition.ActionDefinition
 	Instance   *action.ActionInstance
-	Action *T
+	Action     *T
 }
 
 func NewAction[T action.GoAction, Props any](definition *definition.ActionDefinition) *Action[T, Props] {

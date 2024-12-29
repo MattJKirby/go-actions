@@ -10,6 +10,7 @@ import (
 
 type myAction struct{}
 type myActionProps struct{}
+
 func (ma myAction) Execute() {}
 
 var newMyAction action.GoActionConstructor[myAction, myActionProps] = func(*action.ActionInstance) *myAction {
