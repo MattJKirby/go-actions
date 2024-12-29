@@ -9,10 +9,10 @@ import (
 )
 
 type myAction struct{}
-
+type myActionProps struct{}
 func (ma myAction) Execute() {}
 
-var newMyAction action.GoActionConstructor[myAction] = func(*action.ActionInstance) *myAction {
+var newMyAction action.GoActionConstructor[myAction, myActionProps] = func(*action.ActionInstance) *myAction {
 	return &myAction{}
 }
 
@@ -23,7 +23,7 @@ func TestActionTypeDefinitionValues(t *testing.T) {
 	expectedValue := reflect.ValueOf(&myAction{})
 	expectedCtor := reflect.ValueOf(newMyAction).Pointer()
 	expectedCtorType := reflect.TypeOf(newMyAction)
-	defCtor, _ := NewTypeDefinition[myAction](newMyAction)
+	defCtor, _ := NewTypeDefinition[myAction, myActionProps](newMyAction)
 
 	asserts.Equals(t, expectedType, defCtor.ActionType)
 	asserts.Equals(t, expectedValue, defCtor.ActionValue)
@@ -33,7 +33,7 @@ func TestActionTypeDefinitionValues(t *testing.T) {
 
 func TestConstructorStructParity(t *testing.T) {
 	defCtor := TypeDefinitionFromConstructor(newMyAction)
-	defStruct := TypeDefinitionFromStruct(myAction{})
+	defStruct := TypeDefinitionFromStruct[myAction, myActionProps](myAction{})
 
 	asserts.Equals(t, defCtor.ActionType, defStruct.ActionType)
 	asserts.Equals(t, defCtor.ActionValue, defStruct.ActionValue)
@@ -41,9 +41,9 @@ func TestConstructorStructParity(t *testing.T) {
 }
 
 func TestNewActionTypeDefiniton(t *testing.T) {
-	defCtor, ctorErr := NewTypeDefinition[myAction](newMyAction)
-	defStruct, structErr := NewTypeDefinition[myAction](myAction{})
-	defInvalid, invalidErr := NewTypeDefinition[myAction](invalidAction{})
+	defCtor, ctorErr := NewTypeDefinition[myAction, myActionProps](newMyAction)
+	defStruct, structErr := NewTypeDefinition[myAction, myActionProps](myAction{})
+	defInvalid, invalidErr := NewTypeDefinition[myAction, myActionProps](invalidAction{})
 
 	if defCtor == nil || ctorErr != nil {
 		t.Errorf("error generating Type Def from constructor: expected %v, got %v", nil, ctorErr)

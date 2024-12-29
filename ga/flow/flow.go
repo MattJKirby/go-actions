@@ -23,9 +23,9 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func AddAction[T action.GoAction](a T) func(*Flow) *executable.Action[T] {
-	return func(f *Flow) *executable.Action[T] {
-		act, err := app.GetAction[T](a)(f.flowApp)
+func AddAction[T action.GoAction, Props any](a T, props *Props) func(*Flow) *executable.Action[T, Props] {
+	return func(f *Flow) *executable.Action[T, Props] {
+		act, err := app.GetAction[T, Props](a)(f.flowApp)
 		if err != nil {
 			panic("could not retireve action from app")
 		}

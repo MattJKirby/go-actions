@@ -18,12 +18,12 @@ func GetActionDefinition[T action.GoAction](action T) (*definition.ActionDefinit
 	return app.GetActionDefinition(action)(ga)
 }
 
-func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
-	return app.GetAction[T](a)(ga)
+func GetAction[T action.GoAction, Props any](a T, props *Props) (*executable.Action[T, Props], error) {
+	return app.GetAction[T, Props](a)(ga)
 }
 
-func NewAction[T action.GoAction](f *flow.Flow, a T) *executable.Action[T] {
-	return flow.AddAction(a)(f)
+func NewAction[T action.GoAction, Props any](f *flow.Flow, a T, props *Props) *executable.Action[T, Props] {
+	return flow.AddAction(a, props)(f)
 }
 
 func NewFlow() *flow.Flow {

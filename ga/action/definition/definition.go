@@ -11,7 +11,7 @@ type ActionDefinition struct {
 	ActionTypeDefinition
 }
 
-func NewActionDefinition[T action.GoAction](def action.GoActionConstructor[T]) (*ActionDefinition, error) {
+func NewActionDefinition[T action.GoAction, Props any](def action.GoActionConstructor[T, Props]) (*ActionDefinition, error) {
 	typeDef := TypeDefinitionFromConstructor(def)
 
 	return &ActionDefinition{

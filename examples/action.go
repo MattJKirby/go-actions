@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[ExampleActionConstruct, ExampleActionProps]{
+	ga.RegisterAction(&action.GoActionRegistration[ExampleAction, ExampleActionProps]{
 		Constructor: new,
     Props: ExampleActionProps{},
   })
@@ -20,15 +20,15 @@ type ExampleActionProps struct {
   
 }
 
-type ExampleActionConstruct struct {
+type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *io.Input
 	Output           *io.Output
 }
 
-func new(instance *action.ActionInstance) *ExampleActionConstruct {
-	return &ExampleActionConstruct{
+func new(instance *action.ActionInstance) *ExampleAction {
+	return &ExampleAction{
 		IntegerParameter: model.Parameter("intParam", 10)(instance.Model),
 		StringParameter:  model.Parameter("strParam", "test")(instance.Model),
 		Input:            model.Input("input", true)(instance.Model),
@@ -36,6 +36,6 @@ func new(instance *action.ActionInstance) *ExampleActionConstruct {
 	}
 }
 
-func (ex ExampleActionConstruct) Execute() {
+func (ex ExampleAction) Execute() {
 	fmt.Printf("executing Example Action: %d:%s\n", ex.IntegerParameter.Value(), ex.StringParameter.Value())
 }

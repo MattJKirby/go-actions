@@ -10,6 +10,7 @@ import (
 )
 
 type testAction struct{}
+type testActionProps struct{}
 
 func (ta testAction) Execute() {}
 func testActionCtor(*action.ActionInstance) *testAction {
@@ -54,7 +55,7 @@ func TestAddAction(t *testing.T) {
 			}()
 
 			f := NewFlow(a)
-			AddAction(testAction{})(f)
+			AddAction[testAction, testActionProps](testAction{}, nil)(f)
 			asserts.Equals(t, tc.expectedActions, len(f.actionInstances))
 		})
 	}
@@ -64,7 +65,7 @@ func TestMarshalJSON(t *testing.T) {
 	flowApp := app.NewApp()
 	app.RegisterAction(registration)(flowApp)
 	flow := NewFlow(flowApp)
-	action := AddAction(testAction{})(flow)
+	action := AddAction[testAction, testActionProps](testAction{}, nil)(flow)
 
 	marshalledActionInstance, _ := json.Marshal(action.Instance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))

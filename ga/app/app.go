@@ -35,12 +35,12 @@ func GetActionDefinition(action action.GoAction) func(*App) (*definition.ActionD
 	}
 }
 
-func GetAction[T action.GoAction](a action.GoAction) func(*App) (*executable.Action[T], error) {
-	return func(app *App) (*executable.Action[T], error) {
+func GetAction[T action.GoAction, Props any](a action.GoAction) func(*App) (*executable.Action[T, Props], error) {
+	return func(app *App) (*executable.Action[T, Props], error) {
 		def, err := GetActionDefinition(a)(app)
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[T](def), nil
+		return executable.NewAction[T, Props](def), nil
 	}
 }

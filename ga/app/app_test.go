@@ -6,6 +6,7 @@ import (
 )
 
 type myAction struct{}
+type myActionProps struct{}
 func (ma myAction) Execute() {}
 func myActionCtor(*action.ActionInstance) *myAction {
 	return &myAction{}
@@ -27,7 +28,7 @@ func TestGetActionSuccessful(t *testing.T) {
 	app := NewApp()
 	RegisterAction(registation)(app)
 
-	_, err := GetAction[myAction](myAction{})(app)
+	_, err := GetAction[myAction, myActionProps](myAction{})(app)
 	if err != nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
@@ -36,7 +37,7 @@ func TestGetActionSuccessful(t *testing.T) {
 func TestGetActionFail(t *testing.T) {
 	app := NewApp()
 
-	_, err := GetAction[myAction](myAction{})(app)
+	_, err := GetAction[myAction, myActionProps](myAction{})(app)
 	if err == nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}

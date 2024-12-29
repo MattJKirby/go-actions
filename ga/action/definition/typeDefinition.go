@@ -15,19 +15,19 @@ type ActionTypeDefinition struct {
 	ActionType  reflect.Type
 }
 
-func NewTypeDefinition[T action.GoAction](def any) (*ActionTypeDefinition, error) {
+func NewTypeDefinition[T action.GoAction, Props any](def any) (*ActionTypeDefinition, error) {
 	if strc, ok := def.(T); ok {
-		return TypeDefinitionFromStruct(strc), nil
+		return TypeDefinitionFromStruct[T, Props](strc), nil
 	}
 
-	if ctor, ok := def.(action.GoActionConstructor[T]); ok {
+	if ctor, ok := def.(action.GoActionConstructor[T, Props]); ok {
 		return TypeDefinitionFromConstructor(ctor), nil
 	}
 
 	return nil, fmt.Errorf("error constructing Action Type Definition")
 }
 
-func TypeDefinitionFromConstructor[T action.GoAction](defCtor action.GoActionConstructor[T]) *ActionTypeDefinition {
+func TypeDefinitionFromConstructor[T action.GoAction, Props any](defCtor action.GoActionConstructor[T, Props]) *ActionTypeDefinition {
 	vCtor := reflect.ValueOf(defCtor)
 	tCtor := vCtor.Type()
 
@@ -43,8 +43,8 @@ func TypeDefinitionFromConstructor[T action.GoAction](defCtor action.GoActionCon
 	}
 }
 
-func TypeDefinitionFromStruct[T action.GoAction](def T) *ActionTypeDefinition {
-	var ctor action.GoActionConstructor[T] = func(*action.ActionInstance) *T { return &def }
+func TypeDefinitionFromStruct[T action.GoAction, Props any](def T) *ActionTypeDefinition {
+	var ctor action.GoActionConstructor[T, Props] = func(*action.ActionInstance) *T { return &def }
 
 	vAction := reflect.ValueOf(&def)
 	tAction := reflect.TypeOf(def)
