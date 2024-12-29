@@ -16,8 +16,8 @@ func main() {
 	// marshalledInstance, _ := json.Marshal(action.Instance)
 	// fmt.Println(string(marshalledInstance))
 
-	f := ga.NewFlow()
-	exa := ga.NewFlowAction(examples.ExampleAction{})(f)
+	flow := ga.NewFlow()
+	exa := ga.NewAction(flow, examples.ExampleAction{})
 	
 	
 	exa.GetDef().Execute()
