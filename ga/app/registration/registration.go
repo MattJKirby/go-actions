@@ -1,4 +1,4 @@
-package app
+package registration
 
 import (
 	"go-actions/ga/action"
@@ -7,17 +7,17 @@ import (
 
 type RegisteredAction[T action.GoAction] struct {
 	registration *action.GoActionRegistration[T]
-	actionDefinition *definition.ActionDefinition
+	ActionDefinition *definition.ActionDefinition
 }
 
 func NewRegisteredAction[T action.GoAction](registration *action.GoActionRegistration[T]) (*RegisteredAction[T], error) {
-	actionDefinition, err := definition.NewActionDefinition(registration.Constructor)
+	ActionDefinition, err := definition.NewActionDefinition(registration.Constructor)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return &RegisteredAction[T]{
 		registration,
-		actionDefinition,
+		ActionDefinition,
 	}, nil
 }
