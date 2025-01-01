@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	ga.DefineAction(&action.GoActionRegistration[ExampleAction]{
+	ga.RegisterAction(&action.GoActionRegistration[ExampleAction]{
 		Constructor: NewExampleAction,
 	})
 }

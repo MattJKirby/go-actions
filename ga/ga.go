@@ -10,7 +10,7 @@ import (
 
 var ga = app.NewApp()
 
-func DefineAction[T action.GoAction](registration *action.GoActionRegistration[T]) *registration.RegisteredAction[T] {
+func RegisterAction[T action.GoAction](registration *action.GoActionRegistration[T]) *registration.RegisteredAction[T] {
 	return app.RegisterAction(registration)(ga)
 }
 
