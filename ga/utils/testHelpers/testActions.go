@@ -2,10 +2,10 @@ package testHelpers
 
 import "go-actions/ga/action"
 
-type TestActionValid struct {}
-func (ta TestActionValid) Execute(){}
+type ActionValid struct {}
+func (ta ActionValid) Execute(){}
 
-type TestActionNoExecute struct{}
+type ActionNoExecute struct{}
 
 func GetEmptyConstructor[Test action.GoAction]() action.GoActionConstructor[Test] {
 	return func(*action.ActionInstance) *Test {
