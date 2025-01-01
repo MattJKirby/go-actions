@@ -2,13 +2,14 @@ package definition
 
 import (
 	"go-actions/ga/cr/asserts"
+	th "go-actions/ga/utils/testHelpers"
 	"testing"
 )
 
 func TestNewDef(t *testing.T) {
-	expectedTypeName := "myAction"
-	expectedTypePath := "go-actions/ga/action/definition/definition.myAction"
-	defCtor, _ := NewActionDefinition(newMyAction)
+	expectedTypeName := "TestActionValid"
+	expectedTypePath := "go-actions/ga/utils/testHelpers/testHelpers.TestActionValid"
+	defCtor, _ := NewActionDefinition(th.GetEmptyConstructor[th.TestActionValid]())
 
 	asserts.Equals(t, defCtor.Name, expectedTypeName)
 	asserts.Equals(t, defCtor.TypePath, expectedTypePath)
