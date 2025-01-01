@@ -6,7 +6,7 @@ import (
 )
 
 type RegisteredAction[T action.GoAction] struct {
-	registration *action.GoActionRegistration[T]
+	registration     *action.GoActionRegistration[T]
 	ActionDefinition *definition.ActionDefinition
 }
 

@@ -10,13 +10,13 @@ import (
 )
 
 type App struct {
-	ctx                      context.Context
+	ctx            context.Context
 	actionRegistry *registration.ActionRegistry
 }
 
 func NewApp() *App {
 	return &App{
-		ctx:                      context.Background(),
+		ctx:            context.Background(),
 		actionRegistry: registration.NewActionRegistry(),
 	}
 }

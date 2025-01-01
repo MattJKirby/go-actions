@@ -6,7 +6,6 @@ import (
 	"testing"
 )
 
-
 func TestNewAction(t *testing.T) {
 	def := &definition.ActionDefinition{}
 	acn := NewAction[th.ActionValid](def)

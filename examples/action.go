@@ -36,6 +36,6 @@ func (ex ExampleAction) Execute() {
 	fmt.Printf("executing Example Action: %d:%s\n", ex.IntegerParameter.Value(), ex.StringParameter.Value())
 }
 
-func NewExampleAction(flow *flow.Flow){
+func NewExampleAction(flow *flow.Flow) {
 	ga.ActionFunction(flow, ExampleAction{})
 }

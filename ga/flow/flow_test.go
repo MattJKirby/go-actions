@@ -10,7 +10,6 @@ import (
 	"testing"
 )
 
-
 func TestInitFlow(t *testing.T) {
 	app := app.NewApp()
 	flow := NewFlow(app)

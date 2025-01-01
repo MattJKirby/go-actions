@@ -12,7 +12,7 @@ func TestNewRegisteredAction(t *testing.T) {
 	ctor := th.GetEmptyConstructor[th.ActionValid]()
 	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
 
-	expectedActionDefinition,_ := definition.NewActionDefinition(registration.Constructor)
+	expectedActionDefinition, _ := definition.NewActionDefinition(registration.Constructor)
 
 	registeredAction, err := NewRegisteredAction(registration)
 

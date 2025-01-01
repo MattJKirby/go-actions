@@ -1,7 +1,7 @@
 package action
 
 type GoActionRegistration[Type GoAction] struct {
-	Name string
+	Name        string
 	Constructor GoActionConstructor[Type]
 }
 

@@ -33,7 +33,7 @@ func TestAcceptAction(t *testing.T) {
 func TestGetAction(t *testing.T) {
 	ctor := th.GetEmptyConstructor[th.ActionValid]()
 	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
-	acn,_ := NewRegisteredAction(registration)
+	acn, _ := NewRegisteredAction(registration)
 	registry := NewActionRegistry()
 	AcceptAction(acn)(registry)
 

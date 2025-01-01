@@ -18,15 +18,15 @@ func NewActionRegistry() *ActionRegistry {
 	}
 }
 
-func AcceptAction[T action.GoAction](a *RegisteredAction[T]) func (*ActionRegistry) *RegisteredAction[T] {
+func AcceptAction[T action.GoAction](a *RegisteredAction[T]) func(*ActionRegistry) *RegisteredAction[T] {
 	return func(ar *ActionRegistry) *RegisteredAction[T] {
-    ar.actionsByName[a.ActionDefinition.Name] = a
-    ar.actionsByType[a.ActionDefinition.ActionType] = a
-    return a
+		ar.actionsByName[a.ActionDefinition.Name] = a
+		ar.actionsByType[a.ActionDefinition.ActionType] = a
+		return a
 	}
 }
 
-func GetAction[T action.GoAction](actionType reflect.Type) func (*ActionRegistry) (*RegisteredAction[T], error) {
+func GetAction[T action.GoAction](actionType reflect.Type) func(*ActionRegistry) (*RegisteredAction[T], error) {
 	return func(ar *ActionRegistry) (*RegisteredAction[T], error) {
 		if action, exists := ar.actionsByType[actionType]; exists {
 			return action.(*RegisteredAction[T]), nil

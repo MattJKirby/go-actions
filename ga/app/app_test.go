@@ -8,8 +8,8 @@ import (
 
 func TestRegisterActionAndGet(t *testing.T) {
 	ctor := th.GetEmptyConstructor[th.ActionValid]()
-  app := NewApp()
-  registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
+	app := NewApp()
+	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
 	expected := RegisterAction(registration)(app)
 
 	result, _ := GetActionRegistration[th.ActionValid](th.ActionValid{})(app)
@@ -20,9 +20,9 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestGetActionSuccessful(t *testing.T) {
-  ctor := th.GetEmptyConstructor[th.ActionValid]()
+	ctor := th.GetEmptyConstructor[th.ActionValid]()
 	app := NewApp()
-  registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
+	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
 	RegisterAction(registration)(app)
 
 	_, err := GetAction[th.ActionValid](th.ActionValid{})(app)

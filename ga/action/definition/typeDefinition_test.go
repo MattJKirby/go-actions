@@ -10,7 +10,7 @@ import (
 
 func TestActionTypeDefinitionValues(t *testing.T) {
 	ctor := th.GetEmptyConstructor[th.ActionValid]()
-	
+
 	expectedType := reflect.TypeOf(th.ActionValid{})
 	expectedValue := reflect.ValueOf(&th.ActionValid{})
 	expectedCtor := reflect.ValueOf(ctor).Pointer()

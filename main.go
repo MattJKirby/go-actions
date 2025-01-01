@@ -18,8 +18,7 @@ func main() {
 
 	flow := ga.NewFlow()
 	exa := ga.ActionFunction(flow, examples.ExampleAction{})
-	
-	
+
 	exa.GetDef().Execute()
 
 }
