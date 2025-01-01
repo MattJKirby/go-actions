@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	definition, _ := ga.GetActionDefinition(examples.ExampleAction{})
+	definition, _ := ga.GetActionRegistration(examples.ExampleAction{})
 	action, _ := ga.GetAction(examples.ExampleAction{})
 	fmt.Println(definition)
 	fmt.Println(action)

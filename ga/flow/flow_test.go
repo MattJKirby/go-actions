@@ -43,7 +43,7 @@ func TestAddAction(t *testing.T) {
 			a := app.NewApp()
 
 			if tc.actionRegistered {
-				app.DefineAction(testActionCtor)(a)
+				app.RegisterAction(&action.GoActionRegistration[testAction]{Constructor: testActionCtor})(a)
 			}
 
 			defer func() {
@@ -60,7 +60,7 @@ func TestAddAction(t *testing.T) {
 
 func TestMarshalJSON(t *testing.T) {
 	flowApp := app.NewApp()
-	app.DefineAction(testActionCtor)(flowApp)
+	app.RegisterAction(&action.GoActionRegistration[testAction]{Constructor: testActionCtor})(flowApp)
 	flow := NewFlow(flowApp)
 	action := AddAction(testAction{})(flow)
 

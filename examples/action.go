@@ -10,7 +10,9 @@ import (
 )
 
 func init() {
-	ga.DefineAction(NewExampleAction)
+	ga.DefineAction(&action.GoActionRegistration[ExampleAction]{
+		Constructor: NewExampleAction,
+	})
 }
 
 type ExampleAction struct {
