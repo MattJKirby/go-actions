@@ -23,7 +23,7 @@ func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
 }
 
 func DefineActionFunction[T action.GoAction](f *flow.Flow, a T) *executable.Action[T] {
-	return flow.DefineActionFunction(a)(f)
+	return flow.AddAction(a)(f)
 }
 
 func NewFlow() *flow.Flow {

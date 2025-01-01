@@ -23,7 +23,7 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func DefineActionFunction[T action.GoAction](a T) func(*Flow) *executable.Action[T] {
+func AddAction[T action.GoAction](a T) func(*Flow) *executable.Action[T] {
 	return func(f *Flow) *executable.Action[T] {
 		act, err := app.GetAction[T](a)(f.flowApp)
 		if err != nil {
