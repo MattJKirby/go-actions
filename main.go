@@ -17,7 +17,7 @@ func main() {
 	// fmt.Println(string(marshalledInstance))
 
 	flow := ga.NewFlow()
-	exa := ga.DefineActionFunction(flow, examples.ExampleAction{})
+	exa := ga.ActionFunction(flow, examples.ExampleAction{})
 	
 	
 	exa.GetDef().Execute()

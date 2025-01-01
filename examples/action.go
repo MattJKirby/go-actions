@@ -37,5 +37,5 @@ func (ex ExampleAction) Execute() {
 }
 
 func NewExampleAction(flow *flow.Flow){
-	ga.DefineActionFunction(flow, ExampleAction{})
+	ga.ActionFunction(flow, ExampleAction{})
 }
