@@ -3,44 +3,44 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
+	"go-actions/ga/app/registration"
 	"go-actions/ga/utils"
 	"reflect"
 )
 
 type App struct {
 	ctx                      context.Context
-	actionDefinitionRegistry *ActionDefinitionRegistry
+	actionRegistry *registration.ActionRegistry
 }
 
 func NewApp() *App {
 	return &App{
 		ctx:                      context.Background(),
-		actionDefinitionRegistry: NewActionDefinitionRegistry(),
+		actionRegistry: registration.NewActionRegistry(),
 	}
 }
 
-func DefineAction[T action.GoAction](ctor action.GoActionConstructor[T]) func(*App) *definition.ActionDefinition {
-	return func(app *App) *definition.ActionDefinition {
-		def, _ := definition.NewActionDefinition(ctor)
-		return app.actionDefinitionRegistry.acceptDefinition(def)
+func RegisterAction[T action.GoAction](reg *action.GoActionRegistration[T]) func(*App) *registration.RegisteredAction[T] {
+	return func(app *App) *registration.RegisteredAction[T] {
+		action, _ := registration.NewRegisteredAction(reg)
+		return registration.AcceptAction(action)(app.actionRegistry)
 	}
 }
 
-func GetActionDefinition(action action.GoAction) func(*App) (*definition.ActionDefinition, error) {
-	return func(app *App) (*definition.ActionDefinition, error) {
+func GetActionRegistration[T action.GoAction](action action.GoAction) func(*App) (*registration.RegisteredAction[T], error) {
+	return func(app *App) (*registration.RegisteredAction[T], error) {
 		actionType := utils.GetValueType(reflect.TypeOf(action))
-		return app.actionDefinitionRegistry.getDefinition(actionType)
+		return registration.GetAction[T](actionType)(app.actionRegistry)
 	}
 }
 
 func GetAction[T action.GoAction](a action.GoAction) func(*App) (*executable.Action[T], error) {
 	return func(app *App) (*executable.Action[T], error) {
-		def, err := GetActionDefinition(a)(app)
+		def, err := GetActionRegistration[T](a)(app)
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[T](def), nil
+		return executable.NewAction[T](def.ActionDefinition), nil
 	}
 }
