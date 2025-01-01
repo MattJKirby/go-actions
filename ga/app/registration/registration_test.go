@@ -4,17 +4,13 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/cr/asserts"
+	th "go-actions/ga/utils/testHelpers"
 	"testing"
 )
 
-type myAction struct{}
-func (ma myAction) Execute() {}
-func myActionCtor(*action.ActionInstance) *myAction {
-	return &myAction{}
-}
-
 func TestNewRegisteredAction(t *testing.T) {
-	registration := &action.GoActionRegistration[myAction]{Constructor: myActionCtor}
+	ctor := th.GetEmptyConstructor[th.ActionValid]()
+	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
 
 	expectedActionDefinition,_ := definition.NewActionDefinition(registration.Constructor)
 

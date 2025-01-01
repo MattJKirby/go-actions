@@ -4,13 +4,15 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/cr"
 	"go-actions/ga/cr/asserts"
+	th "go-actions/ga/utils/testHelpers"
 	"reflect"
 	"testing"
 )
 
 func TestAcceptAction(t *testing.T) {
+	ctor := th.GetEmptyConstructor[th.ActionValid]()
 	registry := NewActionRegistry()
-	registration := &action.GoActionRegistration[myAction]{Constructor: myActionCtor}
+	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
 	RegisteredAction, err := NewRegisteredAction(registration)
 
 	AcceptAction(RegisteredAction)(registry)
@@ -29,18 +31,19 @@ func TestAcceptAction(t *testing.T) {
 }
 
 func TestGetAction(t *testing.T) {
-	registration := &action.GoActionRegistration[myAction]{Constructor: myActionCtor}
+	ctor := th.GetEmptyConstructor[th.ActionValid]()
+	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
 	acn,_ := NewRegisteredAction(registration)
 	registry := NewActionRegistry()
 	AcceptAction(acn)(registry)
 
-	tests := []cr.TestCase[reflect.Type, *RegisteredAction[myAction]]{
+	tests := []cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid]]{
 		{Name: "existing def", Input: acn.ActionDefinition.ActionType, Expected: acn},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *RegisteredAction[myAction]]) {
-		storedDef, err := GetAction[myAction](test.Input)(registry)
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid]]) {
+		storedDef, err := GetAction[th.ActionValid](test.Input)(registry)
 
 		if test.Error && err == nil {
 			t.Errorf("test %s: expected an error but got none", test.Name)
