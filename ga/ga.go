@@ -22,8 +22,8 @@ func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
 	return app.GetAction[T](a)(ga)
 }
 
-func NewAction[T action.GoAction](f *flow.Flow, a T) *executable.Action[T] {
-	return flow.AddAction(a)(f)
+func DefineActionFunction[T action.GoAction](f *flow.Flow, a T) *executable.Action[T] {
+	return flow.DefineActionFunction(a)(f)
 }
 
 func NewFlow() *flow.Flow {

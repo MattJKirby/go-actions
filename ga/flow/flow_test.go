@@ -48,7 +48,7 @@ func TestAddAction(t *testing.T) {
 			}()
 
 			f := NewFlow(a)
-			AddAction(th.ActionValid{})(f)
+			DefineActionFunction(th.ActionValid{})(f)
 			asserts.Equals(t, tc.expectedActions, len(f.actionInstances))
 		})
 	}
@@ -59,7 +59,7 @@ func TestMarshalJSON(t *testing.T) {
 	ctor := th.GetEmptyConstructor[th.ActionValid]()
 	app.RegisterAction(&action.GoActionRegistration[th.ActionValid]{Constructor: ctor})(flowApp)
 	flow := NewFlow(flowApp)
-	action := AddAction(th.ActionValid{})(flow)
+	action := DefineActionFunction(th.ActionValid{})(flow)
 
 	marshalledActionInstance, _ := json.Marshal(action.Instance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))

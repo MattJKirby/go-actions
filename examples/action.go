@@ -7,11 +7,12 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
+	"go-actions/ga/flow"
 )
 
 func init() {
 	ga.RegisterAction(&action.GoActionRegistration[ExampleAction]{
-		Constructor: NewExampleAction,
+		Constructor: newExampleAction,
 	})
 }
 
@@ -22,7 +23,7 @@ type ExampleAction struct {
 	Output           *io.Output
 }
 
-func NewExampleAction(instance *action.ActionInstance) *ExampleAction {
+func newExampleAction(instance *action.ActionInstance) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: model.Parameter("intParam", 10)(instance.Model),
 		StringParameter:  model.Parameter("strParam", "test")(instance.Model),
@@ -33,4 +34,8 @@ func NewExampleAction(instance *action.ActionInstance) *ExampleAction {
 
 func (ex ExampleAction) Execute() {
 	fmt.Printf("executing Example Action: %d:%s\n", ex.IntegerParameter.Value(), ex.StringParameter.Value())
+}
+
+func NewExampleAction(flow *flow.Flow){
+	ga.DefineActionFunction(flow, ExampleAction{})
 }
