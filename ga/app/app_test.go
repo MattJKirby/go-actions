@@ -10,12 +10,12 @@ func TestRegisterActionAndGet(t *testing.T) {
 	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	app := NewApp()
 	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	expected := RegisterAction(registration)(app)
+	RegisterAction(registration)(app)
 
 	result, _ := GetActionRegistration[th.ActionValid, th.ActionValidProps](th.ActionValid{})(app)
 
-	if result != expected {
-		t.Errorf("Error during registration: expected %v, got %v", expected, result)
+	if result == nil {
+		t.Errorf("Error during registration: expected %v, got %v", nil, result)
 	}
 }
 

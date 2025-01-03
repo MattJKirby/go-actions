@@ -5,18 +5,20 @@ import (
 	"go-actions/ga/utils"
 )
 
-type ActionDefinition struct {
-	Name     string
-	TypePath string
-	ActionTypeDefinition
+type ActionDefinition[T action.GoAction, P action.GoActionProps] struct {
+	Registration   *action.GoActionRegistration[T, P]
+	TypeDefinition *ActionTypeDefinition
+	Name           string
+	TypePath       string
 }
 
-func NewActionDefinition[T action.GoAction, Props action.GoActionProps](def action.GoActionConstructor[T, Props]) (*ActionDefinition, error) {
-	typeDef := TypeDefinitionFromConstructor(def)
+func NewActionDefinition[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) (*ActionDefinition[T, P], error) {
+	typeDef := TypeDefinitionFromConstructor(reg.Constructor)
 
-	return &ActionDefinition{
-		Name:                 utils.TypeName(typeDef.ActionType),
-		TypePath:             utils.TypePath(typeDef.ActionType),
-		ActionTypeDefinition: *typeDef,
+	return &ActionDefinition[T, P]{
+		Registration:   reg,
+		TypeDefinition: typeDef,
+		Name:           utils.TypeName(typeDef.ActionType),
+		TypePath:       utils.TypePath(typeDef.ActionType),
 	}, nil
 }

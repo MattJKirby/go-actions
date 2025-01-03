@@ -2,19 +2,19 @@ package ga
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
-	"go-actions/ga/app/registration"
 	"go-actions/ga/flow"
 )
 
 var ga = app.NewApp()
 
-func RegisterAction[T action.GoAction, Props action.GoActionProps](registration *action.GoActionRegistration[T, Props]) *registration.RegisteredAction[T, Props] {
-	return app.RegisterAction(registration)(ga)
+func RegisterAction[T action.GoAction, Props action.GoActionProps](registration *action.GoActionRegistration[T, Props]) {
+	app.RegisterAction(registration)(ga)
 }
 
-func GetActionRegistration[T action.GoAction](a T) (*registration.RegisteredAction[T, action.GoActionProps], error) {
+func GetActionRegistration[T action.GoAction](a T) (*definition.ActionDefinition[T, action.GoActionProps], error) {
 	return app.GetActionRegistration[T, action.GoActionProps](a)(ga)
 }
 

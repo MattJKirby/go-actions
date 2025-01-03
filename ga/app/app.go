@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app/registration"
 	"go-actions/ga/utils"
@@ -21,15 +22,15 @@ func NewApp() *App {
 	}
 }
 
-func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*App) *registration.RegisteredAction[T, P] {
-	return func(app *App) *registration.RegisteredAction[T, P] {
-		action, _ := registration.NewRegisteredAction(reg)
-		return registration.AcceptAction(action)(app.actionRegistry)
+func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*App) {
+	return func(app *App) {
+		definition, _ := definition.NewActionDefinition(reg)
+		registration.AcceptAction(definition)(app.actionRegistry)
 	}
 }
 
-func GetActionRegistration[T action.GoAction, P action.GoActionProps](action action.GoAction) func(*App) (*registration.RegisteredAction[T, P], error) {
-	return func(app *App) (*registration.RegisteredAction[T, P], error) {
+func GetActionRegistration[T action.GoAction, P action.GoActionProps](action action.GoAction) func(*App) (*definition.ActionDefinition[T, P], error) {
+	return func(app *App) (*definition.ActionDefinition[T, P], error) {
 		actionType := utils.GetValueType(reflect.TypeOf(action))
 		return registration.GetAction[T, P](actionType)(app.actionRegistry)
 	}

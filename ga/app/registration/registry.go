@@ -3,6 +3,7 @@ package registration
 import (
 	"fmt"
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"reflect"
 )
 
@@ -18,18 +19,17 @@ func NewActionRegistry() *ActionRegistry {
 	}
 }
 
-func AcceptAction[T action.GoAction, P action.GoActionProps](a *RegisteredAction[T, P]) func(*ActionRegistry) *RegisteredAction[T, P] {
-	return func(ar *ActionRegistry) *RegisteredAction[T, P] {
-		ar.actionsByName[a.ActionDefinition.Name] = a
-		ar.actionsByType[a.ActionDefinition.ActionType] = a
-		return a
+func AcceptAction[T action.GoAction, P action.GoActionProps](def *definition.ActionDefinition[T, P]) func(*ActionRegistry) {
+	return func(ar *ActionRegistry) {
+		ar.actionsByName[def.Name] = def
+		ar.actionsByType[def.TypeDefinition.ActionType] = def
 	}
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](actionType reflect.Type) func(*ActionRegistry) (*RegisteredAction[T, P], error) {
-	return func(ar *ActionRegistry) (*RegisteredAction[T, P], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](actionType reflect.Type) func(*ActionRegistry) (*definition.ActionDefinition[T, P], error) {
+	return func(ar *ActionRegistry) (*definition.ActionDefinition[T, P], error) {
 		if action, exists := ar.actionsByType[actionType]; exists {
-			return action.(*RegisteredAction[T, P]), nil
+			return action.(*definition.ActionDefinition[T, P]), nil
 		}
 		return nil, fmt.Errorf("could not retrive action '%s'", actionType)
 	}

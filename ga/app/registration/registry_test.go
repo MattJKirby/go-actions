@@ -2,6 +2,7 @@ package registration
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/cr"
 	"go-actions/ga/cr/asserts"
 	th "go-actions/ga/utils/testHelpers"
@@ -10,12 +11,12 @@ import (
 )
 
 func TestAcceptAction(t *testing.T) {
-	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	registry := NewActionRegistry()
+	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	RegisteredAction, err := NewRegisteredAction(registration)
+	def, err := definition.NewActionDefinition[th.ActionValid, th.ActionValidProps](registration)
 
-	AcceptAction(RegisteredAction)(registry)
+	AcceptAction(def)(registry)
 	abt := len(registry.actionsByType)
 	abn := len(registry.actionsByName)
 
@@ -31,18 +32,19 @@ func TestAcceptAction(t *testing.T) {
 }
 
 func TestGetAction(t *testing.T) {
+	registry := NewActionRegistry()
 	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	acn, _ := NewRegisteredAction(registration)
-	registry := NewActionRegistry()
-	AcceptAction(acn)(registry)
+	def, _ := definition.NewActionDefinition[th.ActionValid, th.ActionValidProps](registration)
 
-	tests := []cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid, th.ActionValidProps]]{
-		{Name: "existing def", Input: acn.ActionDefinition.ActionType, Expected: acn},
+	AcceptAction(def)(registry)
+
+	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[th.ActionValid, th.ActionValidProps]]{
+		{Name: "existing def", Input: def.TypeDefinition.ActionType, Expected: def},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid, th.ActionValidProps]]) {
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[th.ActionValid, th.ActionValidProps]]) {
 		storedDef, err := GetAction[th.ActionValid, th.ActionValidProps](test.Input)(registry)
 
 		if test.Error && err == nil {
