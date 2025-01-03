@@ -6,8 +6,8 @@ import (
 )
 
 type ActionDefinition[T action.GoAction, P action.GoActionProps] struct {
-	Registration   *action.GoActionRegistration[T, P]
-	TypeDefinition *ActionTypeDefinition
+	*action.GoActionRegistration[T, P]
+	*ActionTypeDefinition
 	Name           string
 	TypePath       string
 }
@@ -16,8 +16,8 @@ func NewActionDefinition[T action.GoAction, P action.GoActionProps](reg *action.
 	typeDef := TypeDefinitionFromConstructor(reg.Constructor)
 
 	return &ActionDefinition[T, P]{
-		Registration:   reg,
-		TypeDefinition: typeDef,
+		GoActionRegistration:   reg,
+		ActionTypeDefinition: typeDef,
 		Name:           utils.TypeName(typeDef.ActionType),
 		TypePath:       utils.TypePath(typeDef.ActionType),
 	}, nil

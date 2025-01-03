@@ -40,7 +40,7 @@ func TestGetAction(t *testing.T) {
 	AcceptAction(def)(registry)
 
 	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[th.ActionValid, th.ActionValidProps]]{
-		{Name: "existing def", Input: def.TypeDefinition.ActionType, Expected: def},
+		{Name: "existing def", Input: def.ActionType, Expected: def},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 

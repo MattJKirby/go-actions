@@ -21,12 +21,12 @@ func NewAction[T action.GoAction, Props action.GoActionProps](definition definit
 }
 
 func (a *Action[T, Props]) GetDef() *T {
-	def, ok := a.definition.TypeDefinition.CtorValue.Interface().(action.GoActionConstructor[T, Props])
+	def, ok := a.definition.CtorValue.Interface().(action.GoActionConstructor[T, Props])
 	if !ok {
 		fmt.Println("ERRRR")
 	}
 
-	test := a.definition.Registration.DefaultProps
+	test := a.definition.DefaultProps
 
 	return def(&action.ActionInstance{
 		Model: a.Instance.Model,

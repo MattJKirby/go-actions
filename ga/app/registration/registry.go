@@ -22,7 +22,7 @@ func NewActionRegistry() *ActionRegistry {
 func AcceptAction[T action.GoAction, P action.GoActionProps](def *definition.ActionDefinition[T, P]) func(*ActionRegistry) {
 	return func(ar *ActionRegistry) {
 		ar.actionsByName[def.Name] = def
-		ar.actionsByType[def.TypeDefinition.ActionType] = def
+		ar.actionsByType[def.ActionType] = def
 	}
 }
 
