@@ -3,30 +3,32 @@ package executable
 import (
 	"fmt"
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
+	"go-actions/ga/app/registration"
 )
 
-type Action[T action.GoAction] struct {
-	Definition *definition.ActionDefinition
-	Instance   *action.ActionInstance
+type Action[T action.GoAction, Props action.GoActionProps] struct {
+	registration registration.RegisteredAction[T, Props]
+	Instance     *action.ActionInstance
 }
 
-func NewAction[T action.GoAction](definition *definition.ActionDefinition) *Action[T] {
-	instance := action.NewActionInstance(definition.Name)
+func NewAction[T action.GoAction, Props action.GoActionProps](registration registration.RegisteredAction[T, Props]) *Action[T, Props] {
+	instance := action.NewActionInstance(registration.ActionDefinition.Name)
 
-	return &Action[T]{
-		Definition: definition,
-		Instance:   instance,
+	return &Action[T, Props]{
+		registration: registration,
+		Instance:     instance,
 	}
 }
 
-func (a *Action[T]) GetDef() *T {
-	def, ok := a.Definition.CtorValue.Interface().(action.GoActionConstructor[T])
+func (a *Action[T, Props]) GetDef() *T {
+	def, ok := a.registration.ActionDefinition.CtorValue.Interface().(action.GoActionConstructor[T, Props])
 	if !ok {
 		fmt.Println("ERRRR")
 	}
 
+	test := a.registration.Registration.DefaultProps
+
 	return def(&action.ActionInstance{
 		Model: a.Instance.Model,
-	})
+	}, *test)
 }

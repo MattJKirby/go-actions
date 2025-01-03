@@ -9,14 +9,14 @@ import (
 )
 
 func TestNewRegisteredAction(t *testing.T) {
-	ctor := th.GetEmptyConstructor[th.ActionValid]()
-	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
+	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
+	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
 
 	expectedActionDefinition, _ := definition.NewActionDefinition(registration.Constructor)
 
 	registeredAction, err := NewRegisteredAction(registration)
 
 	asserts.Equals(t, nil, err)
-	asserts.Equals(t, registration, registeredAction.registration)
+	asserts.Equals(t, registration, registeredAction.Registration)
 	asserts.Equals(t, expectedActionDefinition, registeredAction.ActionDefinition)
 }

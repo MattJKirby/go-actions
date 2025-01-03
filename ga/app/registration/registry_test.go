@@ -10,9 +10,9 @@ import (
 )
 
 func TestAcceptAction(t *testing.T) {
-	ctor := th.GetEmptyConstructor[th.ActionValid]()
+	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	registry := NewActionRegistry()
-	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
+	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
 	RegisteredAction, err := NewRegisteredAction(registration)
 
 	AcceptAction(RegisteredAction)(registry)
@@ -31,19 +31,19 @@ func TestAcceptAction(t *testing.T) {
 }
 
 func TestGetAction(t *testing.T) {
-	ctor := th.GetEmptyConstructor[th.ActionValid]()
-	registration := &action.GoActionRegistration[th.ActionValid]{Constructor: ctor}
+	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
+	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
 	acn, _ := NewRegisteredAction(registration)
 	registry := NewActionRegistry()
 	AcceptAction(acn)(registry)
 
-	tests := []cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid]]{
+	tests := []cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid, th.ActionValidProps]]{
 		{Name: "existing def", Input: acn.ActionDefinition.ActionType, Expected: acn},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid]]) {
-		storedDef, err := GetAction[th.ActionValid](test.Input)(registry)
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *RegisteredAction[th.ActionValid, th.ActionValidProps]]) {
+		storedDef, err := GetAction[th.ActionValid, th.ActionValidProps](test.Input)(registry)
 
 		if test.Error && err == nil {
 			t.Errorf("test %s: expected an error but got none", test.Name)

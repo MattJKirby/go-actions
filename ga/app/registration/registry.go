@@ -18,18 +18,18 @@ func NewActionRegistry() *ActionRegistry {
 	}
 }
 
-func AcceptAction[T action.GoAction](a *RegisteredAction[T]) func(*ActionRegistry) *RegisteredAction[T] {
-	return func(ar *ActionRegistry) *RegisteredAction[T] {
+func AcceptAction[T action.GoAction, P action.GoActionProps](a *RegisteredAction[T, P]) func(*ActionRegistry) *RegisteredAction[T, P] {
+	return func(ar *ActionRegistry) *RegisteredAction[T, P] {
 		ar.actionsByName[a.ActionDefinition.Name] = a
 		ar.actionsByType[a.ActionDefinition.ActionType] = a
 		return a
 	}
 }
 
-func GetAction[T action.GoAction](actionType reflect.Type) func(*ActionRegistry) (*RegisteredAction[T], error) {
-	return func(ar *ActionRegistry) (*RegisteredAction[T], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](actionType reflect.Type) func(*ActionRegistry) (*RegisteredAction[T, P], error) {
+	return func(ar *ActionRegistry) (*RegisteredAction[T, P], error) {
 		if action, exists := ar.actionsByType[actionType]; exists {
-			return action.(*RegisteredAction[T]), nil
+			return action.(*RegisteredAction[T, P]), nil
 		}
 		return nil, fmt.Errorf("could not retrive action '%s'", actionType)
 	}

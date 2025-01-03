@@ -34,11 +34,11 @@ func TestAddAction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			ctor := th.GetEmptyConstructor[th.ActionValid]()
+			ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 			a := app.NewApp()
 
 			if tc.actionRegistered {
-				app.RegisterAction(&action.GoActionRegistration[th.ActionValid]{Constructor: ctor})(a)
+				app.RegisterAction(&action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor})(a)
 			}
 
 			defer func() {
@@ -47,7 +47,7 @@ func TestAddAction(t *testing.T) {
 			}()
 
 			f := NewFlow(a)
-			AddAction(th.ActionValid{})(f)
+			AddAction(th.ActionValid{}, th.ActionValidProps{})(f)
 			asserts.Equals(t, tc.expectedActions, len(f.actionInstances))
 		})
 	}
@@ -55,10 +55,10 @@ func TestAddAction(t *testing.T) {
 
 func TestMarshalJSON(t *testing.T) {
 	flowApp := app.NewApp()
-	ctor := th.GetEmptyConstructor[th.ActionValid]()
-	app.RegisterAction(&action.GoActionRegistration[th.ActionValid]{Constructor: ctor})(flowApp)
+	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
+	app.RegisterAction(&action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor})(flowApp)
 	flow := NewFlow(flowApp)
-	action := AddAction(th.ActionValid{})(flow)
+	action := AddAction(th.ActionValid{}, th.ActionValidProps{})(flow)
 
 	marshalledActionInstance, _ := json.Marshal(action.Instance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))

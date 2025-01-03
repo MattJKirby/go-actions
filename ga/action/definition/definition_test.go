@@ -9,7 +9,7 @@ import (
 func TestNewDef(t *testing.T) {
 	expectedTypeName := "ActionValid"
 	expectedTypePath := "go-actions/ga/utils/testHelpers/testHelpers.ActionValid"
-	defCtor, _ := NewActionDefinition(th.GetEmptyConstructor[th.ActionValid]())
+	defCtor, _ := NewActionDefinition(th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]())
 
 	asserts.Equals(t, defCtor.Name, expectedTypeName)
 	asserts.Equals(t, defCtor.TypePath, expectedTypePath)

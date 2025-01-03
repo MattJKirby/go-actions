@@ -11,8 +11,9 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[ExampleAction]{
-		Constructor: newExampleAction,
+	ga.RegisterAction(&action.GoActionRegistration[ExampleAction, ExampleActionProps]{
+		Constructor:  newExampleAction,
+		DefaultProps: new(ExampleActionProps),
 	})
 }
 
@@ -23,7 +24,9 @@ type ExampleAction struct {
 	Output           *io.Output
 }
 
-func newExampleAction(instance *action.ActionInstance) *ExampleAction {
+type ExampleActionProps struct{}
+
+func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: model.Parameter("intParam", 10)(instance.Model),
 		StringParameter:  model.Parameter("strParam", "test")(instance.Model),
@@ -37,5 +40,5 @@ func (ex ExampleAction) Execute() {
 }
 
 func NewExampleAction(flow *flow.Flow) {
-	ga.ActionFunction(flow, ExampleAction{})
+	ga.ActionFunction(flow, ExampleAction{}, ExampleActionProps{})
 }

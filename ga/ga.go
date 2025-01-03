@@ -10,20 +10,20 @@ import (
 
 var ga = app.NewApp()
 
-func RegisterAction[T action.GoAction](registration *action.GoActionRegistration[T]) *registration.RegisteredAction[T] {
+func RegisterAction[T action.GoAction, Props action.GoActionProps](registration *action.GoActionRegistration[T, Props]) *registration.RegisteredAction[T, Props] {
 	return app.RegisterAction(registration)(ga)
 }
 
-func GetActionRegistration[T action.GoAction](action T) (*registration.RegisteredAction[T], error) {
-	return app.GetActionRegistration[T](action)(ga)
+func GetActionRegistration[T action.GoAction](a T) (*registration.RegisteredAction[T, action.GoActionProps], error) {
+	return app.GetActionRegistration[T, action.GoActionProps](a)(ga)
 }
 
-func GetAction[T action.GoAction](a T) (*executable.Action[T], error) {
-	return app.GetAction[T](a)(ga)
+func GetAction[T action.GoAction](a T) (*executable.Action[T, action.GoActionProps], error) {
+	return app.GetAction[T, action.GoActionProps](a)(ga)
 }
 
-func ActionFunction[T action.GoAction](f *flow.Flow, a T) *executable.Action[T] {
-	return flow.AddAction(a)(f)
+func ActionFunction[T action.GoAction, P action.GoActionProps](f *flow.Flow, a T, props P) *executable.Action[T, P] {
+	return flow.AddAction(a, props)(f)
 }
 
 func NewFlow() *flow.Flow {

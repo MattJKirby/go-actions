@@ -1,11 +1,14 @@
 package action
 
-type GoActionRegistration[Type GoAction] struct {
-	Name        string
-	Constructor GoActionConstructor[Type]
+type GoActionRegistration[Type GoAction, Props GoActionProps] struct {
+	Name         string
+	Constructor  GoActionConstructor[Type, Props]
+	DefaultProps *Props
 }
 
-type GoActionConstructor[Type GoAction] func(*ActionInstance) *Type
+type GoActionProps any
+
+type GoActionConstructor[Type GoAction, Props GoActionProps] func(*ActionInstance, Props) *Type
 
 type GoAction interface {
 	Execute()
