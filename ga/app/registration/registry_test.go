@@ -46,7 +46,7 @@ func TestGetAction(t *testing.T) {
 	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[th.ActionValid, th.ActionValidProps]]) {
 		storedDef, err := GetAction[th.ActionValid, th.ActionValidProps](test.Input)(registry)
 
-    hasErr := err != nil
+		hasErr := err != nil
 
 		if test.Error != hasErr {
 			t.Errorf("test %s: expected an error but got none", test.Name)
