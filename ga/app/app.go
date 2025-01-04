@@ -24,8 +24,7 @@ func NewApp() *App {
 
 func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*App) {
 	return func(app *App) {
-		definition, _ := definition.NewActionDefinition(reg)
-		registration.AcceptAction(definition)(app.actionRegistry)
+		registration.AcceptRegistration(reg)(app.actionRegistry)
 	}
 }
 

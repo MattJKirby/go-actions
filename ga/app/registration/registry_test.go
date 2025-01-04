@@ -14,9 +14,8 @@ func TestAcceptAction(t *testing.T) {
 	registry := NewActionRegistry()
 	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	def, err := definition.NewActionDefinition[th.ActionValid, th.ActionValidProps](registration)
 
-	AcceptAction(def)(registry)
+	err := AcceptRegistration(registration)(registry)
 	abt := len(registry.actionsByType)
 	abn := len(registry.actionsByName)
 
@@ -35,9 +34,9 @@ func TestGetAction(t *testing.T) {
 	registry := NewActionRegistry()
 	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	def, _ := definition.NewActionDefinition[th.ActionValid, th.ActionValidProps](registration)
+	def, _ := definition.NewActionDefinition(registration)
 
-	AcceptAction(def)(registry)
+	AcceptRegistration(registration)(registry)
 
 	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[th.ActionValid, th.ActionValidProps]]{
 		{Name: "existing def", Input: def.ActionType, Expected: def},
@@ -47,12 +46,14 @@ func TestGetAction(t *testing.T) {
 	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[th.ActionValid, th.ActionValidProps]]) {
 		storedDef, err := GetAction[th.ActionValid, th.ActionValidProps](test.Input)(registry)
 
-		if test.Error && err == nil {
+    hasErr := err != nil
+
+		if test.Error != hasErr {
 			t.Errorf("test %s: expected an error but got none", test.Name)
 			return
 		}
 
-		if !test.Error && storedDef != test.Expected {
+		if !test.Error && storedDef.Name != test.Expected.Name {
 			t.Errorf("test %s: got %v, expected %v", test.Name, storedDef, test.Expected)
 		}
 	})
