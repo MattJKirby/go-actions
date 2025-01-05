@@ -8,9 +8,9 @@ func GenerateEmptyCtor[T action.GoAction, P action.GoActionProps]() action.GoAct
 	}
 }
 
-func GenerateRegistration[T action.GoAction, P action.GoActionProps](ctor action.GoActionConstructor[T, P], props *P) action.GoActionRegistration[T,P] {
-	return action.GoActionRegistration[T,P]{
-		Constructor: ctor,
+func GenerateRegistration[T action.GoAction, P action.GoActionProps](ctor action.GoActionConstructor[T, P], props *P) action.GoActionRegistration[T, P] {
+	return action.GoActionRegistration[T, P]{
+		Constructor:  ctor,
 		DefaultProps: props,
 	}
 }

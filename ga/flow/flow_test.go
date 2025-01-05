@@ -35,7 +35,7 @@ func TestAddAction(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			reg := testActions.GenerateActionValidRegistration()
 			a := app.NewApp()
-			
+
 			if tc.actionRegistered {
 				app.RegisterAction(&reg)(a)
 			}
@@ -56,7 +56,7 @@ func TestMarshalJSON(t *testing.T) {
 	flowApp := app.NewApp()
 	reg := testActions.GenerateActionValidRegistration()
 	app.RegisterAction(&reg)(flowApp)
-	
+
 	flow := NewFlow(flowApp)
 	action := AddAction(testActions.ActionValid{}, testActions.ActionValidProps{})(flow)
 

@@ -20,11 +20,11 @@ func NewAction[T action.GoAction, P action.GoActionProps](definition definition.
 	}
 }
 
-func (a *Action[T, P]) applyConstructor(props *P){
+func (a *Action[T, P]) applyConstructor(props *P) {
 	applyConstructor(a.definition, a.Instance, props)
 }
 
-func applyConstructor[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T,P], instance *action.ActionInstance, props *P){
+func applyConstructor[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], instance *action.ActionInstance, props *P) {
 	if props == nil {
 		props = def.DefaultProps
 	}

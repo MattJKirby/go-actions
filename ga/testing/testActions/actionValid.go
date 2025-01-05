@@ -2,13 +2,13 @@ package testActions
 
 import "go-actions/ga/action"
 
-type ActionValid struct {}
+type ActionValid struct{}
 
-type ActionValidProps struct {}
+type ActionValidProps struct{}
 
-func (tav ActionValid) Execute(){}
+func (tav ActionValid) Execute() {}
 
-func GenerateActionValidCtor() action.GoActionConstructor[ActionValid, ActionValidProps]{
+func GenerateActionValidCtor() action.GoActionConstructor[ActionValid, ActionValidProps] {
 	return GenerateEmptyCtor[ActionValid, ActionValidProps]()
 }
 
