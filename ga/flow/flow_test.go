@@ -3,10 +3,9 @@ package flow
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/action"
 	"go-actions/ga/app"
 	"go-actions/ga/cr/asserts"
-	th "go-actions/ga/utils/testHelpers"
+	"go-actions/ga/testing/testActions"
 	"testing"
 )
 
@@ -34,11 +33,11 @@ func TestAddAction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
+			reg := testActions.GenerateActionValidRegistration()
 			a := app.NewApp()
-
+			
 			if tc.actionRegistered {
-				app.RegisterAction(&action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor})(a)
+				app.RegisterAction(&reg)(a)
 			}
 
 			defer func() {
@@ -47,7 +46,7 @@ func TestAddAction(t *testing.T) {
 			}()
 
 			f := NewFlow(a)
-			AddAction(th.ActionValid{}, th.ActionValidProps{})(f)
+			AddAction(testActions.ActionValid{}, testActions.ActionValidProps{})(f)
 			asserts.Equals(t, tc.expectedActions, len(f.actionInstances))
 		})
 	}
@@ -55,10 +54,11 @@ func TestAddAction(t *testing.T) {
 
 func TestMarshalJSON(t *testing.T) {
 	flowApp := app.NewApp()
-	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
-	app.RegisterAction(&action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor})(flowApp)
+	reg := testActions.GenerateActionValidRegistration()
+	app.RegisterAction(&reg)(flowApp)
+	
 	flow := NewFlow(flowApp)
-	action := AddAction(th.ActionValid{}, th.ActionValidProps{})(flow)
+	action := AddAction(testActions.ActionValid{}, testActions.ActionValidProps{})(flow)
 
 	marshalledActionInstance, _ := json.Marshal(action.Instance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))

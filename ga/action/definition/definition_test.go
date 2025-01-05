@@ -1,17 +1,15 @@
 package definition
 
 import (
-	"go-actions/ga/action"
 	"go-actions/ga/cr/asserts"
-	th "go-actions/ga/utils/testHelpers"
+	ta "go-actions/ga/testing/testActions"
 	"testing"
 )
 
 func TestNewDef(t *testing.T) {
 	expectedTypeName := "ActionValid"
-	expectedTypePath := "go-actions/ga/utils/testHelpers/testHelpers.ActionValid"
-	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
-	reg := action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
+	expectedTypePath := "go-actions/ga/testing/testActions/testActions.ActionValid"
+	reg := ta.GenerateActionValidRegistration()
 
 	defCtor, _ := NewActionDefinition(&reg)
 

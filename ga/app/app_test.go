@@ -1,18 +1,17 @@
 package app
 
 import (
-	"go-actions/ga/action"
-	th "go-actions/ga/utils/testHelpers"
+	ta "go-actions/ga/testing/testActions"
+
 	"testing"
 )
 
 func TestRegisterActionAndGet(t *testing.T) {
-	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	app := NewApp()
-	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	RegisterAction(registration)(app)
+	registration := ta.GenerateActionValidRegistration()
+	RegisterAction(&registration)(app)
 
-	result, _ := GetActionRegistration[th.ActionValid, th.ActionValidProps](th.ActionValid{})(app)
+	result, _ := GetActionRegistration[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})(app)
 
 	if result == nil {
 		t.Errorf("Error during registration: expected %v, got %v", nil, result)
@@ -20,12 +19,11 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestGetActionSuccessful(t *testing.T) {
-	ctor := th.GetEmptyConstructor[th.ActionValid, th.ActionValidProps]()
 	app := NewApp()
-	registration := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{Constructor: ctor}
-	RegisterAction(registration)(app)
+	registration := ta.GenerateActionValidRegistration()
+	RegisterAction(&registration)(app)
 
-	_, err := GetAction[th.ActionValid, th.ActionValidProps](th.ActionValid{})(app)
+	_, err := GetAction[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})(app)
 	if err != nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
@@ -34,7 +32,7 @@ func TestGetActionSuccessful(t *testing.T) {
 func TestGetActionFail(t *testing.T) {
 	app := NewApp()
 
-	_, err := GetAction[th.ActionValid, th.ActionValidProps](th.ActionValid{})(app)
+	_, err := GetAction[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})(app)
 	if err == nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
