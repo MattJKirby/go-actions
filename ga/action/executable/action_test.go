@@ -1,16 +1,15 @@
 package executable
 
 import (
-	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	th "go-actions/ga/utils/testHelpers"
+	ta "go-actions/ga/testing/testActions"
 	"testing"
 )
 
 func TestNewAction(t *testing.T) {
 
-	reg := &action.GoActionRegistration[th.ActionValid, th.ActionValidProps]{}
-	def, _ := definition.NewActionDefinition[th.ActionValid, th.ActionValidProps](reg)
+	reg := ta.GenerateActionValidRegistration()
+	def, _ := definition.NewActionDefinition(&reg)
 
 	acn := NewAction(*def)
 

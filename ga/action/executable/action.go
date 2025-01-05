@@ -1,34 +1,47 @@
 package executable
 
 import (
-	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 )
 
-type Action[T action.GoAction, Props action.GoActionProps] struct {
-	definition definition.ActionDefinition[T, Props]
+type Action[T action.GoAction, P action.GoActionProps] struct {
+	definition definition.ActionDefinition[T, P]
 	Instance   *action.ActionInstance
 }
 
-func NewAction[T action.GoAction, Props action.GoActionProps](definition definition.ActionDefinition[T, Props]) *Action[T, Props] {
+func NewAction[T action.GoAction, P action.GoActionProps](definition definition.ActionDefinition[T, P]) *Action[T, P] {
 	instance := action.NewActionInstance(definition.Name)
+	applyConstructor(definition, instance, definition.DefaultProps)
 
-	return &Action[T, Props]{
+	return &Action[T, P]{
 		definition: definition,
 		Instance:   instance,
 	}
 }
 
-func (a *Action[T, Props]) GetDef() *T {
-	def, ok := a.definition.CtorValue.Interface().(action.GoActionConstructor[T, Props])
-	if !ok {
-		fmt.Println("ERRRR")
-	}
-
-	test := a.definition.DefaultProps
-
-	return def(&action.ActionInstance{
-		Model: a.Instance.Model,
-	}, *test)
+func (a *Action[T, P]) applyConstructor(props *P){
+	applyConstructor(a.definition, a.Instance, props)
 }
+
+func applyConstructor[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T,P], instance *action.ActionInstance, props *P){
+	if props == nil {
+		props = def.DefaultProps
+	}
+	def.Constructor(instance, *props)
+}
+
+// func (a *Action[T, Props]) GetDef() *T {
+// 	// def, ok := a.definition.CtorValue.Interface().(action.GoActionConstructor[T, Props])
+// 	// if !ok {
+// 	// 	fmt.Println("ERRRR")
+// 	// }
+
+// 	a.definition.Constructor()
+
+// 	test := a.definition.DefaultProps
+
+// 	return def(&action.ActionInstance{
+// 		Model: a.Instance.Model,
+// 	}, *test)
+// }
