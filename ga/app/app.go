@@ -41,6 +41,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](a action.GoAction) fun
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[T, P](*reg), nil
+		return executable.NewAction(*reg), nil
 	}
 }
