@@ -6,29 +6,31 @@ import (
 )
 
 type Action[T action.GoAction, P action.GoActionProps] struct {
+	action *T
 	definition definition.ActionDefinition[T, P]
 	Instance   *action.ActionInstance
 }
 
 func NewAction[T action.GoAction, P action.GoActionProps](definition definition.ActionDefinition[T, P]) *Action[T, P] {
 	instance := action.NewActionInstance(definition.Name)
-	applyConstructor(definition, instance, definition.DefaultProps)
+	action := applyConstructor(definition, instance, definition.DefaultProps)
 
 	return &Action[T, P]{
+		action: action,
 		definition: definition,
 		Instance:   instance,
 	}
 }
 
 func (a *Action[T, P]) applyConstructor(props *P) {
-	applyConstructor(a.definition, a.Instance, props)
+	a.action = applyConstructor(a.definition, a.Instance, props)
 }
 
-func applyConstructor[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], instance *action.ActionInstance, props *P) {
+func applyConstructor[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], instance *action.ActionInstance, props *P) *T {
 	if props == nil {
 		props = def.DefaultProps
 	}
-	def.Constructor(instance, *props)
+	return def.Constructor(instance, *props)
 }
 
 // func (a *Action[T, Props]) GetDef() *T {
