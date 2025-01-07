@@ -19,10 +19,10 @@ func GetActionRegistration[T action.GoAction](a T) (*definition.ActionDefinition
 }
 
 func GetAction[T action.GoAction](a T) (*executable.Action[T, action.GoActionProps], error) {
-	return app.GetAction[T, action.GoActionProps](a)(ga)
+	return app.GetAction[T, action.GoActionProps](a, nil)(ga)
 }
 
-func ActionFunction[T action.GoAction, P action.GoActionProps](f *flow.Flow, a T, props P) *executable.Action[T, P] {
+func ActionFunction[T action.GoAction, P action.GoActionProps](f *flow.Flow, a T, props *P) *executable.Action[T, P] {
 	return flow.AddAction(a, props)(f)
 }
 

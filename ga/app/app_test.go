@@ -23,7 +23,7 @@ func TestGetActionSuccessful(t *testing.T) {
 	registration := ta.GenerateActionValidRegistration()
 	RegisterAction(&registration)(app)
 
-	_, err := GetAction[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})(app)
+	_, err := GetAction[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{}, nil)(app)
 	if err != nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
@@ -32,7 +32,7 @@ func TestGetActionSuccessful(t *testing.T) {
 func TestGetActionFail(t *testing.T) {
 	app := NewApp()
 
-	_, err := GetAction[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})(app)
+	_, err := GetAction[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{}, nil)(app)
 	if err == nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}

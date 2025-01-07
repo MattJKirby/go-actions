@@ -40,5 +40,5 @@ func (ex ExampleAction) Execute() {
 }
 
 func NewExampleAction(flow *flow.Flow) {
-	ga.ActionFunction(flow, ExampleAction{}, ExampleActionProps{})
+	ga.ActionFunction(flow, ExampleAction{}, &ExampleActionProps{})
 }
