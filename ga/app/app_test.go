@@ -11,7 +11,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 	registration := ta.GenerateActionValidRegistration()
 	RegisterAction(&registration)(app)
 
-	result, _ := GetActionRegistration[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})(app)
+	result, _ := GetActionRegistration[ta.ActionValid, ta.ActionValidProps]()(app)
 
 	if result == nil {
 		t.Errorf("Error during registration: expected %v, got %v", nil, result)

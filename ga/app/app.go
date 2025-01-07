@@ -28,8 +28,9 @@ func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoAct
 	}
 }
 
-func GetActionRegistration[T action.GoAction, P action.GoActionProps](action action.GoAction) func(*App) (*definition.ActionDefinition[T, P], error) {
+func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*App) (*definition.ActionDefinition[T, P], error) {
 	return func(app *App) (*definition.ActionDefinition[T, P], error) {
+		action := new(T)
 		actionType := utils.GetValueType(reflect.TypeOf(action))
 		return registration.GetAction[T, P](actionType)(app.actionRegistry)
 	}
@@ -37,7 +38,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps](action act
 
 func GetAction[T action.GoAction, P action.GoActionProps](a action.GoAction, props *P) func(*App) (*executable.Action[T, P], error) {
 	return func(app *App) (*executable.Action[T, P], error) {
-		reg, err := GetActionRegistration[T, P](a)(app)
+		reg, err := GetActionRegistration[T, P]()(app)
 		if err != nil {
 			return nil, err
 		}
