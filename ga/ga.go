@@ -18,12 +18,12 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() (*defini
 	return app.GetActionRegistration[T, P]()(ga)
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](a T) (*executable.Action[T, P], error) {
-	return app.GetAction[T, P](a, nil)(ga)
+func GetAction[T action.GoAction, P action.GoActionProps]() (*executable.Action[T, P], error) {
+	return app.GetAction[T, P](nil)(ga)
 }
 
 func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, a T, props *P) *executable.Action[T, P] {
-	return flow.AddAction(a, props)(f)
+	return flow.AddAction[T](props)(f)
 }
 
 func NewFlow() *flow.Flow {

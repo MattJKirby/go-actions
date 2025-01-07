@@ -36,7 +36,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 	}
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](a action.GoAction, props *P) func(*App) (*executable.Action[T, P], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.Action[T, P], error) {
 	return func(app *App) (*executable.Action[T, P], error) {
 		reg, err := GetActionRegistration[T, P]()(app)
 		if err != nil {
