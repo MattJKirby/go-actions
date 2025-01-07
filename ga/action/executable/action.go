@@ -22,7 +22,7 @@ func NewAction[T action.GoAction, P action.GoActionProps](definition definition.
 	}
 }
 
-func (a *Action[T, P]) applyConstructor(props *P) {
+func (a *Action[T, P]) ApplyConstructor(props *P) {
 	a.action = applyConstructor(a.definition, a.Instance, props)
 }
 

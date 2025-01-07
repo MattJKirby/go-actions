@@ -22,7 +22,7 @@ func GetAction[T action.GoAction](a T) (*executable.Action[T, action.GoActionPro
 	return app.GetAction[T, action.GoActionProps](a, nil)(ga)
 }
 
-func ActionFunction[T action.GoAction, P action.GoActionProps](f *flow.Flow, a T, props *P) *executable.Action[T, P] {
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, a T, props *P) *executable.Action[T, P] {
 	return flow.AddAction(a, props)(f)
 }
 
