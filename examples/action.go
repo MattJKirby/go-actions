@@ -18,14 +18,14 @@ func init() {
 	})
 }
 
+type ExampleActionProps struct{}
+
 type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *io.Input
 	Output           *io.Output
 }
-
-type ExampleActionProps struct{}
 
 func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
@@ -41,5 +41,5 @@ func (ex ExampleAction) Execute() {
 }
 
 func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) *executable.Action[ExampleAction, ExampleActionProps] {
-	return ga.NewFlowAction(flow, ExampleAction{}, props)
+	return ga.NewFlowAction[ExampleAction](flow, props)
 }
