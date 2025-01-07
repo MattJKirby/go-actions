@@ -49,5 +49,3 @@ func GetAction[T action.GoAction, P action.GoActionProps](a action.GoAction, pro
 		return action, nil
 	}
 }
-
-

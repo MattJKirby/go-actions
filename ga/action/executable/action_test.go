@@ -19,11 +19,11 @@ func TestNewAction(t *testing.T) {
 	}
 }
 
-func TestApplyConstructorNoProps(t *testing.T){
+func TestApplyConstructorNoProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 	action := NewAction(*def)
-	
+
 	instance := *action.Instance
 	model.Parameter("param", 10)(instance.Model)
 
