@@ -5,7 +5,6 @@ import (
 	"go-actions/ga"
 	"go-actions/ga/action"
 	"go-actions/ga/action/executable"
-	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/flow"
@@ -29,10 +28,10 @@ type ExampleAction struct {
 
 func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
-		IntegerParameter: model.Parameter("intParam", 10)(instance.Model),
-		StringParameter:  model.Parameter("strParam", "test")(instance.Model),
-		Input:            model.Input("input", true)(instance.Model),
-		Output:           model.Output("output")(instance.Model),
+		IntegerParameter: action.Parameter("intParam", 10)(instance),
+		StringParameter:  action.Parameter("strParam", "test")(instance),
+		Input:            action.Input("input", true)(instance),
+		Output:           action.Output("output")(instance),
 	}
 }
 
