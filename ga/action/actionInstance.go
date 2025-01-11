@@ -17,7 +17,7 @@ func NewActionInstance(actionName string) *ActionInstance {
 	}
 }
 
-func Parameter[T any](a *ActionInstance, name string, defaultValue T)  *parameter.ActionParameter[T] {
+func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter.ActionParameter[T] {
 	parameterFn := func() *any {
 		value := any(parameter.NewActionParameter(name, defaultValue))
 		return &value
