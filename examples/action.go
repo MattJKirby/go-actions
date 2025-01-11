@@ -28,10 +28,10 @@ type ExampleAction struct {
 
 func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
-		IntegerParameter: action.Parameter("intParam", 10)(instance),
-		StringParameter:  action.Parameter("strParam", "test")(instance),
-		Input:            action.Input("input", true)(instance),
-		Output:           action.Output("output")(instance),
+		IntegerParameter: action.Parameter(instance, "intParam", 10),
+		StringParameter:  action.Parameter(instance, "strParam", "test"),
+		Input:            action.Input(instance, "input", true),
+		Output:           action.Output(instance, "output"),
 	}
 }
 

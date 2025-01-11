@@ -19,7 +19,7 @@ func TestNewActionInstance(t *testing.T) {
 
 func TestParameter(t *testing.T) {
 	instance := NewActionInstance("test")
-	expected := Parameter("paramName", 0)(instance)
+	expected := Parameter(instance, "paramName", 0)
 
 	param, err := instance.Model.Parameters.Get("paramName")
 	asserts.Equals(t, nil, err)
@@ -28,7 +28,7 @@ func TestParameter(t *testing.T) {
 
 func TestInput(t *testing.T) {
 	instance := NewActionInstance("test")
-	expected := Input("inputName", false)(instance)
+	expected := Input(instance, "inputName", false)
 
 	input, err := instance.Model.Inputs.Get("inputName")
 	asserts.Equals(t, nil, err)
@@ -37,7 +37,7 @@ func TestInput(t *testing.T) {
 
 func TestOutput(t *testing.T) {
 	instance := NewActionInstance("test")
-	expected := Output("outputName")(instance)
+	expected := Output(instance, "outputName")
 
 	output, err := instance.Model.Outputs.Get("outputName")
 	asserts.Equals(t, nil, err)

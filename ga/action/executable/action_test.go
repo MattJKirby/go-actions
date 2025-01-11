@@ -26,7 +26,7 @@ func TestApplyConstructorNoProps(t *testing.T) {
 	acn := NewAction(*def)
 
 	instance := acn.Instance
-	action.Parameter("param", 10)(instance)
+	action.Parameter(instance, "param", 10)
 
 	applyConstructor(*def, instance, nil)
 
