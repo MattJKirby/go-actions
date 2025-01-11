@@ -13,7 +13,10 @@ func main() {
 	fmt.Println(action)
 
 	flow := ga.NewFlow()
-	exa := examples.NewExampleAction(flow, nil)
-	exa.Action.Execute()
+	ex1 := examples.NewExampleAction(flow, nil)
+	ex1.Action.Execute()
+
+	ex2 := examples.NewExampleAction(flow, nil)
+	ex2.Action.Execute()
 
 }
