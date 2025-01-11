@@ -26,7 +26,6 @@ func TestNewActionInstance(t *testing.T) {
 }
 
 func TestParameter(t *testing.T) {
-	// model := model.NewActionModel("modelName", &mockConfig{"uid"})
 	instance := NewActionInstance("test")
 	expected := Parameter("paramName", 0)(instance)
 
@@ -36,7 +35,6 @@ func TestParameter(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
-	// model := model.NewActionModel("modelName", &mockConfig{"uid"})
 	instance := NewActionInstance("test")
 	expected := Input("inputName", false)(instance)
 
@@ -46,7 +44,6 @@ func TestInput(t *testing.T) {
 }
 
 func TestOutput(t *testing.T) {
-	// model := model.NewActionModel("model", &mockConfig{"uid"})
 	instance := NewActionInstance("test")
 	expected := Output("outputName")(instance)
 
