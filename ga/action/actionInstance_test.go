@@ -9,14 +9,6 @@ import (
 	"testing"
 )
 
-type mockConfig struct {
-	uid string
-}
-
-func (mc mockConfig) GenerateUid() string {
-	return mc.uid
-}
-
 func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test")
 	model := model.NewActionModel("test", &config.ModelConfig{})
