@@ -13,11 +13,17 @@ import (
 func init() {
 	ga.RegisterAction(&action.GoActionRegistration[ExampleAction, ExampleActionProps]{
 		Constructor:  newExampleAction,
-		DefaultProps: new(ExampleActionProps),
+		DefaultProps: &ExampleActionProps{
+			IntProp: 10,
+			StrProp: "someString",
+		},
 	})
 }
 
-type ExampleActionProps struct{}
+type ExampleActionProps struct {
+	IntProp int
+	StrProp string
+}
 
 type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
@@ -28,8 +34,8 @@ type ExampleAction struct {
 
 func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
-		IntegerParameter: action.Parameter(instance, "intParam", 10),
-		StringParameter:  action.Parameter(instance, "strParam", "test"),
+		IntegerParameter: action.Parameter(instance, "intParam", props.IntProp),
+		StringParameter:  action.Parameter(instance, "strParam", props.StrProp),
 		Input:            action.Input(instance, "input", true),
 		Output:           action.Output(instance, "output"),
 	}
