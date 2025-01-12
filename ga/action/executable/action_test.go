@@ -11,7 +11,7 @@ import (
 )
 
 func TestNewAction(t *testing.T) {
-	reg := ta.GenerateActionValidRegistration()
+	reg := ta.GenerateEmptyActionValidRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 
 	action := NewAction(*def)
@@ -22,7 +22,7 @@ func TestNewAction(t *testing.T) {
 }
 
 func TestApplyConstructorNoProps(t *testing.T) {
-	reg := ta.GenerateActionValidRegistration()
+	reg := ta.GenerateEmptyActionValidRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 	acn := NewAction(*def)
 
@@ -37,12 +37,12 @@ func TestApplyConstructorNoProps(t *testing.T) {
 
 //TODO
 func TestApplyConstructorWithProps(t *testing.T){
-	reg := ta.GenerateActionValidRegistration()
+	reg := ta.GenerateEmptyActionValidRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 	acn := NewAction(*def)
 
-	props := &ta.ActionValidProps{Prop: "SomeVal"}
-	applyConstructor(*def, acn.Instance, props)
+
+	// applyConstructor(*def, acn.Instance, props)
 
 	fmt.Println(acn.Instance)
 

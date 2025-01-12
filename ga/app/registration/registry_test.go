@@ -11,7 +11,7 @@ import (
 
 func TestAcceptAction(t *testing.T) {
 	registry := NewActionRegistry()
-	registration := ta.GenerateActionValidRegistration()
+	registration := ta.GenerateEmptyActionValidRegistration()
 
 	err := AcceptRegistration(&registration)(registry)
 	abt := len(registry.actionsByType)
@@ -30,18 +30,18 @@ func TestAcceptAction(t *testing.T) {
 
 func TestGetAction(t *testing.T) {
 	registry := NewActionRegistry()
-	registration := ta.GenerateActionValidRegistration()
+	registration := ta.GenerateEmptyActionValidRegistration()
 	def, _ := definition.NewActionDefinition(&registration)
 
 	AcceptRegistration(&registration)(registry)
 
-	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValid, ta.ActionValidProps]]{
+	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.EmptyActionValid, ta.EmptyActionValidProps]]{
 		{Name: "existing def", Input: def.ActionType, Expected: def},
 		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValid, ta.ActionValidProps]]) {
-		storedDef, err := GetAction[ta.ActionValid, ta.ActionValidProps](test.Input)(registry)
+	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.EmptyActionValid, ta.EmptyActionValidProps]]) {
+		storedDef, err := GetAction[ta.EmptyActionValid, ta.EmptyActionValidProps](test.Input)(registry)
 		hasErr := err != nil
 
 		if test.Error != hasErr {

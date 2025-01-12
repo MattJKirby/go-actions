@@ -9,13 +9,13 @@ import (
 )
 
 func TestActionTypeDefinitionValues(t *testing.T) {
-	ctor := ta.GenerateActionValidCtor()
+	ctor := ta.GenerateEmptyActionValidCtor()
 
-	expectedType := reflect.TypeOf(ta.ActionValid{})
-	expectedValue := reflect.ValueOf(&ta.ActionValid{})
+	expectedType := reflect.TypeOf(ta.EmptyActionValid{})
+	expectedValue := reflect.ValueOf(&ta.EmptyActionValid{})
 	expectedCtor := reflect.ValueOf(ctor).Pointer()
 	expectedCtorType := reflect.TypeOf(ctor)
-	defCtor, _ := NewTypeDefinition[ta.ActionValid, ta.ActionValidProps](ctor)
+	defCtor, _ := NewTypeDefinition[ta.EmptyActionValid, ta.EmptyActionValidProps](ctor)
 
 	asserts.Equals(t, expectedType, defCtor.ActionType)
 	asserts.Equals(t, expectedValue, defCtor.ActionValue)
@@ -24,8 +24,8 @@ func TestActionTypeDefinitionValues(t *testing.T) {
 }
 
 func TestConstructorStructParity(t *testing.T) {
-	defCtor := TypeDefinitionFromConstructor(ta.GenerateActionValidCtor())
-	defStruct := TypeDefinitionFromStruct[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})
+	defCtor := TypeDefinitionFromConstructor(ta.GenerateEmptyActionValidCtor())
+	defStruct := TypeDefinitionFromStruct[ta.EmptyActionValid, ta.EmptyActionValidProps](ta.EmptyActionValid{})
 
 	asserts.Equals(t, defCtor.ActionType, defStruct.ActionType)
 	asserts.Equals(t, defCtor.ActionValue, defStruct.ActionValue)
@@ -33,9 +33,9 @@ func TestConstructorStructParity(t *testing.T) {
 }
 
 func TestNewActionTypeDefiniton(t *testing.T) {
-	defCtor, ctorErr := NewTypeDefinition[ta.ActionValid, ta.ActionValidProps](ta.GenerateActionValidCtor())
-	defStruct, structErr := NewTypeDefinition[ta.ActionValid, ta.ActionValidProps](ta.ActionValid{})
-	defInvalid, invalidErr := NewTypeDefinition[ta.ActionValid, ta.ActionValidProps](ta.ActionInvalidNoExecute{})
+	defCtor, ctorErr := NewTypeDefinition[ta.EmptyActionValid, ta.EmptyActionValidProps](ta.GenerateEmptyActionValidCtor())
+	defStruct, structErr := NewTypeDefinition[ta.EmptyActionValid, ta.EmptyActionValidProps](ta.EmptyActionValid{})
+	defInvalid, invalidErr := NewTypeDefinition[ta.EmptyActionValid, ta.EmptyActionValidProps](ta.ActionInvalidNoExecute{})
 
 	if defCtor == nil || ctorErr != nil {
 		t.Errorf("error generating Type Def from constructor: expected %v, got %v", nil, ctorErr)

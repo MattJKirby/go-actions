@@ -2,19 +2,17 @@ package testActions
 
 import "go-actions/ga/action"
 
-type ActionValid struct{}
+type EmptyActionValid struct{}
 
-type ActionValidProps struct{
-	Prop string
+type EmptyActionValidProps struct{}
+
+func (tav EmptyActionValid) Execute() {}
+
+func GenerateEmptyActionValidCtor() action.GoActionConstructor[EmptyActionValid, EmptyActionValidProps] {
+	return GenerateEmptyCtor[EmptyActionValid, EmptyActionValidProps]()
 }
 
-func (tav ActionValid) Execute() {}
-
-func GenerateActionValidCtor() action.GoActionConstructor[ActionValid, ActionValidProps] {
-	return GenerateEmptyCtor[ActionValid, ActionValidProps]()
-}
-
-func GenerateActionValidRegistration() action.GoActionRegistration[ActionValid, ActionValidProps] {
-	ctor := GenerateActionValidCtor()
-	return GenerateRegistration(ctor, &ActionValidProps{})
+func GenerateEmptyActionValidRegistration() action.GoActionRegistration[EmptyActionValid, EmptyActionValidProps] {
+	ctor := GenerateEmptyActionValidCtor()
+	return GenerateRegistration(ctor, &EmptyActionValidProps{})
 }

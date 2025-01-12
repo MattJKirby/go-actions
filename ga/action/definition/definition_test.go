@@ -7,9 +7,9 @@ import (
 )
 
 func TestNewDef(t *testing.T) {
-	expectedTypeName := "ActionValid"
-	expectedTypePath := "go-actions/ga/testing/testActions/testActions.ActionValid"
-	reg := ta.GenerateActionValidRegistration()
+	expectedTypeName := "EmptyActionValid"
+	expectedTypePath := "go-actions/ga/testing/testActions/testActions.EmptyActionValid"
+	reg := ta.GenerateEmptyActionValidRegistration()
 
 	defCtor, _ := NewActionDefinition(&reg)
 
