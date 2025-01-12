@@ -29,20 +29,20 @@ func TestApplyConstructorNoProps(t *testing.T) {
 	instance := acn.Instance
 	action.Parameter(instance, "param", 10)
 
-	applyConstructor(*def, instance, nil)
+	newPopulatedInstance(*def, def.DefaultProps)
 
 	asserts.Equals(t, instance, acn.Instance)
 }
 
-
-//TODO
-func TestApplyConstructorWithProps(t *testing.T){
-	reg := ta.GenerateEmptyActionValidRegistration()
+func TestApplyConstructorWithProps(t *testing.T) {
+	reg := ta.GenerateActionValidRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 	acn := NewAction(*def)
 
+	props := &ta.ActionValidProps{Param1: "AAAA"}
+	acn.PopulateActionInstance(props)
 
-	// applyConstructor(*def, acn.Instance, props)
+	asserts.Equals(t, "AAAA", acn.Action.Param1.Value())
 
 	fmt.Println(acn.Instance)
 

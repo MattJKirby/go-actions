@@ -6,48 +6,29 @@ import (
 )
 
 type Action[T action.GoAction, P action.GoActionProps] struct {
-	Action     *T
-	Props      *P
 	definition definition.ActionDefinition[T, P]
 	Instance   *action.ActionInstance
+	Action     *T
 }
 
 func NewAction[T action.GoAction, P action.GoActionProps](definition definition.ActionDefinition[T, P]) *Action[T, P] {
-	instance := action.NewActionInstance(definition.Name)
-	props := definition.DefaultProps
-	action := applyConstructor(definition, instance, props)
-
+	instance, constructed := newPopulatedInstance(definition, definition.DefaultProps)
 	return &Action[T, P]{
-		Action:     action,
-		Props:      props,
 		definition: definition,
 		Instance:   instance,
+		Action:     constructed,
 	}
 }
 
-func (a *Action[T, P]) ApplyConstructor(props *P) {
-	a.Props = props
-	a.Action = applyConstructor(a.definition, a.Instance, props)
+func (a *Action[T, P]) PopulateActionInstance(props *P) {
+	a.Instance, a.Action = newPopulatedInstance(a.definition, props)
 }
 
-func applyConstructor[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], instance *action.ActionInstance, props *P) *T {
+func newPopulatedInstance[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], props *P) (*action.ActionInstance, *T) {
 	if props == nil {
 		props = def.DefaultProps
 	}
-	return def.Constructor(instance, *props)
+	instance := action.NewActionInstance(def.Name)
+	constructed := def.Constructor(instance, *props)
+	return instance, constructed
 }
-
-// func (a *Action[T, Props]) GetDef() *T {
-// 	// def, ok := a.definition.CtorValue.Interface().(action.GoActionConstructor[T, Props])
-// 	// if !ok {
-// 	// 	fmt.Println("ERRRR")
-// 	// }
-
-// 	a.definition.Constructor()
-
-// 	test := a.definition.DefaultProps
-
-// 	return def(&action.ActionInstance{
-// 		Model: a.Instance.Model,
-// 	}, *test)
-// }
