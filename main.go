@@ -17,7 +17,6 @@ func main() {
 		StrProp: "aaa",
 	})
 
-
 	ex1.Action.Execute()
 
 	ex2 := examples.NewExampleAction(flow, nil)

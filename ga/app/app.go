@@ -42,6 +42,7 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 		if err != nil {
 			return nil, err
 		}
+		
 		action := executable.NewAction(*reg)
 		if props != nil {
 			action.ApplyConstructor(props)

@@ -4,7 +4,9 @@ import "go-actions/ga/action"
 
 type ActionValid struct{}
 
-type ActionValidProps struct{}
+type ActionValidProps struct{
+	Prop string
+}
 
 func (tav ActionValid) Execute() {}
 

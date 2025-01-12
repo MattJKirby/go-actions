@@ -12,7 +12,7 @@ import (
 
 func init() {
 	ga.RegisterAction(&action.GoActionRegistration[ExampleAction, ExampleActionProps]{
-		Constructor:  newExampleAction,
+		Constructor: newExampleAction,
 		DefaultProps: &ExampleActionProps{
 			IntProp: 10,
 			StrProp: "someString",
