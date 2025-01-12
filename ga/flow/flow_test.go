@@ -33,7 +33,7 @@ func TestAddAction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			reg := testActions.GenerateEmptyActionValidRegistration()
+			reg := testActions.GenerateActionValidEmptyRegistration()
 			a := app.NewApp()
 
 			if tc.actionRegistered {
@@ -46,7 +46,7 @@ func TestAddAction(t *testing.T) {
 			}()
 
 			f := NewFlow(a)
-			AddAction[testActions.EmptyActionValid](&testActions.EmptyActionValidProps{})(f)
+			AddAction[testActions.ActionValidEmpty](&testActions.ActionValidEmptyProps{})(f)
 			asserts.Equals(t, tc.expectedActions, len(f.actionInstances))
 		})
 	}
@@ -54,11 +54,11 @@ func TestAddAction(t *testing.T) {
 
 func TestMarshalJSON(t *testing.T) {
 	flowApp := app.NewApp()
-	reg := testActions.GenerateEmptyActionValidRegistration()
+	reg := testActions.GenerateActionValidEmptyRegistration()
 	app.RegisterAction(&reg)(flowApp)
 
 	flow := NewFlow(flowApp)
-	action := AddAction[testActions.EmptyActionValid](&testActions.EmptyActionValidProps{})(flow)
+	action := AddAction[testActions.ActionValidEmpty](&testActions.ActionValidEmptyProps{})(flow)
 
 	marshalledActionInstance, _ := json.Marshal(action.Instance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))

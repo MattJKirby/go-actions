@@ -11,7 +11,7 @@ import (
 )
 
 func TestNewAction(t *testing.T) {
-	reg := ta.GenerateEmptyActionValidRegistration()
+	reg := ta.GenerateActionValidEmptyRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 
 	action := NewAction(*def)
@@ -22,7 +22,7 @@ func TestNewAction(t *testing.T) {
 }
 
 func TestApplyConstructorNoProps(t *testing.T) {
-	reg := ta.GenerateEmptyActionValidRegistration()
+	reg := ta.GenerateActionValidEmptyRegistration()
 	def, _ := definition.NewActionDefinition(&reg)
 	acn := NewAction(*def)
 
