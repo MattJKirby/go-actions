@@ -1,6 +1,7 @@
 package executable
 
 import (
+	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 
@@ -31,4 +32,18 @@ func TestApplyConstructorNoProps(t *testing.T) {
 	applyConstructor(*def, instance, nil)
 
 	asserts.Equals(t, instance, acn.Instance)
+}
+
+
+//TODO
+func TestApplyConstructorWithProps(t *testing.T){
+	reg := ta.GenerateActionValidRegistration()
+	def, _ := definition.NewActionDefinition(&reg)
+	acn := NewAction(*def)
+
+	props := &ta.ActionValidProps{Prop: "SomeVal"}
+	applyConstructor(*def, acn.Instance, props)
+
+	fmt.Println(acn.Instance)
+
 }
