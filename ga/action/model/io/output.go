@@ -2,19 +2,18 @@ package io
 
 import (
 	"fmt"
-	"go-actions/ga/action/model/io/reference"
 	"go-actions/ga/utils/marshalling"
 )
 
 type Output struct {
-	Name            string                      `json:"name"`
-	Id              string                      `json:"id"`
-	InputReferences []*reference.InputReference `json:"inputs"`
+	Name            string             `json:"name"`
+	Id              string             `json:"id"`
+	InputReferences []*ActionReference `json:"inputs"`
 }
 
 func NewActionOutput(name string, actionUid string) *Output {
 	id := fmt.Sprintf("%s__Output:%s", actionUid, name)
-	inputReferences := []*reference.InputReference{}
+	inputReferences := []*ActionReference{}
 	return &Output{
 		name,
 		id,
@@ -22,7 +21,7 @@ func NewActionOutput(name string, actionUid string) *Output {
 	}
 }
 
-func (ao *Output) AssignInputReference(ref *reference.InputReference) {
+func (ao *Output) AssignInputReference(ref *ActionReference) {
 	ao.InputReferences = append(ao.InputReferences, ref)
 }
 

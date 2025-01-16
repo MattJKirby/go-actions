@@ -2,14 +2,13 @@ package io
 
 import (
 	"fmt"
-	"go-actions/ga/action/model/io/reference"
 	"go-actions/ga/utils/marshalling"
 )
 
 type Input struct {
-	Name            string                     `json:"name"`
-	Id              string                     `json:"id"`
-	OutputReference *reference.OutputReference `json:"output"`
+	Name            string           `json:"name"`
+	Id              string           `json:"id"`
+	OutputReference *ActionReference `json:"output"`
 	required        bool
 }
 
@@ -23,7 +22,7 @@ func NewInput(name string, actionUid string, required bool) *Input {
 	}
 }
 
-func (i *Input) AssignOutput(ref *reference.OutputReference) {
+func (i *Input) AssignOutput(ref *ActionReference) {
 	i.OutputReference = ref
 }
 

@@ -3,7 +3,6 @@ package io
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/action/model/io/reference"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -17,7 +16,7 @@ func TestNewInput(t *testing.T) {
 
 func TestAssignOutput(t *testing.T) {
 	input := NewInput("name", "actionUid", false)
-	outputRef := reference.NewOutputReference("otherAction", "res")
+	outputRef := NewReference("otherAction", "res")
 
 	input.AssignOutput(outputRef)
 	asserts.Equals(t, outputRef, input.OutputReference)
@@ -25,7 +24,7 @@ func TestAssignOutput(t *testing.T) {
 
 func TestMarshalling(t *testing.T) {
 	input := NewInput("i", "u", false)
-	ref := reference.NewOutputReference("a", "o")
+	ref := NewReference("a", "o")
 	marshalledRef, _ := json.Marshal(ref)
 
 	t.Run("marshalling no output", func(t *testing.T) {
@@ -43,7 +42,7 @@ func TestMarshalling(t *testing.T) {
 
 func TestUnmarshalling(t *testing.T) {
 	input := NewInput("i", "u", false)
-	ref := reference.NewOutputReference("a", "o")
+	ref := NewReference("a", "o")
 	input.AssignOutput(ref)
 	marshalled, _ := json.Marshal(input)
 
