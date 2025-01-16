@@ -11,3 +11,7 @@ func NewReference(ActionUid string, ResourceName string) *ActionReference {
 		ResourceName,
 	}
 }
+
+// func AssignReferences(in *Input, out *Output){
+// 	in.AssignOutput(out.)
+// }
