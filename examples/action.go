@@ -23,6 +23,8 @@ func init() {
 type ExampleActionProps struct {
 	IntProp int
 	StrProp string
+	Input   *io.Input
+	Outputs []*io.Output
 }
 
 type ExampleAction struct {
