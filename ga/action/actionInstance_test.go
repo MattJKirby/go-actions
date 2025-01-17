@@ -2,7 +2,6 @@ package action
 
 import (
 	"go-actions/ga/action/model"
-	"go-actions/ga/action/model/config"
 	"go-actions/ga/action/model/parameter"
 
 	"go-actions/ga/cr/asserts"
@@ -11,7 +10,7 @@ import (
 
 func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test")
-	model := model.NewActionModel("test", &config.ModelConfig{})
+	model := model.NewActionModel("test", &model.ModelConfig{})
 	model.ActionUid = instance.Model.ActionUid
 
 	asserts.Equals(t, model, instance.Model)

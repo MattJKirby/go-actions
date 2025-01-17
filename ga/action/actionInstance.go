@@ -2,7 +2,6 @@ package action
 
 import (
 	"go-actions/ga/action/model"
-	"go-actions/ga/action/model/config"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 )
@@ -13,7 +12,7 @@ type ActionInstance struct {
 
 func NewActionInstance(actionName string) *ActionInstance {
 	return &ActionInstance{
-		Model: model.NewActionModel(actionName, config.NewModelConfig()),
+		Model: model.NewActionModel(actionName, model.NewModelConfig()),
 	}
 }
 

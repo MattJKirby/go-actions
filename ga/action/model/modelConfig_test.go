@@ -1,4 +1,4 @@
-package config
+package model
 
 import (
 	"go-actions/ga/cr/asserts"
