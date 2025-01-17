@@ -9,6 +9,7 @@ type Input struct {
 	Name            string           `json:"name"`
 	Id              string           `json:"id"`
 	OutputReference *ActionReference `json:"output"`
+	actionUid string
 	required        bool
 }
 
@@ -18,6 +19,7 @@ func NewInput(name string, actionUid string, required bool) *Input {
 		name,
 		id,
 		nil,
+		actionUid,
 		required,
 	}
 }

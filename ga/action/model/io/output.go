@@ -9,6 +9,7 @@ type Output struct {
 	Name            string             `json:"name"`
 	Id              string             `json:"id"`
 	InputReferences []*ActionReference `json:"inputs"`
+	actionUid string
 }
 
 func NewActionOutput(name string, actionUid string) *Output {
@@ -18,6 +19,7 @@ func NewActionOutput(name string, actionUid string) *Output {
 		name,
 		id,
 		inputReferences,
+		actionUid,
 	}
 }
 
