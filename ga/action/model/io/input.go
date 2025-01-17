@@ -9,7 +9,7 @@ type Input struct {
 	Name            string           `json:"name"`
 	Id              string           `json:"id"`
 	OutputReference *ActionReference `json:"output"`
-	actionUid string
+	actionUid       string
 	required        bool
 }
 
