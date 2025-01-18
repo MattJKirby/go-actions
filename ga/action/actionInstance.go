@@ -24,11 +24,16 @@ func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter
 	return (*a.Model.Parameters.GetOrDefault(name, parameterFn)).(*parameter.ActionParameter[T])
 }
 
-func Input(a *ActionInstance, name string, required bool) *io.Input {
+func Input(a *ActionInstance, name string, required bool, defaultSource *io.Output) *io.Input {
 	inputFn := func() *io.Input {
 		return io.NewInput(name, a.Model.ActionUid, required)
 	}
-	return a.Model.Inputs.GetOrDefault(name, inputFn)
+
+	input := a.Model.Inputs.GetOrDefault(name, inputFn)
+	if defaultSource != nil {
+		io.AssignReferences(defaultSource, []*io.Input{input})
+	}
+	return input
 }
 
 func Output(a *ActionInstance, name string) *io.Output {

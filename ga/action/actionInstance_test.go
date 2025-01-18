@@ -2,6 +2,7 @@ package action
 
 import (
 	"go-actions/ga/action/model"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 
 	"go-actions/ga/cr/asserts"
@@ -26,12 +27,28 @@ func TestParameter(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
-	instance := NewActionInstance("test")
-	expected := Input(instance, "inputName", false)
+	testcases := []struct {
+		name                    string
+		defaultSource           *io.Output
+		expectedSourceReference *io.ActionReference
+	}{
+		{name: "without default source", defaultSource: nil},
+		{name: "with default source", defaultSource: io.NewActionOutput("o", "a"), expectedSourceReference: io.NewReference("a", "o")},
+	}
 
-	input, err := instance.Model.Inputs.Get("inputName")
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, expected, input)
+	for _, test := range testcases {
+		t.Run(test.name, func(t *testing.T) {
+			instance := NewActionInstance("test")
+			input, err := instance.Model.Inputs.Get("inputName")
+
+			expected := Input(instance, "inputName", false, test.defaultSource)
+
+			asserts.Equals(t, nil, err)
+			asserts.Equals(t, expected, input)
+			asserts.Equals(t, test.expectedSourceReference, input.SourceReference)
+		})
+	}
+
 }
 
 func TestOutput(t *testing.T) {
