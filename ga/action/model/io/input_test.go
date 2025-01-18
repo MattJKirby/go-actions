@@ -18,8 +18,8 @@ func TestAssignOutput(t *testing.T) {
 	input := NewInput("name", "actionUid", false)
 	outputRef := NewReference("otherAction", "res")
 
-	input.AssignOutput(outputRef)
-	asserts.Equals(t, outputRef, input.OutputReference)
+	input.AssignSource(outputRef)
+	asserts.Equals(t, outputRef, input.SourceReference)
 }
 
 func TestMarshalling(t *testing.T) {
@@ -29,13 +29,13 @@ func TestMarshalling(t *testing.T) {
 
 	t.Run("marshalling no output", func(t *testing.T) {
 		marshalled, _ := json.Marshal(input)
-		asserts.Equals(t, `{"name":"i","id":"u__Input:i","output":null}`, string(marshalled))
+		asserts.Equals(t, `{"name":"i","id":"u__Input:i","source":null}`, string(marshalled))
 	})
 
 	t.Run("marshalling with output", func(t *testing.T) {
-		input.AssignOutput(ref)
+		input.AssignSource(ref)
 		marshalled, _ := json.Marshal(input)
-		expected := fmt.Sprintf(`{"name":"i","id":"u__Input:i","output":%s}`, string(marshalledRef))
+		expected := fmt.Sprintf(`{"name":"i","id":"u__Input:i","source":%s}`, string(marshalledRef))
 		asserts.Equals(t, expected, string(marshalled))
 	})
 }
@@ -43,7 +43,7 @@ func TestMarshalling(t *testing.T) {
 func TestUnmarshalling(t *testing.T) {
 	input := NewInput("i", "u", false)
 	ref := NewReference("a", "o")
-	input.AssignOutput(ref)
+	input.AssignSource(ref)
 	marshalled, _ := json.Marshal(input)
 
 	t.Run("test valid unmarshalling", func(t *testing.T) {
@@ -52,8 +52,8 @@ func TestUnmarshalling(t *testing.T) {
 
 		asserts.Equals(t, input.Id, newInput.Id)
 		asserts.Equals(t, input.Name, newInput.Name)
-		asserts.Equals(t, input.OutputReference.ActionUid, newInput.OutputReference.ActionUid)
-		asserts.Equals(t, input.OutputReference.ResourceName, newInput.OutputReference.ResourceName)
+		asserts.Equals(t, input.SourceReference.ActionUid, newInput.SourceReference.ActionUid)
+		asserts.Equals(t, input.SourceReference.ResourceName, newInput.SourceReference.ResourceName)
 	})
 
 	t.Run("test invalid unmarshalling", func(t *testing.T) {

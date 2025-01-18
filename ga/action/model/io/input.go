@@ -8,7 +8,7 @@ import (
 type Input struct {
 	Name            string           `json:"name"`
 	Id              string           `json:"id"`
-	OutputReference *ActionReference `json:"output"`
+	SourceReference *ActionReference `json:"source"`
 	actionUid       string
 	required        bool
 }
@@ -24,8 +24,8 @@ func NewInput(name string, actionUid string, required bool) *Input {
 	}
 }
 
-func (i *Input) AssignOutput(ref *ActionReference) {
-	i.OutputReference = ref
+func (i *Input) AssignSource(outputRef *ActionReference) {
+	i.SourceReference = outputRef
 }
 
 func (i *Input) UnmarshalJSON(data []byte) error {

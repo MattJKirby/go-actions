@@ -23,7 +23,7 @@ func init() {
 type ExampleActionProps struct {
 	IntProp int
 	StrProp string
-	Source   *io.Output
+	Source  *io.Output
 	Targets []*io.Input
 }
 

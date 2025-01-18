@@ -14,10 +14,10 @@ func NewReference(ActionUid string, ResourceName string) *ActionReference {
 
 func AssignReferences(source *Output, targets []*Input) {
 	sourceRef := NewReference(source.actionUid, source.Name)
-	
+
 	for _, target := range targets {
 		targetRef := NewReference(target.actionUid, target.Name)
-		source.AssignInputReference(targetRef)
-		target.AssignOutput(sourceRef)
+		source.AssignTarget(targetRef)
+		target.AssignSource(sourceRef)
 	}
 }

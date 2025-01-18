@@ -6,25 +6,25 @@ import (
 )
 
 type Output struct {
-	Name            string             `json:"name"`
-	Id              string             `json:"id"`
-	InputReferences []*ActionReference `json:"inputs"`
-	actionUid       string
+	Name             string             `json:"name"`
+	Id               string             `json:"id"`
+	TargetReferences []*ActionReference `json:"targets"`
+	actionUid        string
 }
 
 func NewActionOutput(name string, actionUid string) *Output {
 	id := fmt.Sprintf("%s__Output:%s", actionUid, name)
-	inputReferences := []*ActionReference{}
+	TargetReferences := []*ActionReference{}
 	return &Output{
 		name,
 		id,
-		inputReferences,
+		TargetReferences,
 		actionUid,
 	}
 }
 
-func (ao *Output) AssignInputReference(ref *ActionReference) {
-	ao.InputReferences = append(ao.InputReferences, ref)
+func (ao *Output) AssignTarget(inputRef *ActionReference) {
+	ao.TargetReferences = append(ao.TargetReferences, inputRef)
 }
 
 func (ao *Output) UnmarshalJSON(data []byte) error {
