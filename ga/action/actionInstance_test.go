@@ -39,13 +39,12 @@ func TestInput(t *testing.T) {
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
 			instance := NewActionInstance("test")
-			input, err := instance.Model.Inputs.Get("inputName")
+			expected := io.NewInput("inputName", instance.Model.ActionUid, false)
+			expected.AssignSource(test.expectedSourceReference)
 
-			expected := Input(instance, "inputName", false, test.defaultSource)
+			input := Input(instance, "inputName", false, test.defaultSource)
 
-			asserts.Equals(t, nil, err)
 			asserts.Equals(t, expected, input)
-			asserts.Equals(t, test.expectedSourceReference, input.SourceReference)
 		})
 	}
 
