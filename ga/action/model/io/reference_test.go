@@ -23,17 +23,19 @@ func TestUnmarshalOutputReference(t *testing.T) {
 
 func TestAssignReferences(t *testing.T) {
   source := NewActionOutput("o", "b")
-  sourceRef := NewReference("b", "o")
+  expectedSourceRef := NewReference("b", "o")
 
 	target1 := NewInput("i", "a", false)
-	targetRef1 := NewReference("a", "i")
-
   target2 := NewInput("i", "c", false)
-	targetRef2 := NewReference("c", "i")
+
+  expectedTargetRefs := []*ActionReference{
+    NewReference("a", "i"),
+    NewReference("c", "i"),
+  }
 
 	AssignReferences(source, []*Input{target1, target2})
 
-	asserts.Equals(t, []*ActionReference{targetRef1, targetRef2}, source.InputReferences)
-	asserts.Equals(t, sourceRef, target1.OutputReference)
-  asserts.Equals(t, sourceRef, target2.OutputReference)
+	asserts.Equals(t, expectedTargetRefs, source.InputReferences)
+	asserts.Equals(t, expectedSourceRef, target1.OutputReference)
+  asserts.Equals(t, expectedSourceRef, target2.OutputReference)
 }
