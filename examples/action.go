@@ -39,7 +39,7 @@ func newExampleAction(instance *action.ActionInstance, props ExampleActionProps)
 		IntegerParameter: action.Parameter(instance, "intParam", props.IntProp),
 		StringParameter:  action.Parameter(instance, "strParam", props.StrProp),
 		Input:            action.Input(instance, "input", true, props.Source),
-		Output:           action.Output(instance, "output"),
+		Output:           action.Output(instance, "output", props.Targets),
 	}
 }
 

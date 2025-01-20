@@ -13,9 +13,15 @@ func NewReference(ActionUid string, ResourceName string) *ActionReference {
 }
 
 func AssignReferences(source *Output, targets []*Input) {
+	if source == nil {
+		return
+	}
 	sourceRef := NewReference(source.actionUid, source.Name)
 
 	for _, target := range targets {
+		if target == nil {
+			continue
+		}
 		targetRef := NewReference(target.actionUid, target.Name)
 		source.AssignTarget(targetRef)
 		target.AssignSource(sourceRef)

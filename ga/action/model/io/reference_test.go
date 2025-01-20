@@ -39,3 +39,30 @@ func TestAssignReferences(t *testing.T) {
 	asserts.Equals(t, expectedSourceRef, target1.SourceReference)
 	asserts.Equals(t, expectedSourceRef, target2.SourceReference)
 }
+
+func TestAssignNilReferences(t *testing.T) {
+	testcases := []struct {
+		name    string
+		source  *Output
+		targets []*Input
+	}{
+		{name: "nil source", source: nil, targets: []*Input{NewInput("i", "a", false)}},
+		{name: "nil targets", source: NewActionOutput("o", "b"), targets: []*Input{nil}},
+	}
+
+	for _, test := range testcases {
+		t.Helper()
+		t.Run(test.name, func(t *testing.T) {
+			AssignReferences(test.source, test.targets)
+			if test.source != nil {
+				asserts.Equals(t, len(test.source.TargetReferences), 0)
+			}
+
+			for _, tar := range test.targets {
+				if tar != nil {
+					asserts.Equals(t, tar.SourceReference, nil)
+				}
+			}
+		})
+	}
+}

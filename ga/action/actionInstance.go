@@ -30,15 +30,15 @@ func Input(a *ActionInstance, name string, required bool, defaultSource *io.Outp
 	}
 
 	input := a.Model.Inputs.GetOrDefault(name, inputFn)
-	if defaultSource != nil {
-		io.AssignReferences(defaultSource, []*io.Input{input})
-	}
+	io.AssignReferences(defaultSource, []*io.Input{input})
 	return input
 }
 
-func Output(a *ActionInstance, name string) *io.Output {
+func Output(a *ActionInstance, name string, defaultTargets []*io.Input) *io.Output {
 	outputFn := func() *io.Output {
 		return io.NewActionOutput(name, a.Model.ActionUid)
 	}
-	return a.Model.Outputs.GetOrDefault(name, outputFn)
+	output := a.Model.Outputs.GetOrDefault(name, outputFn)
+	io.AssignReferences(output, defaultTargets)
+	return output
 }

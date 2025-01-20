@@ -47,14 +47,30 @@ func TestInput(t *testing.T) {
 			asserts.Equals(t, expected, input)
 		})
 	}
-
 }
 
 func TestOutput(t *testing.T) {
-	instance := NewActionInstance("test")
-	expected := Output(instance, "outputName")
+	testcases := []struct {
+		name     string
+		defaults []*io.Input
+		expected []*io.ActionReference
+	}{
+		{name: "without default targets", defaults: []*io.Input{}, expected: []*io.ActionReference{}},
+		{name: "with default targets", defaults: []*io.Input{io.NewInput("i", "a", false), io.NewInput("i", "b", false)}, expected: []*io.ActionReference{io.NewReference("a", "i"), io.NewReference("b", "i")}},
+	}
 
-	output, err := instance.Model.Outputs.Get("outputName")
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, expected, output)
+	for _, test := range testcases {
+		t.Run(test.name, func(t *testing.T) {
+			instance := NewActionInstance("test")
+			expected := io.NewActionOutput("outputName", instance.Model.ActionUid)
+
+			for _, target := range test.expected {
+				expected.AssignTarget(target)
+			}
+
+			output := Output(instance, "outputName", test.defaults)
+
+			asserts.Equals(t, expected, output)
+		})
+	}
 }
