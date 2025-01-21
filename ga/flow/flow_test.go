@@ -10,7 +10,7 @@ import (
 )
 
 func TestInitFlow(t *testing.T) {
-	app := app.NewApp()
+	app := app.NewApp("test")
 	flow := NewFlow(app)
 
 	if flow == nil {
@@ -34,7 +34,7 @@ func TestAddAction(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			reg := testActions.GenerateActionValidEmptyRegistration()
-			a := app.NewApp()
+			a := app.NewApp("test")
 
 			if tc.actionRegistered {
 				app.RegisterAction(&reg)(a)
@@ -53,7 +53,7 @@ func TestAddAction(t *testing.T) {
 }
 
 func TestMarshalJSON(t *testing.T) {
-	flowApp := app.NewApp()
+	flowApp := app.NewApp("test")
 	reg := testActions.GenerateActionValidEmptyRegistration()
 	app.RegisterAction(&reg)(flowApp)
 

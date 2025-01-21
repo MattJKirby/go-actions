@@ -8,7 +8,7 @@ import (
 )
 
 func TestRegisterActionAndGet(t *testing.T) {
-	app := NewApp()
+	app := NewApp("test")
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
 
@@ -20,7 +20,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestGetActionSuccessfulNilProps(t *testing.T) {
-	app := NewApp()
+	app := NewApp("test")
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
 
@@ -31,7 +31,7 @@ func TestGetActionSuccessfulNilProps(t *testing.T) {
 
 // TODO
 func TestGetActionWithProps(t *testing.T) {
-	app := NewApp()
+	app := NewApp("test")
 	reg := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&reg)(app)
 
@@ -44,7 +44,7 @@ func TestGetActionWithProps(t *testing.T) {
 }
 
 func TestGetActionFail(t *testing.T) {
-	app := NewApp()
+	app := NewApp("test")
 
 	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 	if err == nil {

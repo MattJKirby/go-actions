@@ -11,12 +11,14 @@ import (
 )
 
 type App struct {
+	Name           string
 	ctx            context.Context
 	actionRegistry *registration.ActionRegistry
 }
 
-func NewApp() *App {
+func NewApp(name string) *App {
 	return &App{
+		Name:           name,
 		ctx:            context.Background(),
 		actionRegistry: registration.NewActionRegistry(),
 	}
