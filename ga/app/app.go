@@ -45,11 +45,7 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 			return nil, err
 		}
 
-		action := executable.NewAction(*reg)
-		if props != nil {
-			action.PopulateActionInstance(props)
-		}
-
+		action := executable.NewAction(*reg, props)
 		return action, nil
 	}
 }

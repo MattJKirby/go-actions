@@ -11,17 +11,13 @@ type Action[T action.GoAction, P action.GoActionProps] struct {
 	Action     *T
 }
 
-func NewAction[T action.GoAction, P action.GoActionProps](definition definition.ActionDefinition[T, P]) *Action[T, P] {
-	instance, constructed := newPopulatedInstance(definition, definition.DefaultProps)
+func NewAction[T action.GoAction, P action.GoActionProps](definition definition.ActionDefinition[T, P], props *P) *Action[T, P] {
+	instance, constructed := newPopulatedInstance(definition, props)
 	return &Action[T, P]{
 		definition: definition,
 		Instance:   instance,
 		Action:     constructed,
 	}
-}
-
-func (a *Action[T, P]) PopulateActionInstance(props *P) {
-	a.Instance, a.Action = newPopulatedInstance(a.definition, props)
 }
 
 func newPopulatedInstance[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], props *P) (*action.ActionInstance, *T) {
