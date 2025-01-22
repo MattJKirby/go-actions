@@ -27,7 +27,7 @@ func AddAction[T action.GoAction, P action.GoActionProps](props *P) func(*Flow) 
 	return func(f *Flow) *executable.Action[T, P] {
 		act, err := app.GetAction[T](props)(f.flowApp)
 		if err != nil {
-			panic("could not retireve action from app")
+			panic("could not retrieve action from app")
 		}
 
 		f.actionInstances[act.Instance.Model.ActionUid] = act.Instance
