@@ -7,7 +7,7 @@ import (
 )
 
 type ActionInstance struct {
-	Model *model.ActionModel
+	Model *model.ActionModel `json:"model"`
 }
 
 func NewActionInstance(actionName string) *ActionInstance {
