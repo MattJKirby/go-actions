@@ -34,7 +34,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 	return func(app *App) (*definition.ActionDefinition[T, P], error) {
 		action := new(T)
 		actionType := utils.GetValueType(reflect.TypeOf(action))
-		return registration.GetAction[T, P](actionType)(app.actionRegistry)
+		return registration.GetActionByType[T, P](actionType)(app.actionRegistry)
 	}
 }
 

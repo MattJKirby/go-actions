@@ -28,7 +28,7 @@ func TestAcceptAction(t *testing.T) {
 	asserts.Equals(t, nil, err)
 }
 
-func TestGetAction(t *testing.T) {
+func TestGetActionByType(t *testing.T) {
 	registry := NewActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
 	def, _ := definition.NewActionDefinition(&registration)
@@ -41,7 +41,7 @@ func TestGetAction(t *testing.T) {
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]]) {
-		storedDef, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
+		storedDef, err := GetActionByType[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
 		hasErr := err != nil
 
 		if test.Error != hasErr {

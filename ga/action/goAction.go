@@ -13,3 +13,5 @@ type GoActionConstructor[Type GoAction, Props GoActionProps] func(*ActionInstanc
 type GoAction interface {
 	Execute()
 }
+
+type ExecutableAction any
