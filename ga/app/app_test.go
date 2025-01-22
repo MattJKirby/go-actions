@@ -29,17 +29,16 @@ func TestGetActionSuccessfulNilProps(t *testing.T) {
 	asserts.Equals(t, false, err != nil)
 }
 
-// TODO
 func TestGetActionWithProps(t *testing.T) {
 	app := NewApp("test")
-	reg := ta.GenerateActionValidEmptyRegistration()
+	reg := ta.GenerateActionValidRegistration()
 	RegisterAction(&reg)(app)
 
-	// props := &ta.EmptyActionValidProps{Prop: "asdf"}
-	// act, err := GetAction[ta.EmptyActionValid](props)(app)
+	props := &ta.ActionValidProps{Param1: "asdf"}
+	act, err := GetAction[ta.ActionValid](props)(app)
 
-	// asserts.Equals(t, false, err != nil)
-	// asserts.Equals(t, props, act.Props)
+	asserts.Equals(t, false, err != nil)
+	asserts.Equals(t, props.Param1, act.Action.Param1.Value())
 
 }
 
