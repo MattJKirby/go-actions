@@ -45,7 +45,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 			return nil, err
 		}
 
-		action := executable.NewAction(*reg, props)
-		return action, nil
+		return executable.NewAction(*reg, props), nil
 	}
 }
