@@ -41,7 +41,7 @@ func AcceptRegistration[T action.GoAction, P action.GoActionProps](reg *action.G
 	}
 }
 
-func GetActionByType[T action.GoAction, P action.GoActionProps](actionType reflect.Type) func(*ActionRegistry) (*definition.ActionDefinition[T, P], error) {
+func GetTypedActionDefinition[T action.GoAction, P action.GoActionProps](actionType reflect.Type) func(*ActionRegistry) (*definition.ActionDefinition[T, P], error) {
 	return func(ar *ActionRegistry) (*definition.ActionDefinition[T, P], error) {
 		if action, exists := ar.actionsByType[actionType]; exists {
 			copy := *action.(*definition.ActionDefinition[T, P])

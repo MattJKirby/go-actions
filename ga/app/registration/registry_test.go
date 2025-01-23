@@ -41,7 +41,7 @@ func TestGetActionByType(t *testing.T) {
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]]) {
-		storedDef, err := GetActionByType[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
+		storedDef, err := GetTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
 		hasErr := err != nil
 
 		if test.Error != hasErr {
