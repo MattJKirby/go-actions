@@ -22,3 +22,7 @@ func NewActionDefinition[T action.GoAction, P action.GoActionProps](reg *action.
 		TypePath:             utils.TypePath(typeDef.ActionType),
 	}, nil
 }
+
+func (ad *ActionDefinition[T, P]) GetTypeDefinition() *ActionTypeDefinition {
+	return ad.ActionTypeDefinition
+}

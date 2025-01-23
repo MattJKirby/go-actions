@@ -7,15 +7,19 @@ import (
 	"reflect"
 )
 
+type definitionRegistration interface {
+	GetTypeDefinition() *definition.ActionTypeDefinition
+}
+
 type ActionRegistry struct {
-	actionsByName map[string]any
-	actionsByType map[reflect.Type]any
+	actionsByName map[string]definitionRegistration
+	actionsByType map[reflect.Type]definitionRegistration
 }
 
 func NewActionRegistry() *ActionRegistry {
 	return &ActionRegistry{
-		actionsByName: make(map[string]any),
-		actionsByType: make(map[reflect.Type]any),
+		actionsByName: make(map[string]definitionRegistration),
+		actionsByType: make(map[reflect.Type]definitionRegistration),
 	}
 }
 
@@ -26,8 +30,13 @@ func AcceptRegistration[T action.GoAction, P action.GoActionProps](reg *action.G
 			return err
 		}
 
-		ar.actionsByName[definition.Name] = definition
-		ar.actionsByType[definition.ActionType] = definition
+		defReg, ok := any(definition).(definitionRegistration)
+		if !ok {
+			return fmt.Errorf("error registering definition for action '%s'", reg.Name)
+		}
+
+		ar.actionsByName[definition.Name] = defReg
+		ar.actionsByType[definition.ActionType] = defReg
 		return nil
 	}
 }
