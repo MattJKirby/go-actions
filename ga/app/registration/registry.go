@@ -30,14 +30,13 @@ func AcceptRegistration[T action.GoAction, P action.GoActionProps](reg *action.G
 			return err
 		}
 
-		defReg, ok := any(definition).(definitionRegistration)
-		if !ok {
-			return fmt.Errorf("error registering definition for action '%s'", reg.Name)
+		if defReg, ok := any(definition).(definitionRegistration); ok {
+			ar.actionsByName[definition.Name] = defReg
+			ar.actionsByType[definition.ActionType] = defReg
+			return nil
 		}
 
-		ar.actionsByName[definition.Name] = defReg
-		ar.actionsByType[definition.ActionType] = defReg
-		return nil
+		return fmt.Errorf("error registering definition for action '%s'", reg.Name)
 	}
 }
 
