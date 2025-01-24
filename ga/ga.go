@@ -23,7 +23,7 @@ func GetAction[T action.GoAction, P action.GoActionProps]() (*executable.Action[
 }
 
 func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *executable.Action[T, P] {
-	return flow.AddAction[T](props)(f)
+	return flow.AddAction[T](f, props)
 }
 
 func NewFlow() *flow.Flow {
