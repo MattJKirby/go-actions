@@ -55,6 +55,6 @@ func GetRegisteredTypeDefinitionByName(actionName string) func(*ActionRegistry) 
 		if action, exists := ar.actionsByName[actionName]; exists {
 			return action.GetTypeDefinition(), nil
 		}
-		return nil, fmt.Errorf("could not retrive action with name'%s'", actionName)
+		return nil, fmt.Errorf("could not retrive action with name '%s'", actionName)
 	}
 }
