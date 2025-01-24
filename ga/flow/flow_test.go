@@ -23,12 +23,12 @@ func TestAddAction(t *testing.T) {
 		name             string
 		actionRegistered bool
 		expectedActions  int
-		expectPanic      bool
+		err              bool
 	}
 
 	cases := []test{
-		{name: "registered action", actionRegistered: true, expectedActions: 1, expectPanic: false},
-		{name: "unregistered action", actionRegistered: false, expectedActions: 0, expectPanic: true},
+		{name: "registered action", actionRegistered: true, expectedActions: 1, err: false},
+		{name: "unregistered action", actionRegistered: false, expectedActions: 0, err: true},
 	}
 
 	for _, tc := range cases {
@@ -40,14 +40,10 @@ func TestAddAction(t *testing.T) {
 				app.RegisterAction(&reg)(a)
 			}
 
-			defer func() {
-				didPanic := recover() != nil
-				asserts.Equals(t, tc.expectPanic, didPanic)
-			}()
-
 			f := NewFlow(a)
-			AddAction[testActions.ActionValidEmpty](f, &testActions.ActionValidEmptyProps{})
+			_, err := AddAction[testActions.ActionValidEmpty](f, &testActions.ActionValidEmptyProps{})
 			asserts.Equals(t, tc.expectedActions, len(f.ActionInstances))
+			asserts.Equals(t, tc.err, err != nil)
 		})
 	}
 }
@@ -58,7 +54,7 @@ func TestMarshalJSON(t *testing.T) {
 	app.RegisterAction(&reg)(flowApp)
 
 	flow := NewFlow(flowApp)
-	action := AddAction[testActions.ActionValidEmpty](flow, &testActions.ActionValidEmptyProps{})
+	action, err := AddAction[testActions.ActionValidEmpty](flow, &testActions.ActionValidEmptyProps{})
 
 	marshalledActionInstance, _ := json.Marshal(action.Instance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))
@@ -66,5 +62,6 @@ func TestMarshalJSON(t *testing.T) {
 	marshalledFlow, _ := json.Marshal(flow)
 
 	asserts.Equals(t, string(expected), string(marshalledFlow))
+	asserts.Equals(t, nil, err)
 
 }

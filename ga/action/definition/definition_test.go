@@ -18,3 +18,5 @@ func TestNewDef(t *testing.T) {
 	// asserts.Equals(t, defCtor.ActionType, defCtor.ActionType)
 	// asserts.Equals(t, defCtor.CtorValue, defCtor.CtorValue)
 }
+
+

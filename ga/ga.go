@@ -23,7 +23,11 @@ func GetAction[T action.GoAction, P action.GoActionProps]() (*executable.Action[
 }
 
 func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *executable.Action[T, P] {
-	return flow.AddAction[T](f, props)
+	action, err := flow.AddAction[T](f, props)
+	if err != nil {
+		panic("could not retrieve action from app")
+	}
+	return action
 }
 
 func NewFlow() *flow.Flow {
