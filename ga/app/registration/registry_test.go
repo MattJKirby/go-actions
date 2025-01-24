@@ -54,3 +54,34 @@ func TestGetActionByType(t *testing.T) {
 		}
 	})
 }
+
+func TestGetActionByName(t *testing.T){
+	registry := NewActionRegistry()
+	registration := ta.GenerateActionValidRegistration()
+	AcceptRegistration(&registration)(registry)
+
+	def,_ := definition.NewActionDefinition(&registration)
+
+	tests := []struct{
+		name string
+		input string
+		expected *definition.ActionTypeDefinition
+		hasError bool
+	}{
+		{name: "existing action", input: "ActionValid", expected: def.ActionTypeDefinition, hasError: false},
+		{name: "non existing action", input: "xxxx", expected: nil, hasError: true},
+	}
+
+	for _, test := range tests{
+		t.Run(test.name, func(t *testing.T) {
+			t.Helper()
+			result, err := GetRegisteredTypeDefinitionByName(test.input)(registry)
+			if test.expected != nil {
+				asserts.Equals(t, test.expected.ActionType, result.ActionType)
+			}
+
+			asserts.Equals(t, test.hasError, err != nil)
+		})
+	}
+
+}
