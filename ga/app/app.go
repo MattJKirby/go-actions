@@ -5,7 +5,6 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
-	"go-actions/ga/app/registration"
 	"go-actions/ga/utils"
 	"reflect"
 )
@@ -13,20 +12,20 @@ import (
 type App struct {
 	Name           string
 	ctx            context.Context
-	actionRegistry *registration.ActionRegistry
+	actionRegistry *actionRegistry
 }
 
 func NewApp(name string) *App {
 	return &App{
 		Name:           name,
 		ctx:            context.Background(),
-		actionRegistry: registration.NewActionRegistry(),
+		actionRegistry: newActionRegistry(),
 	}
 }
 
 func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*App) {
 	return func(app *App) {
-		registration.AcceptRegistration(reg)(app.actionRegistry)
+		acceptRegistration(reg)(app.actionRegistry)
 	}
 }
 
@@ -34,7 +33,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 	return func(app *App) (*definition.ActionDefinition[T, P], error) {
 		action := new(T)
 		actionType := utils.GetValueType(reflect.TypeOf(action))
-		return registration.GetTypedActionDefinition[T, P](actionType)(app.actionRegistry)
+		return getTypedActionDefinition[T, P](actionType)(app.actionRegistry)
 	}
 }
 

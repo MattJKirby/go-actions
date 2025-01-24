@@ -1,4 +1,4 @@
-package registration
+package app
 
 import (
 	"go-actions/ga/action/definition"
@@ -10,10 +10,10 @@ import (
 )
 
 func TestAcceptAction(t *testing.T) {
-	registry := NewActionRegistry()
+	registry := newActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
 
-	err := AcceptRegistration(&registration)(registry)
+	err := acceptRegistration(&registration)(registry)
 	abt := len(registry.actionsByType)
 	abn := len(registry.actionsByName)
 
@@ -29,11 +29,11 @@ func TestAcceptAction(t *testing.T) {
 }
 
 func TestGetActionByType(t *testing.T) {
-	registry := NewActionRegistry()
+	registry := newActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
 	def, _ := definition.NewActionDefinition(&registration)
 
-	AcceptRegistration(&registration)(registry)
+	acceptRegistration(&registration)(registry)
 
 	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]]{
 		{Name: "existing def", Input: def.ActionType, Expected: def},
@@ -41,7 +41,7 @@ func TestGetActionByType(t *testing.T) {
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]]) {
-		storedDef, err := GetTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
+		storedDef, err := getTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
 		hasErr := err != nil
 
 		if test.Error != hasErr {
@@ -56,9 +56,9 @@ func TestGetActionByType(t *testing.T) {
 }
 
 func TestGetActionByName(t *testing.T) {
-	registry := NewActionRegistry()
+	registry := newActionRegistry()
 	registration := ta.GenerateActionValidRegistration()
-	AcceptRegistration(&registration)(registry)
+	acceptRegistration(&registration)(registry)
 
 	tests := []struct {
 		name       string
@@ -73,7 +73,7 @@ func TestGetActionByName(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			t.Helper()
-			result, err := GetRegisteredTypeDefinitionByName(test.input)(registry)
+			result, err := getRegisteredTypeDefinitionByName(test.input)(registry)
 			asserts.Equals(t, test.returnsNil, result == nil)
 			asserts.Equals(t, test.hasError, err != nil)
 		})
