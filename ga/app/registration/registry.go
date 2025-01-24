@@ -50,8 +50,8 @@ func GetTypedActionDefinition[T action.GoAction, P action.GoActionProps](actionT
 	}
 }
 
-func GetRegisteredTypeDefinitionByName(actionName string) func (*ActionRegistry) (*definition.ActionTypeDefinition, error){
-	return func(ar *ActionRegistry) (*definition.ActionTypeDefinition, error){
+func GetRegisteredTypeDefinitionByName(actionName string) func(*ActionRegistry) (*definition.ActionTypeDefinition, error) {
+	return func(ar *ActionRegistry) (*definition.ActionTypeDefinition, error) {
 		if action, exists := ar.actionsByName[actionName]; exists {
 			return action.GetTypeDefinition(), nil
 		}
