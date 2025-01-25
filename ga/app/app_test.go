@@ -24,7 +24,7 @@ func TestGetActionSuccessfulNilProps(t *testing.T) {
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
 
-	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
+	_, err := GetTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
 	asserts.Equals(t, false, err != nil)
 }
@@ -35,7 +35,7 @@ func TestGetActionWithProps(t *testing.T) {
 	RegisterAction(&reg)(app)
 
 	props := &ta.ActionValidProps{Param1: "asdf"}
-	act, err := GetAction[ta.ActionValid](props)(app)
+	act, err := GetTypedAction[ta.ActionValid](props)(app)
 
 	asserts.Equals(t, false, err != nil)
 	asserts.Equals(t, props.Param1, act.Action.Param1.Value())
@@ -45,7 +45,7 @@ func TestGetActionWithProps(t *testing.T) {
 func TestGetActionFail(t *testing.T) {
 	app := NewApp("test")
 
-	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
+	_, err := GetTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 	if err == nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
