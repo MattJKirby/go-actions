@@ -25,13 +25,10 @@ func newActionRegistry() *actionRegistry {
 
 func acceptRegistration[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*actionRegistry) error {
 	return func(ar *actionRegistry) error {
-		definition, err := definition.NewActionDefinition(reg)
-		if err != nil {
-			return err
-		}
+		definition := definition.NewActionDefinition(reg)
 
 		if defReg, ok := any(definition).(definitionRegistration); ok {
-			ar.actionsByName[definition.Name] = defReg
+			ar.actionsByName[definition.TypeName] = defReg
 			ar.actionsByType[definition.ActionType] = defReg
 			return nil
 		}

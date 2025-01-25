@@ -8,6 +8,8 @@ import (
 )
 
 type ActionTypeDefinition struct {
+	TypeName    string
+	TypePath    string
 	CtorValue   reflect.Value
 	CtorType    reflect.Type
 	ActionValue reflect.Value
@@ -28,6 +30,8 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 	vAction := reflect.New(tAction)
 
 	return &ActionTypeDefinition{
+		TypeName:    utils.TypeName(tAction),
+		TypePath:    utils.TypePath(tAction),
 		CtorValue:   vCtor,
 		CtorType:    tCtor,
 		ActionValue: vAction,

@@ -10,6 +10,8 @@ import (
 func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 
+	expectedTypeName := "ActionValidEmpty"
+	expectedTypePath := "go-actions/ga/testing/testActions/testActions.ActionValidEmpty"
 	expectedType := reflect.TypeOf(ta.ActionValidEmpty{})
 	expectedValue := reflect.ValueOf(&ta.ActionValidEmpty{})
 	expectedCtor := reflect.ValueOf(reg.Constructor).Pointer()
@@ -19,6 +21,8 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 
 	defReg := TypeDefinitionFromRegistration(&reg)
 
+	asserts.Equals(t, expectedTypeName, defReg.TypeName)
+	asserts.Equals(t, expectedTypePath, defReg.TypePath)
 	asserts.Equals(t, expectedType, defReg.ActionType)
 	asserts.Equals(t, expectedValue, defReg.ActionValue)
 	asserts.Equals(t, expectedCtor, defReg.CtorValue.Pointer())

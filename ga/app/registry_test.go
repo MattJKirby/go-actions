@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/cr"
 	"go-actions/ga/cr/asserts"
@@ -31,7 +32,7 @@ func TestAcceptAction(t *testing.T) {
 func TestGetActionByType(t *testing.T) {
 	registry := newActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
-	def, _ := definition.NewActionDefinition(&registration)
+	def := definition.NewActionDefinition(&registration)
 
 	acceptRegistration(&registration)(registry)
 
@@ -74,6 +75,7 @@ func TestGetActionByName(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Helper()
 			result, err := getRegisteredTypeDefinitionByName(test.input)(registry)
+			fmt.Println(err)
 			asserts.Equals(t, test.returnsNil, result == nil)
 			asserts.Equals(t, test.hasError, err != nil)
 		})
