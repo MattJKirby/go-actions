@@ -13,7 +13,7 @@ type ActionDefinition[T action.GoAction, P action.GoActionProps] struct {
 }
 
 func NewActionDefinition[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) (*ActionDefinition[T, P], error) {
-	typeDef := TypeDefinitionFromConstructor(reg.Constructor)
+	typeDef := TypeDefinitionFromRegistration(reg)
 
 	return &ActionDefinition[T, P]{
 		GoActionRegistration: reg,
