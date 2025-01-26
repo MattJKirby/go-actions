@@ -18,6 +18,8 @@ type ActionTypeDefinition struct {
 	PropsType   reflect.Type
 }
 
+type ActionConstructor func(*action.ActionInstance, action.GoActionProps) action.GoAction
+
 func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProps](reg *action.GoActionRegistration[T, Props]) *ActionTypeDefinition {
 	vCtor := reflect.ValueOf(reg.Constructor)
 	tCtor := vCtor.Type()
@@ -43,6 +45,18 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 
 func (atd *ActionTypeDefinition) NewDefaultProps() any {
 	return atd.PropsValue.Interface()
+}
+
+func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
+	callable := func(instance *action.ActionInstance, props action.GoActionProps) action.GoAction {
+		results := atd.CtorValue.Call([]reflect.Value{
+			reflect.ValueOf(instance),
+			reflect.ValueOf(props),
+		})
+		return results[0].Interface().(action.GoAction)
+	}
+
+	return callable
 }
 
 // func TypeDefinitionFromStruct[T action.GoAction, Props action.GoActionProps](def T) *ActionTypeDefinition {

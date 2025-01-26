@@ -1,6 +1,7 @@
 package definition
 
 import (
+	"go-actions/ga/action"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
 	"reflect"
@@ -33,11 +34,30 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 
 func TestNewDefaultProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
-
 	defReg := TypeDefinitionFromRegistration(&reg)
+
 	newProps := defReg.NewDefaultProps()
 	typeAssertedProps, ok := (newProps).(*ta.ActionValidProps)
 
-	asserts.Equals(t, reg.DefaultProps, typeAssertedProps)
 	asserts.Equals(t, true, ok)
+	asserts.Equals(t, reg.DefaultProps, typeAssertedProps)
+}
+
+func TestNewConstructor(t *testing.T) {
+	reg := ta.GenerateActionValidRegistration()
+	defReg := TypeDefinitionFromRegistration(&reg)
+
+	expectedInst := action.NewActionInstance("expected")
+	expectedAction := reg.Constructor(expectedInst, ta.ActionValidProps{Param1: "somePropValue"})
+
+	testInst := action.NewActionInstance("test")
+	testCtor := defReg.NewConstructor()
+	testAction := testCtor(testInst, ta.ActionValidProps{Param1: "somePropValue"})
+
+	typedTestAction, ok := (testAction).(*ta.ActionValid)
+
+	asserts.Equals(t, true, ok)
+	asserts.Equals(t, expectedAction, typedTestAction)
+	asserts.Equals(t, expectedInst.Model.Parameters, testInst.Model.Parameters)
+
 }
