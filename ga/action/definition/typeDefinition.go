@@ -41,6 +41,10 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 	}
 }
 
+func (atd *ActionTypeDefinition) NewDefaultProps() any {
+	return atd.PropsValue.Interface()
+}
+
 // func TypeDefinitionFromStruct[T action.GoAction, Props action.GoActionProps](def T) *ActionTypeDefinition {
 // 	var ctor action.GoActionConstructor[T, Props] = func(*action.ActionInstance, Props) *T { return &def }
 

@@ -30,3 +30,12 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	asserts.Equals(t, expectedPropsType, defReg.PropsType)
 	asserts.Equals(t, expectedPropsValue, defReg.PropsValue)
 }
+
+func TestNewDefaultProps(t *testing.T) {
+	reg := ta.GenerateActionValidRegistration()
+	expectedDefaultProps := reg.DefaultProps
+
+	defReg := TypeDefinitionFromRegistration(&reg)
+
+	asserts.Equals[any](t, expectedDefaultProps, defReg.NewDefaultProps())
+}
