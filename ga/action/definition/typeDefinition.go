@@ -49,7 +49,7 @@ func (atd *ActionTypeDefinition) NewDefaultProps() any {
 }
 
 func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
-	callable := func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
+	return func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
 		propsType := reflect.TypeOf(props)
 
 		if propsType.Kind() == reflect.Pointer {
@@ -66,8 +66,6 @@ func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
 		})
 		return results[0].Interface().(action.GoAction), nil
 	}
-
-	return callable
 }
 
 // func TypeDefinitionFromStruct[T action.GoAction, Props action.GoActionProps](def T) *ActionTypeDefinition {
