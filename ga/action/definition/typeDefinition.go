@@ -1,6 +1,7 @@
 package definition
 
 import (
+	"fmt"
 	"go-actions/ga/action"
 
 	"go-actions/ga/utils"
@@ -18,14 +19,14 @@ type ActionTypeDefinition struct {
 	PropsType   reflect.Type
 }
 
-type ActionConstructor func(*action.ActionInstance, action.GoActionProps) action.GoAction
+type ActionConstructor func(*action.ActionInstance, action.GoActionProps) (action.GoAction, error)
 
 func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProps](reg *action.GoActionRegistration[T, Props]) *ActionTypeDefinition {
 	vCtor := reflect.ValueOf(reg.Constructor)
 	tCtor := vCtor.Type()
 
 	vProps := reflect.ValueOf(reg.DefaultProps)
-	tProps := vProps.Type()
+	tProps := reflect.TypeOf(*reg.DefaultProps)
 
 	tAction := tCtor.Out(0)
 	tAction = utils.GetValueType(tAction)
@@ -48,12 +49,17 @@ func (atd *ActionTypeDefinition) NewDefaultProps() any {
 }
 
 func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
-	callable := func(instance *action.ActionInstance, props action.GoActionProps) action.GoAction {
+	callable := func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
+
+		if reflect.TypeOf(props) != atd.PropsType {
+			return nil, fmt.Errorf("props type does not match expected")
+		}
+
 		results := atd.CtorValue.Call([]reflect.Value{
 			reflect.ValueOf(instance),
 			reflect.ValueOf(props),
 		})
-		return results[0].Interface().(action.GoAction)
+		return results[0].Interface().(action.GoAction), nil
 	}
 
 	return callable
