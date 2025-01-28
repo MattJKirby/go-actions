@@ -50,9 +50,14 @@ func (atd *ActionTypeDefinition) NewDefaultProps() any {
 
 func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
 	callable := func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
+		propsType := reflect.TypeOf(props)
 
-		if reflect.TypeOf(props) != atd.PropsType {
-			return nil, fmt.Errorf("props type does not match expected")
+		if propsType.Kind() == reflect.Pointer {
+			return nil, fmt.Errorf("props must be matching value type")
+		}
+
+		if propsType != atd.PropsType {
+			return nil, fmt.Errorf("props type does not match registered default props type")
 		}
 
 		results := atd.CtorValue.Call([]reflect.Value{
