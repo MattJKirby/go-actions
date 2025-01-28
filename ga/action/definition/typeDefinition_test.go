@@ -43,39 +43,49 @@ func TestNewDefaultProps(t *testing.T) {
 	asserts.Equals(t, reg.DefaultProps, typeAssertedProps)
 }
 
-func TestNewConstructor(t *testing.T) {
+func TestNewConstructorWithValidProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
 
 	expectedInst := action.NewActionInstance("expected")
 	expectedAction := reg.Constructor(expectedInst, ta.ActionValidProps{Param1: "somePropValue"})
 
+	testInst := action.NewActionInstance("test")
+	testCtor := defReg.NewConstructor()
+	testAction, err := testCtor(testInst, ta.ActionValidProps{Param1: "somePropValue"})
+	typedTestAction, ok := (testAction).(*ta.ActionValid)
+
+	asserts.Equals(t, nil, err)
+	asserts.Equals(t, true, ok)
+	asserts.Equals(t, expectedAction, typedTestAction)
+	asserts.Equals(t, expectedInst.Model.Parameters, testInst.Model.Parameters)
+
+}
+
+func TestNewConstructorInvalidProps(t *testing.T) {
+	reg := ta.GenerateActionValidRegistration()
+	defReg := TypeDefinitionFromRegistration(&reg)
+
+	emptyInst := action.NewActionInstance("expected")
+
 	tests := []struct {
 		name      string
 		input     any
 		expectErr bool
 	}{
-		{name: "construct with matching prop type", input: ta.ActionValidProps{Param1: "somePropValue"}, expectErr: false},
 		{name: "construct with matching value prop type", input: &ta.ActionValidProps{Param1: "somePropValue"}, expectErr: true},
 		{name: "construct with wrong prop type", input: ta.ActionValidEmptyProps{}, expectErr: true},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-
 			testInst := action.NewActionInstance("test")
 			testCtor := defReg.NewConstructor()
 			testAction, err := testCtor(testInst, test.input)
 
 			asserts.Equals(t, test.expectErr, err != nil)
-
-			if !test.expectErr {
-				typedTestAction, ok := (testAction).(*ta.ActionValid)
-				asserts.Equals(t, true, ok)
-				asserts.Equals(t, expectedAction, typedTestAction)
-				asserts.Equals(t, expectedInst.Model.Parameters, testInst.Model.Parameters)
-			}
-
+			asserts.Equals(t, nil, testAction)
+			asserts.Equals(t, emptyInst.Model.Parameters, testInst.Model.Parameters)
 		})
 	}
 
