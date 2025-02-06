@@ -10,9 +10,9 @@ type ActionInstance struct {
 	Model *model.ActionModel `json:"model"`
 }
 
-func NewActionInstance(actionName string) *ActionInstance {
+func NewActionInstance(actionName string, modelConfig model.ActionModelConfig) *ActionInstance {
 	return &ActionInstance{
-		Model: model.NewActionModel(actionName, model.NewModelConfig()),
+		Model: model.NewActionModel(actionName, modelConfig),
 	}
 }
 

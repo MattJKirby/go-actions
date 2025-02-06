@@ -1,9 +1,9 @@
-package actionmodelhelpers
+package actionModelTestHelpers
 
 type MockActionModelConfig struct {
-	mockUid string
+	MockUid string
 }
 
 func (mamc *MockActionModelConfig) GenerateUid() string {
-	return mamc.mockUid
+	return mamc.MockUid
 }

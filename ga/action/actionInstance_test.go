@@ -4,21 +4,24 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
+	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
 
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
 
 func TestNewActionInstance(t *testing.T) {
-	instance := NewActionInstance("test")
-	model := model.NewActionModel("test", &model.ModelConfig{})
-	model.ActionUid = instance.Model.ActionUid
+	config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+	
+	instance := NewActionInstance("test", config)
+	expectedModel := model.NewActionModel("test", config)
 
-	asserts.Equals(t, model, instance.Model)
+	asserts.Equals(t, expectedModel, instance.Model)
 }
 
 func TestParameter(t *testing.T) {
-	instance := NewActionInstance("test")
+	config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+	instance := NewActionInstance("test", config)
 	expected := Parameter(instance, "paramName", 0)
 
 	param, err := instance.Model.Parameters.Get("paramName")
@@ -38,7 +41,8 @@ func TestInput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			instance := NewActionInstance("test")
+			config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+			instance := NewActionInstance("test", config)
 			expected := io.NewInput("inputName", instance.Model.ActionUid, false)
 			expected.AssignSource(test.expectedSourceReference)
 
@@ -61,7 +65,8 @@ func TestOutput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			instance := NewActionInstance("test")
+			config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+			instance := NewActionInstance("test", config)
 			expected := io.NewActionOutput("outputName", instance.Model.ActionUid)
 
 			for _, target := range test.expected {

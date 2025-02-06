@@ -4,6 +4,7 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
+	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
 	"reflect"
 	"testing"
 )
@@ -46,11 +47,12 @@ func TestNewDefaultProps(t *testing.T) {
 func TestNewConstructorWithValidProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
+	mockConfig := &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"}
 
-	expectedInst := action.NewActionInstance("expected")
+	expectedInst := action.NewActionInstance("expected", mockConfig)
 	expectedAction := reg.Constructor(expectedInst, ta.ActionValidProps{Param1: "somePropValue"})
 
-	testInst := action.NewActionInstance("test")
+	testInst := action.NewActionInstance("test", mockConfig)
 	testCtor := defReg.NewConstructor()
 	testAction, err := testCtor(testInst, ta.ActionValidProps{Param1: "somePropValue"})
 	typedTestAction, ok := (testAction).(*ta.ActionValid)
@@ -65,8 +67,8 @@ func TestNewConstructorWithValidProps(t *testing.T) {
 func TestNewConstructorInvalidProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
-
-	emptyInst := action.NewActionInstance("expected")
+	mockConfig := &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"}
+	emptyInst := action.NewActionInstance("expected", mockConfig)
 
 	tests := []struct {
 		name      string
@@ -79,7 +81,7 @@ func TestNewConstructorInvalidProps(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			testInst := action.NewActionInstance("test")
+			testInst := action.NewActionInstance("test", mockConfig)
 			testCtor := defReg.NewConstructor()
 			testAction, err := testCtor(testInst, test.input)
 
