@@ -14,7 +14,7 @@ func TestNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 	def := definition.NewActionDefinition(&reg)
 
-	action := NewAction(*def, nil)
+	action := NewAction(mockConfig, *def, nil)
 
 	if action.Instance == nil {
 		t.Errorf("invalid action: instance expected but got nil")
@@ -24,12 +24,12 @@ func TestNewAction(t *testing.T) {
 func TestApplyConstructorNoProps(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 	def := definition.NewActionDefinition(&reg)
-	acn := NewAction(*def, nil)
+	acn := NewAction(mockConfig, *def, nil)
 
 	instance := acn.Instance
 	action.Parameter(instance, "param", 10)
 
-	newPopulatedInstance(*def, def.DefaultProps)
+	newPopulatedInstance(mockConfig, *def, def.DefaultProps)
 
 	asserts.Equals(t, instance, acn.Instance)
 }
@@ -38,7 +38,7 @@ func TestApplyConstructorWithProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	def := definition.NewActionDefinition(&reg)
 	props := &ta.ActionValidProps{Param1: "AAAA"}
-	acn := NewAction(*def, props)
+	acn := NewAction(mockConfig, *def, props)
 
 	asserts.Equals(t, "AAAA", acn.Action.Param1.Value())
 

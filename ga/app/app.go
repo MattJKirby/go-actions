@@ -5,6 +5,7 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
+	"go-actions/ga/action/model"
 	"go-actions/ga/utils"
 	"reflect"
 )
@@ -44,6 +45,8 @@ func GetTypedAction[T action.GoAction, P action.GoActionProps](props *P) func(*A
 			return nil, err
 		}
 
-		return executable.NewAction(*reg, props), nil
+		modelConfig := model.NewModelConfig()
+
+		return executable.NewAction(modelConfig, *reg, props), nil
 	}
 }

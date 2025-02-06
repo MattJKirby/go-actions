@@ -3,6 +3,7 @@ package executable
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
+	"go-actions/ga/action/model"
 )
 
 type Action[T action.GoAction, P action.GoActionProps] struct {
@@ -11,8 +12,8 @@ type Action[T action.GoAction, P action.GoActionProps] struct {
 	Action     *T
 }
 
-func NewAction[T action.GoAction, P action.GoActionProps](definition definition.ActionDefinition[T, P], props *P) *Action[T, P] {
-	instance, constructed := newPopulatedInstance(definition, props)
+func NewAction[T action.GoAction, P action.GoActionProps](modelConfig model.ActionModelConfig, definition definition.ActionDefinition[T, P], props *P) *Action[T, P] {
+	instance, constructed := newPopulatedInstance(modelConfig, definition, props)
 	return &Action[T, P]{
 		definition: definition,
 		Instance:   instance,
@@ -20,11 +21,11 @@ func NewAction[T action.GoAction, P action.GoActionProps](definition definition.
 	}
 }
 
-func newPopulatedInstance[T action.GoAction, P action.GoActionProps](def definition.ActionDefinition[T, P], props *P) (*action.ActionInstance, *T) {
+func newPopulatedInstance[T action.GoAction, P action.GoActionProps](modelConfig model.ActionModelConfig, def definition.ActionDefinition[T, P], props *P) (*action.ActionInstance, *T) {
 	if props == nil {
 		props = def.DefaultProps
 	}
-	instance := action.NewActionInstance(def.Name)
+	instance := action.NewActionInstance(def.Name, modelConfig)
 	constructed := def.Constructor(instance, *props)
 	return instance, constructed
 }
