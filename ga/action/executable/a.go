@@ -3,18 +3,19 @@ package executable
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
+	"go-actions/ga/action/model"
 )
 
 type ExecutableAction struct {
 
 }
 
-func NewExecutableAction(typeDef *definition.ActionTypeDefinition, props *action.GoAction) *ExecutableAction {
+func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props *action.GoAction) *ExecutableAction {
 	return &ExecutableAction{}
 }
 
-func newExecutableInstance(typeDef *definition.ActionTypeDefinition) *action.ActionInstance{
-	instance := action.NewActionInstance(typeDef.TypeName)
+func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *action.ActionInstance{
+	instance := action.NewActionInstance(typeDef.TypeName, modelConfig)
 	props := typeDef.NewDefaultProps()
 	ctor := typeDef.NewConstructor()
 
