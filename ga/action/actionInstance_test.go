@@ -10,18 +10,17 @@ import (
 	"testing"
 )
 
-func TestNewActionInstance(t *testing.T) {
-	config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
-	
-	instance := NewActionInstance("test", config)
-	expectedModel := model.NewActionModel("test", config)
+var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+
+func TestNewActionInstance(t *testing.T) {	
+	instance := NewActionInstance("test", mockConfig)
+	expectedModel := model.NewActionModel("test", mockConfig)
 
 	asserts.Equals(t, expectedModel, instance.Model)
 }
 
 func TestParameter(t *testing.T) {
-	config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
-	instance := NewActionInstance("test", config)
+	instance := NewActionInstance("test", mockConfig)
 	expected := Parameter(instance, "paramName", 0)
 
 	param, err := instance.Model.Parameters.Get("paramName")
@@ -41,8 +40,7 @@ func TestInput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
-			instance := NewActionInstance("test", config)
+			instance := NewActionInstance("test", mockConfig)
 			expected := io.NewInput("inputName", instance.Model.ActionUid, false)
 			expected.AssignSource(test.expectedSourceReference)
 
@@ -65,8 +63,7 @@ func TestOutput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			config := &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
-			instance := NewActionInstance("test", config)
+			instance := NewActionInstance("test", mockConfig)
 			expected := io.NewActionOutput("outputName", instance.Model.ActionUid)
 
 			for _, target := range test.expected {
