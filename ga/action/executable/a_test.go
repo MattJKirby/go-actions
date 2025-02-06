@@ -19,14 +19,16 @@ func defHelper() *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionVali
 func TestNewExecutableAction(t *testing.T) {
 	def := defHelper()
 	typeDef := def.GetTypeDefinition()
-	action := NewExecutableAction(mockConfig, typeDef, nil)
+	
+	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
+	def.Constructor(expectedInst, ta.ActionValidEmptyProps{})
 
-	if action == nil {
-		t.Errorf("invalid action: instance expected but got nil")
-	}
+	executableAction := NewExecutableAction(mockConfig, typeDef, nil)
+	
+	asserts.Equals(t, expectedInst,  executableAction.instance)
 }
 
-func TestNewExeutableInstance(t *testing.T) {
+func TestNewExecutableInstance(t *testing.T) {
 	def := defHelper()
 	typeDef := def.GetTypeDefinition()
 
