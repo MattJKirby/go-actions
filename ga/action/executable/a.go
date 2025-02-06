@@ -16,7 +16,7 @@ func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definitio
 	}
 }
 
-func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *action.ActionInstance{
+func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *action.ActionInstance {
 	instance := action.NewActionInstance(typeDef.TypeName, modelConfig)
 	defaultProps := typeDef.NewDefaultProps()
 	ctor := typeDef.NewConstructor()

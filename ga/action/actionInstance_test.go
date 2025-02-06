@@ -12,7 +12,7 @@ import (
 
 var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
 
-func TestNewActionInstance(t *testing.T) {	
+func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test", mockConfig)
 	expectedModel := model.NewActionModel("test", mockConfig)
 

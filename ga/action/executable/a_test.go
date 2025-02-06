@@ -11,7 +11,7 @@ import (
 
 var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
 
-func defHelper() *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]{
+func defHelper() *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps] {
 	reg := ta.GenerateActionValidEmptyRegistration()
 	return definition.NewActionDefinition(&reg)
 }
@@ -19,13 +19,13 @@ func defHelper() *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionVali
 func TestNewExecutableAction(t *testing.T) {
 	def := defHelper()
 	typeDef := def.GetTypeDefinition()
-	
+
 	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
 	def.Constructor(expectedInst, ta.ActionValidEmptyProps{})
 
 	executableAction := NewExecutableAction(mockConfig, typeDef, nil)
-	
-	asserts.Equals(t, expectedInst,  executableAction.instance)
+
+	asserts.Equals(t, expectedInst, executableAction.instance)
 }
 
 func TestNewExecutableInstance(t *testing.T) {
@@ -34,9 +34,8 @@ func TestNewExecutableInstance(t *testing.T) {
 
 	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
 	def.Constructor(expectedInst, ta.ActionValidEmptyProps{})
-	
-	inst := newExecutableInstance(mockConfig, typeDef)
 
+	inst := newExecutableInstance(mockConfig, typeDef)
 
 	asserts.Equals(t, expectedInst, inst)
 }
