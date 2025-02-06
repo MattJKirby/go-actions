@@ -77,6 +77,7 @@ func TestNewConstructorInvalidProps(t *testing.T) {
 	}{
 		{name: "construct with matching value prop type", input: &ta.ActionValidProps{Param1: "somePropValue"}, expectErr: true},
 		{name: "construct with wrong prop type", input: ta.ActionValidEmptyProps{}, expectErr: true},
+		{name: "construct with nil prop type", input: nil, expectErr: true},
 	}
 
 	for _, test := range tests {
