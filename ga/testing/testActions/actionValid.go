@@ -14,6 +14,8 @@ type ActionValidProps struct {
 	Param1 string
 }
 
+var ActionValidDefaultProps = ActionValidProps{Param1: "DefaultParam1Value"}
+
 func (tav ActionValid) Execute() {
 	fmt.Println(tav.Param1.Value())
 }
@@ -25,7 +27,5 @@ func newActionValid(instance *action.ActionInstance, props ActionValidProps) *Ac
 }
 
 func GenerateActionValidRegistration() action.GoActionRegistration[ActionValid, ActionValidProps] {
-	return GenerateRegistration(newActionValid, &ActionValidProps{
-		Param1: "DefaultParam1",
-	})
+	return GenerateRegistration(newActionValid, &ActionValidDefaultProps)
 }
