@@ -10,17 +10,21 @@ type ExecutableAction struct {
 	instance *action.ActionInstance
 }
 
-func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props action.GoActionProps) *ExecutableAction {
+func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *ExecutableAction {
 	return &ExecutableAction{
-		instance: newExecutableInstance(modelConfig, typeDef),
+		instance: newExecutableInstance(modelConfig, typeDef, nil),
 	}
 }
 
-func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *action.ActionInstance {
+func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props action.GoActionProps) *action.ActionInstance {
 	instance := action.NewActionInstance(typeDef.TypeName, modelConfig)
-	defaultProps := typeDef.NewDefaultProps()
 	ctor := typeDef.NewConstructor()
 
-	ctor(instance, defaultProps)
+	_, err := ctor(instance, props)
+
+	if err != nil {
+		ctor(instance, typeDef.NewDefaultProps())
+	}
+
 	return instance
 }

@@ -11,8 +11,8 @@ import (
 
 var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
 
-func defHelper() *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps] {
-	reg := ta.GenerateActionValidEmptyRegistration()
+func defHelper() *definition.ActionDefinition[ta.ActionValid, ta.ActionValidProps] {
+	reg := ta.GenerateActionValidRegistration()
 	return definition.NewActionDefinition(&reg)
 }
 
@@ -21,21 +21,38 @@ func TestNewExecutableAction(t *testing.T) {
 	typeDef := def.GetTypeDefinition()
 
 	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
-	def.Constructor(expectedInst, ta.ActionValidEmptyProps{})
+	def.Constructor(expectedInst, ta.ActionValidDefaultProps)
 
-	executableAction := NewExecutableAction(mockConfig, typeDef, nil)
+	executableAction := NewExecutableAction(mockConfig, typeDef)
 
 	asserts.Equals(t, expectedInst, executableAction.instance)
 }
 
 func TestNewExecutableInstance(t *testing.T) {
+	tests := []struct{
+		name string
+		inputProps any
+		expectedProps ta.ActionValidProps
+	}{
+		{name: "with valid empty props", inputProps: ta.ActionValidProps{}, expectedProps: ta.ActionValidProps{}},
+		{name: "with valid props", inputProps: ta.ActionValidProps{Param1: "ASDF"}, expectedProps: ta.ActionValidProps{Param1: "ASDF"}},
+		{name: "with invalid props", inputProps: ta.ActionInvalidNoExecute{}, expectedProps: ta.ActionValidDefaultProps},
+		{name: "with nil props", inputProps: nil, expectedProps: ta.ActionValidDefaultProps},
+	}
+
 	def := defHelper()
 	typeDef := def.GetTypeDefinition()
 
-	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
-	def.Constructor(expectedInst, ta.ActionValidEmptyProps{})
+	for _, test := range tests {
+		t.Helper()
+		t.Run(test.name, func(t *testing.T) {
 
-	inst := newExecutableInstance(mockConfig, typeDef)
+			expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
+			def.Constructor(expectedInst, test.expectedProps)
 
-	asserts.Equals(t, expectedInst, inst)
+			inst := newExecutableInstance(mockConfig, typeDef, test.inputProps)
+
+			asserts.Equals(t, expectedInst, inst)
+		})
+	}
 }
