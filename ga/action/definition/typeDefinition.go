@@ -51,11 +51,11 @@ func (atd *ActionTypeDefinition) NewDefaultProps() action.GoActionProps {
 func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
 	return func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
 		propsType := reflect.TypeOf(props)
-		
+
 		if propsType == nil {
 			return nil, fmt.Errorf("props can't be nil")
 		}
-		
+
 		if propsType.Kind() == reflect.Pointer {
 			return nil, fmt.Errorf("props must be value type")
 		}

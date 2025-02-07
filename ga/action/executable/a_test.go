@@ -29,9 +29,9 @@ func TestNewExecutableAction(t *testing.T) {
 }
 
 func TestNewExecutableInstance(t *testing.T) {
-	tests := []struct{
-		name string
-		inputProps any
+	tests := []struct {
+		name          string
+		inputProps    any
 		expectedProps ta.ActionValidProps
 	}{
 		{name: "with valid empty props", inputProps: ta.ActionValidProps{}, expectedProps: ta.ActionValidProps{}},

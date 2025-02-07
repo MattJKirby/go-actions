@@ -21,7 +21,6 @@ func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definit
 	ctor := typeDef.NewConstructor()
 
 	_, err := ctor(instance, props)
-
 	if err != nil {
 		ctor(instance, typeDef.NewDefaultProps())
 	}
