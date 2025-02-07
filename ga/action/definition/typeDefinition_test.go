@@ -9,6 +9,8 @@ import (
 	"testing"
 )
 
+var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"}
+
 func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 
@@ -19,7 +21,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	expectedCtor := reflect.ValueOf(reg.Constructor).Pointer()
 	expectedCtorType := reflect.TypeOf(reg.Constructor)
 	expectedPropsType := reflect.TypeOf(*reg.DefaultProps)
-	expectedPropsValue := reflect.ValueOf(reg.DefaultProps)
+	expectedPropsValue := reflect.ValueOf(*reg.DefaultProps)
 
 	defReg := TypeDefinitionFromRegistration(&reg)
 
@@ -38,23 +40,24 @@ func TestNewDefaultProps(t *testing.T) {
 	defReg := TypeDefinitionFromRegistration(&reg)
 
 	newProps := defReg.NewDefaultProps()
-	typeAssertedProps, ok := (newProps).(*ta.ActionValidProps)
+	typeAssertedProps, ok := newProps.(ta.ActionValidProps)
 
 	asserts.Equals(t, true, ok)
-	asserts.Equals(t, reg.DefaultProps, typeAssertedProps)
+	asserts.Equals(t, *reg.DefaultProps, typeAssertedProps)
 }
 
 func TestNewConstructorWithValidProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
-	mockConfig := &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"}
 
 	expectedInst := action.NewActionInstance("expected", mockConfig)
-	expectedAction := reg.Constructor(expectedInst, ta.ActionValidProps{Param1: "somePropValue"})
+	expectedAction := reg.Constructor(expectedInst, ta.ActionValidDefaultProps)
 
 	testInst := action.NewActionInstance("test", mockConfig)
 	testCtor := defReg.NewConstructor()
-	testAction, err := testCtor(testInst, ta.ActionValidProps{Param1: "somePropValue"})
+
+	abc := defReg.NewDefaultProps()
+	testAction, err := testCtor(testInst, abc)
 	typedTestAction, ok := (testAction).(*ta.ActionValid)
 
 	asserts.Equals(t, nil, err)
@@ -67,7 +70,6 @@ func TestNewConstructorWithValidProps(t *testing.T) {
 func TestNewConstructorInvalidProps(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
-	mockConfig := &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"}
 	emptyInst := action.NewActionInstance("expected", mockConfig)
 
 	tests := []struct {
@@ -75,7 +77,7 @@ func TestNewConstructorInvalidProps(t *testing.T) {
 		input     any
 		expectErr bool
 	}{
-		{name: "construct with matching value prop type", input: &ta.ActionValidProps{Param1: "somePropValue"}, expectErr: true},
+		{name: "construct with matching value prop type", input: &ta.ActionValidProps{}, expectErr: true},
 		{name: "construct with wrong prop type", input: ta.ActionValidEmptyProps{}, expectErr: true},
 		{name: "construct with nil prop type", input: nil, expectErr: true},
 	}

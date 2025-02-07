@@ -25,8 +25,8 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 	vCtor := reflect.ValueOf(reg.Constructor)
 	tCtor := vCtor.Type()
 
-	vProps := reflect.ValueOf(reg.DefaultProps)
 	tProps := reflect.TypeOf(*reg.DefaultProps)
+	vProps := reflect.ValueOf(*reg.DefaultProps)
 
 	tAction := tCtor.Out(0)
 	tAction = utils.GetValueType(tAction)
@@ -55,9 +55,11 @@ func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
 		if propsType == nil {
 			return nil, fmt.Errorf("props can't be nil")
 		}
+
+		fmt.Println(propsType.Kind())
 		
 		if propsType.Kind() == reflect.Pointer {
-			return nil, fmt.Errorf("props must be matching value type")
+			return nil, fmt.Errorf("props must be value type")
 		}
 
 		if propsType != atd.PropsType {
