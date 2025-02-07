@@ -55,8 +55,6 @@ func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
 		if propsType == nil {
 			return nil, fmt.Errorf("props can't be nil")
 		}
-
-		fmt.Println(propsType.Kind())
 		
 		if propsType.Kind() == reflect.Pointer {
 			return nil, fmt.Errorf("props must be value type")
