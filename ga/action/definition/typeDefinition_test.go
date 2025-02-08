@@ -46,52 +46,63 @@ func TestNewDefaultProps(t *testing.T) {
 	asserts.Equals(t, *reg.DefaultProps, typeAssertedProps)
 }
 
-func TestNewConstructorWithValidProps(t *testing.T) {
+func TestValidatePropsType(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
 
-	expectedInst := action.NewActionInstance("expected", mockConfig)
-	expectedAction := reg.Constructor(expectedInst, ta.ActionValidDefaultProps)
-
-	testInst := action.NewActionInstance("test", mockConfig)
-	testCtor := defReg.NewConstructor()
-
-	abc := defReg.NewDefaultProps()
-	testAction, err := testCtor(testInst, abc)
-	typedTestAction, ok := (testAction).(*ta.ActionValid)
-
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, true, ok)
-	asserts.Equals(t, expectedAction, typedTestAction)
-	asserts.Equals(t, expectedInst.Model.Parameters, testInst.Model.Parameters)
-
-}
-
-func TestNewConstructorInvalidProps(t *testing.T) {
-	reg := ta.GenerateActionValidRegistration()
-	defReg := TypeDefinitionFromRegistration(&reg)
-	emptyInst := action.NewActionInstance("expected", mockConfig)
-
-	tests := []struct {
-		name      string
-		input     any
+	tests := []struct{
+		name string
+		props action.GoActionProps
 		expectErr bool
 	}{
-		{name: "construct with matching value prop type", input: &ta.ActionValidProps{}, expectErr: true},
-		{name: "construct with wrong prop type", input: ta.ActionValidEmptyProps{}, expectErr: true},
-		{name: "construct with nil prop type", input: nil, expectErr: true},
+		{name: "valid - same props type", props: ta.ActionValidProps{}, expectErr: false},
+		{name: "valid - same props type generated", props: defReg.NewDefaultProps(), expectErr: false},
+		{name: "valid - same props type populated", props: ta.ActionValidProps{Param1: "asdf"}, expectErr: false},
+		{name: "invalid - same props pointer", props: &ta.ActionValidProps{}, expectErr: true},
+		{name: "invalid - different props type", props: ta.ActionInvalidNoExecute{}, expectErr: true},
+		{name: "invalid - nil", props: nil, expectErr: true},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			testInst := action.NewActionInstance("test", mockConfig)
-			testCtor := defReg.NewConstructor()
-			testAction, err := testCtor(testInst, test.input)
+			err := defReg.ValidatePropsType(test.props)
+			hasErr := err != nil
 
-			asserts.Equals(t, test.expectErr, err != nil)
-			asserts.Equals(t, nil, testAction)
-			asserts.Equals(t, emptyInst.Model.Parameters, testInst.Model.Parameters)
+			asserts.Equals(t, test.expectErr, hasErr)
 		})
 	}
+}
 
+func TestNewConstructorWithValidProps(t *testing.T) {
+	reg := ta.GenerateActionValidRegistration()
+	defReg := TypeDefinitionFromRegistration(&reg)
+
+	expectedInstEmpty := action.NewActionInstance("inst", mockConfig)
+	expectedInst := action.NewActionInstance("inst", mockConfig)
+	expectedAction := reg.Constructor(expectedInst, ta.ActionValidDefaultProps)
+	expectedActionTyped := any(expectedAction).(action.GoAction)
+
+	tests := []struct{
+		name string
+		props action.GoActionProps
+		expectedInstance *action.ActionInstance
+		expectedAction action.GoAction
+		expectErr bool
+	}{
+		{name: "valid", props: defReg.NewDefaultProps(), expectedInstance: expectedInst, expectedAction: expectedActionTyped, expectErr: false},
+		{name: "invalid - bad props", props: ta.ActionInvalidNoExecute{}, expectedInstance: expectedInstEmpty, expectedAction: nil, expectErr: true},
+	}
+
+	for _,test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			testInst := action.NewActionInstance("inst", mockConfig)
+			testCtor := defReg.NewConstructor()
+			testAction, err := testCtor(testInst, test.props)
+			hasErr := err != nil
+
+			asserts.Equals(t, test.expectErr, hasErr)
+			asserts.Equals(t, test.expectedInstance, testInst)
+			asserts.Equals(t, test.expectedAction, testAction)
+		})
+	}
 }

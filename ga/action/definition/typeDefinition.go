@@ -48,20 +48,27 @@ func (atd *ActionTypeDefinition) NewDefaultProps() action.GoActionProps {
 	return atd.PropsValue.Interface()
 }
 
+func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) error {
+	propsType := reflect.TypeOf(props)
+
+	switch {
+	case propsType == nil:
+		return fmt.Errorf("props can't be nil")
+	
+	case propsType.Kind() == reflect.Pointer:
+		return fmt.Errorf("props must be value type")
+	
+	case propsType != atd.PropsType:
+		return fmt.Errorf("props type does not match registered default props type")
+	}
+	
+	return nil
+}
+
 func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
 	return func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
-		propsType := reflect.TypeOf(props)
-
-		if propsType == nil {
-			return nil, fmt.Errorf("props can't be nil")
-		}
-
-		if propsType.Kind() == reflect.Pointer {
-			return nil, fmt.Errorf("props must be value type")
-		}
-
-		if propsType != atd.PropsType {
-			return nil, fmt.Errorf("props type does not match registered default props type")
+		if err := atd.ValidatePropsType(props); err != nil {
+			return nil, err
 		}
 
 		results := atd.CtorValue.Call([]reflect.Value{
