@@ -8,23 +8,30 @@ import (
 
 type ExecutableAction struct {
 	instance *action.ActionInstance
+	Action *action.GoAction
 }
 
 func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *ExecutableAction {
+	instance, action, _ := newExecutableInstance(modelConfig, typeDef, nil)
+	
 	return &ExecutableAction{
-		instance: newExecutableInstance(modelConfig, typeDef, nil),
+		instance,
+		action,
 	}
 }
 
-func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props action.GoActionProps) *action.ActionInstance {
+func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props action.GoActionProps) (*action.ActionInstance, *action.GoAction, error) {
 	instance := action.NewActionInstance(typeDef.TypeName, modelConfig)
 	ctor := typeDef.NewConstructor()
 
-	if err := typeDef.ValidatePropsType(props); err != nil {
-		ctor(instance, typeDef.NewDefaultProps())
-		return instance
+	if props == nil {
+		props = typeDef.NewDefaultProps()
 	}
 
-	ctor(instance, props)
-	return instance
+	action , err := ctor(instance, props)
+	if err != nil {
+		return nil, nil, err
+	}
+	
+	return instance, &action, nil
 }

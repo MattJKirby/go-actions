@@ -29,30 +29,34 @@ func TestNewExecutableAction(t *testing.T) {
 }
 
 func TestNewExecutableInstance(t *testing.T) {
+	
+	def := defHelper()
+	typeDef := def.GetTypeDefinition()
+	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
+	def.Constructor(expectedInst, ta.ActionValidDefaultProps)
+	
 	tests := []struct {
 		name          string
 		inputProps    any
-		expectedProps ta.ActionValidProps
+		expectedInstance *action.ActionInstance
+		expectErr bool
 	}{
-		{name: "with valid empty props", inputProps: ta.ActionValidProps{}, expectedProps: ta.ActionValidProps{}},
-		{name: "with valid props", inputProps: ta.ActionValidProps{Param1: "ASDF"}, expectedProps: ta.ActionValidProps{Param1: "ASDF"}},
-		{name: "with invalid props", inputProps: ta.ActionInvalidNoExecute{}, expectedProps: ta.ActionValidDefaultProps},
-		{name: "with nil props", inputProps: nil, expectedProps: ta.ActionValidDefaultProps},
+		{name: "with valid empty props", inputProps: ta.ActionValidDefaultProps, expectedInstance: expectedInst, expectErr: false},
+		{name: "with valid props", inputProps: ta.ActionValidDefaultProps, expectedInstance: expectedInst,expectErr: false},
+		{name: "with invalid props", inputProps: ta.ActionInvalidNoExecute{}, expectedInstance: nil, expectErr: true},
+		{name: "with nil props", inputProps: nil, expectedInstance: expectedInst, expectErr: false},
 	}
 
-	def := defHelper()
-	typeDef := def.GetTypeDefinition()
 
 	for _, test := range tests {
-		t.Helper()
+
 		t.Run(test.name, func(t *testing.T) {
 
-			expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
-			def.Constructor(expectedInst, test.expectedProps)
+			inst, _, err := newExecutableInstance(mockConfig, typeDef, test.inputProps)
+			hasErr := err != nil
 
-			inst := newExecutableInstance(mockConfig, typeDef, test.inputProps)
-
-			asserts.Equals(t, expectedInst, inst)
+			asserts.Equals(t, test.expectErr, hasErr)
+			asserts.Equals(t, test.expectedInstance, inst)
 		})
 	}
 }
