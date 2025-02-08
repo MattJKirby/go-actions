@@ -54,14 +54,14 @@ func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) e
 	switch {
 	case propsType == nil:
 		return fmt.Errorf("props can't be nil")
-	
+
 	case propsType.Kind() == reflect.Pointer:
 		return fmt.Errorf("props must be value type")
-	
+
 	case propsType != atd.PropsType:
 		return fmt.Errorf("props type does not match registered default props type")
 	}
-	
+
 	return nil
 }
 

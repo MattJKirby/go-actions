@@ -20,10 +20,11 @@ func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definit
 	instance := action.NewActionInstance(typeDef.TypeName, modelConfig)
 	ctor := typeDef.NewConstructor()
 
-	_, err := ctor(instance, props)
-	if err != nil {
+	if err := typeDef.ValidatePropsType(props); err != nil {
 		ctor(instance, typeDef.NewDefaultProps())
+		return instance
 	}
 
+	ctor(instance, props)
 	return instance
 }

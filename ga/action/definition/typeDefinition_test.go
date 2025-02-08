@@ -50,9 +50,9 @@ func TestValidatePropsType(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
 
-	tests := []struct{
-		name string
-		props action.GoActionProps
+	tests := []struct {
+		name      string
+		props     action.GoActionProps
 		expectErr bool
 	}{
 		{name: "valid - same props type", props: ta.ActionValidProps{}, expectErr: false},
@@ -82,18 +82,18 @@ func TestNewConstructorWithValidProps(t *testing.T) {
 	expectedAction := reg.Constructor(expectedInst, ta.ActionValidDefaultProps)
 	expectedActionTyped := any(expectedAction).(action.GoAction)
 
-	tests := []struct{
-		name string
-		props action.GoActionProps
+	tests := []struct {
+		name             string
+		props            action.GoActionProps
 		expectedInstance *action.ActionInstance
-		expectedAction action.GoAction
-		expectErr bool
+		expectedAction   action.GoAction
+		expectErr        bool
 	}{
 		{name: "valid", props: defReg.NewDefaultProps(), expectedInstance: expectedInst, expectedAction: expectedActionTyped, expectErr: false},
 		{name: "invalid - bad props", props: ta.ActionInvalidNoExecute{}, expectedInstance: expectedInstEmpty, expectedAction: nil, expectErr: true},
 	}
 
-	for _,test := range tests {
+	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			testInst := action.NewActionInstance("inst", mockConfig)
 			testCtor := defReg.NewConstructor()
