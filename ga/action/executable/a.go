@@ -8,12 +8,12 @@ import (
 
 type ExecutableAction struct {
 	instance *action.ActionInstance
-	Action *action.GoAction
+	Action   *action.GoAction
 }
 
 func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *ExecutableAction {
 	instance, action, _ := newExecutableInstance(modelConfig, typeDef, nil)
-	
+
 	return &ExecutableAction{
 		instance,
 		action,
@@ -28,10 +28,10 @@ func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definit
 		props = typeDef.NewDefaultProps()
 	}
 
-	action , err := ctor(instance, props)
+	action, err := ctor(instance, props)
 	if err != nil {
 		return nil, nil, err
 	}
-	
+
 	return instance, &action, nil
 }

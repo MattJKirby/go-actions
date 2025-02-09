@@ -29,24 +29,23 @@ func TestNewExecutableAction(t *testing.T) {
 }
 
 func TestNewExecutableInstance(t *testing.T) {
-	
+
 	def := defHelper()
 	typeDef := def.GetTypeDefinition()
 	expectedInst := action.NewActionInstance(def.TypeName, mockConfig)
 	def.Constructor(expectedInst, ta.ActionValidDefaultProps)
-	
+
 	tests := []struct {
-		name          string
-		inputProps    any
+		name             string
+		inputProps       any
 		expectedInstance *action.ActionInstance
-		expectErr bool
+		expectErr        bool
 	}{
 		{name: "with valid empty props", inputProps: ta.ActionValidDefaultProps, expectedInstance: expectedInst, expectErr: false},
-		{name: "with valid props", inputProps: ta.ActionValidDefaultProps, expectedInstance: expectedInst,expectErr: false},
+		{name: "with valid props", inputProps: ta.ActionValidDefaultProps, expectedInstance: expectedInst, expectErr: false},
 		{name: "with invalid props", inputProps: ta.ActionInvalidNoExecute{}, expectedInstance: nil, expectErr: true},
 		{name: "with nil props", inputProps: nil, expectedInstance: expectedInst, expectErr: false},
 	}
-
 
 	for _, test := range tests {
 
