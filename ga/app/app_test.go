@@ -65,11 +65,11 @@ func TestInstantiateAction(t *testing.T) {
 	def := definition.NewActionDefinition(&reg)
 	actual := executable.NewExecutableAction(mockConfig, def.ActionTypeDefinition)
 
-	tests := []struct{
-		name string
-		inputName string
+	tests := []struct {
+		name               string
+		inputName          string
 		expectedExecutable *executable.ExecutableAction
-		expectErr bool
+		expectErr          bool
 	}{
 		{name: "valid - existing action name", inputName: "ActionValidEmpty", expectedExecutable: actual, expectErr: false},
 		{name: "invalid - not existing action name", inputName: "notregistered", expectedExecutable: nil, expectErr: true},
@@ -77,7 +77,6 @@ func TestInstantiateAction(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-
 			actual, err := InstantiateAction(test.inputName)(app)
 			hasErr := err != nil
 

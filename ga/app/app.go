@@ -43,9 +43,9 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 func InstantiateAction(actionName string) func(*App) (*executable.ExecutableAction, error) {
 	return func(app *App) (*executable.ExecutableAction, error) {
 		typeDef, err := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
-    if err != nil {
-      return nil, err
-    }
+		if err != nil {
+			return nil, err
+		}
 		return executable.NewExecutableAction(app.modelConfig, typeDef), nil
 	}
 }
