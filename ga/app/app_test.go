@@ -23,7 +23,7 @@ func appWithEmptyRegistration(config model.ActionModelConfig) (*App, action.GoAc
 }
 
 func TestRegisterActionAndGet(t *testing.T) {
-	app,_ := appWithEmptyRegistration(mockConfig)
+	app, _ := appWithEmptyRegistration(mockConfig)
 	result, _ := GetActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
 
 	if result == nil {
@@ -32,7 +32,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestGetActionSuccessfulNilProps(t *testing.T) {
-	app,_ := appWithEmptyRegistration(mockConfig)
+	app, _ := appWithEmptyRegistration(mockConfig)
 	_, err := GetTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
 	asserts.Equals(t, false, err != nil)
@@ -60,12 +60,12 @@ func TestGetActionFail(t *testing.T) {
 	}
 }
 
-func TestInstantiateAction(t *testing.T){
+func TestInstantiateAction(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
-	
+
 	def := definition.NewActionDefinition(&reg)
-	actual := executable.NewExecutableAction(mockConfig, 	def.ActionTypeDefinition)
-	
+	actual := executable.NewExecutableAction(mockConfig, def.ActionTypeDefinition)
+
 	test := InstantiateAction("ActionValidEmpty")(app)
 
 	asserts.Equals(t, *actual, *test)
