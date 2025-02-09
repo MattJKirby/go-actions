@@ -1,17 +1,29 @@
 package app
 
 import (
+	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
+	"go-actions/ga/action/executable"
+	"go-actions/ga/action/model"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
+	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
 
 	"testing"
 )
 
-func TestRegisterActionAndGet(t *testing.T) {
+var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+
+func appWithEmptyRegistration(config model.ActionModelConfig) (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
 	app := NewApp("test")
+	app.modelConfig = config
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
+	return app, registration
+}
 
+func TestRegisterActionAndGet(t *testing.T) {
+	app,_ := appWithEmptyRegistration(mockConfig)
 	result, _ := GetActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
 
 	if result == nil {
@@ -20,10 +32,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestGetActionSuccessfulNilProps(t *testing.T) {
-	app := NewApp("test")
-	registration := ta.GenerateActionValidEmptyRegistration()
-	RegisterAction(&registration)(app)
-
+	app,_ := appWithEmptyRegistration(mockConfig)
 	_, err := GetTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
 	asserts.Equals(t, false, err != nil)
@@ -49,4 +58,15 @@ func TestGetActionFail(t *testing.T) {
 	if err == nil {
 		t.Errorf("error instatiating action: got %v", nil)
 	}
+}
+
+func TestInstantiateAction(t *testing.T){
+	app, reg := appWithEmptyRegistration(mockConfig)
+	
+	def := definition.NewActionDefinition(&reg)
+	actual := executable.NewExecutableAction(mockConfig, 	def.ActionTypeDefinition)
+	
+	test := InstantiateAction("ActionValidEmpty")(app)
+
+	asserts.Equals(t, *actual, *test)
 }

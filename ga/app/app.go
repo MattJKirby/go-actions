@@ -14,6 +14,7 @@ type App struct {
 	Name           string
 	ctx            context.Context
 	actionRegistry *actionRegistry
+  modelConfig model.ActionModelConfig
 }
 
 func NewApp(name string) *App {
@@ -21,6 +22,7 @@ func NewApp(name string) *App {
 		Name:           name,
 		ctx:            context.Background(),
 		actionRegistry: newActionRegistry(),
+    modelConfig: model.NewModelConfig(),
 	}
 }
 
@@ -35,6 +37,13 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 		action := new(T)
 		actionType := utils.GetValueType(reflect.TypeOf(action))
 		return getTypedActionDefinition[T, P](actionType)(app.actionRegistry)
+	}
+}
+
+func InstantiateAction(actionName string) func(*App) (*executable.ExecutableAction){
+	return func(app *App) *executable.ExecutableAction {
+		typeDef, _ := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
+		return executable.NewExecutableAction(app.modelConfig, typeDef)
 	}
 }
 
