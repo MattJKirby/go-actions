@@ -62,11 +62,27 @@ func TestGetActionFail(t *testing.T) {
 
 func TestInstantiateAction(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
-
 	def := definition.NewActionDefinition(&reg)
 	actual := executable.NewExecutableAction(mockConfig, def.ActionTypeDefinition)
 
-	test := InstantiateAction("ActionValidEmpty")(app)
+	tests := []struct{
+		name string
+		inputName string
+		expectedExecutable *executable.ExecutableAction
+		expectErr bool
+	}{
+		{name: "valid - existing action name", inputName: "ActionValidEmpty", expectedExecutable: actual, expectErr: false},
+		{name: "invalid - not existing action name", inputName: "notregistered", expectedExecutable: nil, expectErr: true},
+	}
 
-	asserts.Equals(t, *actual, *test)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+
+			actual, err := InstantiateAction(test.inputName)(app)
+			hasErr := err != nil
+
+			asserts.Equals(t, test.expectedExecutable, actual)
+			asserts.Equals(t, test.expectErr, hasErr)
+		})
+	}
 }
