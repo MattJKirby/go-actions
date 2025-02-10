@@ -8,7 +8,7 @@ import (
 
 type ExecutableAction struct {
 	instance *action.ActionInstance
-	Action   *action.GoAction
+	Action   action.GoAction
 }
 
 func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *ExecutableAction {
@@ -20,7 +20,7 @@ func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definitio
 	}
 }
 
-func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props action.GoActionProps) (*action.ActionInstance, *action.GoAction, error) {
+func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition, props action.GoActionProps) (*action.ActionInstance, action.GoAction, error) {
 	instance := action.NewActionInstance(typeDef.TypeName, modelConfig)
 	ctor := typeDef.NewConstructor()
 
@@ -33,5 +33,5 @@ func newExecutableInstance(modelConfig model.ActionModelConfig, typeDef *definit
 		return nil, nil, err
 	}
 
-	return instance, &action, nil
+	return instance, action, nil
 }
