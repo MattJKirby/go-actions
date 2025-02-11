@@ -57,8 +57,6 @@ func GetTypedAction[T action.GoAction, P action.GoActionProps](props *P) func(*A
 			return nil, err
 		}
 
-		modelConfig := model.NewModelConfig()
-
-		return executable.NewAction(modelConfig, *reg, props), nil
+		return executable.NewAction(app.modelConfig, *reg, props), nil
 	}
 }
