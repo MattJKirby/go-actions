@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
@@ -47,6 +48,26 @@ func InstantiateAction(actionName string) func(*App) (*executable.ExecutableActi
 			return nil, err
 		}
 		return executable.NewExecutableAction(app.modelConfig, typeDef), nil
+	}
+}
+
+func InstantiateTypedAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.TypedExecutable[T, P], error) {
+	return func(app *App) (*executable.TypedExecutable[T, P], error) {
+		reg, err := GetActionRegistration[T, P]()(app)
+		if err != nil {
+			return nil, err
+		}
+
+    executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())
+    act, ok := any(executableAction.Action).(*T)
+    if !ok {
+      return nil, fmt.Errorf("could nt ")
+    }
+
+		return &executable.TypedExecutable[T, P]{
+      ExecutableAction: executableAction,
+      Action: act,
+    }, nil
 	}
 }
 

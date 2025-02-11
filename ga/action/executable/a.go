@@ -11,6 +11,11 @@ type ExecutableAction struct {
 	Action   action.GoAction
 }
 
+type TypedExecutable[T action.GoAction, P action.GoActionProps] struct {
+	*ExecutableAction
+	Action *T
+}
+
 func NewExecutableAction(modelConfig model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) *ExecutableAction {
 	instance, action, _ := newExecutableInstance(modelConfig, typeDef, nil)
 
