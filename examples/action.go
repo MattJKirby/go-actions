@@ -47,6 +47,6 @@ func (ex ExampleAction) Execute() {
 	fmt.Printf("executing Example Action: %d:%s\n", ex.IntegerParameter.Value(), ex.StringParameter.Value())
 }
 
-func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) *executable.Action[ExampleAction, ExampleActionProps] {
+func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) *executable.TypedExecutable[ExampleAction, ExampleActionProps] {
 	return ga.NewFlowAction[ExampleAction](flow, props)
 }

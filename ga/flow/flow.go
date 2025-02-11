@@ -18,8 +18,8 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func AddAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*executable.Action[T, P], error) {
-	act, err := app.GetTypedAction[T](props)(f.flowApp)
+func AddAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*executable.TypedExecutable[T, P], error) {
+	act, err := app.InstantiateTypedAction[T](props)(f.flowApp)
 	if err != nil {
 		return nil, err
 	}

@@ -18,11 +18,11 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() (*defini
 	return app.GetActionRegistration[T, P]()(ga)
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps]() (*executable.Action[T, P], error) {
-	return app.GetTypedAction[T, P](nil)(ga)
+func GetAction[T action.GoAction, P action.GoActionProps]() (*executable.TypedExecutable[T, P], error) {
+	return app.InstantiateTypedAction[T, P](nil)(ga)
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *executable.Action[T, P] {
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *executable.TypedExecutable[T, P] {
 	action, err := flow.AddAction[T](f, props)
 	if err != nil {
 		panic("could not retrieve action from app")

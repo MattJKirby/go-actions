@@ -70,14 +70,3 @@ func InstantiateTypedAction[T action.GoAction, P action.GoActionProps](props *P)
 		}, nil
 	}
 }
-
-func GetTypedAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.Action[T, P], error) {
-	return func(app *App) (*executable.Action[T, P], error) {
-		reg, err := GetActionRegistration[T, P]()(app)
-		if err != nil {
-			return nil, err
-		}
-
-		return executable.NewAction(app.modelConfig, *reg, props), nil
-	}
-}
