@@ -58,16 +58,16 @@ func InstantiateTypedAction[T action.GoAction, P action.GoActionProps](props *P)
 			return nil, err
 		}
 
-    executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())
-    act, ok := any(executableAction.Action).(*T)
-    if !ok {
-      return nil, fmt.Errorf("could nt ")
-    }
+		executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())
+		act, ok := any(executableAction.Action).(*T)
+		if !ok {
+			return nil, fmt.Errorf("could nt ")
+		}
 
 		return &executable.TypedExecutable[T, P]{
-      ExecutableAction: executableAction,
-      Action: act,
-    }, nil
+			ExecutableAction: executableAction,
+			Action:           act,
+		}, nil
 	}
 }
 

@@ -86,7 +86,7 @@ func TestInstantiateAction(t *testing.T) {
 	}
 }
 
-func TestInstantiateTypedAction(t *testing.T){
+func TestInstantiateTypedAction(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
 	def := definition.NewActionDefinition(&reg)
 
@@ -94,7 +94,7 @@ func TestInstantiateTypedAction(t *testing.T){
 	expectedAction, _ := expectedExecutable.Action.(*ta.ActionValidEmpty)
 	expectedTypedExecutable := &executable.TypedExecutable[ta.ActionValidEmpty, ta.ActionValidEmptyProps]{
 		ExecutableAction: expectedExecutable,
-		Action: expectedAction,
+		Action:           expectedAction,
 	}
 
 	actual, err := InstantiateTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
