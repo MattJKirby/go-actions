@@ -25,7 +25,7 @@ func TestNewExecutableAction(t *testing.T) {
 
 	executableAction := NewExecutableAction(mockConfig, typeDef)
 
-	asserts.Equals(t, expectedInst, executableAction.instance)
+	asserts.Equals(t, expectedInst, executableAction.Instance)
 }
 
 func TestNewExecutableInstance(t *testing.T) {

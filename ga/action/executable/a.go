@@ -7,7 +7,7 @@ import (
 )
 
 type ExecutableAction struct {
-	instance *action.ActionInstance
+	Instance *action.ActionInstance
 	Action   action.GoAction
 }
 
