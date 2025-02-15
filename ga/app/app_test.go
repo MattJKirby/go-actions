@@ -33,25 +33,30 @@ func TestRegisterActionAndGet(t *testing.T) {
 
 func TestInstantiateAction(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
-	def := definition.NewActionDefinition(&reg)
-	actual := executable.NewExecutableAction(mockConfig, def.ActionTypeDefinition)
+
+	expectedInstance := action.NewActionInstance("ActionValidEmpty", mockConfig)
+	expectedAction := reg.Constructor(expectedInstance, ta.ActionValidEmptyProps{})
+	expected := &InstantiatedAction{
+		Instance: expectedInstance,
+		Action:   expectedAction,
+	}
 
 	tests := []struct {
-		name               string
-		inputName          string
-		expectedExecutable *executable.ExecutableAction
-		expectErr          bool
+		name      string
+		inputName string
+		expected  *InstantiatedAction
+		expectErr bool
 	}{
-		{name: "valid - existing action name", inputName: "ActionValidEmpty", expectedExecutable: actual, expectErr: false},
-		{name: "invalid - not existing action name", inputName: "notregistered", expectedExecutable: nil, expectErr: true},
+		{name: "valid - existing action name", inputName: "ActionValidEmpty", expected: expected, expectErr: false},
+		{name: "invalid - not existing action name", inputName: "notregistered", expected: nil, expectErr: true},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			actual, err := InstantiateAction(test.inputName)(app)
+			actual, err := InstantiateActionFromTypeName(test.inputName)(app)
 			hasErr := err != nil
 
-			asserts.Equals(t, test.expectedExecutable, actual)
+			asserts.Equals(t, test.expected, actual)
 			asserts.Equals(t, test.expectErr, hasErr)
 		})
 	}
