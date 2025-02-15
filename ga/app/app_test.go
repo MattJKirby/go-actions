@@ -3,7 +3,6 @@ package app
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/executable"
 	"go-actions/ga/action/model"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
@@ -53,7 +52,7 @@ func TestInstantiateAction(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			actual, err := InstantiateActionFromTypeName(test.inputName)(app)
+			actual, err := InstantiateActionFromName(test.inputName)(app)
 			hasErr := err != nil
 
 			asserts.Equals(t, test.expected, actual)
@@ -66,15 +65,15 @@ func TestInstantiateTypedAction(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
 	def := definition.NewActionDefinition(&reg)
 
-	expectedExecutable := executable.NewExecutableAction(mockConfig, def.ActionTypeDefinition)
-	expectedAction, _ := expectedExecutable.Action.(*ta.ActionValidEmpty)
-	expectedTypedExecutable := &executable.TypedExecutable[ta.ActionValidEmpty, ta.ActionValidEmptyProps]{
-		ExecutableAction: expectedExecutable,
-		Action:           expectedAction,
+	instance := action.NewActionInstance(def.TypeName, mockConfig)
+	action := reg.Constructor(instance, *reg.DefaultProps)
+	expectedInstantiatedTypedAction := &InstantiatedTypedAction[ta.ActionValidEmpty]{
+		Instance: instance,
+		Action:   action,
 	}
 
-	actual, err := InstantiateTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
+	actual, err := InstantiateActionFromType[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
-	asserts.Equals(t, expectedTypedExecutable, actual)
+	asserts.Equals(t, expectedInstantiatedTypedAction, actual)
 	asserts.Equals(t, nil, err)
 }
