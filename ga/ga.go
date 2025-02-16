@@ -18,7 +18,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() (*defini
 }
 
 func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InstantiatedTypedAction[T], error) {
-	instantiatedAction, err := app.InstantiateActionFromType[T, P](nil)(ga)
+	instantiatedAction, err := app.GetAction[T, P](nil)(ga)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InstantiatedTy
 }
 
 func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *T {
-	action, err := flow.AddAction[T](f, props)
+	action, err := flow.AddInstance[T](f, props)
 	if err != nil {
 		panic("could not retrieve action from app")
 	}

@@ -70,7 +70,7 @@ func InstantiateActionFromName(actionName string) func(*App) (*InstantiatedActio
 	}
 }
 
-func InstantiateActionFromType[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*InstantiatedTypedAction[T], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*InstantiatedTypedAction[T], error) {
 	return func(app *App) (*InstantiatedTypedAction[T], error) {
 		reg, err := GetActionRegistration[T, P]()(app)
 		if err != nil {

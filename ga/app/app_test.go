@@ -61,7 +61,7 @@ func TestInstantiateAction(t *testing.T) {
 	}
 }
 
-func TestInstantiateTypedAction(t *testing.T) {
+func TestGetAction(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
 	def := definition.NewActionDefinition(&reg)
 
@@ -72,7 +72,7 @@ func TestInstantiateTypedAction(t *testing.T) {
 		Action:   action,
 	}
 
-	actual, err := InstantiateActionFromType[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
+	actual, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
 	asserts.Equals(t, expectedInstantiatedTypedAction, actual)
 	asserts.Equals(t, nil, err)
