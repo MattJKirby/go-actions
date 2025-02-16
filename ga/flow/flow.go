@@ -7,13 +7,13 @@ import (
 
 type Flow struct {
 	flowApp         *app.App
-	ActionInstances []*action.ActionInstance `json:"actions"`
+	FlowDefinition []*action.ActionInstance `json:"actions"`
 }
 
 func NewFlow(app *app.App) *Flow {
 	return &Flow{
 		flowApp:         app,
-		ActionInstances: make([]*action.ActionInstance, 0),
+		FlowDefinition: make([]*action.ActionInstance, 0),
 	}
 }
 
@@ -23,6 +23,6 @@ func AddAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*a
 		return nil, err
 	}
 
-	f.ActionInstances = append(f.ActionInstances, instantiated.Instance)
+	f.FlowDefinition = append(f.FlowDefinition, instantiated.Instance)
 	return instantiated, err
 }
