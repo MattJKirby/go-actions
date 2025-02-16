@@ -49,7 +49,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 	}
 }
 
-func InstantiateActionFromName(actionName string) func(*App) (*InstantiatedAction, error) {
+func GetActionByName(actionName string) func(*App) (*InstantiatedAction, error) {
 	return func(app *App) (*InstantiatedAction, error) {
 		typeDef, err := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {

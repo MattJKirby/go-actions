@@ -30,7 +30,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 	}
 }
 
-func TestInstantiateAction(t *testing.T) {
+func TestAppGetActionByName(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
 
 	expectedInstance := action.NewActionInstance("ActionValidEmpty", mockConfig)
@@ -52,7 +52,7 @@ func TestInstantiateAction(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			actual, err := InstantiateActionFromName(test.inputName)(app)
+			actual, err := GetActionByName(test.inputName)(app)
 			hasErr := err != nil
 
 			asserts.Equals(t, test.expected, actual)
