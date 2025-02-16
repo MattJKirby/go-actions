@@ -3,7 +3,6 @@ package ga
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 	"go-actions/ga/flow"
 )
@@ -18,16 +17,20 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() (*defini
 	return app.GetActionRegistration[T, P]()(ga)
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps]() (*executable.TypedExecutable[T, P], error) {
-	return app.InstantiateTypedAction[T, P](nil)(ga)
+func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InstantiatedTypedAction[T], error) {
+	instantiatedAction, err := app.InstantiateActionFromType[T, P](nil)(ga)
+	if err != nil {
+		return nil, err
+	}
+	return	instantiatedAction, nil
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *executable.TypedExecutable[T, P] {
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *T {
 	action, err := flow.AddAction[T](f, props)
 	if err != nil {
 		panic("could not retrieve action from app")
 	}
-	return action
+	return action.Action
 }
 
 func NewFlow() *flow.Flow {

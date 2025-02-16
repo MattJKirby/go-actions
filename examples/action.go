@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"go-actions/ga"
 	"go-actions/ga/action"
-	"go-actions/ga/action/executable"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/flow"
@@ -34,6 +33,10 @@ type ExampleAction struct {
 	Output           *io.Output
 }
 
+func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) *ExampleAction {
+	return ga.NewFlowAction[ExampleAction](flow, props)
+}
+
 func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
 		IntegerParameter: action.Parameter(instance, "intParam", props.IntProp),
@@ -45,8 +48,4 @@ func newExampleAction(instance *action.ActionInstance, props ExampleActionProps)
 
 func (ex ExampleAction) Execute() {
 	fmt.Printf("executing Example Action: %d:%s\n", ex.IntegerParameter.Value(), ex.StringParameter.Value())
-}
-
-func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) *executable.TypedExecutable[ExampleAction, ExampleActionProps] {
-	return ga.NewFlowAction[ExampleAction](flow, props)
 }

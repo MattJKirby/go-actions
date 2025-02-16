@@ -2,7 +2,6 @@ package flow
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 )
 
@@ -18,12 +17,12 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func AddAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*executable.TypedExecutable[T, P], error) {
-	act, err := app.InstantiateTypedAction[T](props)(f.flowApp)
+func AddAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*app.InstantiatedTypedAction[T], error) {
+	instantiated, err := app.InstantiateActionFromType[T](props)(f.flowApp)
 	if err != nil {
 		return nil, err
 	}
 
-	f.ActionInstances = append(f.ActionInstances, act.Instance)
-	return act, err
+	f.ActionInstances = append(f.ActionInstances, instantiated.Instance)
+	return instantiated, err
 }
