@@ -18,12 +18,12 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*app.InstantiatedTypedAction[T], error) {
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*app.InitialisedTypedAction[T], error) {
 	instantiated, err := app.GetAction[T](props)(f.flowApp)
 	if err != nil {
 		return nil, fmt.Errorf("could not retrieve action from app")
 	}
 	
-	f.FlowDefinition = append(f.FlowDefinition, instantiated.Instance)
+	f.FlowDefinition = append(f.FlowDefinition, instantiated.InitialisedInstance)
 	return instantiated, nil
 }

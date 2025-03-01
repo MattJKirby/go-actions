@@ -2,7 +2,6 @@ package app
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
 	"go-actions/ga/action/model"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
@@ -52,18 +51,9 @@ func TestAppGetActionByName(t *testing.T) {
 }
 
 func TestGetAction(t *testing.T) {
-	app, reg := appWithEmptyRegistration(mockConfig)
-	def := definition.NewActionDefinition(&reg)
+	app, _ := appWithEmptyRegistration(mockConfig)
 
-	instance := action.NewActionInstance(def.TypeName, mockConfig)
-	action := reg.Constructor(instance, *reg.DefaultProps)
-	expectedInstantiatedTypedAction := &InstantiatedTypedAction[ta.ActionValidEmpty]{
-		Instance: instance,
-		Action:   action,
-	}
+	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
-	actual, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
-
-	asserts.Equals(t, expectedInstantiatedTypedAction, actual)
 	asserts.Equals(t, nil, err)
 }

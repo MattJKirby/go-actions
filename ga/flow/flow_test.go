@@ -56,7 +56,7 @@ func TestMarshalJSON(t *testing.T) {
 	flow := NewFlow(flowApp)
 	action, err := NewFlowAction[testActions.ActionValidEmpty](flow, &testActions.ActionValidEmptyProps{})
 
-	marshalledActionInstance, _ := json.Marshal(action.Instance)
+	marshalledActionInstance, _ := json.Marshal(action.InitialisedInstance)
 	expected := fmt.Sprintf(`{"actions":[%s]}`, string(marshalledActionInstance))
 
 	marshalledFlow, _ := json.Marshal(flow)

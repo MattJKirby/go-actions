@@ -16,11 +16,6 @@ type App struct {
 	modelConfig    model.ActionModelConfig
 }
 
-type InstantiatedTypedAction[T action.GoAction] struct {
-	Instance *action.ActionInstance
-	Action   *T
-}
-
 func NewApp(name string) *App {
 	return &App{
 		Name:           name,
@@ -54,25 +49,13 @@ func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 	}
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*InstantiatedTypedAction[T], error) {
-	return func(app *App) (*InstantiatedTypedAction[T], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*InitialisedTypedAction[T], error) {
+	return func(app *App) (*InitialisedTypedAction[T], error) {
 		reg, err := GetActionRegistration[T, P]()(app)
 		if err != nil {
 			return nil, err
 		}
 
-		// executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())
-		// act, ok := any(executableAction.Action).(*T)
-		// if !ok {
-		// 	return nil, fmt.Errorf("could nt ")
-		// }
-
-		instance := action.NewActionInstance(reg.TypeName, app.modelConfig)
-		action := reg.Constructor(instance, *reg.DefaultProps)
-
-		return &InstantiatedTypedAction[T]{
-			Instance: instance,
-			Action:   action,
-		}, nil
+		return InitialiseNewTypedAction(app.modelConfig, reg)
 	}
 }

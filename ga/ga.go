@@ -17,7 +17,7 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() (*defini
 	return app.GetActionRegistration[T, P]()(ga)
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InstantiatedTypedAction[T], error) {
+func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InitialisedTypedAction[T], error) {
 	return app.GetAction[T, P](nil)(ga)
 }
 
