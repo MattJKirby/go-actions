@@ -12,9 +12,9 @@ func TestInitialiseNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 	definition := definition.TypeDefinitionFromRegistration(&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockConfig)
-	
+
 	expected := &InitialisedAction{
-		Action:   reg.Constructor(instance, ta.ActionValidEmptyProps{}),
+		Action:              reg.Constructor(instance, ta.ActionValidEmptyProps{}),
 		InitialisedInstance: instance,
 	}
 
@@ -29,7 +29,7 @@ func TestInitialiseTypedAction(t *testing.T) {
 
 	instance := action.NewActionInstance(def.TypeName, mockConfig)
 	expectedInstantiatedTypedAction := &InitialisedTypedAction[ta.ActionValidEmpty]{
-		Action:   reg.Constructor(instance, *reg.DefaultProps),
+		Action:              reg.Constructor(instance, *reg.DefaultProps),
 		InitialisedInstance: instance,
 	}
 

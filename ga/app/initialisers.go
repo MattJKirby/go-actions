@@ -7,7 +7,7 @@ import (
 )
 
 type InitialisedAction struct {
-	Action action.GoAction
+	Action              action.GoAction
 	InitialisedInstance *action.ActionInstance
 }
 
@@ -19,15 +19,15 @@ func InitialiseNewAction(config model.ActionModelConfig, typeDef *definition.Act
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return &InitialisedAction{
-		Action: action,
+		Action:              action,
 		InitialisedInstance: instance,
 	}, nil
 }
 
 type InitialisedTypedAction[T action.GoAction] struct {
-	Action   *T
+	Action              *T
 	InitialisedInstance *action.ActionInstance
 }
 
@@ -35,16 +35,14 @@ func InitialiseNewTypedAction[T action.GoAction, P action.GoActionProps](config 
 	instance := action.NewActionInstance(def.TypeName, config)
 	action := def.Constructor(instance, *def.DefaultProps)
 
-
 	// executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())
 	// act, ok := any(executableAction.Action).(*T)
 	// if !ok {
 	// 	return nil, fmt.Errorf("could nt ")
 	// }
 
-
 	return &InitialisedTypedAction[T]{
-		Action: action,
+		Action:              action,
 		InitialisedInstance: instance,
 	}, nil
 }

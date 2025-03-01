@@ -21,7 +21,7 @@ func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InitialisedTyp
 	return app.GetAction[T, P](nil)(ga)
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (*T, error){
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (*T, error) {
 	act, err := flow.NewFlowAction[T](f, props)
 	return act.Action, err
 }
