@@ -21,11 +21,6 @@ type InstantiatedTypedAction[T action.GoAction] struct {
 	Action   *T
 }
 
-type InstantiatedAction struct {
-	Instance *action.ActionInstance
-	Action   action.GoAction
-}
-
 func NewApp(name string) *App {
 	return &App{
 		Name:           name,
@@ -49,24 +44,13 @@ func GetActionRegistration[T action.GoAction, P action.GoActionProps]() func(*Ap
 	}
 }
 
-func GetActionByName(actionName string) func(*App) (*InstantiatedAction, error) {
-	return func(app *App) (*InstantiatedAction, error) {
+func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
+	return func(app *App) (*InitialisedAction, error) {
 		typeDef, err := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {
 			return nil, err
 		}
-		instance := action.NewActionInstance(typeDef.TypeName, app.modelConfig)
-		defaultProps := typeDef.NewDefaultProps()
-		ctor := typeDef.NewConstructor()
-		action, err := ctor(instance, defaultProps)
-		if err != nil {
-			return nil, err
-		}
-
-		return &InstantiatedAction{
-			Instance: instance,
-			Action:   action,
-		}, nil
+		return NewInitialisedAction(app, typeDef)
 	}
 }
 

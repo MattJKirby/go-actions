@@ -35,15 +35,15 @@ func TestAppGetActionByName(t *testing.T) {
 
 	expectedInstance := action.NewActionInstance("ActionValidEmpty", mockConfig)
 	expectedAction := reg.Constructor(expectedInstance, ta.ActionValidEmptyProps{})
-	expected := &InstantiatedAction{
-		Instance: expectedInstance,
+	expected := &InitialisedAction{
+		InitialisedInstance: expectedInstance,
 		Action:   expectedAction,
 	}
 
 	tests := []struct {
 		name      string
 		inputName string
-		expected  *InstantiatedAction
+		expected  *InitialisedAction
 		expectErr bool
 	}{
 		{name: "valid - existing action name", inputName: "ActionValidEmpty", expected: expected, expectErr: false},
