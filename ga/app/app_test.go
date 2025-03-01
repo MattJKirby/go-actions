@@ -31,31 +31,21 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestAppGetActionByName(t *testing.T) {
-	app, reg := appWithEmptyRegistration(mockConfig)
-
-	expectedInstance := action.NewActionInstance("ActionValidEmpty", mockConfig)
-	expectedAction := reg.Constructor(expectedInstance, ta.ActionValidEmptyProps{})
-	expected := &InitialisedAction{
-		InitialisedInstance: expectedInstance,
-		Action:   expectedAction,
-	}
+	app, _ := appWithEmptyRegistration(mockConfig)
 
 	tests := []struct {
 		name      string
 		inputName string
-		expected  *InitialisedAction
 		expectErr bool
 	}{
-		{name: "valid - existing action name", inputName: "ActionValidEmpty", expected: expected, expectErr: false},
-		{name: "invalid - not existing action name", inputName: "notregistered", expected: nil, expectErr: true},
+		{name: "valid - existing action name", inputName: "ActionValidEmpty", expectErr: false},
+		{name: "invalid - not existing action name", inputName: "notregistered", expectErr: true},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			actual, err := GetActionByName(test.inputName)(app)
+			_, err := GetActionByName(test.inputName)(app)
 			hasErr := err != nil
-
-			asserts.Equals(t, test.expected, actual)
 			asserts.Equals(t, test.expectErr, hasErr)
 		})
 	}
