@@ -50,7 +50,7 @@ func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 		if err != nil {
 			return nil, err
 		}
-		return NewInitialisedAction(app.modelConfig, typeDef)
+		return InitialiseNewAction(app.modelConfig, typeDef)
 	}
 }
 

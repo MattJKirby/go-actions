@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestNewInitialisedAction(t *testing.T) {
+func TestInitialiseNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 	definition := definition.TypeDefinitionFromRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps](&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockConfig)
@@ -17,7 +17,7 @@ func TestNewInitialisedAction(t *testing.T) {
 		InitialisedInstance: instance,
 	}
 
-	actual, err := NewInitialisedAction(mockConfig, definition)
+	actual, err := InitialiseNewAction(mockConfig, definition)
 	asserts.Equals(t, expected, actual)
 	asserts.Equals(t, nil, err)
 }

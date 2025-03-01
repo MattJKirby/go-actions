@@ -11,7 +11,7 @@ type InitialisedAction struct {
 	InitialisedInstance *action.ActionInstance
 }
 
-func NewInitialisedAction(config model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) (*InitialisedAction, error) {
+func InitialiseNewAction(config model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) (*InitialisedAction, error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config)
 	defaultProps := typeDef.NewDefaultProps()
 	ctor := typeDef.NewConstructor()
