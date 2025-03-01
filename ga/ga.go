@@ -21,12 +21,9 @@ func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InstantiatedTy
 	return app.GetAction[T, P](nil)(ga)
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) *T {
-	action, err := flow.AddInstance[T](f, props)
-	if err != nil {
-		panic("could not retrieve action from app")
-	}
-	return action.Action
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (*T, error){
+	act, err := flow.NewFlowAction[T](f, props)
+	return act.Action, err
 }
 
 func NewFlow() *flow.Flow {

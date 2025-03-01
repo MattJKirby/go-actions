@@ -33,7 +33,7 @@ type ExampleAction struct {
 	Output           *io.Output
 }
 
-func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) *ExampleAction {
+func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleAction, error) {
 	return ga.NewFlowAction[ExampleAction](flow, props)
 }
 

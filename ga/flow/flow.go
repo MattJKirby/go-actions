@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/app"
 )
@@ -17,12 +18,12 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func AddInstance[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*app.InstantiatedTypedAction[T], error) {
+func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*app.InstantiatedTypedAction[T], error) {
 	instantiated, err := app.GetAction[T](props)(f.flowApp)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not retrieve action from app")
 	}
-
+	
 	f.FlowDefinition = append(f.FlowDefinition, instantiated.Instance)
-	return instantiated, err
+	return instantiated, nil
 }
