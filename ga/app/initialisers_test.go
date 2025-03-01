@@ -9,7 +9,7 @@ import (
 )
 
 func TestNewInitialisedAction(t *testing.T) {
-	app, reg := appWithEmptyRegistration(mockConfig)
+	reg := ta.GenerateActionValidEmptyRegistration()
 	definition := definition.TypeDefinitionFromRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps](&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockConfig)
 	expected := &InitialisedAction{
@@ -17,7 +17,24 @@ func TestNewInitialisedAction(t *testing.T) {
 		InitialisedInstance: instance,
 	}
 
-	actual, err := NewInitialisedAction(app, definition)
+	actual, err := NewInitialisedAction(mockConfig, definition)
 	asserts.Equals(t, expected, actual)
 	asserts.Equals(t, nil, err)
 }
+
+// func TestInitialiseTypedAction(t *testing.T) {
+// 	app, reg := appWithEmptyRegistration(mockConfig)
+// 	def := definition.NewActionDefinition(&reg)
+
+// 	instance := action.NewActionInstance(def.TypeName, mockConfig)
+// 	action := reg.Constructor(instance, *reg.DefaultProps)
+// 	expectedInstantiatedTypedAction := &InstantiatedTypedAction[ta.ActionValidEmpty]{
+// 		Instance: instance,
+// 		Action:   action,
+// 	}
+
+// 	actual, err := InitialiseTypedAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
+
+// 	asserts.Equals(t, expectedInstantiatedTypedAction, actual)
+// 	asserts.Equals(t, nil, err)
+// }

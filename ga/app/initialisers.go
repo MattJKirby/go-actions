@@ -3,6 +3,7 @@ package app
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
+	"go-actions/ga/action/model"
 )
 
 type InitialisedAction struct {
@@ -10,8 +11,8 @@ type InitialisedAction struct {
 	InitialisedInstance *action.ActionInstance
 }
 
-func NewInitialisedAction(app *App, typeDef *definition.ActionTypeDefinition) (*InitialisedAction, error) {
-	instance := action.NewActionInstance(typeDef.TypeName, app.modelConfig)
+func NewInitialisedAction(config model.ActionModelConfig, typeDef *definition.ActionTypeDefinition) (*InitialisedAction, error) {
+	instance := action.NewActionInstance(typeDef.TypeName, config)
 	defaultProps := typeDef.NewDefaultProps()
 	ctor := typeDef.NewConstructor()
 	action, err := ctor(instance, defaultProps)
