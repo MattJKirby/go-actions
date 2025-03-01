@@ -13,14 +13,14 @@ func main() {
 	fmt.Println(action)
 
 	flow := ga.NewFlow()
-	ex1,_ := examples.NewExampleAction(flow, &examples.ExampleActionProps{
+	ex1, _ := examples.NewExampleAction(flow, &examples.ExampleActionProps{
 		IntProp: 999,
 		StrProp: "aaa",
 	})
 
 	ex1.Execute()
 
-	ex2,_ := examples.NewExampleAction(flow, nil)
+	ex2, _ := examples.NewExampleAction(flow, nil)
 	ex2.Execute()
 
 }
