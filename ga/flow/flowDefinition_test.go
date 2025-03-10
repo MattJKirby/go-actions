@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestAddInstance(t *testing.T){
+func TestAddInstance(t *testing.T) {
 	flowDef := NewFlowDefinition()
 	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
 

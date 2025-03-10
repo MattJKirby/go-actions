@@ -12,6 +12,6 @@ func NewFlowDefinition() *FlowDefinition {
 	}
 }
 
-func (fd *FlowDefinition) AddInstance(instance *action.ActionInstance){
+func (fd *FlowDefinition) AddInstance(instance *action.ActionInstance) {
 	fd.actions[instance.Model.ActionUid] = instance
 }
