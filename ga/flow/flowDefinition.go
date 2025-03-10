@@ -2,17 +2,17 @@ package flow
 
 import "go-actions/ga/action"
 
-type FlowDefinition struct {
+type flowDefinition struct {
 	Actions map[string]*action.ActionInstance `json:"Actions"`
 }
 
-func NewFlowDefinition() *FlowDefinition {
-	return &FlowDefinition{
+func NewFlowDefinition() *flowDefinition {
+	return &flowDefinition{
 		Actions: make(map[string]*action.ActionInstance),
 	}
 }
 
-func (fd *FlowDefinition) AddInstance(instance *action.ActionInstance) {
+func (fd *flowDefinition) AddInstance(instance *action.ActionInstance) {
 	fd.Actions[instance.Model.ActionUid] = instance
 }
 

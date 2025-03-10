@@ -8,13 +8,13 @@ import (
 
 type Flow struct {
 	flowApp        *app.App
-	FlowDefinition []*action.ActionInstance `json:"actions"`
+	FlowDefinition *flowDefinition
 }
 
 func NewFlow(app *app.App) *Flow {
 	return &Flow{
 		flowApp:        app,
-		FlowDefinition: make([]*action.ActionInstance, 0),
+		FlowDefinition: NewFlowDefinition(),
 	}
 }
 
@@ -24,6 +24,6 @@ func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P)
 		return nil, fmt.Errorf("could not retrieve action from app")
 	}
 
-	f.FlowDefinition = append(f.FlowDefinition, instantiated.InitialisedInstance)
+	f.FlowDefinition.AddInstance(instantiated.InitialisedInstance)
 	return instantiated, nil
 }
