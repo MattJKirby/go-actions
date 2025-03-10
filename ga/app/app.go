@@ -51,11 +51,11 @@ func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 
 func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*InitialisedTypedAction[T], error) {
 	return func(app *App) (*InitialisedTypedAction[T], error) {
-		reg, err := GetDefinition[T, P]()(app)
+		def, err := GetDefinition[T, P]()(app)
 		if err != nil {
 			return nil, err
 		}
 
-		return InitialiseNewTypedAction(app.modelConfig, reg)
+		return InitialiseNewTypedAction(app.modelConfig, def)
 	}
 }
