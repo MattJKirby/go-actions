@@ -18,7 +18,7 @@ func TestAddInstance(t *testing.T) {
 	asserts.Equals(t, instance, flowDef.Actions["someInstance:abc"])
 }
 
-func TestMarshalFlowDefinition(t *testing.T){
+func TestMarshalFlowDefinition(t *testing.T) {
 	flowDef := NewFlowDefinition()
 	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
 
