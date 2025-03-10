@@ -3,11 +3,15 @@ package flow
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
 	"testing"
 )
 
-func TestNewFlowDefinition(t *testing.T){
+func TestAddInstance(t *testing.T){
 	flowDef := NewFlowDefinition()
-	expectedInstances := make(map[string]*action.ActionInstance)
-	asserts.Equals(t, expectedInstances, flowDef.actions)
+	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
+
+	flowDef.AddInstance(instance)
+
+	asserts.Equals(t, instance, flowDef.actions["someInstance:abc"])
 }
