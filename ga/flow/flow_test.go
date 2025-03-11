@@ -9,7 +9,8 @@ import (
 
 func TestInitFlow(t *testing.T) {
 	app := app.NewApp("test")
-	flow := NewFlow(app)
+	def := NewFlowDefinition()
+	flow := NewFlow(app, def)
 
 	if flow == nil {
 		t.Errorf("expected type of %v but got %v", Flow{}, nil)
@@ -37,10 +38,10 @@ func TestAddAction(t *testing.T) {
 			if tc.actionRegistered {
 				app.RegisterAction(&reg)(a)
 			}
-
-			f := NewFlow(a)
+			def := NewFlowDefinition()
+			f := NewFlow(a, def)
 			_, err := NewFlowAction[testActions.ActionValidEmpty](f, &testActions.ActionValidEmptyProps{})
-			asserts.Equals(t, tc.expectedActions, len(f.FlowDefinition.Actions))
+			asserts.Equals(t, tc.expectedActions, len(f.flowDefinition.Actions))
 			asserts.Equals(t, tc.err, err != nil)
 		})
 	}

@@ -27,7 +27,7 @@ func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, prop
 }
 
 func NewFlow() *flow.Flow {
-	return flow.NewFlow(ga)
+	return flow.NewFlow(ga, flow.NewFlowDefinition())
 }
 
 // func GetActionByName(name string)
