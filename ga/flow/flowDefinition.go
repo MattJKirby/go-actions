@@ -24,7 +24,7 @@ func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*app.I
 	if err != nil {
 		return nil, err
 	}
-	
+
 	fd.AddInstance(action.InitialisedInstance)
 	return action, nil
 }

@@ -11,7 +11,7 @@ type Flow struct {
 	flowDefinition *flowDefinition
 }
 
-func NewFlow(app *app.App, flowDefinition *flowDefinition) *Flow {	
+func NewFlow(app *app.App, flowDefinition *flowDefinition) *Flow {
 	return &Flow{
 		flowApp:        app,
 		flowDefinition: flowDefinition,

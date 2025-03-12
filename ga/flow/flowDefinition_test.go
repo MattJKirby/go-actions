@@ -20,11 +20,11 @@ func TestAddInstance(t *testing.T) {
 	asserts.Equals(t, instance, flowDef.Actions["someInstance:abc"])
 }
 
-func TestNewAction(t *testing.T){
+func TestNewAction(t *testing.T) {
 	a := app.NewApp("testApp")
 	reg := testActions.GenerateActionValidEmptyRegistration()
 	app.RegisterAction(&reg)(a)
-	
+
 	flowDef := NewFlowDefinition()
 	act, err := flowDef.NewAction(a, "ActionValidEmpty")
 

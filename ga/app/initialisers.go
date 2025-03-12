@@ -6,7 +6,6 @@ import (
 	"go-actions/ga/action/model"
 )
 
-
 type InitialisedAction struct {
 	Action              action.GoAction
 	InitialisedInstance *action.ActionInstance

@@ -30,7 +30,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 	}
 }
 
-func TestGetDefinitionByName(t *testing.T){
+func TestGetDefinitionByName(t *testing.T) {
 	app, reg := appWithEmptyRegistration(mockConfig)
 	result, err := GetDefinitionByName("ActionValidEmpty")(app)
 
