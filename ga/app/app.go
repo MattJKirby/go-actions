@@ -39,6 +39,12 @@ func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App)
 	}
 }
 
+func GetDefinitionByName(name string) func(*App) (*definition.ActionTypeDefinition, error) {
+	return func (app *App) (*definition.ActionTypeDefinition, error) {
+		return getRegisteredTypeDefinitionByName(name)(app.actionRegistry)
+	}
+}
+
 func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 	return func(app *App) (*InitialisedAction, error) {
 		typeDef, err := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)

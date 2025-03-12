@@ -2,6 +2,7 @@ package app
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/definition"
 	"go-actions/ga/action/model"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
@@ -27,6 +28,16 @@ func TestRegisterActionAndGet(t *testing.T) {
 	if result == nil {
 		t.Errorf("Error during registration: expected %v, got %v", nil, result)
 	}
+}
+
+func TestGetDefinitionByName(t *testing.T){
+	app, reg := appWithEmptyRegistration(mockConfig)
+	result, err := GetDefinitionByName("ActionValidEmpty")(app)
+
+	expectedTypeDef := definition.TypeDefinitionFromRegistration(&reg)
+
+	asserts.Equals(t, expectedTypeDef, result)
+	asserts.Equals(t, nil, err)
 }
 
 func TestAppGetActionByName(t *testing.T) {
