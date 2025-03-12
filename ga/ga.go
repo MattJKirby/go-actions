@@ -14,7 +14,7 @@ func RegisterAction[T action.GoAction, Props action.GoActionProps](registration 
 }
 
 func GetActionRegistration[T action.GoAction, P action.GoActionProps]() (*definition.ActionDefinition[T, P], error) {
-	return app.GetDefinition[T, P]()(ga)
+	return app.GetDefinitionByType[T, P]()(ga)
 }
 
 func GetAction[T action.GoAction, P action.GoActionProps]() (*app.InitialisedTypedAction[T], error) {

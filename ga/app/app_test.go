@@ -22,7 +22,7 @@ func appWithEmptyRegistration(config model.ActionModelConfig) (*App, action.GoAc
 
 func TestRegisterActionAndGet(t *testing.T) {
 	app, _ := appWithEmptyRegistration(mockConfig)
-	result, _ := GetDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
+	result, _ := GetDefinitionByType[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
 
 	if result == nil {
 		t.Errorf("Error during registration: expected %v, got %v", nil, result)
