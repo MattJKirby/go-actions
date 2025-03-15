@@ -31,9 +31,13 @@ type InitialisedTypedAction[T action.GoAction] struct {
 	InitialisedInstance *action.ActionInstance
 }
 
-func InitialiseNewTypedAction[T action.GoAction, P action.GoActionProps](config model.ActionModelConfig, def *definition.ActionDefinition[T, P]) (*InitialisedTypedAction[T], error) {
+func InitialiseNewTypedAction[T action.GoAction, P action.GoActionProps](config model.ActionModelConfig, def *definition.ActionDefinition[T, P], props *P) (*InitialisedTypedAction[T], error) {
 	instance := action.NewActionInstance(def.TypeName, config)
-	action := def.Constructor(instance, *def.DefaultProps)
+	if props == nil {
+		props = def.DefaultProps
+	}
+	
+	action := def.Constructor(instance, *props)
 
 	// executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())
 	// act, ok := any(executableAction.Action).(*T)

@@ -62,6 +62,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 			return nil, err
 		}
 
-		return InitialiseNewTypedAction(app.modelConfig, def)
+		return InitialiseNewTypedAction(app.modelConfig, def, props)
 	}
 }
