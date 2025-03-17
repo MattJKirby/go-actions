@@ -36,7 +36,7 @@ func InitialiseNewTypedAction[T action.GoAction, P action.GoActionProps](config 
 	if props == nil {
 		props = def.DefaultProps
 	}
-	
+
 	action := def.Constructor(instance, *props)
 
 	// executableAction := executable.NewExecutableAction(app.modelConfig, reg.GetTypeDefinition())

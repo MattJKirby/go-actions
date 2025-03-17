@@ -34,16 +34,16 @@ func TestInitialiseNewAction(t *testing.T) {
 func TestInitialiseTypedAction(t *testing.T) {
 	app, reg := appWithValidActionRegistration()
 	def := definition.NewActionDefinition(&reg)
-	
-	tests := []struct{
-		name string
+
+	tests := []struct {
+		name  string
 		props *ta.ActionValidProps
 	}{
 		{name: "init with default props", props: reg.DefaultProps},
 		{name: "init with non default props", props: &ta.ActionValidProps{Param1: "Some Val"}},
 	}
-	
-	for _,test := range tests {
+
+	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			instance := action.NewActionInstance(def.TypeName, mockConfig)
 			expectedInstantiatedTypedAction := &InitialisedTypedAction[ta.ActionValid]{

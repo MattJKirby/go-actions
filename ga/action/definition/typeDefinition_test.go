@@ -37,7 +37,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	asserts.Equals(t, expectedTriggerValue, defReg.Trigger)
 }
 
-func TestTriggerDefinitionFromRegistration(t * testing.T) {
+func TestTriggerDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionTriggerValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
 
@@ -115,4 +115,3 @@ func TestNewConstructorWithValidProps(t *testing.T) {
 		})
 	}
 }
-
