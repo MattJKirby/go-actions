@@ -6,9 +6,8 @@ type ActionTriggerValid struct {}
 
 type ActionTriggerValidProps struct {}
 
-func (atv ActionTriggerValid) Execute(){
-
-}
+func (atv ActionTriggerValid) Execute(){}
+func (atv ActionTriggerValid) PublishTriggerConditions(){}
 
 func newActionTriggerValid(instance *action.ActionInstance, props ActionTriggerValidProps) *ActionTriggerValid {
 	return &ActionTriggerValid{}

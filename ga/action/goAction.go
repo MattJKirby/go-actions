@@ -13,3 +13,8 @@ type GoActionConstructor[Type GoAction, Props GoActionProps] func(*ActionInstanc
 type GoAction interface {
 	Execute()
 }
+
+type TriggerAction interface {
+	GoAction
+	PublishTriggerConditions()
+}

@@ -22,6 +22,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	expectedCtorType := reflect.TypeOf(reg.Constructor)
 	expectedPropsType := reflect.TypeOf(*reg.DefaultProps)
 	expectedPropsValue := reflect.ValueOf(*reg.DefaultProps)
+	expectedTriggerValue := false
 
 	defReg := TypeDefinitionFromRegistration(&reg)
 
@@ -33,6 +34,14 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	asserts.Equals(t, expectedCtorType, defReg.CtorType)
 	asserts.Equals(t, expectedPropsType, defReg.PropsType)
 	asserts.Equals(t, expectedPropsValue, defReg.PropsValue)
+	asserts.Equals(t, expectedTriggerValue, defReg.Trigger)
+}
+
+func TestTriggerDefinitionFromRegistration(t * testing.T) {
+	reg := ta.GenerateActionTriggerValidRegistration()
+	defReg := TypeDefinitionFromRegistration(&reg)
+
+	asserts.Equals(t, true, defReg.Trigger)
 }
 
 func TestNewDefaultProps(t *testing.T) {
@@ -106,3 +115,4 @@ func TestNewConstructorWithValidProps(t *testing.T) {
 		})
 	}
 }
+

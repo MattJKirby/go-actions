@@ -11,6 +11,7 @@ import (
 type ActionTypeDefinition struct {
 	TypeName    string
 	TypePath    string
+	Trigger 		bool
 	CtorValue   reflect.Value
 	CtorType    reflect.Type
 	ActionValue reflect.Value
@@ -32,9 +33,12 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 	tAction = utils.GetValueType(tAction)
 	vAction := reflect.New(tAction)
 
+	_, Trigger := any(new(T)).(action.TriggerAction)
+
 	return &ActionTypeDefinition{
 		TypeName:    utils.TypeName(tAction),
 		TypePath:    utils.TypePath(tAction),
+		Trigger: 		Trigger,
 		CtorValue:   vCtor,
 		CtorType:    tCtor,
 		ActionValue: vAction,

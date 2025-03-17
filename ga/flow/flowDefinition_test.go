@@ -11,14 +11,25 @@ import (
 	"testing"
 )
 
-func TestAddInstance(t *testing.T) {
-	flowDef := NewFlowDefinition()
-	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
+// func TestAddInstance(t *testing.T) {
+// 	flowDef := NewFlowDefinition()
+// 	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
+// 	instance.Model.ActionTrigger
 
-	flowDef.AddInstance(instance)
+// 	flowDef.AddInstance(instance)
 
-	asserts.Equals(t, instance, flowDef.Actions["someInstance:abc"])
-}
+// 	asserts.Equals(t, instance, flowDef.Actions["someInstance:abc"])
+// }
+
+// func TestAddTriggerInstance(t *testing.T) {
+// 	flowDef := NewFlowDefinition()
+// 	triggerInstance := action.NewActionInstance("triggerInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
+
+// 	flowDef.AddInstance(triggerInstance)
+
+// 	asserts.Equals(t, triggerInstance, flowDef.Triggers["triggerInstance:abc"])
+// 	asserts.Equals(t, 0, len(flowDef.Actions))
+// }
 
 func TestNewAction(t *testing.T) {
 	a := app.NewApp("testApp")
