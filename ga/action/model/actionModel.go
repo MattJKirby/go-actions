@@ -3,15 +3,14 @@ package model
 import (
 	"fmt"
 	"go-actions/ga/action/model/io"
-	"go-actions/ga/action/model/resources"
 )
 
 type ActionModel struct {
 	ActionName string                              `json:"name"`
 	ActionUid  string                              `json:"uid"`
-	Parameters *resources.ResourceStore[any]       `json:"parameters"`
-	Inputs     *resources.ResourceStore[io.Input]  `json:"inputs"`
-	Outputs    *resources.ResourceStore[io.Output] `json:"outputs"`
+	Parameters *PropertyStore[any]       `json:"parameters"`
+	Inputs     *PropertyStore[io.Input]  `json:"inputs"`
+	Outputs    *PropertyStore[io.Output] `json:"outputs"`
 }
 
 type ActionModelConfig interface {
@@ -23,8 +22,8 @@ func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
 	return &ActionModel{
 		ActionName: typename,
 		ActionUid:  ActionUid,
-		Parameters: resources.NewResourceStore[any](),
-		Inputs:     resources.NewResourceStore[io.Input](),
-		Outputs:    resources.NewResourceStore[io.Output](),
+		Parameters: NewPropertyStore[any](),
+		Inputs:     NewPropertyStore[io.Input](),
+		Outputs:    NewPropertyStore[io.Output](),
 	}
 }
