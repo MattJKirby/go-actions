@@ -10,7 +10,7 @@ import (
 
 func appWithValidActionRegistration() (*App, action.GoActionRegistration[ta.ActionValid, ta.ActionValidProps]) {
 	app := NewApp("test")
-	app.modelConfig = mockConfig
+	app.actionConfig = mockConfig
 	registration := ta.GenerateActionValidRegistration()
 	RegisterAction(&registration)(app)
 	return app, registration
@@ -51,7 +51,7 @@ func TestInitialiseTypedAction(t *testing.T) {
 				InitialisedInstance: instance,
 			}
 
-			actual, err := InitialiseNewTypedAction(app.modelConfig, def, test.props)
+			actual, err := InitialiseNewTypedAction(app.actionConfig, def, test.props)
 
 			asserts.Equals(t, expectedInstantiatedTypedAction, actual)
 			asserts.Equals(t, nil, err)

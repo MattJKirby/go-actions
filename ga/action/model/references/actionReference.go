@@ -11,7 +11,7 @@ type ActionReference struct {
 	TargetActionUid string `json:"TargetActionUid"`
 }
 
-func NewActionReference(config model.ActionModelConfig, sourceUid string, targetUid string) *ActionReference {
+func NewActionReference(config model.ActionConfig, sourceUid string, targetUid string) *ActionReference {
 	return &ActionReference{
 		ReferenceUid:    fmt.Sprintf("ref:%s", config.GenerateUid()),
 		SourceActionUid: sourceUid,

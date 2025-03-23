@@ -7,7 +7,7 @@ import (
 	"go-actions/ga/app"
 	"go-actions/ga/cr/asserts"
 	"go-actions/ga/testing/testActions"
-	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
+	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 	"testing"
 )
 
@@ -45,7 +45,7 @@ func TestNewAction(t *testing.T) {
 
 func TestMarshalFlowDefinition(t *testing.T) {
 	flowDef := NewFlowDefinition()
-	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
+	instance := action.NewActionInstance("someInstance", &actionTestHelpers.MockActionConfig{MockUid: "abc"})
 
 	flowDef.AddInstance(instance)
 	marshalledInstance, _ := json.Marshal(instance)

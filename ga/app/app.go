@@ -13,7 +13,7 @@ type App struct {
 	Name           string
 	ctx            context.Context
 	actionRegistry *actionRegistry
-	modelConfig    model.ActionModelConfig
+	actionConfig   model.ActionConfig
 }
 
 func NewApp(name string) *App {
@@ -21,7 +21,7 @@ func NewApp(name string) *App {
 		Name:           name,
 		ctx:            context.Background(),
 		actionRegistry: newActionRegistry(),
-		modelConfig:    model.NewModelConfig(),
+		actionConfig:   action.NewConfig(),
 	}
 }
 
@@ -51,7 +51,7 @@ func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 		if err != nil {
 			return nil, err
 		}
-		return InitialiseNewAction(app.modelConfig, typeDef)
+		return InitialiseNewAction(app.actionConfig, typeDef)
 	}
 }
 
@@ -62,6 +62,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 			return nil, err
 		}
 
-		return InitialiseNewTypedAction(app.modelConfig, def, props)
+		return InitialiseNewTypedAction(app.actionConfig, def, props)
 	}
 }

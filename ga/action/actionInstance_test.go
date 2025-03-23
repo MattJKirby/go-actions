@@ -4,13 +4,13 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
-	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
+	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
 
-var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+var mockConfig = &actionTestHelpers.MockActionConfig{MockUid: "uid"}
 
 func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test", mockConfig)

@@ -6,16 +6,16 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/cr/asserts"
 	ta "go-actions/ga/testing/testActions"
-	"go-actions/ga/testing/testHelpers/actionModelTestHelpers"
+	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 
 	"testing"
 )
 
-var mockConfig = &actionModelTestHelpers.MockActionModelConfig{MockUid: "uid"}
+var mockConfig = &actionTestHelpers.MockActionConfig{MockUid: "uid"}
 
-func appWithEmptyRegistration(config model.ActionModelConfig) (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
+func appWithEmptyRegistration(config model.ActionConfig) (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
 	app := NewApp("test")
-	app.modelConfig = config
+	app.actionConfig = config
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
 	return app, registration

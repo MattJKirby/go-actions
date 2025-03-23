@@ -1,4 +1,4 @@
-package model
+package action
 
 import (
 	"go-actions/ga/cr/asserts"
@@ -6,7 +6,7 @@ import (
 )
 
 func TestGenerateUid(t *testing.T) {
-	config := NewModelConfig()
+	config := NewConfig()
 
 	asserts.Equals(t, 36, len(config.GenerateUid()))
 }

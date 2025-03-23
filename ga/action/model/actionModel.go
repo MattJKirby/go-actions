@@ -13,11 +13,11 @@ type ActionModel struct {
 	Outputs    *PropertyStore[io.Output] `json:"outputs"`
 }
 
-type ActionModelConfig interface {
+type ActionConfig interface {
 	GenerateUid() string
 }
 
-func NewActionModel(typename string, config ActionModelConfig) *ActionModel {
+func NewActionModel(typename string, config ActionConfig) *ActionModel {
 	ActionUid := fmt.Sprintf("%s:%s", typename, config.GenerateUid())
 	return &ActionModel{
 		ActionName: typename,
