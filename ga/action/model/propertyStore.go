@@ -7,8 +7,8 @@ import (
 )
 
 type marshalledProperty[PropertyType any] struct {
-	PropertyId       string `json:"propertyId"`
-	Property *PropertyType     `json:"property"`
+	PropertyId string        `json:"propertyId"`
+	Property   *PropertyType `json:"property"`
 }
 
 type PropertyStore[PropertyType any] struct {
