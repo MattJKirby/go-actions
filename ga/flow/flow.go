@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/app"
@@ -25,5 +26,8 @@ func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P)
 	}
 
 	f.flowDefinition.AddInstance(instantiated.InitialisedInstance)
+
+	test, _ := json.Marshal(instantiated.InitialisedInstance)
+	fmt.Println(string(test))
 	return instantiated, nil
 }
