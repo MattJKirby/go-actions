@@ -18,6 +18,6 @@ func NewActionOutput(name string, actionUid string) *ActionOutput {
 	}
 }
 
-func (ao *ActionOutput) AssignTargetReference(ref *ActionReference){
+func (ao *ActionOutput) AssignTargetReference(ref *ActionReference) {
 	ao.TargetReferences[ref.ReferenceUid] = ref
 }
