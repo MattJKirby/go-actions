@@ -13,7 +13,7 @@ type ActionReference struct {
 
 type PartialActionReference struct {
 	ReferenceUid string `json:"ReferenceUid"`
-	ActionUid string `json:"ActionUid"`
+	ActionUid    string `json:"ActionUid"`
 }
 
 func NewActionReference(config model.ActionConfig, sourceUid string, targetUid string) *ActionReference {
@@ -27,13 +27,13 @@ func NewActionReference(config model.ActionConfig, sourceUid string, targetUid s
 func (ar *ActionReference) GetSourceReference() *PartialActionReference {
 	return &PartialActionReference{
 		ReferenceUid: ar.ReferenceUid,
-		ActionUid: ar.SourceActionUid,
+		ActionUid:    ar.SourceActionUid,
 	}
 }
 
 func (ar *ActionReference) GetTargetReference() *PartialActionReference {
 	return &PartialActionReference{
 		ReferenceUid: ar.ReferenceUid,
-		ActionUid: ar.TargetActionUid,
+		ActionUid:    ar.TargetActionUid,
 	}
 }

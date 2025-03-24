@@ -5,15 +5,14 @@ import (
 	"testing"
 )
 
-func TestGetSourceReference(t *testing.T){
+func TestGetSourceReference(t *testing.T) {
 	ref := NewActionReference(config, "sUid", "tUid")
 	expected := &PartialActionReference{ReferenceUid: ref.ReferenceUid, ActionUid: "sUid"}
 	asserts.Equals(t, expected, ref.GetSourceReference())
 }
 
-func TestGetTargetReference(t *testing.T){
+func TestGetTargetReference(t *testing.T) {
 	ref := NewActionReference(config, "sUid", "tUid")
 	expected := &PartialActionReference{ReferenceUid: ref.ReferenceUid, ActionUid: "tUid"}
 	asserts.Equals(t, expected, ref.GetTargetReference())
 }
-
