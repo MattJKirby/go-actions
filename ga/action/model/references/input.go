@@ -21,6 +21,10 @@ func NewActionInput(name string, actionUid string) *ActionInput {
 	}
 }
 
+func (ai ActionInput) GetId() string {
+	return ai.Uid
+}
+
 func (ai *ActionInput) AssignSourceReference(ref *ActionReference) {
 	ai.SourceReferences.Add(ref.ReferenceUid, ref)
 }
