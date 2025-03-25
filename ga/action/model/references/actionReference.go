@@ -24,6 +24,10 @@ func NewActionReference(config model.ActionConfig, sourceUid string, targetUid s
 	}
 }
 
+func (ar ActionReference) GetId() string {
+  return ar.ReferenceUid
+}
+
 func (ar *ActionReference) GetSourceReference() *PartialActionReference {
 	return &PartialActionReference{
 		ReferenceUid: ar.ReferenceUid,
