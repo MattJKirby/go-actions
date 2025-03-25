@@ -1,12 +1,15 @@
 package references
 
-import "fmt"
+import (
+	"fmt"
+	"go-actions/ga/action/model"
+)
 
 type ActionInput struct {
 	Uid              string
 	Name             string
 	ActionUid        string
-	SourceReferences map[string]*ActionReference
+	SourceReferences *model.PropertyStore[ActionReference]
 }
 
 func NewActionInput(name string, actionUid string) *ActionInput {
@@ -14,10 +17,10 @@ func NewActionInput(name string, actionUid string) *ActionInput {
 		Uid:              fmt.Sprintf("%s:input:%s", actionUid, name),
 		Name:             name,
 		ActionUid:        actionUid,
-		SourceReferences: map[string]*ActionReference{},
+		SourceReferences: model.NewPropertyStore[ActionReference](),
 	}
 }
 
 func (ai *ActionInput) AssignSourceReference(ref *ActionReference) {
-	ai.SourceReferences[ref.ReferenceUid] = ref
+	ai.SourceReferences.Add(ref.ReferenceUid, ref)
 }

@@ -14,5 +14,7 @@ func TestAssignSourceReference(t *testing.T) {
 
 	input.AssignSourceReference(ref)
 
-	asserts.Equals(t, ref, input.SourceReferences[ref.ReferenceUid])
+	stored, err := input.SourceReferences.Get(ref.ReferenceUid)
+	asserts.Equals(t, ref, stored)
+	asserts.Equals(t, nil, err)
 }
