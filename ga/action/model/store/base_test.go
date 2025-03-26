@@ -7,12 +7,11 @@ import (
 )
 
 type prop struct {
-	Name string
 	Val  string
 }
 
 func TestStore(t *testing.T) {
-	existingProp := &prop{"name", "val"}
+	existingProp := &prop{"val"}
 	tests := []struct {
 		name        string
 		input       string
@@ -36,7 +35,7 @@ func TestStore(t *testing.T) {
 }
 
 func TestGet2(t *testing.T) {
-	existingProp := &prop{"id", "value"}
+	existingProp := &prop{"value"}
 	tests := []struct {
 		name   string
 		key    string
@@ -50,7 +49,7 @@ func TestGet2(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			store := NewBaseStore[prop]()
-			store.store(existingProp.Name, existingProp)
+			store.store("id", existingProp)
 
 			retrieved, err := store.get(test.key)
 			asserts.Equals(t, test.expect, retrieved)
@@ -60,8 +59,8 @@ func TestGet2(t *testing.T) {
 }
 
 func TestGetDefault(t *testing.T) {
-	existing := &prop{"idA", "valA"}
-	defaultProp := &prop{"idB", "valB"}
+	existing := &prop{"idA"}
+	defaultProp := &prop{"idB"}
 
 	tests := []struct {
 		name        string
@@ -90,10 +89,38 @@ func TestGetDefault(t *testing.T) {
 
 func TestMarshal(t *testing.T){
   store := NewBaseStore[prop]()
-	store.store("id", &prop{"name", "val"})
+	store.store("id", &prop{"val"})
 
   marshalled, err := json.Marshal(store)
 
-  asserts.Equals(t, []byte(`[{"Id":"id","Value":{"Name":"name","Val":"val"}}]`), marshalled)
+  asserts.Equals(t, []byte(`[{"Id":"id","Value":{"Val":"val"}}]`), marshalled)
   asserts.Equals(t, nil, err)
+}
+
+func TestUnmarshal(t *testing.T){  
+  tests := []struct{
+    name string
+    input string
+    expectedValue *prop
+    err bool
+  }{
+    {name: "valid, entry already exists", input: `[{"Id":"id","Value":{"Val":"1"}}]`, expectedValue: &prop{"1"}, err: false},
+    {name: "invalid, entry doesnt exist", input: `[{"Id":"x","Value":{"Val":"1"}}]`, expectedValue: &prop{"0"}, err: true},
+    {name: "invalid, wrong entry json", input: `[{"X":"x","Value":{"Val":"1"}}]`, expectedValue: &prop{"0"}, err: true},
+    {name: "invalid, wrong value json", input: `[{"Id":"id","Value":{"X":"1"}}]`, expectedValue: &prop{"0"}, err: true},
+    {name: "invalid, bad store json", input: `0`, expectedValue: &prop{"0"}, err: true},
+  }
+  
+  for _, test := range tests {
+    t.Run(test.name, func(t *testing.T) {
+      store := NewBaseStore[prop]()
+      store.store("id", &prop{"0"})
+
+      err := json.Unmarshal([]byte(test.input), store)
+
+      asserts.Equals(t, test.err, err != nil)
+      asserts.Equals(t, test.expectedValue, store.entries["id"])
+    })
+  }
+  
 }

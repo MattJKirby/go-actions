@@ -3,6 +3,7 @@ package store
 import (
 	"encoding/json"
 	"fmt"
+	"go-actions/ga/utils/marshalling"
 )
 
 type BaseStore[T any] struct {
@@ -48,4 +49,22 @@ func (bs *BaseStore[T]) MarshalJSON() ([]byte, error){
 		marshalledEntries = append(marshalledEntries, &marshalledEntry[T]{key, value})
 	}
 	return json.Marshal(marshalledEntries)
+}
+
+func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
+	marshalledEntries := make([]*marshalledEntry[json.RawMessage], 0, len(bs.entries))
+	if _,err := marshalling.StrictDecode(data, &marshalledEntries); err != nil {
+		return err
+	}
+
+	for _, marshalledEntry := range marshalledEntries {
+		if _, exists := bs.entries[marshalledEntry.Id]; !exists {
+			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", marshalledEntry.Id)
+		}
+
+		if _,err := marshalling.StrictDecode(*marshalledEntry.Value, bs.entries[marshalledEntry.Id]); err != nil {
+			return err
+		}
+	}
+	return nil
 }
