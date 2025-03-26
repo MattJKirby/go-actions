@@ -11,8 +11,8 @@ type BaseStore[T any] struct {
 }
 
 type marshalledEntry[T any] struct {
-	Id string `json:"Id"`
-	Value *T `json:"Value"`
+	Id    string `json:"Id"`
+	Value *T     `json:"Value"`
 }
 
 func NewBaseStore[T any]() *BaseStore[T] {
@@ -43,7 +43,7 @@ func (bs *BaseStore[T]) getDefault(key string, defaultFn func() *T) *T {
 	return bs.entries[key]
 }
 
-func (bs *BaseStore[T]) MarshalJSON() ([]byte, error){
+func (bs *BaseStore[T]) MarshalJSON() ([]byte, error) {
 	marshalledEntries := make([]*marshalledEntry[T], 0, len(bs.entries))
 	for key, value := range bs.entries {
 		marshalledEntries = append(marshalledEntries, &marshalledEntry[T]{key, value})
@@ -53,7 +53,7 @@ func (bs *BaseStore[T]) MarshalJSON() ([]byte, error){
 
 func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 	marshalledEntries := make([]*marshalledEntry[json.RawMessage], 0, len(bs.entries))
-	if _,err := marshalling.StrictDecode(data, &marshalledEntries); err != nil {
+	if _, err := marshalling.StrictDecode(data, &marshalledEntries); err != nil {
 		return err
 	}
 
@@ -62,7 +62,7 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", marshalledEntry.Id)
 		}
 
-		if _,err := marshalling.StrictDecode(*marshalledEntry.Value, bs.entries[marshalledEntry.Id]); err != nil {
+		if _, err := marshalling.StrictDecode(*marshalledEntry.Value, bs.entries[marshalledEntry.Id]); err != nil {
 			return err
 		}
 	}
