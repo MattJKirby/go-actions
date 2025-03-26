@@ -1,6 +1,7 @@
 package store
 
 import (
+	"encoding/json"
 	"go-actions/ga/cr/asserts"
 	"testing"
 )
@@ -85,4 +86,14 @@ func TestGetDefault(t *testing.T) {
 			asserts.Equals(t, test.expectedLen, len(store.entries))
 		})
 	}
+}
+
+func TestMarshal(t *testing.T){
+  store := NewBaseStore[prop]()
+	store.store("id", &prop{"name", "val"})
+
+  marshalled, err := json.Marshal(store)
+
+  asserts.Equals(t, []byte(`[{"Id":"id","Value":{"Name":"name","Val":"val"}}]`), marshalled)
+  asserts.Equals(t, nil, err)
 }
