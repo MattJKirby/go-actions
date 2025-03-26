@@ -8,6 +8,7 @@ import (
 
 type BaseStore[T any] struct {
 	entries map[string]*T
+	config baseStoreConfig
 }
 
 type marshalledEntry[T any] struct {
@@ -15,10 +16,19 @@ type marshalledEntry[T any] struct {
 	Value *T     `json:"Value"`
 }
 
-func NewBaseStore[T any]() *BaseStore[T] {
-	return &BaseStore[T]{
+func NewBaseStore[T any](opts ...baseStoreOption[T]) *BaseStore[T] {
+	store := &BaseStore[T]{
 		entries: make(map[string]*T),
+		config: baseStoreConfig{
+			unsafeDecode: false,
+		},
 	}
+
+	for _, opt := range opts {
+		opt(store)
+	}
+
+	return store
 }
 
 func (bs *BaseStore[T]) store(key string, value *T) error {
