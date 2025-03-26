@@ -20,6 +20,12 @@ func (bs *BaseStore[T]) get(key string) (*T, error){
 	if item, exists := bs.entries[key]; exists {
 		return item, nil
 	}
-
 	return nil, fmt.Errorf("entry with key %s does not exist", key)
+}
+
+func (bs *BaseStore[T]) getDefault(key string, defaultFn func() *T) *T{
+	if _, exists := bs.entries[key]; !exists {
+		bs.entries[key] = defaultFn()
+	}
+	return bs.entries[key]
 }
