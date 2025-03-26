@@ -12,8 +12,12 @@ func NewBaseStore[T any]() *BaseStore[T]{
 	}
 }
 
-func (bs *BaseStore[T]) store(key string, value *T){
+func (bs *BaseStore[T]) store(key string, value *T) (error) {
+	if _, exists := bs.entries[key]; exists {
+		return fmt.Errorf("entry with key %s already exists", key)
+	}
 	bs.entries[key] = value
+	return nil
 }
 
 func (bs *BaseStore[T]) get(key string) (*T, error){

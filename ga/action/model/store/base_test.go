@@ -11,13 +11,31 @@ type prop struct {
 }
 
 func TestStore(t *testing.T){
-	store := NewBaseStore[prop]()
-	store.store("anon", &prop{})
-	asserts.Equals(t, 1, len(store.entries))
+  existingProp := &prop{"name", "val"}
+  tests := []struct{
+    name string
+    input string
+    expectedLen int
+    err bool
+  }{
+    {name: "valid - non-existing key", input: "non existing", expectedLen: 2, err: false},
+    {name: "invalid - key exists", input: "exists", expectedLen: 1, err: true},
+  }
+
+  for _,test := range tests {
+    t.Run(test.name, func(t *testing.T) {
+      store := NewBaseStore[prop]()
+      store.store("exists", existingProp)
+
+      err := store.store(test.input, &prop{})
+      asserts.Equals(t, test.expectedLen, len(store.entries))
+      asserts.Equals(t, test.err, err != nil)
+    })
+  }
 }
 
 func TestGet2(t *testing.T){
-	existingProp := &prop{"id", "val"}
+	existingProp := &prop{"id", "value"}
 	tests := []struct{
 		name string
 		key string
@@ -41,7 +59,6 @@ func TestGet2(t *testing.T){
 }
 
 func TestGetDefault(t *testing.T){
-
   existing := &prop{"idA", "valA"}
   defaultProp := &prop{"idB", "valB"}
   
