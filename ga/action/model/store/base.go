@@ -62,17 +62,24 @@ func (bs *BaseStore[T]) MarshalJSON() ([]byte, error) {
 }
 
 func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
-	marshalledEntries := make([]*marshalledEntry[json.RawMessage], 0, len(bs.entries))
+	var marshalledEntries []*marshalledEntry[json.RawMessage]
 	if _, err := marshalling.StrictDecode(data, &marshalledEntries); err != nil {
 		return err
 	}
 
 	for _, marshalledEntry := range marshalledEntries {
-		if _, exists := bs.entries[marshalledEntry.Id]; !exists {
+		existing, exists := bs.entries[marshalledEntry.Id]
+		
+		if !exists && !bs.config.unsafeDecode {
 			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", marshalledEntry.Id)
 		}
 
-		if _, err := marshalling.StrictDecode(*marshalledEntry.Value, bs.entries[marshalledEntry.Id]); err != nil {
+		if !exists && bs.config.unsafeDecode {
+			existing = new(T)
+			bs.store(marshalledEntry.Id, existing)
+		}
+
+		if _, err := marshalling.StrictDecode(*marshalledEntry.Value, existing); err != nil {
 			return err
 		}
 	}

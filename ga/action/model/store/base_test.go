@@ -122,5 +122,14 @@ func TestUnmarshal(t *testing.T) {
 			asserts.Equals(t, test.expectedValue, store.entries["id"])
 		})
 	}
+}
 
+func TestUnsafeDecodeMarshal(t *testing.T){
+	store := NewBaseStore(
+		WithUnsafeDecode[prop](),
+	)
+
+	err := json.Unmarshal([]byte(`[{"id":"id","Value":{"Val":"val"}}]`), store)
+	asserts.Equals(t, nil, err)
+	asserts.Equals(t, &prop{"val"}, store.entries["id"])
 }
