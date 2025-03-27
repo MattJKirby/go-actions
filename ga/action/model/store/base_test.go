@@ -124,7 +124,7 @@ func TestUnmarshal(t *testing.T) {
 	}
 }
 
-func TestUnsafeDecodeMarshal(t *testing.T){
+func TestUnsafeDecodeMarshal(t *testing.T) {
 	store := NewBaseStore(
 		WithUnsafeDecode[prop](),
 	)
