@@ -31,7 +31,7 @@ func NewBaseStore[T any](opts ...baseStoreOption[T]) *BaseStore[T] {
 	return store
 }
 
-func (bs *BaseStore[T]) store(key string, value *T) error {
+func (bs *BaseStore[T]) insert(key string, value *T) error {
 	if _, exists := bs.entries[key]; exists {
 		return fmt.Errorf("entry with key %s already exists", key)
 	}
@@ -76,7 +76,7 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 
 		if !exists && bs.config.unsafeDecode {
 			existing = new(T)
-			bs.store(marshalledEntry.Id, existing)
+			bs.insert(marshalledEntry.Id, existing)
 		}
 
 		if _, err := marshalling.StrictDecode(*marshalledEntry.Value, existing); err != nil {

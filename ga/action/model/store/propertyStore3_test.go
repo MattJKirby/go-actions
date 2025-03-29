@@ -14,10 +14,10 @@ func (ip IdProp) GetPropertyId() string {
 	return ip.Id
 }
 
-func TestInsertion(t *testing.T) {
+func TestNewProperty(t *testing.T) {
 	store := NewActionPropertyStore[IdentifiableProperty]()
 
-	err := store.Store(&IdProp{Id: "id", Value: "val"})
+	err := store.NewProperty(&IdProp{Id: "id", Value: "val"})
 
 	asserts.Equals(t, nil, err)
 	asserts.Equals(t, 1, len(store.entries))

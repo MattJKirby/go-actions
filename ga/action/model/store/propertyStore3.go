@@ -10,14 +10,15 @@ type ActionPropertyStore[T IdentifiableProperty] struct {
 
 func NewActionPropertyStore[T IdentifiableProperty]() *ActionPropertyStore[T] {
 	return &ActionPropertyStore[T]{
-		BaseStore: NewBaseStore[T](),
+		NewBaseStore[T](),
 	}
 }
 
-func (aps *ActionPropertyStore[T]) Store(property T) error {
-	return aps.store(property.GetPropertyId(), &property)
+func (aps *ActionPropertyStore[T]) NewProperty(property T) error {
+	return aps.insert(property.GetPropertyId(), &property)
 }
 
-func (aps *ActionPropertyStore[T]) GetDefault(id string, defaultFn func() *T) *T {
+func (aps *ActionPropertyStore[T]) GetOrDefaultProperty(id string, defaultFn func() *T) *T {
 	return aps.getDefault(id, defaultFn)
 }
+
