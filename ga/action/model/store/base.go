@@ -8,7 +8,7 @@ import (
 
 type BaseStore[T any] struct {
 	entries map[string]*T
-	config  baseStoreConfig
+	config baseStoreConfig
 }
 
 type marshalledEntry[T any] struct {
@@ -69,7 +69,7 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 
 	for _, marshalledEntry := range marshalledEntries {
 		existing, exists := bs.entries[marshalledEntry.Id]
-
+		
 		if !exists && !bs.config.unsafeDecode {
 			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", marshalledEntry.Id)
 		}
