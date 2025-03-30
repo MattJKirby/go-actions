@@ -7,8 +7,8 @@ import (
 )
 
 type ActionModel struct {
-	ActionName string                                                 `json:"name"`
-	ActionUid  string                                                 `json:"uid"`
+	ActionName string                                           `json:"name"`
+	ActionUid  string                                           `json:"uid"`
 	Parameters *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
 	Inputs     *store.PropertyStore[references.ActionInput]     `json:"inputs"`
 	Outputs    *store.PropertyStore[references.ActionOutput]    `json:"outputs"`
