@@ -58,7 +58,7 @@ func (bs *BaseStore[T]) Update(key string, value *T) error {
 	if !exists && !bs.config.unsafeUpdate {
 		return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", key)
 	}
-	
+
 	bs.entries[key] = value
 	return nil
 }
