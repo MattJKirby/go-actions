@@ -23,20 +23,23 @@ func (aps *ActionPropertyStore[T]) NewProperty(property T) error {
 }
 
 func (aps *ActionPropertyStore[T]) MarshalJSON() ([]byte, error) {
-	identifables := make([]*T, 0, len(aps.entries))
+	values := make([]*T, 0, len(aps.entries))
 	for _, entry := range aps.entries {
-		identifables = append(identifables, entry)
+		values = append(values, entry)
 	}
-	return json.Marshal(identifables)
+	return json.Marshal(values)
 }
 
 func (aps *ActionPropertyStore[T]) UnmarshalJSON(data []byte) error {
-	var identifables []T
-	json.Unmarshal(data, &identifables)
+	var values []T
+	if err := json.Unmarshal(data, &values); err != nil {
+		return err
+	}
 
-	for _, item := range identifables {
-		asdf, _ := json.Marshal(item)
-		aps.unmarshalEntry(item.GetPropertyId(), asdf)
+	for _, item := range values {
+		if err := aps.Update(&marshalledEntry[T]{Id: item.GetPropertyId(), Value: &item}); err != nil {
+			return err
+		}
 	}
 
 	return nil
