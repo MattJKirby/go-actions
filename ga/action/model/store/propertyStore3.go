@@ -35,7 +35,7 @@ func (aps *ActionPropertyStore[T]) UnmarshalJSON(data []byte) error {
 	json.Unmarshal(data, &identifables)
 
 	for _, item := range identifables {
-		asdf,_ := json.Marshal(item)
+		asdf, _ := json.Marshal(item)
 		aps.unmarshalEntry(item.GetPropertyId(), asdf)
 	}
 
