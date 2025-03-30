@@ -4,6 +4,7 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/action/model/references"
+	"go-actions/ga/action/model/store"
 )
 
 type ActionInstance struct {
@@ -17,11 +18,11 @@ func NewActionInstance(actionName string, modelConfig model.ActionConfig) *Actio
 }
 
 func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter.ActionParameter[T] {
-	parameterFn := func() *any {
-		value := any(parameter.NewActionParameter(name, defaultValue))
+	parameterFn := func() *store.IdentifiableProperty {
+		value := store.IdentifiableProperty(parameter.NewActionParameter(name, defaultValue))
 		return &value
 	}
-	return (*a.Model.Parameters.GetOrDefault(name, parameterFn)).(*parameter.ActionParameter[T])
+	return (*a.Model.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])
 }
 
 func Input(a *ActionInstance, name string, required bool, defaultSource *references.ActionOutput) *references.ActionInput {

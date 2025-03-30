@@ -25,6 +25,10 @@ func NewActionParameter[T any](Name string, DefaultValue T) *ActionParameter[T] 
 	}
 }
 
+func (ap *ActionParameter[T]) GetPropertyId() string {
+	return ap.name
+}
+
 func (ap *ActionParameter[T]) Value() T {
 	return ap.value
 }
