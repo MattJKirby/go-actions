@@ -21,7 +21,7 @@ func NewActionInput(name string, actionUid string) *ActionInput {
 	}
 }
 
-func (ai ActionInput) GetId() string {
+func (ai ActionInput) GetPropertyId() string {
 	return ai.Uid
 }
 

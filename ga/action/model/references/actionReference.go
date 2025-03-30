@@ -24,7 +24,7 @@ func NewActionReference(config model.ActionConfig, sourceUid string, targetUid s
 	}
 }
 
-func (ar ActionReference) GetId() string {
+func (ar ActionReference) GetPropertyId() string {
 	return ar.ReferenceUid
 }
 

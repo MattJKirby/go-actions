@@ -18,7 +18,7 @@ func NewActionOutput(name string, actionUid string) *ActionOutput {
 	}
 }
 
-func (ao ActionOutput) GetId() string {
+func (ao ActionOutput) GetPropertyId() string {
 	return ao.Uid
 }
 
