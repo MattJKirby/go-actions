@@ -68,20 +68,27 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 	}
 
 	for _, marshalledEntry := range marshalledEntries {
-		existing, exists := bs.entries[marshalledEntry.Id]
-		
-		if !exists && !bs.config.unsafeDecode {
-			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", marshalledEntry.Id)
-		}
-
-		if !exists && bs.config.unsafeDecode {
-			existing = new(T)
-			bs.insert(marshalledEntry.Id, existing)
-		}
-
-		if _, err := marshalling.StrictDecode(*marshalledEntry.Value, existing); err != nil {
+		if err := bs.unmarshalEntry(marshalledEntry.Id, *marshalledEntry.Value); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func (bs *BaseStore[T]) unmarshalEntry(id string, raw json.RawMessage) error{
+		existing, exists := bs.entries[id]
+		
+		if !exists && !bs.config.unsafeDecode {
+			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", id)
+		}
+
+		if !exists && bs.config.unsafeDecode {
+			existing = new(T)
+			bs.insert(id, existing)
+		}
+
+		if _, err := marshalling.StrictDecode(raw, existing); err != nil {
+			return err
+		}
+		return nil
 }
