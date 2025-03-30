@@ -2,8 +2,8 @@ package action
 
 import (
 	"go-actions/ga/action/model"
-	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
+	"go-actions/ga/action/model/references"
 )
 
 type ActionInstance struct {
@@ -24,21 +24,19 @@ func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter
 	return (*a.Model.Parameters.GetOrDefault(name, parameterFn)).(*parameter.ActionParameter[T])
 }
 
-func Input(a *ActionInstance, name string, required bool, defaultSource *io.Output) *io.Input {
-	inputFn := func() *io.Input {
-		return io.NewInput(name, a.Model.ActionUid, required)
+func Input(a *ActionInstance, name string, required bool, defaultSource *references.ActionOutput) *references.ActionInput {
+	inputFn := func() *references.ActionInput {
+		return references.NewActionInput(name, a.Model.ActionUid)
 	}
 
-	input := a.Model.Inputs.GetOrDefault(name, inputFn)
-	io.AssignReferences(defaultSource, []*io.Input{input})
+	input := a.Model.Inputs.GetDefault(name, inputFn)
 	return input
 }
 
-func Output(a *ActionInstance, name string, defaultTargets []*io.Input) *io.Output {
-	outputFn := func() *io.Output {
-		return io.NewActionOutput(name, a.Model.ActionUid)
+func Output(a *ActionInstance, name string, defaultTargets []*references.ActionInput) *references.ActionOutput {
+	outputFn := func() *references.ActionOutput {
+		return references.NewActionOutput(name, a.Model.ActionUid)
 	}
-	output := a.Model.Outputs.GetOrDefault(name, outputFn)
-	io.AssignReferences(output, defaultTargets)
+	output := a.Model.Outputs.GetDefault(name, outputFn)
 	return output
 }

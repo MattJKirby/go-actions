@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"go-actions/ga"
 	"go-actions/ga/action"
-	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
+	"go-actions/ga/action/model/references"
 	"go-actions/ga/flow"
 )
 
@@ -22,15 +22,15 @@ func init() {
 type ExampleActionProps struct {
 	IntProp int
 	StrProp string
-	Source  *io.Output
-	Targets []*io.Input
+	Source  *references.ActionOutput
+	Targets []*references.ActionInput
 }
 
 type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
-	Input            *io.Input
-	Output           *io.Output
+	Input            *references.ActionInput
+	Output           *references.ActionOutput
 }
 
 func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleAction, error) {

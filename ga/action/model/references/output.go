@@ -5,15 +5,15 @@ import "fmt"
 type ActionOutput struct {
 	Uid              string
 	Name             string
-	ActionUid        string
+	actionUid        string
 	TargetReferences map[string]*ActionReference
 }
 
 func NewActionOutput(name string, actionUid string) *ActionOutput {
 	return &ActionOutput{
-		Uid:              fmt.Sprintf("%s:input:%s", actionUid, name),
+		Uid:              fmt.Sprintf("%s:output:%s", actionUid, name),
 		Name:             name,
-		ActionUid:        actionUid,
+		actionUid:        actionUid,
 		TargetReferences: map[string]*ActionReference{},
 	}
 }
