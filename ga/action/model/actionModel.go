@@ -7,11 +7,11 @@ import (
 )
 
 type ActionModel struct {
-	ActionName string                          `json:"name"`
-	ActionUid  string                          `json:"uid"`
-	Parameters *store.ActionPropertyStore[store.IdentifiableProperty]       `json:"parameters"`
-	Inputs     *store.ActionPropertyStore[references.ActionInput]  `json:"inputs"`
-	Outputs    *store.ActionPropertyStore[references.ActionOutput] `json:"outputs"`
+	ActionName string                                                 `json:"name"`
+	ActionUid  string                                                 `json:"uid"`
+	Parameters *store.ActionPropertyStore[store.IdentifiableProperty] `json:"parameters"`
+	Inputs     *store.ActionPropertyStore[references.ActionInput]     `json:"inputs"`
+	Outputs    *store.ActionPropertyStore[references.ActionOutput]    `json:"outputs"`
 }
 
 type ActionConfig interface {

@@ -16,7 +16,7 @@ type PartialActionReference struct {
 }
 
 type Config interface {
-  GenerateUid() string
+	GenerateUid() string
 }
 
 func NewActionReference(config Config, sourceUid string, targetUid string) *ActionReference {
