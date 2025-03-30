@@ -53,6 +53,16 @@ func (bs *BaseStore[T]) GetDefault(key string, defaultFn func() *T) *T {
 	return bs.entries[key]
 }
 
+func (bs *BaseStore[T]) Update(key string, value *T) error {
+	_, exists := bs.entries[key]
+	if !exists && !bs.config.unsafeUpdate {
+		return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", key)
+	}
+	
+	bs.entries[key] = value
+	return nil
+}
+
 func (bs *BaseStore[T]) MarshalJSON() ([]byte, error) {
 	marshalledEntries := make([]*marshalledEntry[T], 0, len(bs.entries))
 	for key, value := range bs.entries {
@@ -68,19 +78,9 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 	}
 
 	for _, entry := range marshalledEntries {
-		if err := bs.Update(entry); err != nil {
+		if err := bs.Update(entry.Id, entry.Value); err != nil {
 			return err
 		}
 	}
 	return nil
-}
-
-func (bs *BaseStore[T]) Update(entry *marshalledEntry[T]) error {
-		_, exists := bs.entries[entry.Id]
-		if !exists && !bs.config.unsafeUpdate {
-			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", entry.Id)
-		}
-		
-		bs.entries[entry.Id] = entry.Value
-		return nil
 }

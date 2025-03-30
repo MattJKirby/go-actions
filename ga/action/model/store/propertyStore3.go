@@ -13,7 +13,7 @@ type ActionPropertyStore[T IdentifiableProperty] struct {
 func NewActionPropertyStore[T IdentifiableProperty]() *ActionPropertyStore[T] {
 	return &ActionPropertyStore[T]{
 		NewBaseStore(
-			WithUnsafeDecode[T](true),
+			WithUnsafeUpdate[T](true),
 		),
 	}
 }
@@ -37,7 +37,7 @@ func (aps *ActionPropertyStore[T]) UnmarshalJSON(data []byte) error {
 	}
 
 	for _, item := range values {
-		if err := aps.Update(&marshalledEntry[T]{Id: item.GetPropertyId(), Value: &item}); err != nil {
+		if err := aps.Update(item.GetPropertyId(), &item); err != nil {
 			return err
 		}
 	}

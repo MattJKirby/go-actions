@@ -126,7 +126,7 @@ func TestUnmarshal(t *testing.T) {
 
 func TestUnsafeDecodeMarshal(t *testing.T) {
 	store := NewBaseStore(
-		WithUnsafeDecode[prop](true),
+		WithUnsafeUpdate[prop](true),
 	)
 
 	err := json.Unmarshal([]byte(`[{"id":"id","Value":{"Val":"val"}}]`), store)
