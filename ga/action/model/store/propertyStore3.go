@@ -10,10 +10,10 @@ type ActionPropertyStore[T IdentifiableProperty] struct {
 	*BaseStore[T]
 }
 
-func NewActionPropertyStore[T IdentifiableProperty]() *ActionPropertyStore[T] {
+func NewActionPropertyStore[T IdentifiableProperty](unsafeUpdate bool) *ActionPropertyStore[T] {
 	return &ActionPropertyStore[T]{
 		NewBaseStore(
-			WithUnsafeUpdate[T](true),
+			WithUnsafeUpdate[T](unsafeUpdate),
 		),
 	}
 }

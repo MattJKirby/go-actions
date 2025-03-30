@@ -16,7 +16,7 @@ func (ip IdProp) GetPropertyId() string {
 }
 
 func TestNewProperty(t *testing.T) {
-	store := NewActionPropertyStore[IdentifiableProperty]()
+	store := NewActionPropertyStore[IdentifiableProperty](false)
 
 	err := store.NewProperty(&IdProp{Id: "id", Value: "val"})
 
@@ -25,7 +25,7 @@ func TestNewProperty(t *testing.T) {
 }
 
 func TestMarshalx(t *testing.T) {
-	store := NewActionPropertyStore[IdentifiableProperty]()
+	store := NewActionPropertyStore[IdentifiableProperty](false)
 	store.NewProperty(&IdProp{Id: "id", Value: "val"})
 
 	marshalled, err := json.Marshal(store)
@@ -34,25 +34,28 @@ func TestMarshalx(t *testing.T) {
 	asserts.Equals(t, `[{"Id":"id","Value":"val"}]`, string(marshalled))
 }
 
-func TestUnmarshalx(t *testing.T) {
+func TestUnmarshalUpdate(t *testing.T) {
 	tests := []struct {
-		name     string
-		input    string
-		expected *IdProp
-		err      bool
+		name       string
+		input      string
+		unsafe     bool
+		expected   *IdProp
+		expectedId string
+		expectErr  bool
 	}{
-		{name: "valid, existing resource", input: `[{"Id":"id","Value":"1"}]`, expected: &IdProp{"id", "1"}, err: false},
-		{name: "valid, not existing resource", input: `[{"Id":"x","Value":"1"}]`, expected: &IdProp{"x", "1"}, err: false},
+		{name: "valid - safe, existing resource", unsafe: false, input: `[{"Id":"id","Value":"1"}]`, expected: &IdProp{"id", "1"}, expectedId: "id", expectErr: false},
+		{name: "valid - unsafe, not existing resource", unsafe: true, input: `[{"Id":"x","Value":"1"}]`, expected: &IdProp{"x", "1"}, expectedId: "x", expectErr: false},
+		{name: "invalid - safe, not existing resource", unsafe: false, input: `[{"Id":"x","Value":"1"}]`, expected: nil, expectedId: "x", expectErr: true},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			store := NewActionPropertyStore[IdProp]()
+			store := NewActionPropertyStore[IdProp](test.unsafe)
 			store.NewProperty(IdProp{Id: "id", Value: "0"})
 
 			err := store.UnmarshalJSON([]byte(test.input))
-			asserts.Equals(t, test.err, err != nil)
-			asserts.Equals(t, test.expected, store.entries[test.expected.Id])
+			asserts.Equals(t, test.expectErr, err != nil)
+			asserts.Equals(t, test.expected, store.entries[test.expectedId])
 		})
 	}
 }
