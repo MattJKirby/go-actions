@@ -7,7 +7,7 @@ import (
 
 func TestWithUnsafeDecode(t *testing.T) {
 	store := NewBaseStore(
-		WithUnsafeDecode[prop](),
+		WithUnsafeDecode[prop](true),
 	)
 
 	asserts.Equals(t, true, store.config.unsafeDecode)

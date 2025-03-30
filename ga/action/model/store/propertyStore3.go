@@ -13,7 +13,7 @@ type ActionPropertyStore[T IdentifiableProperty] struct {
 func NewActionPropertyStore[T IdentifiableProperty]() *ActionPropertyStore[T] {
 	return &ActionPropertyStore[T]{
 		NewBaseStore(
-			WithUnsafeDecode[T](),
+			WithUnsafeDecode[T](true),
 		),
 	}
 }

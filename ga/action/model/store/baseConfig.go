@@ -6,8 +6,8 @@ type baseStoreConfig struct {
 	unsafeDecode bool
 }
 
-func WithUnsafeDecode[T any]() func(*BaseStore[T]) {
+func WithUnsafeDecode[T any](enabled bool) func(*BaseStore[T]) {
 	return func(bs *BaseStore[T]) {
-		bs.config.unsafeDecode = true
+		bs.config.unsafeDecode = enabled
 	}
 }
