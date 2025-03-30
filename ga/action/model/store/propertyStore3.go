@@ -19,7 +19,7 @@ func NewActionPropertyStore[T IdentifiableProperty]() *ActionPropertyStore[T] {
 }
 
 func (aps *ActionPropertyStore[T]) NewProperty(property T) error {
-	return aps.insert(property.GetPropertyId(), &property)
+	return aps.Insert(property.GetPropertyId(), &property)
 }
 
 func (aps *ActionPropertyStore[T]) MarshalJSON() ([]byte, error) {

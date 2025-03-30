@@ -31,7 +31,7 @@ func NewBaseStore[T any](opts ...baseStoreOption[T]) *BaseStore[T] {
 	return store
 }
 
-func (bs *BaseStore[T]) insert(key string, value *T) error {
+func (bs *BaseStore[T]) Insert(key string, value *T) error {
 	if _, exists := bs.entries[key]; exists {
 		return fmt.Errorf("entry with key %s already exists", key)
 	}
@@ -39,14 +39,14 @@ func (bs *BaseStore[T]) insert(key string, value *T) error {
 	return nil
 }
 
-func (bs *BaseStore[T]) get(key string) (*T, error) {
+func (bs *BaseStore[T]) Get(key string) (*T, error) {
 	if item, exists := bs.entries[key]; exists {
 		return item, nil
 	}
 	return nil, fmt.Errorf("entry with key %s does not exist", key)
 }
 
-func (bs *BaseStore[T]) getDefault(key string, defaultFn func() *T) *T {
+func (bs *BaseStore[T]) GetDefault(key string, defaultFn func() *T) *T {
 	if _, exists := bs.entries[key]; !exists {
 		bs.entries[key] = defaultFn()
 	}
@@ -90,7 +90,7 @@ func (bs *BaseStore[T]) unmarshalEntry(id string, raw json.RawMessage) error {
 	}
 
 	if !exists {
-		bs.insert(id, existing)
+		bs.Insert(id, existing)
 	}
 
 	return nil

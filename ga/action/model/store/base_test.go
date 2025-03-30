@@ -25,9 +25,9 @@ func TestInsert(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			store := NewBaseStore[prop]()
-			store.insert("exists", existingProp)
+			store.Insert("exists", existingProp)
 
-			err := store.insert(test.input, &prop{})
+			err := store.Insert(test.input, &prop{})
 			asserts.Equals(t, test.expectedLen, len(store.entries))
 			asserts.Equals(t, test.err, err != nil)
 		})
@@ -49,9 +49,9 @@ func TestGet2(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			store := NewBaseStore[prop]()
-			store.insert("id", existingProp)
+			store.Insert("id", existingProp)
 
-			retrieved, err := store.get(test.key)
+			retrieved, err := store.Get(test.key)
 			asserts.Equals(t, test.expect, retrieved)
 			asserts.Equals(t, test.err, err != nil)
 		})
@@ -75,9 +75,9 @@ func TestGetDefault(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			store := NewBaseStore[prop]()
-			store.insert("id", existing)
+			store.Insert("id", existing)
 
-			retrieved := store.getDefault(test.input, func() *prop {
+			retrieved := store.GetDefault(test.input, func() *prop {
 				return defaultProp
 			})
 
@@ -89,7 +89,7 @@ func TestGetDefault(t *testing.T) {
 
 func TestMarshal(t *testing.T) {
 	store := NewBaseStore[prop]()
-	store.insert("id", &prop{"val"})
+	store.Insert("id", &prop{"val"})
 
 	marshalled, err := json.Marshal(store)
 
@@ -114,7 +114,7 @@ func TestUnmarshal(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			store := NewBaseStore[prop]()
-			store.insert("id", &prop{"0"})
+			store.Insert("id", &prop{"0"})
 
 			err := json.Unmarshal([]byte(test.input), store)
 
