@@ -10,5 +10,5 @@ func TestWithUnsafeDecode(t *testing.T) {
 		WithUnsafeDecode[prop](true),
 	)
 
-	asserts.Equals(t, true, store.config.unsafeDecode)
+	asserts.Equals(t, true, store.config.unsafeUpdate)
 }

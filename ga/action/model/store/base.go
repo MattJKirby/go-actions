@@ -20,7 +20,7 @@ func NewBaseStore[T any](opts ...baseStoreOption[T]) *BaseStore[T] {
 	store := &BaseStore[T]{
 		entries: make(map[string]*T),
 		config: baseStoreConfig{
-			unsafeDecode: false,
+			unsafeUpdate: false,
 		},
 	}
 
@@ -77,7 +77,7 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 
 func (bs *BaseStore[T]) Update(entry *marshalledEntry[T]) error {
 		_, exists := bs.entries[entry.Id]
-		if !exists && !bs.config.unsafeDecode {
+		if !exists && !bs.config.unsafeUpdate {
 			return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", entry.Id)
 		}
 		
