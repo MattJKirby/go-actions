@@ -77,18 +77,21 @@ func (bs *BaseStore[T]) UnmarshalJSON(data []byte) error {
 
 func (bs *BaseStore[T]) unmarshalEntry(id string, raw json.RawMessage) error {
 	existing, exists := bs.entries[id]
-
 	if !exists && !bs.config.unsafeDecode {
 		return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", id)
 	}
 
-	if !exists && bs.config.unsafeDecode {
+	if !exists {
 		existing = new(T)
-		bs.insert(id, existing)
 	}
 
 	if _, err := marshalling.StrictDecode(raw, existing); err != nil {
 		return err
 	}
+
+	if !exists {
+		bs.insert(id, existing)
+	}
+
 	return nil
 }
