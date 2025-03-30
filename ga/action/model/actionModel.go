@@ -9,9 +9,9 @@ import (
 type ActionModel struct {
 	ActionName string                                                 `json:"name"`
 	ActionUid  string                                                 `json:"uid"`
-	Parameters *store.ActionPropertyStore[store.IdentifiableProperty] `json:"parameters"`
-	Inputs     *store.ActionPropertyStore[references.ActionInput]     `json:"inputs"`
-	Outputs    *store.ActionPropertyStore[references.ActionOutput]    `json:"outputs"`
+	Parameters *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
+	Inputs     *store.PropertyStore[references.ActionInput]     `json:"inputs"`
+	Outputs    *store.PropertyStore[references.ActionOutput]    `json:"outputs"`
 }
 
 type ActionConfig interface {
@@ -23,8 +23,8 @@ func NewActionModel(typename string, config ActionConfig) *ActionModel {
 	return &ActionModel{
 		ActionName: typename,
 		ActionUid:  ActionUid,
-		Parameters: store.NewActionPropertyStore[store.IdentifiableProperty](false),
-		Inputs:     store.NewActionPropertyStore[references.ActionInput](false),
-		Outputs:    store.NewActionPropertyStore[references.ActionOutput](false),
+		Parameters: store.NewPropertyStore[store.IdentifiableProperty](false),
+		Inputs:     store.NewPropertyStore[references.ActionInput](false),
+		Outputs:    store.NewPropertyStore[references.ActionOutput](false),
 	}
 }

@@ -16,7 +16,7 @@ func (ip IdProp) GetPropertyId() string {
 }
 
 func TestNewProperty(t *testing.T) {
-	store := NewActionPropertyStore[IdentifiableProperty](false)
+	store := NewPropertyStore[IdentifiableProperty](false)
 
 	err := store.NewProperty(&IdProp{Id: "id", Value: "val"})
 
@@ -25,7 +25,7 @@ func TestNewProperty(t *testing.T) {
 }
 
 func TestMarshalx(t *testing.T) {
-	store := NewActionPropertyStore[IdentifiableProperty](false)
+	store := NewPropertyStore[IdentifiableProperty](false)
 	store.NewProperty(&IdProp{Id: "id", Value: "val"})
 
 	marshalled, err := json.Marshal(store)
@@ -50,7 +50,7 @@ func TestUnmarshalUpdate(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			store := NewActionPropertyStore[IdProp](test.unsafe)
+			store := NewPropertyStore[IdProp](test.unsafe)
 			store.NewProperty(IdProp{Id: "id", Value: "0"})
 
 			err := store.UnmarshalJSON([]byte(test.input))
