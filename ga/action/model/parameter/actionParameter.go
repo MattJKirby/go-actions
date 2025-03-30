@@ -7,18 +7,21 @@ import (
 )
 
 type ActionParameter[T any] struct {
+	uid          string
 	name         string
 	value        T
 	defaultValue T
 }
 
 type marshalledActionParameter[T any] struct {
+	Uid   string
 	Name  string `json:"name"`
 	Value T      `json:"value"`
 }
 
-func NewActionParameter[T any](Name string, DefaultValue T) *ActionParameter[T] {
+func NewActionParameter[T any](actionUid string, Name string, DefaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
+		uid:          fmt.Sprintf("%s:parameter:%s", actionUid, Name),
 		name:         Name,
 		value:        DefaultValue,
 		defaultValue: DefaultValue,
@@ -26,7 +29,7 @@ func NewActionParameter[T any](Name string, DefaultValue T) *ActionParameter[T] 
 }
 
 func (ap *ActionParameter[T]) GetPropertyId() string {
-	return ap.name
+	return ap.uid
 }
 
 func (ap *ActionParameter[T]) Value() T {
@@ -43,6 +46,7 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&marshalledActionParameter[T]{
+		Uid:   ap.uid,
 		Name:  ap.name,
 		Value: ap.value,
 	})

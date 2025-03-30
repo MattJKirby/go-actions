@@ -19,7 +19,7 @@ func NewActionInstance(actionName string, modelConfig model.ActionConfig) *Actio
 
 func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter.ActionParameter[T] {
 	parameterFn := func() *store.IdentifiableProperty {
-		value := store.IdentifiableProperty(parameter.NewActionParameter(name, defaultValue))
+		value := store.IdentifiableProperty(parameter.NewActionParameter(a.Model.ActionUid, name, defaultValue))
 		return &value
 	}
 	return (*a.Model.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])

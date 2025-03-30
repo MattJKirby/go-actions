@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewParameter(t *testing.T) {
-	parameter := NewActionParameter("test", "default value")
+	parameter := NewActionParameter("uid", "test", "default value")
 
 	t.Run("test new parameter", func(t *testing.T) {
 		asserts.Equals(t, "test", parameter.name)
@@ -21,7 +21,7 @@ func TestNewParameter(t *testing.T) {
 	t.Run("test set parameter", func(t *testing.T) {
 		defaultVal := "some string"
 		newVal := "test"
-		param := NewActionParameter("test", defaultVal)
+		param := NewActionParameter("uid", "test", defaultVal)
 		param.SetValue(newVal)
 		asserts.Equals(t, newVal, param.Value())
 		asserts.Equals(t, defaultVal, param.DefaultValue())
@@ -29,8 +29,8 @@ func TestNewParameter(t *testing.T) {
 }
 
 func TestMarshalParameter(t *testing.T) {
-	parameter := NewActionParameter("parameterName", "defaultVal")
-	expectedMarshalResult := `{"name":"parameterName","value":"defaultVal"}`
+	parameter := NewActionParameter("uid", "parameterName", "defaultVal")
+	expectedMarshalResult := `{"Uid":"uid:parameter:parameterName","name":"parameterName","value":"defaultVal"}`
 
 	marshalled, err := json.Marshal(parameter)
 	if err != nil {
@@ -48,7 +48,7 @@ func TestUnmarshalParameter(t *testing.T) {
 	}
 
 	cr.CaseRunner(t, tests, func(test cr.TestCase[string, string]) {
-		parameter := NewActionParameter("parameterName", "defaultVal")
+		parameter := NewActionParameter("uid", "parameterName", "defaultVal")
 		err := json.Unmarshal([]byte(test.Input), parameter)
 
 		if test.Error != (err != nil) {
