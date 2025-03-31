@@ -3,9 +3,9 @@ package action
 import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
-	"go-actions/ga/action/model/references"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 
 	"go-actions/ga/cr/asserts"
@@ -34,7 +34,7 @@ func TestInput(t *testing.T) {
 	testcases := []struct {
 		name                    string
 		defaultSource           *output.ActionOutput
-		expectedSourceReference *references.ActionReference
+		expectedSourceReference *io.ActionReference
 	}{
 		{name: "without default source", defaultSource: nil},
 		{name: "with default source", defaultSource: output.NewActionOutput("o", "a")},
@@ -56,10 +56,10 @@ func TestOutput(t *testing.T) {
 	testcases := []struct {
 		name     string
 		defaults []*input.ActionInput
-		expected []*references.ActionReference
+		expected []*io.ActionReference
 	}{
-		{name: "without default targets", defaults: []*input.ActionInput{}, expected: []*references.ActionReference{}},
-		{name: "with default targets", defaults: []*input.ActionInput{}, expected: []*references.ActionReference{}},
+		{name: "without default targets", defaults: []*input.ActionInput{}, expected: []*io.ActionReference{}},
+		{name: "with default targets", defaults: []*input.ActionInput{}, expected: []*io.ActionReference{}},
 	}
 
 	for _, test := range testcases {

@@ -1,4 +1,4 @@
-package references
+package io
 
 import (
 	"fmt"
