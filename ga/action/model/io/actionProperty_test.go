@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetPropertyId(t *testing.T) {
-	prop := NewActionProperty("uid","type","name")
+	prop := NewActionProperty("uid", "type", "name")
 	asserts.Equals(t, "uid:type:name", prop.GetPropertyId())
 }

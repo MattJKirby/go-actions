@@ -12,7 +12,7 @@ type ActionInput struct {
 
 func NewActionInput(name string, actionUid string) *ActionInput {
 	return &ActionInput{
-		ActionProperty: io.NewActionProperty(actionUid,"input",name),
+		ActionProperty:   io.NewActionProperty(actionUid, "input", name),
 		SourceReferences: store.NewPropertyStore[io.ActionReference](true),
 	}
 }

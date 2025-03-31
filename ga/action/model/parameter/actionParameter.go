@@ -21,9 +21,9 @@ type marshalledActionParameter[T any] struct {
 
 func NewActionParameter[T any](actionUid string, Name string, DefaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		ActionProperty: io.NewActionProperty(actionUid,"parameter",Name),
-		value:        DefaultValue,
-		defaultValue: DefaultValue,
+		ActionProperty: io.NewActionProperty(actionUid, "parameter", Name),
+		value:          DefaultValue,
+		defaultValue:   DefaultValue,
 	}
 }
 

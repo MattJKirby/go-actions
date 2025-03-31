@@ -11,7 +11,7 @@ type ActionOutput struct {
 
 func NewActionOutput(name string, actionUid string) *ActionOutput {
 	return &ActionOutput{
-		ActionProperty: io.NewActionProperty(actionUid,"output",name),
+		ActionProperty:   io.NewActionProperty(actionUid, "output", name),
 		TargetReferences: map[string]*io.ActionReference{},
 	}
 }
