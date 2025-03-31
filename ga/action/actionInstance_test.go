@@ -3,6 +3,7 @@ package action
 import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
+	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/action/model/references"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
@@ -32,11 +33,11 @@ func TestParameter(t *testing.T) {
 func TestInput(t *testing.T) {
 	testcases := []struct {
 		name                    string
-		defaultSource           *references.ActionOutput
+		defaultSource           *output.ActionOutput
 		expectedSourceReference *references.ActionReference
 	}{
 		{name: "without default source", defaultSource: nil},
-		{name: "with default source", defaultSource: references.NewActionOutput("o", "a")},
+		{name: "with default source", defaultSource: output.NewActionOutput("o", "a")},
 	}
 
 	for _, test := range testcases {
@@ -64,7 +65,7 @@ func TestOutput(t *testing.T) {
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
 			instance := NewActionInstance("test", mockConfig)
-			expected := references.NewActionOutput("outputName", instance.Model.ActionUid)
+			expected := output.NewActionOutput("outputName", instance.Model.ActionUid)
 
 			// for _, target := range test.expected {
 			// 	expected.AssignTarget(target)
