@@ -1,6 +1,7 @@
-package references
+package input
 
 import (
+	"go-actions/ga/action/model/references"
 	"go-actions/ga/cr/asserts"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 	"testing"
@@ -9,7 +10,7 @@ import (
 var config = &actionTestHelpers.MockActionConfig{MockUid: ""}
 
 func TestAssignSourceReference(t *testing.T) {
-	ref := NewActionReference(config, "sourceUid", "targetUid")
+	ref := references.NewActionReference(config, "sourceUid", "targetUid")
 	input := NewActionInput("name", "targetUid")
 
 	input.AssignSourceReference(ref)

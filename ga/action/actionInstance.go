@@ -2,6 +2,7 @@ package action
 
 import (
 	"go-actions/ga/action/model"
+	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/action/model/references"
 	"go-actions/ga/action/model/store"
@@ -25,16 +26,16 @@ func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter
 	return (*a.Model.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])
 }
 
-func Input(a *ActionInstance, name string, required bool, defaultSource *references.ActionOutput) *references.ActionInput {
-	inputFn := func() *references.ActionInput {
-		return references.NewActionInput(name, a.Model.ActionUid)
+func Input(a *ActionInstance, name string, required bool, defaultSource *references.ActionOutput) *input.ActionInput {
+	inputFn := func() *input.ActionInput {
+		return input.NewActionInput(name, a.Model.ActionUid)
 	}
 
 	input := a.Model.Inputs.GetDefault(name, inputFn)
 	return input
 }
 
-func Output(a *ActionInstance, name string, defaultTargets []*references.ActionInput) *references.ActionOutput {
+func Output(a *ActionInstance, name string, defaultTargets []*input.ActionInput) *references.ActionOutput {
 	outputFn := func() *references.ActionOutput {
 		return references.NewActionOutput(name, a.Model.ActionUid)
 	}

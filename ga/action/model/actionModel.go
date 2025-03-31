@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/references"
 	"go-actions/ga/action/model/store"
 )
@@ -10,7 +11,7 @@ type ActionModel struct {
 	ActionName string                                           `json:"name"`
 	ActionUid  string                                           `json:"uid"`
 	Parameters *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
-	Inputs     *store.PropertyStore[references.ActionInput]     `json:"inputs"`
+	Inputs     *store.PropertyStore[input.ActionInput]     `json:"inputs"`
 	Outputs    *store.PropertyStore[references.ActionOutput]    `json:"outputs"`
 }
 
@@ -24,7 +25,7 @@ func NewActionModel(typename string, config ActionConfig) *ActionModel {
 		ActionName: typename,
 		ActionUid:  ActionUid,
 		Parameters: store.NewPropertyStore[store.IdentifiableProperty](false),
-		Inputs:     store.NewPropertyStore[references.ActionInput](false),
+		Inputs:     store.NewPropertyStore[input.ActionInput](false),
 		Outputs:    store.NewPropertyStore[references.ActionOutput](false),
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-actions/ga"
 	"go-actions/ga/action"
+	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/action/model/references"
 	"go-actions/ga/flow"
@@ -23,13 +24,13 @@ type ExampleActionProps struct {
 	IntProp int
 	StrProp string
 	Source  *references.ActionOutput
-	Targets []*references.ActionInput
+	Targets []*input.ActionInput
 }
 
 type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
-	Input            *references.ActionInput
+	Input            *input.ActionInput
 	Output           *references.ActionOutput
 }
 
