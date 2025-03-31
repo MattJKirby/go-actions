@@ -8,7 +8,6 @@ import (
 type ActionInput struct {
 	Uid              string
 	Name             string
-	actionUid        string
 	SourceReferences *store.PropertyStore[ActionReference]
 }
 
@@ -16,7 +15,6 @@ func NewActionInput(name string, actionUid string) *ActionInput {
 	return &ActionInput{
 		Uid:              fmt.Sprintf("%s:input:%s", actionUid, name),
 		Name:             name,
-		actionUid:        actionUid,
 		SourceReferences: store.NewPropertyStore[ActionReference](true),
 	}
 }
