@@ -3,12 +3,12 @@ package parameter
 import (
 	"encoding/json"
 	"fmt"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/utils/marshalling"
 )
 
 type ActionParameter[T any] struct {
-	uid          string
-	name         string
+	*io.ActionProperty
 	value        T
 	defaultValue T
 }
@@ -21,15 +21,10 @@ type marshalledActionParameter[T any] struct {
 
 func NewActionParameter[T any](actionUid string, Name string, DefaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		uid:          fmt.Sprintf("%s:parameter:%s", actionUid, Name),
-		name:         Name,
+		ActionProperty: io.NewActionProperty(actionUid,"parameter",Name),
 		value:        DefaultValue,
 		defaultValue: DefaultValue,
 	}
-}
-
-func (ap *ActionParameter[T]) GetPropertyId() string {
-	return ap.uid
 }
 
 func (ap *ActionParameter[T]) Value() T {
@@ -46,8 +41,8 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&marshalledActionParameter[T]{
-		Uid:   ap.uid,
-		Name:  ap.name,
+		Uid:   ap.Uid,
+		Name:  ap.Name,
 		Value: ap.value,
 	})
 }
@@ -58,8 +53,8 @@ func (ap *ActionParameter[T]) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	if marshalled.Name != ap.name {
-		return fmt.Errorf("failed to unmarshal action parameter: '%s': name '%s' does not match expected '%s'", ap.name, marshalled.Name, ap.name)
+	if marshalled.Name != ap.Name {
+		return fmt.Errorf("failed to unmarshal action parameter: '%s': name '%s' does not match expected '%s'", ap.Name, marshalled.Name, ap.Name)
 	}
 
 	ap.SetValue(marshalled.Value)

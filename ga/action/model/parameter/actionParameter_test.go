@@ -11,7 +11,7 @@ func TestNewParameter(t *testing.T) {
 	parameter := NewActionParameter("uid", "test", "default value")
 
 	t.Run("test new parameter", func(t *testing.T) {
-		asserts.Equals(t, "test", parameter.name)
+		asserts.Equals(t, "test", parameter.Name)
 		asserts.Equals(t, "default value", parameter.value)
 		asserts.Equals(t, "default value", parameter.defaultValue)
 		asserts.Equals(t, parameter.value, parameter.Value())
