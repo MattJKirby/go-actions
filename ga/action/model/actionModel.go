@@ -11,8 +11,8 @@ type ActionModel struct {
 	ActionName string                                           `json:"name"`
 	ActionUid  string                                           `json:"uid"`
 	Parameters *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
-	Inputs     *store.PropertyStore[input.ActionInput]     `json:"inputs"`
-	Outputs    *store.PropertyStore[output.ActionOutput]    `json:"outputs"`
+	Inputs     *store.PropertyStore[input.ActionInput]          `json:"inputs"`
+	Outputs    *store.PropertyStore[output.ActionOutput]        `json:"outputs"`
 }
 
 type ActionConfig interface {
