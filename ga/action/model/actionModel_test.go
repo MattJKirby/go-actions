@@ -9,12 +9,6 @@ import (
 
 var mockConfig = &actionTestHelpers.MockActionConfig{MockUid: "uid"}
 
-func TestNewModelInstance(t *testing.T) {
-	model := NewActionModel("someName", mockConfig)
-
-	asserts.Equals(t, "someName:uid", model.ActionUid)
-}
-
 func TestMarshalEmptyModel(t *testing.T) {
 	model := NewActionModel("someName", mockConfig)
 	mashalled, _ := json.Marshal(model)

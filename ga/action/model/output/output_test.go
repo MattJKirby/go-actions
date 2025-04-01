@@ -15,5 +15,7 @@ func TestAssignTargetReference(t *testing.T) {
 
 	output.AssignTargetReference(ref)
 
-	asserts.Equals(t, ref, output.TargetReferences[ref.ReferenceUid])
+	stored, err := output.TargetReferences.Get(ref.ReferenceUid)
+	asserts.Equals(t, nil, err)
+	asserts.Equals(t, ref, stored)
 }
