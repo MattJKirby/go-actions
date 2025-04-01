@@ -32,11 +32,11 @@ func TestParameter(t *testing.T) {
 
 func TestInput(t *testing.T) {
 	testcases := []struct {
-		name                    string
-		defaultSource           *output.ActionOutput
-		expectedSourceReference *io.ActionReference
+		name           string
+		defaultSource  *output.ActionOutput
+		expectedSource *io.ActionReference
 	}{
-		{name: "without default source", defaultSource: nil},
+		{name: "without default source", defaultSource: nil, expectedSource: nil},
 		{name: "with default source", defaultSource: output.NewActionOutput("o", "a")},
 	}
 
