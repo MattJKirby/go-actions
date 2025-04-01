@@ -7,16 +7,16 @@ import (
 
 type ActionInput struct {
 	*io.ActionProperty
-	SourceReferences *store.PropertyStore[io.ActionReference]
+	SourceReferences *store.PropertyStore[io.PartialActionReference]
 }
 
 func NewActionInput(name string, actionUid string) *ActionInput {
 	return &ActionInput{
 		ActionProperty:   io.NewActionProperty(actionUid, "input", name),
-		SourceReferences: store.NewPropertyStore[io.ActionReference](true),
+		SourceReferences: store.NewPropertyStore[io.PartialActionReference](true),
 	}
 }
 
 func (ai *ActionInput) AssignSourceReference(ref *io.ActionReference) {
-	ai.SourceReferences.NewProperty(*ref)
+	ai.SourceReferences.NewProperty(*ref.GetSourceReference())
 }

@@ -7,16 +7,16 @@ import (
 
 type ActionOutput struct {
 	*io.ActionProperty
-	TargetReferences *store.PropertyStore[io.ActionReference]
+	TargetReferences *store.PropertyStore[io.PartialActionReference]
 }
 
 func NewActionOutput(name string, actionUid string) *ActionOutput {
 	return &ActionOutput{
 		ActionProperty:   io.NewActionProperty(actionUid, "output", name),
-		TargetReferences: store.NewPropertyStore[io.ActionReference](true),
+		TargetReferences: store.NewPropertyStore[io.PartialActionReference](true),
 	}
 }
 
 func (ao *ActionOutput) AssignTargetReference(ref *io.ActionReference) {
-	ao.TargetReferences.NewProperty(*ref)
+	ao.TargetReferences.NewProperty(*ref.GetTargetReference())
 }

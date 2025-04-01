@@ -27,8 +27,8 @@ func NewActionReference(config Config, sourceUid string, targetUid string) *Acti
 	}
 }
 
-func (ar ActionReference) GetPropertyId() string {
-	return ar.ReferenceUid
+func (par PartialActionReference) GetPropertyId() string {
+	return par.ReferenceUid
 }
 
 func (ar *ActionReference) GetSourceReference() *PartialActionReference {
