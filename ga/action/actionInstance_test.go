@@ -6,9 +6,9 @@ import (
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
+	"go-actions/ga/testing/assert"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 
-	"go-actions/ga/cr/asserts"
 	"testing"
 )
 
@@ -18,7 +18,7 @@ func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test", mockConfig)
 	expectedModel := model.NewActionModel("test", mockConfig)
 
-	asserts.Equals(t, expectedModel, instance.Model)
+	assert.Equals(t, expectedModel, instance.Model)
 }
 
 func TestParameter(t *testing.T) {
@@ -26,8 +26,8 @@ func TestParameter(t *testing.T) {
 	expected := Parameter(instance, "paramName", 0)
 
 	param, err := instance.Model.Parameters.Get("paramName")
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, expected, any(*param).(*parameter.ActionParameter[int]))
+	assert.Equals(t, nil, err)
+	assert.Equals(t, expected, any(*param).(*parameter.ActionParameter[int]))
 }
 
 func TestInput(t *testing.T) {
@@ -47,7 +47,7 @@ func TestInput(t *testing.T) {
 
 			input := Input(instance, "inputName", false, test.defaultSource)
 
-			asserts.Equals(t, expected, input)
+			assert.Equals(t, expected, input)
 		})
 	}
 }
@@ -73,7 +73,7 @@ func TestOutput(t *testing.T) {
 
 			output := Output(instance, "outputName", test.defaults)
 
-			asserts.Equals(t, expected, output)
+			assert.Equals(t, expected, output)
 		})
 	}
 }

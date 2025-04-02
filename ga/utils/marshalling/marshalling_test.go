@@ -2,7 +2,8 @@ package marshalling
 
 import (
 	"go-actions/ga/cr"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
+
 	"testing"
 )
 
@@ -22,7 +23,7 @@ func TestStrictDecode(t *testing.T) {
 		_, err := StrictDecode([]byte(test.Input), decoded)
 		hasErr := err != nil
 
-		asserts.Equals(t, test.Error, hasErr)
-		asserts.Equals(t, test.Expected, decoded)
+		assert.Equals(t, test.Error, hasErr)
+		assert.Equals(t, test.Expected, decoded)
 	})
 }

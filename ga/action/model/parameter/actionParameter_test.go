@@ -3,7 +3,7 @@ package parameter
 import (
 	"encoding/json"
 	"go-actions/ga/cr"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"testing"
 )
 
@@ -11,11 +11,11 @@ func TestNewParameter(t *testing.T) {
 	parameter := NewActionParameter("uid", "test", "default value")
 
 	t.Run("test new parameter", func(t *testing.T) {
-		asserts.Equals(t, "test", parameter.Name)
-		asserts.Equals(t, "default value", parameter.value)
-		asserts.Equals(t, "default value", parameter.defaultValue)
-		asserts.Equals(t, parameter.value, parameter.Value())
-		asserts.Equals(t, parameter.defaultValue, parameter.DefaultValue())
+		assert.Equals(t, "test", parameter.Name)
+		assert.Equals(t, "default value", parameter.value)
+		assert.Equals(t, "default value", parameter.defaultValue)
+		assert.Equals(t, parameter.value, parameter.Value())
+		assert.Equals(t, parameter.defaultValue, parameter.DefaultValue())
 	})
 
 	t.Run("test set parameter", func(t *testing.T) {
@@ -23,8 +23,8 @@ func TestNewParameter(t *testing.T) {
 		newVal := "test"
 		param := NewActionParameter("uid", "test", defaultVal)
 		param.SetValue(newVal)
-		asserts.Equals(t, newVal, param.Value())
-		asserts.Equals(t, defaultVal, param.DefaultValue())
+		assert.Equals(t, newVal, param.Value())
+		assert.Equals(t, defaultVal, param.DefaultValue())
 	})
 }
 
@@ -37,7 +37,7 @@ func TestMarshalParameter(t *testing.T) {
 		t.Errorf("error marshalling parameter: got %v", err)
 	}
 
-	asserts.Equals(t, expectedMarshalResult, string(marshalled))
+	assert.Equals(t, expectedMarshalResult, string(marshalled))
 }
 
 func TestUnmarshalParameter(t *testing.T) {
@@ -55,6 +55,6 @@ func TestUnmarshalParameter(t *testing.T) {
 			t.Errorf("error unmarshalling parameter: got %v", err)
 		}
 
-		asserts.Equals(t, test.Expected, parameter.value)
+		assert.Equals(t, test.Expected, parameter.value)
 	})
 }

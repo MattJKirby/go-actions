@@ -3,7 +3,7 @@ package app
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	ta "go-actions/ga/testing/testActions"
 	"testing"
 )
@@ -27,8 +27,8 @@ func TestInitialiseNewAction(t *testing.T) {
 	}
 
 	actual, err := InitialiseNewAction(mockConfig, definition)
-	asserts.Equals(t, expected, actual)
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, expected, actual)
+	assert.Equals(t, nil, err)
 }
 
 func TestInitialiseTypedAction(t *testing.T) {
@@ -53,8 +53,8 @@ func TestInitialiseTypedAction(t *testing.T) {
 
 			actual, err := InitialiseNewTypedAction(app.actionConfig, def, test.props)
 
-			asserts.Equals(t, expectedInstantiatedTypedAction, actual)
-			asserts.Equals(t, nil, err)
+			assert.Equals(t, expectedInstantiatedTypedAction, actual)
+			assert.Equals(t, nil, err)
 		})
 	}
 }

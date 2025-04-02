@@ -2,7 +2,7 @@ package store
 
 import (
 	"encoding/json"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"testing"
 )
 
@@ -28,8 +28,8 @@ func TestInsert(t *testing.T) {
 			store.Insert("exists", existingProp)
 
 			err := store.Insert(test.input, &prop{})
-			asserts.Equals(t, test.expectedLen, len(store.entries))
-			asserts.Equals(t, test.err, err != nil)
+			assert.Equals(t, test.expectedLen, len(store.entries))
+			assert.Equals(t, test.err, err != nil)
 		})
 	}
 }
@@ -52,8 +52,8 @@ func TestGet2(t *testing.T) {
 			store.Insert("id", existingProp)
 
 			retrieved, err := store.Get(test.key)
-			asserts.Equals(t, test.expect, retrieved)
-			asserts.Equals(t, test.err, err != nil)
+			assert.Equals(t, test.expect, retrieved)
+			assert.Equals(t, test.err, err != nil)
 		})
 	}
 }
@@ -81,8 +81,8 @@ func TestGetDefault(t *testing.T) {
 				return defaultProp
 			})
 
-			asserts.Equals(t, test.expected, retrieved)
-			asserts.Equals(t, test.expectedLen, len(store.entries))
+			assert.Equals(t, test.expected, retrieved)
+			assert.Equals(t, test.expectedLen, len(store.entries))
 		})
 	}
 }
@@ -93,8 +93,8 @@ func TestMarshal(t *testing.T) {
 
 	marshalled, err := json.Marshal(store)
 
-	asserts.Equals(t, []byte(`[{"Id":"id","Value":{"Val":"val"}}]`), marshalled)
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, []byte(`[{"Id":"id","Value":{"Val":"val"}}]`), marshalled)
+	assert.Equals(t, nil, err)
 }
 
 func TestUnmarshal(t *testing.T) {
@@ -118,8 +118,8 @@ func TestUnmarshal(t *testing.T) {
 
 			err := json.Unmarshal([]byte(test.input), store)
 
-			asserts.Equals(t, test.err, err != nil)
-			asserts.Equals(t, test.expectedValue, store.entries["id"])
+			assert.Equals(t, test.err, err != nil)
+			assert.Equals(t, test.expectedValue, store.entries["id"])
 		})
 	}
 }
@@ -130,6 +130,6 @@ func TestUnsafeDecodeMarshal(t *testing.T) {
 	)
 
 	err := json.Unmarshal([]byte(`[{"id":"id","Value":{"Val":"val"}}]`), store)
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, &prop{"val"}, store.entries["id"])
+	assert.Equals(t, nil, err)
+	assert.Equals(t, &prop{"val"}, store.entries["id"])
 }

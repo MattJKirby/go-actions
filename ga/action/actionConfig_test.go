@@ -1,12 +1,12 @@
 package action
 
 import (
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"testing"
 )
 
 func TestGenerateUid(t *testing.T) {
 	config := NewConfig()
 
-	asserts.Equals(t, 36, len(config.GenerateUid()))
+	assert.Equals(t, 36, len(config.GenerateUid()))
 }

@@ -2,7 +2,7 @@ package store
 
 import (
 	"encoding/json"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"testing"
 )
 
@@ -20,8 +20,8 @@ func TestNewProperty(t *testing.T) {
 
 	err := store.NewProperty(&IdProp{Id: "id", Value: "val"})
 
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, 1, len(store.entries))
+	assert.Equals(t, nil, err)
+	assert.Equals(t, 1, len(store.entries))
 }
 
 func TestMarshalx(t *testing.T) {
@@ -30,8 +30,8 @@ func TestMarshalx(t *testing.T) {
 
 	marshalled, err := json.Marshal(store)
 
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, `[{"Id":"id","Value":"val"}]`, string(marshalled))
+	assert.Equals(t, nil, err)
+	assert.Equals(t, `[{"Id":"id","Value":"val"}]`, string(marshalled))
 }
 
 func TestUnmarshalUpdate(t *testing.T) {
@@ -54,8 +54,8 @@ func TestUnmarshalUpdate(t *testing.T) {
 			store.NewProperty(IdProp{Id: "id", Value: "0"})
 
 			err := store.UnmarshalJSON([]byte(test.input))
-			asserts.Equals(t, test.expectErr, err != nil)
-			asserts.Equals(t, test.expected, store.entries[test.expectedId])
+			assert.Equals(t, test.expectErr, err != nil)
+			assert.Equals(t, test.expected, store.entries[test.expectedId])
 		})
 	}
 }

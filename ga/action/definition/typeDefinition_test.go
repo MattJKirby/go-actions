@@ -2,7 +2,7 @@ package definition
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	ta "go-actions/ga/testing/testActions"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 	"reflect"
@@ -26,22 +26,22 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 
 	defReg := TypeDefinitionFromRegistration(&reg)
 
-	asserts.Equals(t, expectedTypeName, defReg.TypeName)
-	asserts.Equals(t, expectedTypePath, defReg.TypePath)
-	asserts.Equals(t, expectedType, defReg.ActionType)
-	asserts.Equals(t, expectedValue, defReg.ActionValue)
-	asserts.Equals(t, expectedCtor, defReg.CtorValue.Pointer())
-	asserts.Equals(t, expectedCtorType, defReg.CtorType)
-	asserts.Equals(t, expectedPropsType, defReg.PropsType)
-	asserts.Equals(t, expectedPropsValue, defReg.PropsValue)
-	asserts.Equals(t, expectedTriggerValue, defReg.Trigger)
+	assert.Equals(t, expectedTypeName, defReg.TypeName)
+	assert.Equals(t, expectedTypePath, defReg.TypePath)
+	assert.Equals(t, expectedType, defReg.ActionType)
+	assert.Equals(t, expectedValue, defReg.ActionValue)
+	assert.Equals(t, expectedCtor, defReg.CtorValue.Pointer())
+	assert.Equals(t, expectedCtorType, defReg.CtorType)
+	assert.Equals(t, expectedPropsType, defReg.PropsType)
+	assert.Equals(t, expectedPropsValue, defReg.PropsValue)
+	assert.Equals(t, expectedTriggerValue, defReg.Trigger)
 }
 
 func TestTriggerDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionTriggerValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
 
-	asserts.Equals(t, true, defReg.Trigger)
+	assert.Equals(t, true, defReg.Trigger)
 }
 
 func TestNewDefaultProps(t *testing.T) {
@@ -51,8 +51,8 @@ func TestNewDefaultProps(t *testing.T) {
 	newProps := defReg.NewDefaultProps()
 	typeAssertedProps, ok := newProps.(ta.ActionValidProps)
 
-	asserts.Equals(t, true, ok)
-	asserts.Equals(t, *reg.DefaultProps, typeAssertedProps)
+	assert.Equals(t, true, ok)
+	assert.Equals(t, *reg.DefaultProps, typeAssertedProps)
 }
 
 func TestValidatePropsType(t *testing.T) {
@@ -77,7 +77,7 @@ func TestValidatePropsType(t *testing.T) {
 			err := defReg.ValidatePropsType(test.props)
 			hasErr := err != nil
 
-			asserts.Equals(t, test.expectErr, hasErr)
+			assert.Equals(t, test.expectErr, hasErr)
 		})
 	}
 }
@@ -109,9 +109,9 @@ func TestNewConstructorWithValidProps(t *testing.T) {
 			testAction, err := testCtor(testInst, test.props)
 			hasErr := err != nil
 
-			asserts.Equals(t, test.expectErr, hasErr)
-			asserts.Equals(t, test.expectedInstance, testInst)
-			asserts.Equals(t, test.expectedAction, testAction)
+			assert.Equals(t, test.expectErr, hasErr)
+			assert.Equals(t, test.expectedInstance, testInst)
+			assert.Equals(t, test.expectedAction, testAction)
 		})
 	}
 }

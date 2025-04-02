@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/app"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"go-actions/ga/testing/testActions"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 	"testing"
@@ -39,8 +39,8 @@ func TestNewAction(t *testing.T) {
 	flowDef := NewFlowDefinition()
 	act, err := flowDef.NewAction(a, "ActionValidEmpty")
 
-	asserts.Equals(t, true, flowDef.Actions[act.InitialisedInstance.Model.ActionUid] != nil)
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, true, flowDef.Actions[act.InitialisedInstance.Model.ActionUid] != nil)
+	assert.Equals(t, nil, err)
 }
 
 func TestMarshalFlowDefinition(t *testing.T) {
@@ -52,6 +52,6 @@ func TestMarshalFlowDefinition(t *testing.T) {
 
 	marshalled, err := json.Marshal(flowDef)
 	expected := fmt.Sprintf(`{"Actions":{"%s":%s}}`, instance.Model.ActionUid, marshalledInstance)
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, expected, string(marshalled))
+	assert.Equals(t, nil, err)
+	assert.Equals(t, expected, string(marshalled))
 }

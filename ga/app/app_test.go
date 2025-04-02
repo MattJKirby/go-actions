@@ -4,7 +4,7 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/model"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	ta "go-actions/ga/testing/testActions"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 
@@ -36,8 +36,8 @@ func TestGetDefinitionByName(t *testing.T) {
 
 	expectedTypeDef := definition.TypeDefinitionFromRegistration(&reg)
 
-	asserts.Equals(t, expectedTypeDef, result)
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, expectedTypeDef, result)
+	assert.Equals(t, nil, err)
 }
 
 func TestAppGetActionByName(t *testing.T) {
@@ -56,7 +56,7 @@ func TestAppGetActionByName(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			_, err := GetActionByName(test.inputName)(app)
 			hasErr := err != nil
-			asserts.Equals(t, test.expectErr, hasErr)
+			assert.Equals(t, test.expectErr, hasErr)
 		})
 	}
 }
@@ -66,5 +66,5 @@ func TestGetAction(t *testing.T) {
 
 	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, nil, err)
 }

@@ -2,7 +2,7 @@ package input
 
 import (
 	"go-actions/ga/action/model/io"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 	"testing"
 )
@@ -16,6 +16,6 @@ func TestAssignSourceReference(t *testing.T) {
 	input.AssignSourceReference(ref)
 
 	stored, err := input.SourceReferences.Get(ref.ReferenceUid)
-	asserts.Equals(t, ref.GetSourceReference(), stored)
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, ref.GetSourceReference(), stored)
+	assert.Equals(t, nil, err)
 }

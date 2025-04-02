@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/cr"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	ta "go-actions/ga/testing/testActions"
 	"reflect"
 	"testing"
@@ -26,7 +26,7 @@ func TestAcceptAction(t *testing.T) {
 		t.Errorf("test actions by name: got: %d, expected: %d", abt, 1)
 	}
 
-	asserts.Equals(t, nil, err)
+	assert.Equals(t, nil, err)
 }
 
 func TestGetActionByType(t *testing.T) {
@@ -76,8 +76,8 @@ func TestGetActionByName(t *testing.T) {
 			t.Helper()
 			result, err := getRegisteredTypeDefinitionByName(test.input)(registry)
 			fmt.Println(err)
-			asserts.Equals(t, test.returnsNil, result == nil)
-			asserts.Equals(t, test.hasError, err != nil)
+			assert.Equals(t, test.returnsNil, result == nil)
+			assert.Equals(t, test.hasError, err != nil)
 		})
 	}
 

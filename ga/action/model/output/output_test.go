@@ -2,7 +2,7 @@ package output
 
 import (
 	"go-actions/ga/action/model/io"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"go-actions/ga/testing/testHelpers/actionTestHelpers"
 	"testing"
 )
@@ -16,6 +16,6 @@ func TestAssignTargetReference(t *testing.T) {
 	output.AssignTargetReference(ref)
 
 	stored, err := output.TargetReferences.Get(ref.ReferenceUid)
-	asserts.Equals(t, nil, err)
-	asserts.Equals(t, ref.GetTargetReference(), stored)
+	assert.Equals(t, nil, err)
+	assert.Equals(t, ref.GetTargetReference(), stored)
 }

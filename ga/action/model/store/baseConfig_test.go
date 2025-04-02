@@ -1,7 +1,7 @@
 package store
 
 import (
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"testing"
 )
 
@@ -10,5 +10,5 @@ func TestWithUnsafeDecode(t *testing.T) {
 		WithUnsafeUpdate[prop](true),
 	)
 
-	asserts.Equals(t, true, store.config.unsafeUpdate)
+	assert.Equals(t, true, store.config.unsafeUpdate)
 }

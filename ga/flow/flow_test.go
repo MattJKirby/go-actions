@@ -2,7 +2,7 @@ package flow
 
 import (
 	"go-actions/ga/app"
-	"go-actions/ga/cr/asserts"
+	"go-actions/ga/testing/assert"
 	"go-actions/ga/testing/testActions"
 	"testing"
 )
@@ -41,8 +41,8 @@ func TestAddAction(t *testing.T) {
 			def := NewFlowDefinition()
 			f := NewFlow(a, def)
 			_, err := NewFlowAction[testActions.ActionValidEmpty](f, &testActions.ActionValidEmptyProps{})
-			asserts.Equals(t, tc.expectedActions, len(f.flowDefinition.Actions))
-			asserts.Equals(t, tc.err, err != nil)
+			assert.Equals(t, tc.expectedActions, len(f.flowDefinition.Actions))
+			assert.Equals(t, tc.err, err != nil)
 		})
 	}
 }
