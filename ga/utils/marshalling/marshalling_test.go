@@ -1,7 +1,6 @@
 package marshalling
 
 import (
-	"go-actions/ga/cr"
 	"go-actions/ga/testing/assert"
 
 	"testing"
@@ -13,17 +12,24 @@ func TestStrictDecode(t *testing.T) {
 		B string
 	}
 
-	tests := []cr.TestCase[string, *decodeType]{
-		{Name: "valid", Input: `{"A":"atest","B":"btest"}`, Expected: &decodeType{"atest", "btest"}, Error: false},
-		{Name: "unexpected value", Input: `{"A":"","B":"","C":"ctest"}`, Expected: &decodeType{}, Error: true},
+	tests := []struct {
+		name     string
+		input    string
+		expected *decodeType
+		err      bool
+	}{
+		{name: "valid", input: `{"A":"atest","B":"btest"}`, expected: &decodeType{"atest", "btest"}, err: false},
+		{name: "unexpected value", input: `{"A":"","B":"","C":"ctest"}`, expected: &decodeType{}, err: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[string, *decodeType]) {
-		decoded := &decodeType{}
-		_, err := StrictDecode([]byte(test.Input), decoded)
-		hasErr := err != nil
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			decoded := &decodeType{}
+			_, err := StrictDecode([]byte(test.input), decoded)
+			hasErr := err != nil
 
-		assert.Equals(t, test.Error, hasErr)
-		assert.Equals(t, test.Expected, decoded)
-	})
+			assert.Equals(t, test.err, hasErr)
+			assert.Equals(t, test.expected, decoded)
+		})
+	}
 }

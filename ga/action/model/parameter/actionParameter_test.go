@@ -2,7 +2,6 @@ package parameter
 
 import (
 	"encoding/json"
-	"go-actions/ga/cr"
 	"go-actions/ga/testing/assert"
 	"testing"
 )
@@ -41,20 +40,27 @@ func TestMarshalParameter(t *testing.T) {
 }
 
 func TestUnmarshalParameter(t *testing.T) {
-	tests := []cr.TestCase[string, string]{
-		{Name: "unmarshal valid marshalled input", Input: `{"Name":"parameterName","Value":"changedVal"}`, Expected: "changedVal", Error: false},
-		{Name: "unmarshal invalid marshalled input (bad name)", Input: `{"Name":"badName","Value":"changedVal"}`, Expected: "defaultVal", Error: true},
-		{Name: "unmarshal invalid marshalled input (bad input)", Input: `{"Name":"parameterName","Value":0}`, Expected: "defaultVal", Error: true},
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+		err      bool
+	}{
+		{name: "unmarshal valid marshalled input", input: `{"Name":"parameterName","Value":"changedVal"}`, expected: "changedVal", err: false},
+		{name: "unmarshal invalid marshalled input (bad name)", input: `{"Name":"badName","Value":"changedVal"}`, expected: "defaultVal", err: true},
+		{name: "unmarshal invalid marshalled input (bad input)", input: `{"Name":"parameterName","Value":0}`, expected: "defaultVal", err: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[string, string]) {
-		parameter := NewActionParameter("uid", "parameterName", "defaultVal")
-		err := json.Unmarshal([]byte(test.Input), parameter)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			parameter := NewActionParameter("uid", "parameterName", "defaultVal")
+			err := json.Unmarshal([]byte(test.input), parameter)
 
-		if test.Error != (err != nil) {
-			t.Errorf("error unmarshalling parameter: got %v", err)
-		}
+			if test.err != (err != nil) {
+				t.Errorf("error unmarshalling parameter: got %v", err)
+			}
 
-		assert.Equals(t, test.Expected, parameter.value)
-	})
+			assert.Equals(t, test.expected, parameter.value)
+		})
+	}
 }

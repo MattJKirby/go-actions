@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/cr"
 	"go-actions/ga/testing/assert"
 	ta "go-actions/ga/testing/testActions"
 	"reflect"
@@ -36,24 +35,31 @@ func TestGetActionByType(t *testing.T) {
 
 	acceptRegistration(&registration)(registry)
 
-	tests := []cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]]{
-		{Name: "existing def", Input: def.ActionType, Expected: def},
-		{Name: "not existing def", Input: reflect.TypeOf("err"), Expected: nil, Error: true},
+	tests := []struct {
+		name     string
+		input    reflect.Type
+		expected *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]
+		err      bool
+	}{
+		{name: "existing def", input: def.ActionType, expected: def},
+		{name: "not existing def", input: reflect.TypeOf("err"), expected: nil, err: true},
 	}
 
-	cr.CaseRunner(t, tests, func(test cr.TestCase[reflect.Type, *definition.ActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps]]) {
-		storedDef, err := getTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.Input)(registry)
-		hasErr := err != nil
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			storedDef, err := getTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.input)(registry)
+			hasErr := err != nil
 
-		if test.Error != hasErr {
-			t.Errorf("test %s: expected an error but got none", test.Name)
-			return
-		}
+			if test.err != hasErr {
+				t.Errorf("test %s: expected an error but got none", test.name)
+				return
+			}
 
-		if !test.Error && storedDef.Name != test.Expected.Name {
-			t.Errorf("test %s: got %v, expected %v", test.Name, storedDef, test.Expected)
-		}
-	})
+			if !test.err && storedDef.Name != test.expected.Name {
+				t.Errorf("test %s: got %v, expected %v", test.name, storedDef, test.expected)
+			}
+		})
+	}
 }
 
 func TestGetActionByName(t *testing.T) {
@@ -73,12 +79,10 @@ func TestGetActionByName(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			t.Helper()
 			result, err := getRegisteredTypeDefinitionByName(test.input)(registry)
 			fmt.Println(err)
 			assert.Equals(t, test.returnsNil, result == nil)
 			assert.Equals(t, test.hasError, err != nil)
 		})
 	}
-
 }
