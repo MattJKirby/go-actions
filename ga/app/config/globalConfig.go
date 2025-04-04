@@ -1,7 +1,7 @@
 package config
 
 import (
-	"go-actions/ga/utils/config"
+	"go-actions/ga/utils/packageConfig"
 	"go-actions/ga/utils/uid"
 )
 
@@ -16,7 +16,7 @@ func DefaultGlobalConfig() *GlobalConfig {
 	}
 }
 
-func WithCustomUidGenerator(gen uid.UidGenerator) config.Option[GlobalConfig] {
+func WithCustomUidGenerator(gen uid.UidGenerator) packageConfig.Option[GlobalConfig] {
 	return func(gc *GlobalConfig) {
 		gc.UidGenerator = gen
 	}

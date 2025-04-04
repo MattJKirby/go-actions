@@ -10,7 +10,7 @@ import (
 
 func appWithValidActionRegistration() (*App, action.GoActionRegistration[ta.ActionValid, ta.ActionValidProps]) {
 	app := NewApp("test")
-	app.actionConfig = mockConfig
+	app.appConfig = mockAppConfig
 	registration := ta.GenerateActionValidRegistration()
 	RegisterAction(&registration)(app)
 	return app, registration
@@ -19,14 +19,14 @@ func appWithValidActionRegistration() (*App, action.GoActionRegistration[ta.Acti
 func TestInitialiseNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 	definition := definition.TypeDefinitionFromRegistration(&reg)
-	instance := action.NewActionInstance("ActionValidEmpty", mockConfig)
+	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig)
 
 	expected := &InitialisedAction{
 		Action:              reg.Constructor(instance, ta.ActionValidEmptyProps{}),
 		InitialisedInstance: instance,
 	}
 
-	actual, err := InitialiseNewAction(mockConfig, definition)
+	actual, err := InitialiseNewAction(mockGlobalConfig, definition)
 	assert.Equals(t, expected, actual)
 	assert.Equals(t, nil, err)
 }
@@ -45,13 +45,13 @@ func TestInitialiseTypedAction(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			instance := action.NewActionInstance(def.TypeName, mockConfig)
+			instance := action.NewActionInstance(def.TypeName, mockGlobalConfig)
 			expectedInstantiatedTypedAction := &InitialisedTypedAction[ta.ActionValid]{
 				Action:              reg.Constructor(instance, *test.props),
 				InitialisedInstance: instance,
 			}
 
-			actual, err := InitialiseNewTypedAction(app.actionConfig, def, test.props)
+			actual, err := InitialiseNewTypedAction(app.appConfig.Global, def, test.props)
 
 			assert.Equals(t, expectedInstantiatedTypedAction, actual)
 			assert.Equals(t, nil, err)

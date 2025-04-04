@@ -5,11 +5,15 @@ import (
 	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/app"
+	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	"go-actions/ga/utils/testing/testActions"
 	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
+
+var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 // func TestAddInstance(t *testing.T) {
 // 	flowDef := NewFlowDefinition()
@@ -45,7 +49,7 @@ func TestNewAction(t *testing.T) {
 
 func TestMarshalFlowDefinition(t *testing.T) {
 	flowDef := NewFlowDefinition()
-	instance := action.NewActionInstance("someInstance", &testHelpers.MockUidGenerator{MockUid: "abc"})
+	instance := action.NewActionInstance("someInstance", mockConfig)
 
 	flowDef.AddInstance(instance)
 	marshalledInstance, _ := json.Marshal(instance)

@@ -6,13 +6,15 @@ import (
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
+	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	"go-actions/ga/utils/testing/testHelpers"
 
 	"testing"
 )
 
-var mockConfig = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestNewActionInstance(t *testing.T) {
 	instance := NewActionInstance("test", mockConfig)

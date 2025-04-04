@@ -2,6 +2,7 @@ package definition
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
 	"go-actions/ga/utils/testing/testHelpers"
@@ -9,7 +10,8 @@ import (
 	"testing"
 )
 
-var mockConfig = &testHelpers.MockUidGenerator{MockUid: "abc"}
+var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()

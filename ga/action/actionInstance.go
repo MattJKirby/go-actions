@@ -6,15 +6,16 @@ import (
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/action/model/store"
+	"go-actions/ga/app/config"
 )
 
 type ActionInstance struct {
 	Model *model.ActionModel `json:"model"`
 }
 
-func NewActionInstance(actionName string, modelConfig model.ActionConfig) *ActionInstance {
+func NewActionInstance(actionName string, globalConfig *config.GlobalConfig) *ActionInstance {
 	return &ActionInstance{
-		Model: model.NewActionModel(actionName, modelConfig),
+		Model: model.NewActionModel(actionName, globalConfig),
 	}
 }
 

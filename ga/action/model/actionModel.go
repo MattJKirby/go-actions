@@ -5,6 +5,7 @@ import (
 	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/store"
+	"go-actions/ga/app/config"
 )
 
 type ActionModel struct {
@@ -15,12 +16,8 @@ type ActionModel struct {
 	Outputs    *store.PropertyStore[output.ActionOutput]        `json:"outputs"`
 }
 
-type ActionConfig interface {
-	GenerateUid() string
-}
-
-func NewActionModel(typename string, config ActionConfig) *ActionModel {
-	ActionUid := fmt.Sprintf("%s:%s", typename, config.GenerateUid())
+func NewActionModel(typename string, globalConfig *config.GlobalConfig) *ActionModel {
+	ActionUid := fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid())
 	return &ActionModel{
 		ActionName: typename,
 		ActionUid:  ActionUid,

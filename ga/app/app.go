@@ -4,8 +4,10 @@ import (
 	"context"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/model"
+	"go-actions/ga/app/config"
 	"go-actions/ga/utils"
+	"go-actions/ga/utils/packageConfig"
+
 	"reflect"
 )
 
@@ -13,15 +15,15 @@ type App struct {
 	Name           string
 	ctx            context.Context
 	actionRegistry *actionRegistry
-	actionConfig   model.ActionConfig
+	appConfig  	*config.ApplicationConfig
 }
 
-func NewApp(name string) *App {
+func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig]) *App {
 	return &App{
 		Name:           name,
 		ctx:            context.Background(),
 		actionRegistry: newActionRegistry(),
-		actionConfig:   action.NewConfig(),
+		appConfig:   packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
 	}
 }
 
@@ -51,7 +53,7 @@ func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 		if err != nil {
 			return nil, err
 		}
-		return InitialiseNewAction(app.actionConfig, typeDef)
+		return InitialiseNewAction(app.appConfig.Global, typeDef)
 	}
 }
 
@@ -62,6 +64,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 			return nil, err
 		}
 
-		return InitialiseNewTypedAction(app.actionConfig, def, props)
+		return InitialiseNewTypedAction(app.appConfig.Global, def, props)
 	}
 }

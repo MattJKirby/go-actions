@@ -3,7 +3,7 @@ package app
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/model"
+	"go-actions/ga/app/config"
 )
 
 type InitialisedAction struct {
@@ -11,7 +11,7 @@ type InitialisedAction struct {
 	InitialisedInstance *action.ActionInstance
 }
 
-func InitialiseNewAction(config model.ActionConfig, typeDef *definition.ActionTypeDefinition) (*InitialisedAction, error) {
+func InitialiseNewAction(config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*InitialisedAction, error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config)
 	defaultProps := typeDef.NewDefaultProps()
 	ctor := typeDef.NewConstructor()
@@ -31,7 +31,7 @@ type InitialisedTypedAction[T action.GoAction] struct {
 	InitialisedInstance *action.ActionInstance
 }
 
-func InitialiseNewTypedAction[T action.GoAction, P action.GoActionProps](config model.ActionConfig, def *definition.ActionDefinition[T, P], props *P) (*InitialisedTypedAction[T], error) {
+func InitialiseNewTypedAction[T action.GoAction, P action.GoActionProps](config *config.GlobalConfig, def *definition.ActionDefinition[T, P], props *P) (*InitialisedTypedAction[T], error) {
 	instance := action.NewActionInstance(def.TypeName, config)
 	if props == nil {
 		props = def.DefaultProps

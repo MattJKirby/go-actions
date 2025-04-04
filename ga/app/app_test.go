@@ -3,7 +3,7 @@ package app
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/action/model"
+	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
 	"go-actions/ga/utils/testing/testHelpers"
@@ -11,18 +11,20 @@ import (
 	"testing"
 )
 
-var mockConfig = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var mockAppConfig = &config.ApplicationConfig{Global: mockGlobalConfig}
 
-func appWithEmptyRegistration(config model.ActionConfig) (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
+func appWithEmptyRegistration() (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
 	app := NewApp("test")
-	app.actionConfig = config
+	app.appConfig = mockAppConfig
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
 	return app, registration
 }
 
 func TestRegisterActionAndGet(t *testing.T) {
-	app, _ := appWithEmptyRegistration(mockConfig)
+	app, _ := appWithEmptyRegistration()
 	result, _ := GetDefinitionByType[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
 
 	if result == nil {
@@ -31,7 +33,7 @@ func TestRegisterActionAndGet(t *testing.T) {
 }
 
 func TestGetDefinitionByName(t *testing.T) {
-	app, reg := appWithEmptyRegistration(mockConfig)
+	app, reg := appWithEmptyRegistration()
 	result, err := GetDefinitionByName("ActionValidEmpty")(app)
 
 	expectedTypeDef := definition.TypeDefinitionFromRegistration(&reg)
@@ -41,7 +43,7 @@ func TestGetDefinitionByName(t *testing.T) {
 }
 
 func TestAppGetActionByName(t *testing.T) {
-	app, _ := appWithEmptyRegistration(mockConfig)
+	app, _ := appWithEmptyRegistration()
 
 	tests := []struct {
 		name      string
@@ -62,7 +64,7 @@ func TestAppGetActionByName(t *testing.T) {
 }
 
 func TestGetAction(t *testing.T) {
-	app, _ := appWithEmptyRegistration(mockConfig)
+	app, _ := appWithEmptyRegistration()
 
 	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
 

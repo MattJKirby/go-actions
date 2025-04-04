@@ -1,6 +1,6 @@
 package config
 
-import "go-actions/ga/utils/config"
+import "go-actions/ga/utils/packageConfig"
 
 
 type ApplicationConfig struct {
@@ -9,16 +9,16 @@ type ApplicationConfig struct {
 
 func DefaultApplicationConfig() *ApplicationConfig {
 	return &ApplicationConfig{
-		Global: config.NewPackageConfig(DefaultGlobalConfig()),
+		Global: packageConfig.NewPackageConfig(DefaultGlobalConfig()),
 	}
 }
 
-func NewAppConfig(opts ...config.Option[ApplicationConfig]) *ApplicationConfig {
-	return config.NewPackageConfig(DefaultApplicationConfig(), opts...)
+func NewAppConfig(opts ...packageConfig.Option[ApplicationConfig]) *ApplicationConfig {
+	return packageConfig.NewPackageConfig(DefaultApplicationConfig(), opts...)
 }
 
-func WithGlobalConfig(globalOpts ...config.Option[GlobalConfig]) config.Option[ApplicationConfig] {
+func WithGlobalConfig(globalOpts ...packageConfig.Option[GlobalConfig]) packageConfig.Option[ApplicationConfig] {
 	return func(ac *ApplicationConfig) {
-		ac.Global = config.NewPackageConfig(DefaultGlobalConfig(), globalOpts...)
+		ac.Global = packageConfig.NewPackageConfig(DefaultGlobalConfig(), globalOpts...)
 	}
 }

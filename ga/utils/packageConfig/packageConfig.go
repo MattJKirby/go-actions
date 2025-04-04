@@ -1,4 +1,4 @@
-package config
+package packageConfig
 
 type Option[T any] func(*T)
 
