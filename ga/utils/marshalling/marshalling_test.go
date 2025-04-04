@@ -1,7 +1,7 @@
 package marshalling
 
 import (
-	"go-actions/ga/testing/assert"
+	"go-actions/ga/utils/testing/assert"
 
 	"testing"
 )

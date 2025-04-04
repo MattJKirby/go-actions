@@ -2,8 +2,8 @@ package flow
 
 import (
 	"go-actions/ga/app"
-	"go-actions/ga/testing/assert"
-	"go-actions/ga/testing/testActions"
+	"go-actions/ga/utils/testing/assert"
+	"go-actions/ga/utils/testing/testActions"
 	"testing"
 )
 

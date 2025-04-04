@@ -1,8 +1,8 @@
 package io
 
 import (
-	"go-actions/ga/testing/assert"
-	"go-actions/ga/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/assert"
+	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
 	"testing"
 )
 

@@ -2,8 +2,8 @@ package output
 
 import (
 	"go-actions/ga/action/model/io"
-	"go-actions/ga/testing/assert"
-	"go-actions/ga/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/assert"
+	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
 	"testing"
 )
 

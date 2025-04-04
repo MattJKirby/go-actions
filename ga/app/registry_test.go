@@ -3,8 +3,8 @@ package app
 import (
 	"fmt"
 	"go-actions/ga/action/definition"
-	"go-actions/ga/testing/assert"
-	ta "go-actions/ga/testing/testActions"
+	"go-actions/ga/utils/testing/assert"
+	ta "go-actions/ga/utils/testing/testActions"
 	"reflect"
 	"testing"
 )

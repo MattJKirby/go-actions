@@ -4,9 +4,9 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/model"
-	"go-actions/ga/testing/assert"
-	ta "go-actions/ga/testing/testActions"
-	"go-actions/ga/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/assert"
+	ta "go-actions/ga/utils/testing/testActions"
+	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
 
 	"testing"
 )

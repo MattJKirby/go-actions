@@ -2,9 +2,9 @@ package definition
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/testing/assert"
-	ta "go-actions/ga/testing/testActions"
-	"go-actions/ga/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/assert"
+	ta "go-actions/ga/utils/testing/testActions"
+	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
 	"reflect"
 	"testing"
 )
@@ -15,7 +15,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
 
 	expectedTypeName := "ActionValidEmpty"
-	expectedTypePath := "go-actions/ga/testing/testActions/testActions.ActionValidEmpty"
+	expectedTypePath := "go-actions/ga/utils/testing/testActions/testActions.ActionValidEmpty"
 	expectedType := reflect.TypeOf(ta.ActionValidEmpty{})
 	expectedValue := reflect.ValueOf(&ta.ActionValidEmpty{})
 	expectedCtor := reflect.ValueOf(reg.Constructor).Pointer()

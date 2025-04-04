@@ -6,8 +6,8 @@ import (
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
-	"go-actions/ga/testing/assert"
-	"go-actions/ga/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/assert"
+	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
 
 	"testing"
 )

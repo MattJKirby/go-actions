@@ -2,7 +2,7 @@ package parameter
 
 import (
 	"encoding/json"
-	"go-actions/ga/testing/assert"
+	"go-actions/ga/utils/testing/assert"
 	"testing"
 )
 
