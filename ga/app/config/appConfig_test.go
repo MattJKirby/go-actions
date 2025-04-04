@@ -10,6 +10,6 @@ func TestWithGlobalConfig(t *testing.T) {
 	WithGlobalConfigOptions(
 		WithCustomUidGenerator(mockUidGenerator),
 	)(cfg)
-	
+
 	assert.Equals(t, "uid", cfg.Global.UidGenerator.GenerateUid())
 }
