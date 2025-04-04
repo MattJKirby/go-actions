@@ -2,6 +2,7 @@ package io
 
 import (
 	"fmt"
+	"go-actions/ga/app/config"
 )
 
 type ActionReference struct {
@@ -15,13 +16,9 @@ type PartialActionReference struct {
 	ActionUid    string `json:"ActionUid"`
 }
 
-type Config interface {
-	GenerateUid() string
-}
-
-func NewActionReference(config Config, sourceUid string, targetUid string) *ActionReference {
+func NewActionReference(globalConfig *config.GlobalConfig, sourceUid string, targetUid string) *ActionReference {
 	return &ActionReference{
-		ReferenceUid:    fmt.Sprintf("ref:%s", config.GenerateUid()),
+		ReferenceUid:    fmt.Sprintf("ref:%s", globalConfig.UidGenerator.GenerateUid()),
 		SourceActionUid: sourceUid,
 		TargetActionUid: targetUid,
 	}
