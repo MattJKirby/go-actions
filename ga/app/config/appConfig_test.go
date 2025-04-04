@@ -7,7 +7,7 @@ import (
 
 func TestWithGlobalConfig(t *testing.T) {
 	cfg := DefaultApplicationConfig()
-	WithGlobalConfig(
+	WithGlobalConfigOptions(
 		WithCustomUidGenerator(mockUidGenerator),
 	)(cfg)
 	

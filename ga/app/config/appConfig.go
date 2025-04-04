@@ -12,7 +12,7 @@ func DefaultApplicationConfig() *ApplicationConfig {
 	}
 }
 
-func WithGlobalConfig(globalOpts ...packageConfig.Option[GlobalConfig]) packageConfig.Option[ApplicationConfig] {
+func WithGlobalConfigOptions(globalOpts ...packageConfig.Option[GlobalConfig]) packageConfig.Option[ApplicationConfig] {
 	return func(ac *ApplicationConfig) {
 		ac.Global = packageConfig.NewPackageConfig(DefaultGlobalConfig(), globalOpts...)
 	}
