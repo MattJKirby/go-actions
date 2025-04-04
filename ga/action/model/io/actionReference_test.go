@@ -10,14 +10,44 @@ import (
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
-func TestGetSourceReference(t *testing.T) {
-	ref := NewActionReference(mockGlobalConfig, "sUid", "tUid")
-	expected := &PartialActionReference{ReferenceUid: ref.ReferenceUid, ActionUid: "sUid"}
-	assert.Equals(t, expected, ref.GetSourceReference())
+type source struct {
+	assignedTarget *PartialActionReference
 }
 
-func TestGetTargetReference(t *testing.T) {
-	ref := NewActionReference(mockGlobalConfig, "sUid", "tUid")
-	expected := &PartialActionReference{ReferenceUid: ref.ReferenceUid, ActionUid: "tUid"}
-	assert.Equals(t, expected, ref.GetTargetReference())
+func (ms *source) GetActionUid() string  { return "sAction" }
+func (ms *source) GetPropertyId() string { return "sProperty" }
+func (ms *source) AssignTargetReference(pref *PartialActionReference) error {
+	ms.assignedTarget = pref
+	return nil
+}
+
+type target struct {
+	assignedSource *PartialActionReference
+}
+
+func (ms *target) GetActionUid() string  { return "tAction" }
+func (ms *target) GetPropertyId() string { return "tProperty" }
+func (ms *target) AssignSourceReference(pref *PartialActionReference) error {
+	ms.assignedSource = pref
+	return nil
+}
+
+func TestGetReferences(t *testing.T) {
+	ref := NewActionReference(mockGlobalConfig, &source{}, &target{})
+	expectedSource := &PartialActionReference{ReferenceUid: ref.referenceUid, ActionUid: "sAction"}
+	expectedTarget := &PartialActionReference{ReferenceUid: ref.referenceUid, ActionUid: "tAction"}
+
+	assert.Equals(t, expectedSource, ref.GetSourceReference())
+	assert.Equals(t, expectedTarget, ref.GetTargetReference())
+}
+
+func TestAssignReferences(t *testing.T) {
+	ms := &source{}
+	mt := &target{}
+	ref := NewActionReference(mockGlobalConfig, ms, mt)
+
+	ref.AssignReferences()
+
+	assert.Equals(t, ref.GetTargetReference(), ms.assignedTarget)
+	assert.Equals(t, ref.GetSourceReference(), mt.assignedSource)
 }

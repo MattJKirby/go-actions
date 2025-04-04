@@ -2,22 +2,17 @@ package input
 
 import (
 	"go-actions/ga/action/model/io"
-	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
 
-var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
-var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
-
 func TestAssignSourceReference(t *testing.T) {
-	ref := io.NewActionReference(mockGlobalConfig, "sourceUid", "targetUid")
+	partial := &io.PartialActionReference{"refUid", "actionUid"}
+
 	input := NewActionInput("name", "targetUid")
+	input.AssignSourceReference(partial)
 
-	input.AssignSourceReference(ref)
-
-	stored, err := input.SourceReferences.Get(ref.ReferenceUid)
-	assert.Equals(t, ref.GetSourceReference(), stored)
+	stored, err := input.SourceReferences.Get(partial.ReferenceUid)
+	assert.Equals(t, partial, stored)
 	assert.Equals(t, nil, err)
 }

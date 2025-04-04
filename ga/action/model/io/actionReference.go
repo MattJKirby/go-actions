@@ -5,10 +5,25 @@ import (
 	"go-actions/ga/app/config"
 )
 
+type ReferencableProperty interface {
+	GetActionUid() string
+	GetPropertyId() string
+}
+
+type ReferencableSource interface {
+	ReferencableProperty
+	AssignTargetReference(*PartialActionReference) error
+}
+
+type ReferencableTarget interface {
+	ReferencableProperty
+	AssignSourceReference(*PartialActionReference) error
+}
+
 type ActionReference struct {
-	ReferenceUid    string `json:"ReferenceUid"`
-	SourceActionUid string `json:"SourceActionUid"`
-	TargetActionUid string `json:"TargetActionUid"`
+	referenceUid string
+	source       ReferencableSource
+	target       ReferencableTarget
 }
 
 type PartialActionReference struct {
@@ -16,11 +31,11 @@ type PartialActionReference struct {
 	ActionUid    string `json:"ActionUid"`
 }
 
-func NewActionReference(globalConfig *config.GlobalConfig, sourceUid string, targetUid string) *ActionReference {
+func NewActionReference(globalConfig *config.GlobalConfig, source ReferencableSource, target ReferencableTarget) *ActionReference {
 	return &ActionReference{
-		ReferenceUid:    fmt.Sprintf("ref:%s", globalConfig.UidGenerator.GenerateUid()),
-		SourceActionUid: sourceUid,
-		TargetActionUid: targetUid,
+		referenceUid: fmt.Sprintf("ref:%s", globalConfig.UidGenerator.GenerateUid()),
+		source:       source,
+		target:       target,
 	}
 }
 
@@ -30,14 +45,24 @@ func (par PartialActionReference) GetPropertyId() string {
 
 func (ar *ActionReference) GetSourceReference() *PartialActionReference {
 	return &PartialActionReference{
-		ReferenceUid: ar.ReferenceUid,
-		ActionUid:    ar.SourceActionUid,
+		ReferenceUid: ar.referenceUid,
+		ActionUid:    ar.source.GetActionUid(),
 	}
 }
 
 func (ar *ActionReference) GetTargetReference() *PartialActionReference {
 	return &PartialActionReference{
-		ReferenceUid: ar.ReferenceUid,
-		ActionUid:    ar.TargetActionUid,
+		ReferenceUid: ar.referenceUid,
+		ActionUid:    ar.target.GetActionUid(),
 	}
+}
+
+func (ar *ActionReference) AssignReferences() error {
+	if err := ar.source.AssignTargetReference(ar.GetTargetReference()); err != nil {
+		return err
+	}
+	if err := ar.target.AssignSourceReference(ar.GetSourceReference()); err != nil {
+		return err
+	}
+	return nil
 }
