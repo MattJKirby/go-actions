@@ -17,10 +17,9 @@ type ActionModel struct {
 }
 
 func NewActionModel(typename string, globalConfig *config.GlobalConfig) *ActionModel {
-	ActionUid := fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid())
 	return &ActionModel{
 		ActionName: typename,
-		ActionUid:  ActionUid,
+		ActionUid:  fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid()),
 		Parameters: store.NewPropertyStore[store.IdentifiableProperty](false),
 		Inputs:     store.NewPropertyStore[input.ActionInput](false),
 		Outputs:    store.NewPropertyStore[output.ActionOutput](false),
