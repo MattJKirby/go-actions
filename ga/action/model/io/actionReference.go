@@ -43,14 +43,14 @@ func (par PartialActionReference) GetPropertyId() string {
 	return par.ReferenceUid
 }
 
-func (ar *ActionReference) GetSourceReference() *PartialActionReference {
+func (ar *ActionReference) getSourceReference() *PartialActionReference {
 	return &PartialActionReference{
 		ReferenceUid: ar.referenceUid,
 		ActionUid:    ar.source.GetActionUid(),
 	}
 }
 
-func (ar *ActionReference) GetTargetReference() *PartialActionReference {
+func (ar *ActionReference) getTargetReference() *PartialActionReference {
 	return &PartialActionReference{
 		ReferenceUid: ar.referenceUid,
 		ActionUid:    ar.target.GetActionUid(),
@@ -58,10 +58,10 @@ func (ar *ActionReference) GetTargetReference() *PartialActionReference {
 }
 
 func (ar *ActionReference) AssignReferences() error {
-	if err := ar.source.AssignTargetReference(ar.GetTargetReference()); err != nil {
+	if err := ar.source.AssignTargetReference(ar.getTargetReference()); err != nil {
 		return err
 	}
-	if err := ar.target.AssignSourceReference(ar.GetSourceReference()); err != nil {
+	if err := ar.target.AssignSourceReference(ar.getSourceReference()); err != nil {
 		return err
 	}
 	return nil

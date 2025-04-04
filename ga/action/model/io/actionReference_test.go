@@ -37,8 +37,8 @@ func TestGetReferences(t *testing.T) {
 	expectedSource := &PartialActionReference{ReferenceUid: ref.referenceUid, ActionUid: "sAction"}
 	expectedTarget := &PartialActionReference{ReferenceUid: ref.referenceUid, ActionUid: "tAction"}
 
-	assert.Equals(t, expectedSource, ref.GetSourceReference())
-	assert.Equals(t, expectedTarget, ref.GetTargetReference())
+	assert.Equals(t, expectedSource, ref.getSourceReference())
+	assert.Equals(t, expectedTarget, ref.getTargetReference())
 }
 
 func TestAssignReferences(t *testing.T) {
@@ -48,6 +48,6 @@ func TestAssignReferences(t *testing.T) {
 
 	ref.AssignReferences()
 
-	assert.Equals(t, ref.GetTargetReference(), ms.assignedTarget)
-	assert.Equals(t, ref.GetSourceReference(), mt.assignedSource)
+	assert.Equals(t, ref.getTargetReference(), ms.assignedTarget)
+	assert.Equals(t, ref.getSourceReference(), mt.assignedSource)
 }
