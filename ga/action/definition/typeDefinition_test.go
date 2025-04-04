@@ -4,12 +4,12 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
-	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/testHelpers"
 	"reflect"
 	"testing"
 )
 
-var mockConfig = &actionTestHelpers.MockActionConfig{MockUid: "abc"}
+var mockConfig = &testHelpers.MockUidGenerator{MockUid: "abc"}
 
 func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()

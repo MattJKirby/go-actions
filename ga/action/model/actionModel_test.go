@@ -3,11 +3,11 @@ package model
 import (
 	"encoding/json"
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
 
-var mockConfig = &actionTestHelpers.MockActionConfig{MockUid: "uid"}
+var mockConfig = &testHelpers.MockUidGenerator{MockUid: "uid"}
 
 func TestMarshalEmptyModel(t *testing.T) {
 	model := NewActionModel("someName", mockConfig)

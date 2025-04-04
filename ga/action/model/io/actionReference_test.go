@@ -2,11 +2,11 @@ package io
 
 import (
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
 
-var config = &actionTestHelpers.MockActionConfig{MockUid: ""}
+var config = &testHelpers.MockUidGenerator{MockUid: ""}
 
 func TestGetSourceReference(t *testing.T) {
 	ref := NewActionReference(config, "sUid", "tUid")

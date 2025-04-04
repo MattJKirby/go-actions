@@ -6,12 +6,12 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
-	"go-actions/ga/utils/testing/testHelpers/actionTestHelpers"
+	"go-actions/ga/utils/testing/testHelpers"
 
 	"testing"
 )
 
-var mockConfig = &actionTestHelpers.MockActionConfig{MockUid: "uid"}
+var mockConfig = &testHelpers.MockUidGenerator{MockUid: "uid"}
 
 func appWithEmptyRegistration(config model.ActionConfig) (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
 	app := NewApp("test")
