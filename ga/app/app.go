@@ -14,16 +14,16 @@ import (
 type App struct {
 	Name           string
 	ctx            context.Context
+	config         *config.ApplicationConfig
 	actionRegistry *actionRegistry
-	appConfig      *config.ApplicationConfig
 }
 
 func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig]) *App {
 	return &App{
 		Name:           name,
 		ctx:            context.Background(),
+		config:         packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
 		actionRegistry: newActionRegistry(),
-		appConfig:      packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
 	}
 }
 
@@ -53,7 +53,7 @@ func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
 		if err != nil {
 			return nil, err
 		}
-		return InitialiseNewAction(app.appConfig.Global, typeDef)
+		return InitialiseNewAction(app.config.Global, typeDef)
 	}
 }
 
@@ -64,6 +64,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 			return nil, err
 		}
 
-		return InitialiseNewTypedAction(app.appConfig.Global, def, props)
+		return InitialiseNewTypedAction(app.config.Global, def, props)
 	}
 }
