@@ -15,7 +15,7 @@ type App struct {
 	Name           string
 	ctx            context.Context
 	actionRegistry *actionRegistry
-	appConfig  	*config.ApplicationConfig
+	appConfig      *config.ApplicationConfig
 }
 
 func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig]) *App {
@@ -23,7 +23,7 @@ func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig])
 		Name:           name,
 		ctx:            context.Background(),
 		actionRegistry: newActionRegistry(),
-		appConfig:   packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
+		appConfig:      packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
 	}
 }
 

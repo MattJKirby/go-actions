@@ -8,4 +8,3 @@ func NewPackageConfig[T any](cfg *T, opts ...Option[T]) *T {
 	}
 	return cfg
 }
-

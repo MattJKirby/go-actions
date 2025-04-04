@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestWithGlobalConfig(t *testing.T){
+func TestWithGlobalConfig(t *testing.T) {
 	appConfig := NewAppConfig(
 		WithGlobalConfig(
 			WithCustomUidGenerator(mockUidGenerator),

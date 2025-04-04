@@ -6,7 +6,7 @@ type UidGenerator interface {
 	GenerateUid() string
 }
 
-type DefaultUidGenerator struct {}
+type DefaultUidGenerator struct{}
 
 func (ug *DefaultUidGenerator) GenerateUid() string {
 	return uuid.New().String()

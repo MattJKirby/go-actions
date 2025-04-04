@@ -5,7 +5,6 @@ import (
 	"go-actions/ga/utils/uid"
 )
 
-
 type GlobalConfig struct {
 	UidGenerator uid.UidGenerator
 }
@@ -21,4 +20,3 @@ func WithCustomUidGenerator(gen uid.UidGenerator) packageConfig.Option[GlobalCon
 		gc.UidGenerator = gen
 	}
 }
-

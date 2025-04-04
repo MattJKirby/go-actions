@@ -2,7 +2,6 @@ package config
 
 import "go-actions/ga/utils/packageConfig"
 
-
 type ApplicationConfig struct {
 	Global *GlobalConfig
 }
