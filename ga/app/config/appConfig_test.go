@@ -6,10 +6,10 @@ import (
 )
 
 func TestWithGlobalConfig(t *testing.T) {
-	appConfig := NewAppConfig(
-		WithGlobalConfig(
-			WithCustomUidGenerator(mockUidGenerator),
-		),
-	)
-	assert.Equals(t, "uid", appConfig.Global.UidGenerator.GenerateUid())
+	cfg := DefaultApplicationConfig()
+	WithGlobalConfig(
+		WithCustomUidGenerator(mockUidGenerator),
+	)(cfg)
+	
+	assert.Equals(t, "uid", cfg.Global.UidGenerator.GenerateUid())
 }
