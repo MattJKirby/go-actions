@@ -17,6 +17,6 @@ func NewActionOutput(name string, actionUid string) *ActionOutput {
 	}
 }
 
-func (ao *ActionOutput) AssignTargetReference(ref *io.PartialActionReference) {
-	ao.TargetReferences.NewProperty(*ref)
+func (ao *ActionOutput) AssignTargetReference(ref *io.PartialActionReference) error {
+	return ao.TargetReferences.NewProperty(*ref)
 }

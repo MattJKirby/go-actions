@@ -17,6 +17,6 @@ func NewActionInput(name string, actionUid string) *ActionInput {
 	}
 }
 
-func (ai *ActionInput) AssignSourceReference(ref *io.PartialActionReference) {
-	ai.SourceReferences.NewProperty(*ref)
+func (ai *ActionInput) AssignSourceReference(ref *io.PartialActionReference) error {
+	return ai.SourceReferences.NewProperty(*ref)
 }
