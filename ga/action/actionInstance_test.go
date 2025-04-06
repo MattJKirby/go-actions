@@ -83,9 +83,9 @@ func TestOutput(t *testing.T) {
 	// }
 
 	testcases := []struct {
-		name          string
+		name           string
 		defaultTargets []*input.ActionInput
-		ref           *io.PartialActionReference
+		ref            *io.PartialActionReference
 	}{
 		{name: "without default source", defaultTargets: make([]*input.ActionInput, 0)},
 		{name: "with default source", defaultTargets: []*input.ActionInput{input.NewActionInput("1", "a")}, ref: &io.PartialActionReference{ReferenceUid: "ref:uid", ActionUid: "a"}},
