@@ -43,9 +43,14 @@ func Input(a *ActionInstance, name string, required bool, defaultSource *output.
 }
 
 func Output(a *ActionInstance, name string, defaultTargets []*input.ActionInput) *output.ActionOutput {
-	outputFn := func() *output.ActionOutput {
+	output := a.Model.Outputs.GetDefault(name, func() *output.ActionOutput {
 		return output.NewActionOutput(name, a.Model.ActionUid)
+	})
+
+	for _, target := range defaultTargets {
+		if target != nil {
+			io.NewActionReference(a.globalConfig, output, target).AssignReferences()
+		}
 	}
-	output := a.Model.Outputs.GetDefault(name, outputFn)
 	return output
 }

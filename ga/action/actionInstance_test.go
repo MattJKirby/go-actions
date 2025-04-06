@@ -58,27 +58,50 @@ func TestInput(t *testing.T) {
 }
 
 func TestOutput(t *testing.T) {
+	// testcases := []struct {
+	// 	name     string
+	// 	defaults []*input.ActionInput
+	// 	expected []*io.ActionReference
+	// }{
+	// 	{name: "without default targets", defaults: []*input.ActionInput{}, expected: []*io.ActionReference{}},
+	// 	{name: "with default targets", defaults: []*input.ActionInput{}, expected: []*io.ActionReference{}},
+	// }
+
+	// for _, test := range testcases {
+	// 	t.Run(test.name, func(t *testing.T) {
+	// 		instance := NewActionInstance("test", mockConfig)
+	// 		expected := output.NewActionOutput("outputName", instance.Model.ActionUid)
+
+	// 		// for _, target := range test.expected {
+	// 		// 	expected.AssignTarget(target)
+	// 		// }
+
+	// 		output := Output(instance, "outputName", test.defaults)
+
+	// 		assert.Equals(t, expected, output)
+	// 	})
+	// }
+
 	testcases := []struct {
-		name     string
-		defaults []*input.ActionInput
-		expected []*io.ActionReference
+		name          string
+		defaultTargets []*input.ActionInput
+		ref           *io.PartialActionReference
 	}{
-		{name: "without default targets", defaults: []*input.ActionInput{}, expected: []*io.ActionReference{}},
-		{name: "with default targets", defaults: []*input.ActionInput{}, expected: []*io.ActionReference{}},
+		{name: "without default source", defaultTargets: make([]*input.ActionInput, 0)},
+		{name: "with default source", defaultTargets: []*input.ActionInput{input.NewActionInput("1", "a")}, ref: &io.PartialActionReference{ReferenceUid: "ref:uid", ActionUid: "a"}},
 	}
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
 			instance := NewActionInstance("test", mockConfig)
-			expected := output.NewActionOutput("outputName", instance.Model.ActionUid)
+			output := Output(instance, "outputName", test.defaultTargets)
 
-			// for _, target := range test.expected {
-			// 	expected.AssignTarget(target)
-			// }
+			expectedOutput, err := instance.Model.Outputs.Get("outputName")
+			ref, _ := output.TargetReferences.Get("ref:uid")
 
-			output := Output(instance, "outputName", test.defaults)
-
-			assert.Equals(t, expected, output)
+			assert.Equals(t, expectedOutput, output)
+			assert.Equals(t, nil, err)
+			assert.Equals(t, test.ref, ref)
 		})
 	}
 }
