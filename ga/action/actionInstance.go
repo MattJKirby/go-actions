@@ -3,6 +3,7 @@ package action
 import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/action/model/store"
@@ -10,12 +11,14 @@ import (
 )
 
 type ActionInstance struct {
-	Model *model.ActionModel `json:"model"`
+	globalConfig *config.GlobalConfig
+	Model        *model.ActionModel `json:"model"`
 }
 
 func NewActionInstance(actionName string, globalConfig *config.GlobalConfig) *ActionInstance {
 	return &ActionInstance{
-		Model: model.NewActionModel(actionName, globalConfig),
+		globalConfig: globalConfig,
+		Model:        model.NewActionModel(actionName, globalConfig),
 	}
 }
 
@@ -28,11 +31,14 @@ func Parameter[T any](a *ActionInstance, name string, defaultValue T) *parameter
 }
 
 func Input(a *ActionInstance, name string, required bool, defaultSource *output.ActionOutput) *input.ActionInput {
-	inputFn := func() *input.ActionInput {
+	input := a.Model.Inputs.GetDefault(name, func() *input.ActionInput {
 		return input.NewActionInput(name, a.Model.ActionUid)
+	})
+
+	if defaultSource != nil {
+		io.NewActionReference(a.globalConfig, defaultSource, input).AssignReferences()
 	}
 
-	input := a.Model.Inputs.GetDefault(name, inputFn)
 	return input
 }
 

@@ -34,22 +34,25 @@ func TestParameter(t *testing.T) {
 
 func TestInput(t *testing.T) {
 	testcases := []struct {
-		name           string
-		defaultSource  *output.ActionOutput
-		expectedSource *io.ActionReference
+		name          string
+		defaultSource *output.ActionOutput
+		ref           *io.PartialActionReference
 	}{
-		{name: "without default source", defaultSource: nil, expectedSource: nil},
-		{name: "with default source", defaultSource: output.NewActionOutput("o", "a")},
+		{name: "without default source"},
+		{name: "with default source", defaultSource: output.NewActionOutput("o", "a"), ref: &io.PartialActionReference{ReferenceUid: "ref:uid", ActionUid: "a"}},
 	}
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
 			instance := NewActionInstance("test", mockConfig)
-			expected := input.NewActionInput("inputName", instance.Model.ActionUid)
-
 			input := Input(instance, "inputName", false, test.defaultSource)
 
-			assert.Equals(t, expected, input)
+			expectedInput, err := instance.Model.Inputs.Get("inputName")
+			ref, _ := input.SourceReferences.Get("ref:uid")
+
+			assert.Equals(t, expectedInput, input)
+			assert.Equals(t, nil, err)
+			assert.Equals(t, test.ref, ref)
 		})
 	}
 }
