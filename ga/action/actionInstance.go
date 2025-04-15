@@ -6,13 +6,11 @@ import (
 )
 
 type ActionInstance struct {
-	globalConfig *config.GlobalConfig
 	Model        *model.ActionModel `json:"model"`
 }
 
 func NewActionInstance(actionName string, globalConfig *config.GlobalConfig) *ActionInstance {
 	return &ActionInstance{
-		globalConfig: globalConfig,
 		Model:        model.NewActionModel(actionName, globalConfig),
 	}
 }
