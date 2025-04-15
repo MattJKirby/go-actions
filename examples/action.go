@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-actions/ga"
 	"go-actions/ga/action"
+	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
@@ -40,10 +41,10 @@ func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleActio
 
 func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
 	return &ExampleAction{
-		IntegerParameter: action.Parameter(instance, "intParam", props.IntProp),
-		StringParameter:  action.Parameter(instance, "strParam", props.StrProp),
-		Input:            action.Input(instance, "input", true, props.Source),
-		Output:           action.Output(instance, "output", props.Targets),
+		IntegerParameter: model.Parameter(instance.Model, "intParam", props.IntProp),
+		StringParameter:  model.Parameter(instance.Model, "strParam", props.StrProp),
+		Input:            model.Input(instance.Model, "input", true, props.Source),
+		Output:           model.Output(instance.Model, "output", props.Targets),
 	}
 }
 

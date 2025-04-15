@@ -3,6 +3,7 @@ package testActions
 import (
 	"fmt"
 	"go-actions/ga/action"
+	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/parameter"
 )
 
@@ -22,7 +23,7 @@ func (tav ActionValid) Execute() {
 
 func newActionValid(instance *action.ActionInstance, props ActionValidProps) *ActionValid {
 	return &ActionValid{
-		Param1: action.Parameter(instance, "param1", props.Param1),
+		Param1: model.Parameter(instance.Model, "param1", props.Param1),
 	}
 }
 
