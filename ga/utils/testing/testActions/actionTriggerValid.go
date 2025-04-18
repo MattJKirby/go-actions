@@ -6,13 +6,10 @@ type ActionTriggerValid struct{}
 
 type ActionTriggerValidProps struct{}
 
-func (atv ActionTriggerValid) Execute()                  {}
-func (atv ActionTriggerValid) PublishTriggerConditions() {}
-
-func newActionTriggerValid(instance *action.ActionInstance, props ActionTriggerValidProps) *ActionTriggerValid {
-	return &ActionTriggerValid{}
-}
+func (atv ActionTriggerValid) Init(*action.ActionInstance) {}
+func (atv ActionTriggerValid) Execute()                    {}
+func (atv ActionTriggerValid) PublishTriggerConditions()   {}
 
 func GenerateActionTriggerValidRegistration() action.GoActionRegistration[ActionTriggerValid, ActionTriggerValidProps] {
-	return GenerateRegistration(newActionTriggerValid, &ActionTriggerValidProps{})
+	return GenerateRegistration(ActionTriggerValid{}, ActionTriggerValidProps{})
 }

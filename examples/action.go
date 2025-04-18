@@ -12,12 +12,9 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[ExampleAction, ExampleActionProps]{
-		Constructor: newExampleAction,
-		DefaultProps: &ExampleActionProps{
-			IntProp: 10,
-			StrProp: "someString",
-		},
+	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction, ExampleActionProps]{
+		Action:       &ExampleAction{},
+		DefaultProps: ExampleActionProps{/* ... */},
 	})
 }
 
@@ -36,18 +33,16 @@ type ExampleAction struct {
 }
 
 func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleAction, error) {
-	return ga.NewFlowAction[ExampleAction](flow, props)
+	return ga.NewFlowAction[*ExampleAction](flow, props)
 }
 
-func newExampleAction(instance *action.ActionInstance, props ExampleActionProps) *ExampleAction {
-	return &ExampleAction{
-		IntegerParameter: model.Parameter(instance.Model, "intParam", props.IntProp),
-		StringParameter:  model.Parameter(instance.Model, "strParam", props.StrProp),
-		Input:            model.Input(instance.Model, "input", true, props.Source),
-		Output:           model.Output(instance.Model, "output", props.Targets),
-	}
+func (ex *ExampleAction) Init(inst *action.ActionInstance) {
+	ex.IntegerParameter = model.Parameter(inst.Model, "intParam", 10)
+	ex.StringParameter = model.Parameter(inst.Model, "strParam", "str")
+	ex.Input =            model.Input(inst.Model, "input", true, nil)
+	ex.Output =           model.Output(inst.Model, "output", nil)
 }
 
-func (ex ExampleAction) Execute() {
+func (ex *ExampleAction) Execute() {
 	fmt.Printf("executing Example Action: %d:%s\n", ex.IntegerParameter.Value(), ex.StringParameter.Value())
 }

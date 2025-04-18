@@ -17,16 +17,14 @@ type ActionValidProps struct {
 
 var ActionValidDefaultProps = ActionValidProps{Param1: "DefaultParam1Value"}
 
+func (tav ActionValid) Init(inst *action.ActionInstance) {
+	tav.Param1 = model.Parameter(inst.Model, "param1", "some val")
+}
+
 func (tav ActionValid) Execute() {
 	fmt.Println(tav.Param1.Value())
 }
 
-func newActionValid(instance *action.ActionInstance, props ActionValidProps) *ActionValid {
-	return &ActionValid{
-		Param1: model.Parameter(instance.Model, "param1", props.Param1),
-	}
-}
-
 func GenerateActionValidRegistration() action.GoActionRegistration[ActionValid, ActionValidProps] {
-	return GenerateRegistration(newActionValid, &ActionValidDefaultProps)
+	return GenerateRegistration(ActionValid{}, ActionValidDefaultProps)
 }
