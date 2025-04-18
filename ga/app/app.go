@@ -6,7 +6,6 @@ import (
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app/config"
-	"go-actions/ga/utils"
 	"go-actions/ga/utils/packageConfig"
 
 	"reflect"
@@ -37,7 +36,7 @@ func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoAct
 func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App) (*definition.ActionDefinition[T, P], error) {
 	return func(app *App) (*definition.ActionDefinition[T, P], error) {
 		action := new(T)
-		actionType := utils.GetValueType(reflect.TypeOf(action))
+		actionType := reflect.TypeOf(*action)
 		return getTypedActionDefinition[T, P](actionType)(app.actionRegistry)
 	}
 }
