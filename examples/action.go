@@ -14,7 +14,7 @@ import (
 func init() {
 	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction, ExampleActionProps]{
 		Action:       &ExampleAction{},
-		DefaultProps: ExampleActionProps{/* ... */},
+		DefaultProps: ExampleActionProps{ /* ... */ },
 	})
 }
 
@@ -39,8 +39,8 @@ func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleActio
 func (ex *ExampleAction) Init(inst *action.ActionInstance) {
 	ex.IntegerParameter = model.Parameter(inst.Model, "intParam", 10)
 	ex.StringParameter = model.Parameter(inst.Model, "strParam", "str")
-	ex.Input =            model.Input(inst.Model, "input", true, nil)
-	ex.Output =           model.Output(inst.Model, "output", nil)
+	ex.Input = model.Input(inst.Model, "input", true, nil)
+	ex.Output = model.Output(inst.Model, "output", nil)
 }
 
 func (ex *ExampleAction) Execute() {
