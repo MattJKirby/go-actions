@@ -43,7 +43,7 @@ func TestNewAction(t *testing.T) {
 	flowDef := NewFlowDefinition()
 	act, err := flowDef.NewAction(a, "ActionValidEmpty")
 
-	assert.Equals(t, true, flowDef.Actions[act.InitialisedInstance.Model.ActionUid] != nil)
+	assert.Equals(t, true, flowDef.Actions[act.Instance.Model.ActionUid] != nil)
 	assert.Equals(t, nil, err)
 }
 

@@ -2,6 +2,7 @@ package flow
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 )
 
@@ -19,12 +20,12 @@ func (fd *flowDefinition) AddInstance(instance *action.ActionInstance) {
 	fd.Actions[instance.Model.ActionUid] = instance
 }
 
-func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*app.InitialisedAction, error) {
+func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*executable.BaseExecutable[action.GoAction], error) {
 	action, err := app.GetActionByName(actionName)(flowApp)
 	if err != nil {
 		return nil, err
 	}
 
-	fd.AddInstance(action.InitialisedInstance)
+	fd.AddInstance(action.Instance)
 	return action, nil
 }

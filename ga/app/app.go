@@ -4,8 +4,8 @@ import (
 	"context"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
+	"go-actions/ga/action/executable"
 	"go-actions/ga/app/config"
-	"go-actions/ga/utils"
 	"go-actions/ga/utils/packageConfig"
 
 	"reflect"
@@ -36,7 +36,7 @@ func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoAct
 func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App) (*definition.ActionDefinition[T, P], error) {
 	return func(app *App) (*definition.ActionDefinition[T, P], error) {
 		action := new(T)
-		actionType := utils.GetValueType(reflect.TypeOf(action))
+		actionType := reflect.TypeOf(*action)
 		return getTypedActionDefinition[T, P](actionType)(app.actionRegistry)
 	}
 }
@@ -47,23 +47,22 @@ func GetDefinitionByName(name string) func(*App) (*definition.ActionTypeDefiniti
 	}
 }
 
-func GetActionByName(actionName string) func(*App) (*InitialisedAction, error) {
-	return func(app *App) (*InitialisedAction, error) {
+func GetActionByName(actionName string) func(*App) (*executable.BaseExecutable[action.GoAction], error) {
+	return func(app *App) (*executable.BaseExecutable[action.GoAction], error) {
 		typeDef, err := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {
 			return nil, err
 		}
-		return InitialiseNewAction(app.config.Global, typeDef)
+		return executable.NewBaseExecutable[action.GoAction](app.config.Global, typeDef)
 	}
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*InitialisedTypedAction[T], error) {
-	return func(app *App) (*InitialisedTypedAction[T], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.BaseExecutable[T], error) {
+	return func(app *App) (*executable.BaseExecutable[T], error) {
 		def, err := GetDefinitionByType[T, P]()(app)
 		if err != nil {
 			return nil, err
 		}
-
-		return InitialiseNewTypedAction(app.config.Global, def, props)
+		return executable.NewBaseExecutable[T](app.config.Global, def.GetTypeDefinition())
 	}
 }

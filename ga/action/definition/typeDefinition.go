@@ -12,26 +12,18 @@ type ActionTypeDefinition struct {
 	TypeName    string
 	TypePath    string
 	Trigger     bool
-	CtorValue   reflect.Value
-	CtorType    reflect.Type
 	ActionValue reflect.Value
 	ActionType  reflect.Type
 	PropsValue  reflect.Value
 	PropsType   reflect.Type
 }
 
-type ActionConstructor func(*action.ActionInstance, action.GoActionProps) (action.GoAction, error)
-
 func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProps](reg *action.GoActionRegistration[T, Props]) *ActionTypeDefinition {
-	vCtor := reflect.ValueOf(reg.Constructor)
-	tCtor := vCtor.Type()
+	vAction := reflect.ValueOf(reg.Action)
+	tAction := vAction.Type()
 
-	tProps := reflect.TypeOf(*reg.DefaultProps)
-	vProps := reflect.ValueOf(*reg.DefaultProps)
-
-	tAction := tCtor.Out(0)
-	tAction = utils.GetValueType(tAction)
-	vAction := reflect.New(tAction)
+	tProps := reflect.TypeOf(reg.DefaultProps)
+	vProps := reflect.ValueOf(reg.DefaultProps)
 
 	_, Trigger := any(new(T)).(action.TriggerAction)
 
@@ -39,8 +31,6 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 		TypeName:    utils.TypeName(tAction),
 		TypePath:    utils.TypePath(tAction),
 		Trigger:     Trigger,
-		CtorValue:   vCtor,
-		CtorType:    tCtor,
 		ActionValue: vAction,
 		ActionType:  tAction,
 		PropsValue:  vProps,
@@ -69,18 +59,12 @@ func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) e
 	return nil
 }
 
-func (atd *ActionTypeDefinition) NewConstructor() ActionConstructor {
-	return func(instance *action.ActionInstance, props action.GoActionProps) (action.GoAction, error) {
-		if err := atd.ValidatePropsType(props); err != nil {
-			return nil, err
-		}
-
-		results := atd.CtorValue.Call([]reflect.Value{
-			reflect.ValueOf(instance),
-			reflect.ValueOf(props),
-		})
-		return results[0].Interface().(action.GoAction), nil
+func (atd *ActionTypeDefinition) NewAction() (action.GoAction, error) {
+	if act, ok := atd.ActionValue.Interface().(action.GoAction); ok {
+		return act, nil
 	}
+
+	return nil, fmt.Errorf("new action does not match expected type")
 }
 
 // func TypeDefinitionFromStruct[T action.GoAction, Props action.GoActionProps](def T) *ActionTypeDefinition {

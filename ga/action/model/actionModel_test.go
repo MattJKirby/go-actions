@@ -90,4 +90,3 @@ func TestOutput(t *testing.T) {
 		})
 	}
 }
-

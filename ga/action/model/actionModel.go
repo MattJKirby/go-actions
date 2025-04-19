@@ -12,21 +12,21 @@ import (
 
 type ActionModel struct {
 	globalConfig *config.GlobalConfig
-	ActionName string                                           `json:"name"`
-	ActionUid  string                                           `json:"uid"`
-	Parameters *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
-	Inputs     *store.PropertyStore[input.ActionInput]          `json:"inputs"`
-	Outputs    *store.PropertyStore[output.ActionOutput]        `json:"outputs"`
+	ActionName   string                                           `json:"name"`
+	ActionUid    string                                           `json:"uid"`
+	Parameters   *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
+	Inputs       *store.PropertyStore[input.ActionInput]          `json:"inputs"`
+	Outputs      *store.PropertyStore[output.ActionOutput]        `json:"outputs"`
 }
 
 func NewActionModel(typename string, globalConfig *config.GlobalConfig) *ActionModel {
 	return &ActionModel{
 		globalConfig: globalConfig,
-		ActionName: typename,
-		ActionUid:  fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid()),
-		Parameters: store.NewPropertyStore[store.IdentifiableProperty](false),
-		Inputs:     store.NewPropertyStore[input.ActionInput](false),
-		Outputs:    store.NewPropertyStore[output.ActionOutput](false),
+		ActionName:   typename,
+		ActionUid:    fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid()),
+		Parameters:   store.NewPropertyStore[store.IdentifiableProperty](false),
+		Inputs:       store.NewPropertyStore[input.ActionInput](false),
+		Outputs:      store.NewPropertyStore[output.ActionOutput](false),
 	}
 }
 

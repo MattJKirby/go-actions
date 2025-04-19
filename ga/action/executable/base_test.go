@@ -18,12 +18,12 @@ func TestNewBaseExecutable(t *testing.T) {
 	definition := definition.TypeDefinitionFromRegistration(&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig)
 
-	expected := &baseExecutable{
-		construct: reg.Constructor(instance, testActions.ActionValidEmptyProps{}),
-		instance: instance,
+	expected := &BaseExecutable[action.GoAction]{
+		Action:   testActions.ActionValidEmpty{},
+		Instance: instance,
 	}
 
-	actual, err := newBaseExecutable(mockGlobalConfig, definition)
+	actual, err := NewBaseExecutable[action.GoAction](mockGlobalConfig, definition)
 	assert.Equals(t, nil, err)
 	assert.Equals(t, expected, actual)
 }

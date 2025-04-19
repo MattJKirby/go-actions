@@ -19,11 +19,9 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	expectedTypeName := "ActionValidEmpty"
 	expectedTypePath := "go-actions/ga/utils/testing/testActions/testActions.ActionValidEmpty"
 	expectedType := reflect.TypeOf(ta.ActionValidEmpty{})
-	expectedValue := reflect.ValueOf(&ta.ActionValidEmpty{})
-	expectedCtor := reflect.ValueOf(reg.Constructor).Pointer()
-	expectedCtorType := reflect.TypeOf(reg.Constructor)
-	expectedPropsType := reflect.TypeOf(*reg.DefaultProps)
-	expectedPropsValue := reflect.ValueOf(*reg.DefaultProps)
+	expectedValue := reflect.ValueOf(ta.ActionValidEmpty{})
+	expectedPropsType := reflect.TypeOf(reg.DefaultProps)
+	expectedPropsValue := reflect.ValueOf(reg.DefaultProps)
 	expectedTriggerValue := false
 
 	defReg := TypeDefinitionFromRegistration(&reg)
@@ -32,8 +30,6 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	assert.Equals(t, expectedTypePath, defReg.TypePath)
 	assert.Equals(t, expectedType, defReg.ActionType)
 	assert.Equals(t, expectedValue, defReg.ActionValue)
-	assert.Equals(t, expectedCtor, defReg.CtorValue.Pointer())
-	assert.Equals(t, expectedCtorType, defReg.CtorType)
 	assert.Equals(t, expectedPropsType, defReg.PropsType)
 	assert.Equals(t, expectedPropsValue, defReg.PropsValue)
 	assert.Equals(t, expectedTriggerValue, defReg.Trigger)
@@ -54,7 +50,7 @@ func TestNewDefaultProps(t *testing.T) {
 	typeAssertedProps, ok := newProps.(ta.ActionValidProps)
 
 	assert.Equals(t, true, ok)
-	assert.Equals(t, *reg.DefaultProps, typeAssertedProps)
+	assert.Equals(t, reg.DefaultProps, typeAssertedProps)
 }
 
 func TestValidatePropsType(t *testing.T) {
@@ -77,43 +73,19 @@ func TestValidatePropsType(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			err := defReg.ValidatePropsType(test.props)
-			hasErr := err != nil
 
-			assert.Equals(t, test.expectErr, hasErr)
+			assert.Equals(t, test.expectErr, err != nil)
 		})
 	}
 }
 
-func TestNewConstructorWithValidProps(t *testing.T) {
+func TestNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
+	expected := any(ta.ActionValid{}).(action.GoAction)
 
-	expectedInstEmpty := action.NewActionInstance("inst", mockConfig)
-	expectedInst := action.NewActionInstance("inst", mockConfig)
-	expectedAction := reg.Constructor(expectedInst, ta.ActionValidDefaultProps)
-	expectedActionTyped := any(expectedAction).(action.GoAction)
+	act, err := defReg.NewAction()
 
-	tests := []struct {
-		name             string
-		props            action.GoActionProps
-		expectedInstance *action.ActionInstance
-		expectedAction   action.GoAction
-		expectErr        bool
-	}{
-		{name: "valid", props: defReg.NewDefaultProps(), expectedInstance: expectedInst, expectedAction: expectedActionTyped, expectErr: false},
-		{name: "invalid - bad props", props: ta.ActionInvalidNoExecute{}, expectedInstance: expectedInstEmpty, expectedAction: nil, expectErr: true},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			testInst := action.NewActionInstance("inst", mockConfig)
-			testCtor := defReg.NewConstructor()
-			testAction, err := testCtor(testInst, test.props)
-			hasErr := err != nil
-
-			assert.Equals(t, test.expectErr, hasErr)
-			assert.Equals(t, test.expectedInstance, testInst)
-			assert.Equals(t, test.expectedAction, testAction)
-		})
-	}
+	assert.Equals(t, nil, err)
+	assert.Equals(t, expected, act)
 }
