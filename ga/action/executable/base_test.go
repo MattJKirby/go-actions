@@ -20,7 +20,7 @@ func TestNewBaseExecutable(t *testing.T) {
 
 	expected := &baseExecutable{
 		construct: reg.Constructor(instance, testActions.ActionValidEmptyProps{}),
-		instance: instance,
+		instance:  instance,
 	}
 
 	actual, err := newBaseExecutable(mockGlobalConfig, definition)

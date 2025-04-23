@@ -37,16 +37,6 @@ func acceptRegistration[T action.GoAction, P action.GoActionProps](reg *action.G
 	}
 }
 
-func getTypedActionDefinition[T action.GoAction, P action.GoActionProps](actionType reflect.Type) func(*actionRegistry) (*definition.ActionDefinition[T, P], error) {
-	return func(ar *actionRegistry) (*definition.ActionDefinition[T, P], error) {
-		if action, exists := ar.actionsByType[actionType]; exists {
-			copy := *action.(*definition.ActionDefinition[T, P])
-			return &copy, nil
-		}
-		return nil, fmt.Errorf("could not retrive action '%s'", actionType)
-	}
-}
-
 func getRegisteredTypeDefinitionByName(actionName string) func(*actionRegistry) (*definition.ActionTypeDefinition, error) {
 	return func(ar *actionRegistry) (*definition.ActionTypeDefinition, error) {
 		if action, exists := ar.actionsByName[actionName]; exists {

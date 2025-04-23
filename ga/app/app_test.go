@@ -23,15 +23,6 @@ func appWithEmptyRegistration() (*App, action.GoActionRegistration[ta.ActionVali
 	return app, registration
 }
 
-func TestRegisterActionAndGet(t *testing.T) {
-	app, _ := appWithEmptyRegistration()
-	result, _ := GetDefinitionByType[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
-
-	if result == nil {
-		t.Errorf("Error during registration: expected %v, got %v", nil, result)
-	}
-}
-
 func TestGetDefinitionByName(t *testing.T) {
 	app, reg := appWithEmptyRegistration()
 	result, err := GetDefinitionByName("ActionValidEmpty")(app)
@@ -61,12 +52,4 @@ func TestAppGetActionByName(t *testing.T) {
 			assert.Equals(t, test.expectErr, hasErr)
 		})
 	}
-}
-
-func TestGetAction(t *testing.T) {
-	app, _ := appWithEmptyRegistration()
-
-	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
-
-	assert.Equals(t, nil, err)
 }

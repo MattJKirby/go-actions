@@ -8,7 +8,7 @@ import (
 
 type baseExecutable struct {
 	construct action.GoAction
-	instance *action.ActionInstance
+	instance  *action.ActionInstance
 }
 
 func newBaseExecutable(config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*baseExecutable, error) {
@@ -22,6 +22,6 @@ func newBaseExecutable(config *config.GlobalConfig, typeDef *definition.ActionTy
 
 	return &baseExecutable{
 		construct: action,
-		instance: instance,
+		instance:  instance,
 	}, nil
 }
