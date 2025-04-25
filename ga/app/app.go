@@ -34,23 +34,23 @@ func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoAct
 	}
 }
 
-func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App) (*definition.ActionDefinition[T, P], error) {
-	return func(app *App) (*definition.ActionDefinition[T, P], error) {
+func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App) (*definition.ActionTypeDefinition, error) {
+	return func(app *App) (*definition.ActionTypeDefinition, error) {
 		action := new(T)
 		actionType := reflect.TypeOf(*action)
-		return registration.GetTypedActionDefinition[T, P](actionType)(app.actionRegistry)
+		return registration.GetTypeDefinitionByType(actionType)(app.actionRegistry)
 	}
 }
 
 func GetDefinitionByName(name string) func(*App) (*definition.ActionTypeDefinition, error) {
 	return func(app *App) (*definition.ActionTypeDefinition, error) {
-		return registration.GetRegisteredTypeDefinitionByName(name)(app.actionRegistry)
+		return registration.GetTypeDefinitionByName(name)(app.actionRegistry)
 	}
 }
 
 func GetActionByName(actionName string) func(*App) (*executable.BaseExecutable[action.GoAction], error) {
 	return func(app *App) (*executable.BaseExecutable[action.GoAction], error) {
-		typeDef, err := registration.GetRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
+		typeDef, err := registration.GetTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {
 			return nil, err
 		}
@@ -64,6 +64,6 @@ func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewBaseExecutable[T](app.config.Global, def.GetTypeDefinition())
+		return executable.NewBaseExecutable[T](app.config.Global, def)
 	}
 }
