@@ -18,6 +18,10 @@ func init() {
 	})
 }
 
+func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleAction, error) {
+	return ga.NewFlowAction[*ExampleAction](flow, props)
+}
+
 type ExampleActionProps struct {
 	IntProp int
 	StrProp string
@@ -30,10 +34,6 @@ type ExampleAction struct {
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *input.ActionInput
 	Output           *output.ActionOutput
-}
-
-func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleAction, error) {
-	return ga.NewFlowAction[*ExampleAction](flow, props)
 }
 
 func (ex *ExampleAction) Init(inst *action.ActionInstance) {
