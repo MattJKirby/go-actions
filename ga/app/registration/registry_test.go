@@ -1,4 +1,4 @@
-package app
+package registration
 
 import (
 	"fmt"
@@ -10,10 +10,10 @@ import (
 )
 
 func TestAcceptAction(t *testing.T) {
-	registry := newActionRegistry()
+	registry := NewActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
 
-	err := acceptRegistration(&registration)(registry)
+	err := AcceptRegistration(&registration)(registry)
 	abt := len(registry.actionsByType)
 	abn := len(registry.actionsByName)
 
@@ -29,11 +29,11 @@ func TestAcceptAction(t *testing.T) {
 }
 
 func TestGetActionByType(t *testing.T) {
-	registry := newActionRegistry()
+	registry := NewActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
 	def := definition.NewActionDefinition(&registration)
 
-	acceptRegistration(&registration)(registry)
+	AcceptRegistration(&registration)(registry)
 
 	tests := []struct {
 		name     string
@@ -47,7 +47,7 @@ func TestGetActionByType(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			storedDef, err := getTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.input)(registry)
+			storedDef, err := GetTypedActionDefinition[ta.ActionValidEmpty, ta.ActionValidEmptyProps](test.input)(registry)
 			hasErr := err != nil
 
 			if test.err != hasErr {
@@ -63,9 +63,9 @@ func TestGetActionByType(t *testing.T) {
 }
 
 func TestGetActionByName(t *testing.T) {
-	registry := newActionRegistry()
+	registry := NewActionRegistry()
 	registration := ta.GenerateActionValidRegistration()
-	acceptRegistration(&registration)(registry)
+	AcceptRegistration(&registration)(registry)
 
 	tests := []struct {
 		name       string
@@ -79,7 +79,7 @@ func TestGetActionByName(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			result, err := getRegisteredTypeDefinitionByName(test.input)(registry)
+			result, err := GetRegisteredTypeDefinitionByName(test.input)(registry)
 			fmt.Println(err)
 			assert.Equals(t, test.returnsNil, result == nil)
 			assert.Equals(t, test.hasError, err != nil)

@@ -6,6 +6,7 @@ import (
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app/config"
+	"go-actions/ga/app/registration"
 	"go-actions/ga/utils/packageConfig"
 
 	"reflect"
@@ -15,7 +16,7 @@ type App struct {
 	Name           string
 	ctx            context.Context
 	config         *config.ApplicationConfig
-	actionRegistry *actionRegistry
+	actionRegistry *registration.ActionRegistry
 }
 
 func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig]) *App {
@@ -23,13 +24,13 @@ func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig])
 		Name:           name,
 		ctx:            context.Background(),
 		config:         packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
-		actionRegistry: newActionRegistry(),
+		actionRegistry: registration.NewActionRegistry(),
 	}
 }
 
 func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*App) {
 	return func(app *App) {
-		acceptRegistration(reg)(app.actionRegistry)
+		registration.AcceptRegistration(reg)(app.actionRegistry)
 	}
 }
 
@@ -37,19 +38,19 @@ func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App)
 	return func(app *App) (*definition.ActionDefinition[T, P], error) {
 		action := new(T)
 		actionType := reflect.TypeOf(*action)
-		return getTypedActionDefinition[T, P](actionType)(app.actionRegistry)
+		return registration.GetTypedActionDefinition[T, P](actionType)(app.actionRegistry)
 	}
 }
 
 func GetDefinitionByName(name string) func(*App) (*definition.ActionTypeDefinition, error) {
 	return func(app *App) (*definition.ActionTypeDefinition, error) {
-		return getRegisteredTypeDefinitionByName(name)(app.actionRegistry)
+		return registration.GetRegisteredTypeDefinitionByName(name)(app.actionRegistry)
 	}
 }
 
 func GetActionByName(actionName string) func(*App) (*executable.BaseExecutable[action.GoAction], error) {
 	return func(app *App) (*executable.BaseExecutable[action.GoAction], error) {
-		typeDef, err := getRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
+		typeDef, err := registration.GetRegisteredTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {
 			return nil, err
 		}
