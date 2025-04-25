@@ -59,26 +59,12 @@ func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) e
 	return nil
 }
 
-func (atd *ActionTypeDefinition) NewAction() (action.GoAction, error) {
-	if act, ok := atd.ActionValue.Interface().(action.GoAction); ok {
-		return act, nil
+func (atd *ActionTypeDefinition) NewAction(inst *action.ActionInstance, props *action.GoActionProps) (action.GoAction, error) {
+	act, ok := atd.ActionValue.Interface().(action.GoAction)
+	if !ok {
+		return nil, fmt.Errorf("new action does not match expected type")
 	}
 
-	return nil, fmt.Errorf("new action does not match expected type")
+	act.Init(inst)
+	return act, nil
 }
-
-// func TypeDefinitionFromStruct[T action.GoAction, Props action.GoActionProps](def T) *ActionTypeDefinition {
-// 	var ctor action.GoActionConstructor[T, Props] = func(*action.ActionInstance, Props) *T { return &def }
-
-// 	vAction := reflect.ValueOf(&def)
-// 	tAction := reflect.TypeOf(def)
-// 	vCtor := reflect.ValueOf(ctor)
-// 	tCtor := vCtor.Type()
-
-// 	return &ActionTypeDefinition{
-// 		CtorValue:   vCtor,
-// 		CtorType:    tCtor,
-// 		ActionValue: vAction,
-// 		ActionType:  tAction,
-// 	}
-// }

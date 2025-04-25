@@ -2,11 +2,16 @@ package definition
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
+	"go-actions/ga/utils/testing/testHelpers"
 	"reflect"
 	"testing"
 )
+
+var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := ta.GenerateActionValidEmptyRegistration()
@@ -78,8 +83,9 @@ func TestNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
 	expected := any(ta.ActionValid{}).(action.GoAction)
+	inst := action.NewActionInstance("", mockGlobalConfig)
 
-	act, err := defReg.NewAction()
+	act, err := defReg.NewAction(inst, nil)
 
 	assert.Equals(t, nil, err)
 	assert.Equals(t, expected, act)

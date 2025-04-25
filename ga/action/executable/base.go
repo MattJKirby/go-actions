@@ -15,7 +15,7 @@ type BaseExecutable[T action.GoAction] struct {
 func NewBaseExecutable[T action.GoAction](config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*BaseExecutable[T], error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config)
 
-	rawAction, err := typeDef.NewAction()
+	rawAction, err := typeDef.NewAction(instance, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -24,8 +24,6 @@ func NewBaseExecutable[T action.GoAction](config *config.GlobalConfig, typeDef *
 	if !ok {
 		return nil, fmt.Errorf("type assertion to generic T failed")
 	}
-
-	act.Init(instance)
 
 	return &BaseExecutable[T]{
 		Action:   act,
