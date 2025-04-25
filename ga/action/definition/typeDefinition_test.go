@@ -82,11 +82,11 @@ func TestValidatePropsType(t *testing.T) {
 func TestNewAction(t *testing.T) {
 	reg := ta.GenerateActionValidRegistration()
 	defReg := TypeDefinitionFromRegistration(&reg)
-	expected := any(ta.ActionValid{}).(action.GoAction)
+
 	inst := action.NewActionInstance("", mockGlobalConfig)
 
-	act, err := defReg.NewAction(inst, nil)
+	act, err := NewAction[ta.ActionValid](defReg, inst, nil)
 
 	assert.Equals(t, nil, err)
-	assert.Equals(t, expected, act)
+	assert.Equals(t, ta.ActionValid{}, act)
 }

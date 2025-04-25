@@ -1,7 +1,6 @@
 package executable
 
 import (
-	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/app/config"
@@ -15,18 +14,13 @@ type BaseExecutable[T action.GoAction] struct {
 func NewBaseExecutable[T action.GoAction](config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*BaseExecutable[T], error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config)
 
-	rawAction, err := typeDef.NewAction(instance, nil)
+	action, err := definition.NewAction[T](typeDef, instance, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	act, ok := any(rawAction).(T)
-	if !ok {
-		return nil, fmt.Errorf("type assertion to generic T failed")
-	}
-
 	return &BaseExecutable[T]{
-		Action:   act,
+		Action:   action,
 		Instance: instance,
 	}, nil
 }

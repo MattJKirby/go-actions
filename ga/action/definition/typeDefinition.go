@@ -59,12 +59,13 @@ func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) e
 	return nil
 }
 
-func (atd *ActionTypeDefinition) NewAction(inst *action.ActionInstance, props *action.GoActionProps) (action.GoAction, error) {
-	act, ok := atd.ActionValue.Interface().(action.GoAction)
+func NewAction[T action.GoAction] (typedef *ActionTypeDefinition, inst *action.ActionInstance, props *action.GoActionProps) (T, error) {
+	act, ok := typedef.ActionValue.Interface().(T)
 	if !ok {
-		return nil, fmt.Errorf("new action does not match expected type")
+		return act, fmt.Errorf("new action does not match expected type")
 	}
 
 	act.Init(inst)
 	return act, nil
 }
+
