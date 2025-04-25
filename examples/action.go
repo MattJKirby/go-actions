@@ -14,7 +14,7 @@ import (
 func init() {
 	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction, ExampleActionProps]{
 		Action:       &ExampleAction{},
-		DefaultProps: ExampleActionProps{ /* ... */ },
+		DefaultProps: ExampleActionProps{},
 	})
 }
 
