@@ -1,7 +1,6 @@
 package flow
 
 import (
-	"encoding/json"
 	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/executable"
@@ -21,14 +20,10 @@ func NewFlow(app *app.App) *Flow {
 }
 
 func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*executable.BaseExecutable[T], error) {
-	instantiated, err := app.GetAction[T](props)(f.flowApp)
-	if err != nil {
-		return nil, fmt.Errorf("could not retrieve action from app")
+	if instantiated, err := app.GetAction[T](props)(f.flowApp); err == nil {
+		f.flowDefinition.AddInstance(instantiated.Instance)
+		return instantiated, nil
 	}
 
-	f.flowDefinition.AddInstance(instantiated.Instance)
-
-	test, _ := json.Marshal(instantiated.Instance)
-	fmt.Println(string(test))
-	return instantiated, nil
+	return nil, fmt.Errorf("could not retrieve action from app")
 }
