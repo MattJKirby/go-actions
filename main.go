@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-actions/examples"
 	"go-actions/ga"
 )
@@ -16,11 +18,13 @@ func main() {
 		IntProp: 999,
 		StrProp: "aaa",
 	})
-
-	ex1.Execute()
+	fmt.Println(ex1)
 
 	ex2, _ := examples.NewExampleAction(flow, nil)
-	ex2.Execute()
+	fmt.Println(ex2)
 
+	inst, _ := json.Marshal(ex2.Instance)
+
+	fmt.Println(string(inst))
 
 }

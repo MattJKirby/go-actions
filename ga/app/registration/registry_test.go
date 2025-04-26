@@ -11,7 +11,7 @@ func TestAcceptAction(t *testing.T) {
 	registry := NewActionRegistry()
 	registration := ta.GenerateActionValidEmptyRegistration()
 
-AcceptRegistration(&registration)(registry)
+	AcceptRegistration(&registration)(registry)
 	abt := len(registry.actionsByType)
 	abn := len(registry.actionsByName)
 
