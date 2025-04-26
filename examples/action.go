@@ -19,7 +19,7 @@ func init() {
 }
 
 func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*ExampleAction, error) {
-	return ga.NewFlowAction[*ExampleAction](flow, props)
+	return ga.NewAction[*ExampleAction](flow, props)
 }
 
 type ExampleActionProps struct {

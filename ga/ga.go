@@ -12,7 +12,7 @@ func RegisterAction[T action.GoAction, Props action.GoActionProps](registration 
 	app.RegisterAction(registration)(ga)
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (T, error) {
+func NewAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (T, error) {
 	act, err := flow.NewFlowAction[T](f, props)
 	return act.Action, err
 }
