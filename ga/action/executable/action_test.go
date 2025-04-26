@@ -13,17 +13,17 @@ import (
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
-func TestNewBaseExecutable(t *testing.T) {
+func TestNewAction(t *testing.T) {
 	reg := testActions.GenerateActionValidEmptyRegistration()
 	definition := definition.TypeDefinitionFromRegistration(&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig)
 
-	expected := &BaseExecutable[action.GoAction]{
+	expected := &Action[action.GoAction]{
 		Action:   testActions.ActionValidEmpty{},
 		Instance: instance,
 	}
 
-	actual, err := NewBaseExecutable[action.GoAction](mockGlobalConfig, definition)
+	actual, err := NewAction[action.GoAction](mockGlobalConfig, definition)
 	assert.Equals(t, nil, err)
 	assert.Equals(t, expected, actual)
 }

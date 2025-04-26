@@ -6,12 +6,12 @@ import (
 	"go-actions/ga/app/config"
 )
 
-type BaseExecutable[T action.GoAction] struct {
+type Action[T action.GoAction] struct {
 	Action   T
 	Instance *action.ActionInstance
 }
 
-func NewBaseExecutable[T action.GoAction](config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*BaseExecutable[T], error) {
+func NewAction[T action.GoAction](config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*Action[T], error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config)
 
 	action, err := definition.NewAction[T](typeDef, instance, nil)
@@ -19,7 +19,7 @@ func NewBaseExecutable[T action.GoAction](config *config.GlobalConfig, typeDef *
 		return nil, err
 	}
 
-	return &BaseExecutable[T]{
+	return &Action[T]{
 		Action:   action,
 		Instance: instance,
 	}, nil

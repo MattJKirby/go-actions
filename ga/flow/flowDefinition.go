@@ -20,7 +20,7 @@ func (fd *flowDefinition) AddInstance(instance *action.ActionInstance) {
 	fd.Actions[instance.Model.ActionUid] = instance
 }
 
-func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*executable.BaseExecutable[action.GoAction], error) {
+func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*executable.Action[action.GoAction], error) {
 	action, err := app.GetActionByName(actionName)(flowApp)
 	if err != nil {
 		return nil, err

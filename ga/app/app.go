@@ -48,22 +48,22 @@ func GetDefinitionByName(name string) func(*App) (*definition.ActionTypeDefiniti
 	}
 }
 
-func GetActionByName(actionName string) func(*App) (*executable.BaseExecutable[action.GoAction], error) {
-	return func(app *App) (*executable.BaseExecutable[action.GoAction], error) {
+func GetActionByName(actionName string) func(*App) (*executable.Action[action.GoAction], error) {
+	return func(app *App) (*executable.Action[action.GoAction], error) {
 		typeDef, err := registration.GetTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewBaseExecutable[action.GoAction](app.config.Global, typeDef)
+		return executable.NewAction[action.GoAction](app.config.Global, typeDef)
 	}
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.BaseExecutable[T], error) {
-	return func(app *App) (*executable.BaseExecutable[T], error) {
+func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.Action[T], error) {
+	return func(app *App) (*executable.Action[T], error) {
 		def, err := GetDefinitionByType[T, P]()(app)
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewBaseExecutable[T](app.config.Global, def)
+		return executable.NewAction[T](app.config.Global, def)
 	}
 }
