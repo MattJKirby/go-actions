@@ -19,7 +19,7 @@ func TestNewAction(t *testing.T) {
 	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig)
 
 	expected := &Action[action.GoAction]{
-		Action:   testActions.ActionValidEmpty{},
+		Definition:   testActions.ActionValidEmpty{},
 		Instance: instance,
 	}
 

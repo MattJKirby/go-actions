@@ -14,7 +14,7 @@ func RegisterAction[T action.GoAction, Props action.GoActionProps](registration 
 
 func NewAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (T, error) {
 	act, err := flow.NewFlowAction[T](f, props)
-	return act.Action, err
+	return act.Definition, err
 }
 
 func NewFlow() *flow.Flow {

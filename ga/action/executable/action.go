@@ -3,12 +3,19 @@ package executable
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
+	"go-actions/ga/action/model/input"
+	"go-actions/ga/action/model/output"
 	"go-actions/ga/app/config"
 )
 
 type Action[T action.GoAction] struct {
-	Action   T
+	Definition   T
 	Instance *action.ActionInstance
+}
+
+type baseFields struct {
+	ActionInput *input.ActionInput
+  ActionOutput *output.ActionOutput
 }
 
 func NewAction[T action.GoAction](config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*Action[T], error) {
@@ -20,7 +27,7 @@ func NewAction[T action.GoAction](config *config.GlobalConfig, typeDef *definiti
 	}
 
 	return &Action[T]{
-		Action:   action,
+		Definition:   action,
 		Instance: instance,
 	}, nil
 }
