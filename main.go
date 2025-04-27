@@ -20,7 +20,7 @@ func main() {
 	})
 	fmt.Println(ex1)
 
-	ex2, _ := examples.NewExampleAction(flow, nil)
+	ex2, _ := examples.NewBasicAction(flow, nil)
 	fmt.Println(ex2)
 
 	inst, _ := json.Marshal(ex2.Instance)
