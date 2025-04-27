@@ -1,9 +1,8 @@
 package action
 
-type GoActionRegistration[Type GoAction, Props GoActionProps] struct {
+type GoActionRegistration[Type GoAction] struct {
 	Name         string
 	Action       Type
-	DefaultProps Props
 }
 
 type GoActionProps any

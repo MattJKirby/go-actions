@@ -30,7 +30,7 @@ func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 func NewAction[T action.GoAction](config *config.GlobalConfig, typeDef *definition.ActionTypeDefinition) (*Action[T], error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config)
 
-	action, err := definition.NewAction[T](typeDef, instance, nil)
+	action, err := definition.NewAction[T](typeDef, instance)
 	if err != nil {
 		return nil, err
 	}

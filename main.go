@@ -14,14 +14,10 @@ func main() {
 	// fmt.Println(action)
 
 	flow := ga.NewFlow()
-	ex1, _ := examples.NewExampleAction(flow, &examples.ExampleActionProps{
-		IntProp: 999,
-		StrProp: "aaa",
-	})
+	ex1, _ := examples.NewExampleAction(flow)
 	fmt.Println(ex1)
 
-	ex2, _ := examples.NewBasicAction(flow, nil)
-	fmt.Println(ex2)
+	ex2, _ := examples.NewBasicAction(flow)
 
 	inst, _ := json.Marshal(ex2.Instance)
 

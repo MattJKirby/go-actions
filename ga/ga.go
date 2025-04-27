@@ -9,12 +9,12 @@ import (
 
 var ga = app.NewApp("GoActionsDefaultApp")
 
-func RegisterAction[T action.GoAction, Props action.GoActionProps](registration *action.GoActionRegistration[T, Props]) {
+func RegisterAction[T action.GoAction](registration *action.GoActionRegistration[T]) {
 	app.RegisterAction(registration)(ga)
 }
 
-func NewAction[T action.GoAction, P action.GoActionProps](f *flow.Flow, props *P) (*executable.Action[T], error) {
-	return flow.NewFlowAction[T](f, props)
+func NewAction[T action.GoAction](f *flow.Flow) (*executable.Action[T], error) {
+	return flow.NewFlowAction[T](f)
 }
 
 func NewFlow() *flow.Flow {

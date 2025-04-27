@@ -28,13 +28,13 @@ func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig])
 	}
 }
 
-func RegisterAction[T action.GoAction, P action.GoActionProps](reg *action.GoActionRegistration[T, P]) func(*App) {
+func RegisterAction[T action.GoAction](reg *action.GoActionRegistration[T]) func(*App) {
 	return func(app *App) {
 		registration.AcceptRegistration(reg)(app.actionRegistry)
 	}
 }
 
-func GetDefinitionByType[T action.GoAction, P action.GoActionProps]() func(*App) (*definition.ActionTypeDefinition, error) {
+func GetDefinitionByType[T action.GoAction]() func(*App) (*definition.ActionTypeDefinition, error) {
 	return func(app *App) (*definition.ActionTypeDefinition, error) {
 		action := new(T)
 		actionType := reflect.TypeOf(*action)
@@ -58,9 +58,9 @@ func GetActionByName(actionName string) func(*App) (*executable.Action[action.Go
 	}
 }
 
-func GetAction[T action.GoAction, P action.GoActionProps](props *P) func(*App) (*executable.Action[T], error) {
+func GetAction[T action.GoAction]() func(*App) (*executable.Action[T], error) {
 	return func(app *App) (*executable.Action[T], error) {
-		def, err := GetDefinitionByType[T, P]()(app)
+		def, err := GetDefinitionByType[T]()(app)
 		if err != nil {
 			return nil, err
 		}

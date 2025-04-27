@@ -13,21 +13,13 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction, ExampleActionProps]{
+	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction]{
 		Action:       &ExampleAction{},
-		DefaultProps: ExampleActionProps{},
 	})
 }
 
-func NewExampleAction(flow *flow.Flow, props *ExampleActionProps) (*executable.Action[*ExampleAction], error) {
-	return ga.NewAction[*ExampleAction](flow, props)
-}
-
-type ExampleActionProps struct {
-	IntProp int
-	StrProp string
-	Source  *output.ActionOutput
-	Targets []*input.ActionInput
+func NewExampleAction(flow *flow.Flow) (*executable.Action[*ExampleAction], error) {
+	return ga.NewAction[*ExampleAction](flow)
 }
 
 type ExampleAction struct {

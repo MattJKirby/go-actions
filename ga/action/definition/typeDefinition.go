@@ -18,12 +18,12 @@ type ActionTypeDefinition struct {
 	PropsType   reflect.Type
 }
 
-func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProps](reg *action.GoActionRegistration[T, Props]) *ActionTypeDefinition {
+func TypeDefinitionFromRegistration[T action.GoAction](reg *action.GoActionRegistration[T]) *ActionTypeDefinition {
 	vAction := reflect.ValueOf(reg.Action)
 	tAction := vAction.Type()
 
-	tProps := reflect.TypeOf(reg.DefaultProps)
-	vProps := reflect.ValueOf(reg.DefaultProps)
+	// tProps := reflect.TypeOf(reg.DefaultProps)
+	// vProps := reflect.ValueOf(reg.DefaultProps)
 
 	_, Trigger := any(new(T)).(action.TriggerAction)
 
@@ -33,33 +33,33 @@ func TypeDefinitionFromRegistration[T action.GoAction, Props action.GoActionProp
 		Trigger:     Trigger,
 		ActionValue: vAction,
 		ActionType:  tAction,
-		PropsValue:  vProps,
-		PropsType:   tProps,
+		// PropsValue:  vProps,
+		// PropsType:   tProps,
 	}
 }
 
-func (atd *ActionTypeDefinition) NewDefaultProps() action.GoActionProps {
-	return atd.PropsValue.Interface()
-}
+// func (atd *ActionTypeDefinition) NewDefaultProps() action.GoActionProps {
+// 	return atd.PropsValue.Interface()
+// }
 
-func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) error {
-	propsType := reflect.TypeOf(props)
+// func (atd *ActionTypeDefinition) ValidatePropsType(props action.GoActionProps) error {
+// 	propsType := reflect.TypeOf(props)
 
-	switch {
-	case propsType == nil:
-		return fmt.Errorf("props can't be nil")
+// 	switch {
+// 	case propsType == nil:
+// 		return fmt.Errorf("props can't be nil")
 
-	case propsType.Kind() == reflect.Pointer:
-		return fmt.Errorf("props must be value type")
+// 	case propsType.Kind() == reflect.Pointer:
+// 		return fmt.Errorf("props must be value type")
 
-	case propsType != atd.PropsType:
-		return fmt.Errorf("props type does not match registered default props type")
-	}
+// 	case propsType != atd.PropsType:
+// 		return fmt.Errorf("props type does not match registered default props type")
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
-func NewAction[T action.GoAction](typedef *ActionTypeDefinition, inst *action.ActionInstance, props *action.GoActionProps) (T, error) {
+func NewAction[T action.GoAction](typedef *ActionTypeDefinition, inst *action.ActionInstance) (T, error) {
 	act, ok := typedef.ActionValue.Interface().(T)
 	if !ok {
 		return act, fmt.Errorf("new action does not match expected type")

@@ -25,6 +25,6 @@ func (tav ActionValid) Execute() {
 	fmt.Println(tav.Param1.Value())
 }
 
-func GenerateActionValidRegistration() action.GoActionRegistration[ActionValid, ActionValidProps] {
-	return GenerateRegistration(ActionValid{}, ActionValidDefaultProps)
+func GenerateActionValidRegistration() action.GoActionRegistration[ActionValid] {
+	return GenerateRegistration(ActionValid{})
 }

@@ -39,7 +39,7 @@ func TestAddAction(t *testing.T) {
 			}
 
 			f := NewFlow(a)
-			_, err := NewFlowAction[testActions.ActionValidEmpty](f, &testActions.ActionValidEmptyProps{})
+			_, err := NewFlowAction[testActions.ActionValidEmpty](f)
 			assert.Equals(t, tc.expectedActions, len(f.flowDefinition.Actions))
 			assert.Equals(t, tc.err, err != nil)
 		})

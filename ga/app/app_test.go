@@ -15,7 +15,7 @@ var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 var mockAppConfig = &config.ApplicationConfig{Global: mockGlobalConfig}
 
-func appWithEmptyRegistration() (*App, action.GoActionRegistration[ta.ActionValidEmpty, ta.ActionValidEmptyProps]) {
+func appWithEmptyRegistration() (*App, action.GoActionRegistration[ta.ActionValidEmpty]) {
 	app := NewApp("test")
 	app.config = mockAppConfig
 	registration := ta.GenerateActionValidEmptyRegistration()
@@ -25,7 +25,7 @@ func appWithEmptyRegistration() (*App, action.GoActionRegistration[ta.ActionVali
 
 func TestRegisterActionAndGet(t *testing.T) {
 	app, _ := appWithEmptyRegistration()
-	result, _ := GetDefinitionByType[ta.ActionValidEmpty, ta.ActionValidEmptyProps]()(app)
+	result, _ := GetDefinitionByType[ta.ActionValidEmpty]()(app)
 
 	if result == nil {
 		t.Errorf("Error during registration: expected %v, got %v", nil, result)
@@ -66,7 +66,7 @@ func TestAppGetActionByName(t *testing.T) {
 func TestGetAction(t *testing.T) {
 	app, _ := appWithEmptyRegistration()
 
-	_, err := GetAction[ta.ActionValidEmpty, ta.ActionValidEmptyProps](nil)(app)
+	_, err := GetAction[ta.ActionValidEmpty]()(app)
 
 	assert.Equals(t, nil, err)
 }

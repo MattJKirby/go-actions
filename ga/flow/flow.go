@@ -19,8 +19,8 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func NewFlowAction[T action.GoAction, P action.GoActionProps](f *Flow, props *P) (*executable.Action[T], error) {
-	if instantiated, err := app.GetAction[T](props)(f.flowApp); err == nil {
+func NewFlowAction[T action.GoAction](f *Flow) (*executable.Action[T], error) {
+	if instantiated, err := app.GetAction[T]()(f.flowApp); err == nil {
 		f.flowDefinition.AddInstance(instantiated.Instance)
 		return instantiated, nil
 	}

@@ -8,18 +8,16 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[*BasicAction, BasicActionProps]{
+	ga.RegisterAction(&action.GoActionRegistration[*BasicAction]{
 		Action:       &BasicAction{},
-		DefaultProps: BasicActionProps{},
 	})
 }
 
-func NewBasicAction(flow *flow.Flow, props *BasicActionProps) (*executable.Action[*BasicAction], error) {
-	return ga.NewAction[*BasicAction](flow, props)
+func NewBasicAction(flow *flow.Flow) (*executable.Action[*BasicAction], error) {
+	return ga.NewAction[*BasicAction](flow)
 }
 
 type BasicAction struct {}
-type BasicActionProps struct {}
 
 func (ba *BasicAction) Init(inst *action.ActionInstance){}
 
