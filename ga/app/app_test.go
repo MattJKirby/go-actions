@@ -17,7 +17,7 @@ var mockAppConfig = &config.ApplicationConfig{Global: mockGlobalConfig}
 
 func appWithEmptyRegistration() (*App, action.ActionRegistration[ta.ActionValidEmpty]) {
 	app := NewApp("test")
-	app.config = mockAppConfig
+	app.Config = mockAppConfig
 	registration := ta.GenerateActionValidEmptyRegistration()
 	RegisterAction(&registration)(app)
 	return app, registration

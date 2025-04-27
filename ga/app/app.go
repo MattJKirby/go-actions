@@ -15,7 +15,7 @@ import (
 type App struct {
 	Name           string
 	ctx            context.Context
-	config         *config.ApplicationConfig
+	Config         *config.ApplicationConfig
 	actionRegistry *registration.ActionRegistry
 }
 
@@ -23,7 +23,7 @@ func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig])
 	return &App{
 		Name:           name,
 		ctx:            context.Background(),
-		config:         packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
+		Config:         packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
 		actionRegistry: registration.NewActionRegistry(),
 	}
 }
@@ -34,7 +34,7 @@ func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) func(*
 			registration.AcceptRegistration(reg)(app.actionRegistry)
 			return
 		}
-		registration.AcceptRegistration(&action.ActionRegistration[T]{Action: *new(T)})
+		registration.AcceptRegistration(&action.ActionRegistration[T]{Action: *new(T)})(app.actionRegistry)
 	}
 }
 
@@ -58,7 +58,7 @@ func GetActionByName(actionName string) func(*App) (*executable.Action[action.Go
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[action.GoAction](app.config.Global, typeDef)
+		return executable.NewAction[action.GoAction](app.Config.Global, typeDef)
 	}
 }
 
@@ -68,6 +68,6 @@ func GetAction[T action.GoAction]() func(*App) (*executable.Action[T], error) {
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[T](app.config.Global, def)
+		return executable.NewAction[T](app.Config.Global, def)
 	}
 }
