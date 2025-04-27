@@ -22,8 +22,8 @@ type BaseActionFields struct {
 
 func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 	return &BaseActionFields{
-		ActionInput:  model.Input(inst.Model, "ActionInput", false, nil),
-		ActionOutput: model.Output(inst.Model, "ActionOutput", nil),
+		ActionInput:  model.Input(inst.Model, "Action", false, nil),
+		ActionOutput: model.Output(inst.Model, "Action", nil),
 	}
 }
 
