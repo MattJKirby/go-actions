@@ -6,12 +6,12 @@ import (
 
 type Flow struct {
 	flowApp        *app.App
-	flowDefinition *flowDefinition
+	Definition *flowDefinition
 }
 
 func NewFlow(app *app.App) *Flow {
 	return &Flow{
 		flowApp:        app,
-		flowDefinition: NewFlowDefinition(),
+		Definition: NewFlowDefinition(app),
 	}
 }
