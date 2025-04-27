@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
@@ -16,8 +17,12 @@ func NewFlowDefinition() *flowDefinition {
 	}
 }
 
-func (fd *flowDefinition) AddInstance(instance *action.ActionInstance) {
-	fd.Actions[instance.Model.ActionUid] = instance
+func (fd *flowDefinition) addInstance(instance *action.ActionInstance) error {
+	if _,exists := fd.Actions[instance.Model.ActionUid]; !exists {
+		fd.Actions[instance.Model.ActionUid] = instance
+		return nil
+	}
+	return fmt.Errorf("error adding instance: instance '%s' already exists", instance.Model.ActionUid)
 }
 
 func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*executable.Action[action.GoAction], error) {
@@ -26,6 +31,6 @@ func (fd *flowDefinition) NewAction(flowApp *app.App, actionName string) (*execu
 		return nil, err
 	}
 
-	fd.AddInstance(action.Instance)
+	fd.addInstance(action.Instance)
 	return action, nil
 }

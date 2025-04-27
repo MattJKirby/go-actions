@@ -15,15 +15,6 @@ import (
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
-// func TestAddInstance(t *testing.T) {
-// 	flowDef := NewFlowDefinition()
-// 	instance := action.NewActionInstance("someInstance", &actionModelTestHelpers.MockActionModelConfig{MockUid: "abc"})
-// 	instance.Model.ActionTrigger
-
-// 	flowDef.AddInstance(instance)
-
-// 	asserts.Equals(t, instance, flowDef.Actions["someInstance:abc"])
-// }
 
 // func TestAddTriggerInstance(t *testing.T) {
 // 	flowDef := NewFlowDefinition()
@@ -34,6 +25,31 @@ var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 // 	asserts.Equals(t, triggerInstance, flowDef.Triggers["triggerInstance:abc"])
 // 	asserts.Equals(t, 0, len(flowDef.Actions))
 // }
+
+func TestAddInstance(t *testing.T) {
+	testcases := []struct{
+		name string
+		alreadyExists bool
+		err bool
+	}{
+		{name: "valid - instance does not already exist", alreadyExists: false, err: false},
+    {name: "invalid - instance already exists", alreadyExists: true, err: true},
+	}
+
+  for _, test := range testcases {
+    t.Run(test.name, func(t *testing.T) {
+      flowDef := NewFlowDefinition()
+      instance := action.NewActionInstance("someInstance", mockConfig)
+
+      if test.alreadyExists {
+        flowDef.addInstance(instance)
+      }
+
+      err := flowDef.addInstance(instance)
+      assert.Equals(t, test.err, err != nil)
+    })
+  }
+}
 
 func TestNewAction(t *testing.T) {
 	a := app.NewApp("testApp")
@@ -51,7 +67,7 @@ func TestMarshalFlowDefinition(t *testing.T) {
 	flowDef := NewFlowDefinition()
 	instance := action.NewActionInstance("someInstance", mockConfig)
 
-	flowDef.AddInstance(instance)
+	flowDef.addInstance(instance)
 	marshalledInstance, _ := json.Marshal(instance)
 
 	marshalled, err := json.Marshal(flowDef)
