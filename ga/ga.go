@@ -8,7 +8,7 @@ import (
 
 var ga = app.NewApp("GoActionsDefaultApp")
 
-func RegisterAction[T action.GoAction](reg *action.GoActionRegistration[T]) {
+func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) {
 	app.RegisterAction(reg)(ga)
 }
 

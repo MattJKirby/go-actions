@@ -18,7 +18,7 @@ type ActionTypeDefinition struct {
 	PropsType   reflect.Type
 }
 
-func TypeDefinitionFromRegistration[T action.GoAction](reg *action.GoActionRegistration[T]) *ActionTypeDefinition {
+func TypeDefinitionFromRegistration[T action.GoAction](reg *action.ActionRegistration[T]) *ActionTypeDefinition {
 	vAction := reflect.ValueOf(reg.Action)
 	tAction := vAction.Type()
 

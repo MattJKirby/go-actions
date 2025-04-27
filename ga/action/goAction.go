@@ -1,6 +1,6 @@
 package action
 
-type GoActionRegistration[Type GoAction] struct {
+type ActionRegistration[Type GoAction] struct {
 	Name         string
 	Action       Type
 }

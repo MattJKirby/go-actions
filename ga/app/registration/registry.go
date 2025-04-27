@@ -19,7 +19,7 @@ func NewActionRegistry() *ActionRegistry {
 	}
 }
 
-func AcceptRegistration[T action.GoAction](reg *action.GoActionRegistration[T]) func(*ActionRegistry) {
+func AcceptRegistration[T action.GoAction](reg *action.ActionRegistration[T]) func(*ActionRegistry) {
 	return func(ar *ActionRegistry) {
 		definition := definition.TypeDefinitionFromRegistration(reg)
 		ar.actionsByName[definition.TypeName] = definition

@@ -11,6 +11,6 @@ type ActionValidEmptyProps struct{}
 func (tav ActionValidEmpty) Init(*action.ActionInstance) {}
 func (tav ActionValidEmpty) Execute()                    {}
 
-func GenerateActionValidEmptyRegistration() action.GoActionRegistration[ActionValidEmpty] {
+func GenerateActionValidEmptyRegistration() action.ActionRegistration[ActionValidEmpty] {
 	return GenerateRegistration(ActionValidEmpty{})
 }

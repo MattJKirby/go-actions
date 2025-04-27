@@ -15,7 +15,7 @@ var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 var mockAppConfig = &config.ApplicationConfig{Global: mockGlobalConfig}
 
-func appWithEmptyRegistration() (*App, action.GoActionRegistration[ta.ActionValidEmpty]) {
+func appWithEmptyRegistration() (*App, action.ActionRegistration[ta.ActionValidEmpty]) {
 	app := NewApp("test")
 	app.config = mockAppConfig
 	registration := ta.GenerateActionValidEmptyRegistration()
