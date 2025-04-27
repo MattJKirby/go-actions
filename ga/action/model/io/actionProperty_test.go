@@ -8,4 +8,5 @@ import (
 func TestGetPropertyId(t *testing.T) {
 	prop := NewActionProperty("uid", "type", "name")
 	assert.Equals(t, "uid:type:name", prop.GetPropertyId())
+	assert.Equals(t, "uid", prop.GetActionUid())
 }
