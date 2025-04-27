@@ -6,8 +6,8 @@ import (
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
-	"go-actions/ga/action/model/store"
 	"go-actions/ga/app/config"
+	"go-actions/ga/libs/store"
 )
 
 type ActionModel struct {

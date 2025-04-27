@@ -2,7 +2,7 @@ package input
 
 import (
 	"go-actions/ga/action/model/io"
-	"go-actions/ga/action/model/store"
+	"go-actions/ga/libs/store"
 )
 
 type ActionInput struct {
