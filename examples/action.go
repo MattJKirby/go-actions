@@ -4,22 +4,16 @@ import (
 	"fmt"
 	"go-actions/ga"
 	"go-actions/ga/action"
-	"go-actions/ga/action/executable"
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
-	"go-actions/ga/flow"
 )
 
 func init() {
 	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction]{
 		Action:       &ExampleAction{},
 	})
-}
-
-func NewExampleAction(flow *flow.Flow) (*executable.Action[*ExampleAction], error) {
-	return ga.NewAction[*ExampleAction](flow)
 }
 
 type ExampleAction struct {
