@@ -11,9 +11,7 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[*ExampleAction]{
-		Action:       &ExampleAction{},
-	})
+	ga.RegisterAction[*ExampleAction](nil)
 }
 
 type ExampleAction struct {

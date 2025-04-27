@@ -8,8 +8,8 @@ import (
 
 var ga = app.NewApp("GoActionsDefaultApp")
 
-func RegisterAction[T action.GoAction](registration *action.GoActionRegistration[T]) {
-	app.RegisterAction(registration)(ga)
+func RegisterAction[T action.GoAction](reg *action.GoActionRegistration[T]) {
+	app.RegisterAction(reg)(ga)
 }
 
 func NewFlow() *flow.Flow {

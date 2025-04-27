@@ -6,9 +6,7 @@ import (
 )
 
 func init() {
-	ga.RegisterAction(&action.GoActionRegistration[*BasicAction]{
-		Action:       &BasicAction{},
-	})
+	ga.RegisterAction[*BasicAction](nil)
 }
 
 type BasicAction struct {}
