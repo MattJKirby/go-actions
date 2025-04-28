@@ -20,6 +20,6 @@ func (ap ActionProperty) GetActionUid() string {
 	return ap.actionUid
 }
 
-func (ap ActionProperty) GetPropertyId() string {
+func (ap ActionProperty) GetResourceId() string {
 	return ap.Uid
 }

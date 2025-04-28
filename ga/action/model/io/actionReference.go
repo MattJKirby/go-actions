@@ -7,7 +7,7 @@ import (
 
 type ReferencableProperty interface {
 	GetActionUid() string
-	GetPropertyId() string
+	GetResourceId() string
 }
 
 type ReferencableSource interface {
@@ -39,7 +39,7 @@ func NewActionReference(globalConfig *config.GlobalConfig, source ReferencableSo
 	}
 }
 
-func (par PartialActionReference) GetPropertyId() string {
+func (par PartialActionReference) GetResourceId() string {
 	return par.ReferenceUid
 }
 

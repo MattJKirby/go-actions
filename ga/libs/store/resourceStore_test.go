@@ -11,22 +11,22 @@ type IdProp struct {
 	Value string
 }
 
-func (ip IdProp) GetPropertyId() string {
+func (ip IdProp) GetResourceId() string {
 	return ip.Id
 }
 
-func TestNewProperty(t *testing.T) {
-	store := NewPropertyStore[IdentifiableProperty](false)
+func TestNewResource(t *testing.T) {
+	store := NewResourceStore[IdentifiableResource](false)
 
-	err := store.NewProperty(&IdProp{Id: "id", Value: "val"})
+	err := store.NewResource(&IdProp{Id: "id", Value: "val"})
 
 	assert.Equals(t, nil, err)
 	assert.Equals(t, 1, len(store.entries))
 }
 
-func TestMarshalx(t *testing.T) {
-	store := NewPropertyStore[IdentifiableProperty](false)
-	store.NewProperty(&IdProp{Id: "id", Value: "val"})
+func TestMarshalsResourceStore(t *testing.T) {
+	store := NewResourceStore[IdentifiableResource](false)
+	store.NewResource(&IdProp{Id: "id", Value: "val"})
 
 	marshalled, err := json.Marshal(store)
 
@@ -50,8 +50,8 @@ func TestUnmarshalUpdate(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			store := NewPropertyStore[IdProp](test.unsafe)
-			store.NewProperty(IdProp{Id: "id", Value: "0"})
+			store := NewResourceStore[IdProp](test.unsafe)
+			store.NewResource(IdProp{Id: "id", Value: "0"})
 
 			err := store.UnmarshalJSON([]byte(test.input))
 			assert.Equals(t, test.expectErr, err != nil)

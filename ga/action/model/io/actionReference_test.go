@@ -15,7 +15,7 @@ type source struct {
 }
 
 func (ms *source) GetActionUid() string  { return "sAction" }
-func (ms *source) GetPropertyId() string { return "sProperty" }
+func (ms *source) GetResourceId() string { return "sProperty" }
 func (ms *source) AssignTargetReference(pref *PartialActionReference) error {
 	ms.assignedTarget = pref
 	return nil
@@ -26,7 +26,7 @@ type target struct {
 }
 
 func (ms *target) GetActionUid() string  { return "tAction" }
-func (ms *target) GetPropertyId() string { return "tProperty" }
+func (ms *target) GetResourceId() string { return "tProperty" }
 func (ms *target) AssignSourceReference(pref *PartialActionReference) error {
 	ms.assignedSource = pref
 	return nil

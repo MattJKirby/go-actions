@@ -14,9 +14,9 @@ type ActionModel struct {
 	globalConfig *config.GlobalConfig
 	ActionName   string                                           `json:"name"`
 	ActionUid    string                                           `json:"uid"`
-	Parameters   *store.PropertyStore[store.IdentifiableProperty] `json:"parameters"`
-	Inputs       *store.PropertyStore[input.ActionInput]          `json:"inputs"`
-	Outputs      *store.PropertyStore[output.ActionOutput]        `json:"outputs"`
+	Parameters   *store.ResourceStore[store.IdentifiableResource] `json:"parameters"`
+	Inputs       *store.ResourceStore[input.ActionInput]          `json:"inputs"`
+	Outputs      *store.ResourceStore[output.ActionOutput]        `json:"outputs"`
 }
 
 func NewActionModel(typename string, globalConfig *config.GlobalConfig) *ActionModel {
@@ -24,15 +24,15 @@ func NewActionModel(typename string, globalConfig *config.GlobalConfig) *ActionM
 		globalConfig: globalConfig,
 		ActionName:   typename,
 		ActionUid:    fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid()),
-		Parameters:   store.NewPropertyStore[store.IdentifiableProperty](false),
-		Inputs:       store.NewPropertyStore[input.ActionInput](false),
-		Outputs:      store.NewPropertyStore[output.ActionOutput](false),
+		Parameters:   store.NewResourceStore[store.IdentifiableResource](false),
+		Inputs:       store.NewResourceStore[input.ActionInput](false),
+		Outputs:      store.NewResourceStore[output.ActionOutput](false),
 	}
 }
 
 func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.ActionParameter[T] {
-	parameterFn := func() *store.IdentifiableProperty {
-		value := store.IdentifiableProperty(parameter.NewActionParameter(m.ActionUid, name, defaultValue))
+	parameterFn := func() *store.IdentifiableResource {
+		value := store.IdentifiableResource(parameter.NewActionParameter(m.ActionUid, name, defaultValue))
 		return &value
 	}
 	return (*m.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])
