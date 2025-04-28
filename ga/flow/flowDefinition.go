@@ -10,13 +10,13 @@ import (
 
 type flowDefinition struct {
 	app *app.App
-	Actions *store.BaseStore[action.ActionInstance] `json:"Actions"`
+	Actions *store.ResourceStore[action.ActionInstance] `json:"Actions"`
 }
 
 func NewFlowDefinition(app *app.App) *flowDefinition {
 	return &flowDefinition{
 		app: app,
-		Actions: store.NewBaseStore[action.ActionInstance](),
+		Actions: store.NewResourceStore[action.ActionInstance](false),
 	}
 }
 

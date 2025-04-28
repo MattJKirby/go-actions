@@ -14,3 +14,7 @@ func NewActionInstance(actionName string, globalConfig *config.GlobalConfig) *Ac
 		Model: model.NewActionModel(actionName, globalConfig),
 	}
 }
+
+func (ai ActionInstance) GetResourceId() string {
+	return ai.Model.ActionUid
+}
