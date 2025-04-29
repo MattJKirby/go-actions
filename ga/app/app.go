@@ -5,7 +5,7 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
-	"go-actions/ga/app/config"
+
 	"go-actions/ga/app/registration"
 	"go-actions/ga/libs/packageConfig"
 
@@ -15,15 +15,15 @@ import (
 type App struct {
 	Name           string
 	ctx            context.Context
-	Config         *config.ApplicationConfig
+	Config         *ApplicationConfig
 	actionRegistry *registration.ActionRegistry
 }
 
-func NewApp(name string, opts ...packageConfig.Option[config.ApplicationConfig]) *App {
+func NewApp(name string, opts ...packageConfig.Option[ApplicationConfig]) *App {
 	return &App{
 		Name:           name,
 		ctx:            context.Background(),
-		Config:         packageConfig.NewPackageConfig(config.DefaultApplicationConfig(), opts...),
+		Config:         packageConfig.NewPackageConfig(DefaultApplicationConfig(), opts...),
 		actionRegistry: registration.NewActionRegistry(),
 	}
 }
