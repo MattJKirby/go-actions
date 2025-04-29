@@ -1,6 +1,6 @@
 package config
 
-import "go-actions/ga/utils/packageConfig"
+import "go-actions/ga/libs/packageConfig"
 
 type ApplicationConfig struct {
 	Global *GlobalConfig

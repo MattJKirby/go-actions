@@ -6,6 +6,7 @@ import (
 )
 
 type ActionInstance struct {
+	Uid string `json:"uid"`
 	Model *model.ActionModel `json:"model"`
 }
 

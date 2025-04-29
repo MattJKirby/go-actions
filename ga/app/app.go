@@ -7,7 +7,7 @@ import (
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app/config"
 	"go-actions/ga/app/registration"
-	"go-actions/ga/utils/packageConfig"
+	"go-actions/ga/libs/packageConfig"
 
 	"reflect"
 )

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"go-actions/ga/utils/packageConfig"
+	"go-actions/ga/libs/packageConfig"
 	"go-actions/ga/utils/uid"
 )
 
