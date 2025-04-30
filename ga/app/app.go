@@ -58,7 +58,7 @@ func GetActionByName(actionName string) func(*App) (*executable.Action[action.Go
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[action.GoAction](app.Config.Global, typeDef)
+		return executable.NewAction[action.GoAction](app.Config.Global, app.Config.Action, typeDef)
 	}
 }
 
@@ -68,6 +68,6 @@ func GetAction[T action.GoAction]() func(*App) (*executable.Action[T], error) {
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[T](app.Config.Global, def)
+		return executable.NewAction[T](app.Config.Global, app.Config.Action, def)
 	}
 }

@@ -12,11 +12,12 @@ import (
 
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var mockActionConfig = &action.ActionConfig{}
 
 func TestNewAction(t *testing.T) {
 	reg := testActions.GenerateActionValidEmptyRegistration()
 	definition := definition.TypeDefinitionFromRegistration(&reg)
-	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig)
+	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig, mockActionConfig)
 
 	expected := &Action[action.GoAction]{
 		Definition:       testActions.ActionValidEmpty{},
@@ -24,7 +25,7 @@ func TestNewAction(t *testing.T) {
 		BaseActionFields: NewBaseActionFields(instance),
 	}
 
-	actual, err := NewAction[action.GoAction](mockGlobalConfig, definition)
+	actual, err := NewAction[action.GoAction](mockGlobalConfig, mockActionConfig, definition)
 	assert.Equals(t, nil, err)
 	assert.Equals(t, expected, actual)
 }

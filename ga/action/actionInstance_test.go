@@ -11,9 +11,10 @@ import (
 
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var actionConfig = &ActionConfig{}
 
 func TestNewActionInstance(t *testing.T) {
-	instance := NewActionInstance("test", mockConfig)
+	instance := NewActionInstance("test", mockConfig, actionConfig)
 	expectedModel := model.NewActionModel("test", mockConfig)
 
 	assert.Equals(t, expectedModel, instance.Model)

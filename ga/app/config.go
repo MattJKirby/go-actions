@@ -1,17 +1,20 @@
 package app
 
 import (
+	"go-actions/ga/action"
 	"go-actions/ga/app/config"
 	"go-actions/ga/libs/packageConfig"
 )
 
 type ApplicationConfig struct {
 	Global *config.GlobalConfig
+  Action *action.ActionConfig
 }
 
 func DefaultApplicationConfig() *ApplicationConfig {
 	return &ApplicationConfig{
 		Global: packageConfig.NewPackageConfig(config.DefaultGlobalConfig()),
+    Action: packageConfig.NewPackageConfig(action.DefaultActionConfig()),
 	}
 }
 
