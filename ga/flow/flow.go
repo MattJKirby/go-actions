@@ -5,13 +5,13 @@ import (
 )
 
 type Flow struct {
-	flowApp        *app.App
+	flowApp    *app.App
 	Definition *flowDefinition
 }
 
 func NewFlow(app *app.App) *Flow {
 	return &Flow{
-		flowApp:        app,
+		flowApp:    app,
 		Definition: NewFlowDefinition(app),
 	}
 }

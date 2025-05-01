@@ -8,13 +8,13 @@ import (
 
 type ApplicationConfig struct {
 	Global *config.GlobalConfig
-  Action *action.ActionConfig
+	Action *action.ActionConfig
 }
 
 func DefaultApplicationConfig() *ApplicationConfig {
 	return &ApplicationConfig{
 		Global: packageConfig.NewPackageConfig(config.DefaultGlobalConfig()),
-    Action: packageConfig.NewPackageConfig(action.DefaultActionConfig()),
+		Action: packageConfig.NewPackageConfig(action.DefaultActionConfig()),
 	}
 }
 

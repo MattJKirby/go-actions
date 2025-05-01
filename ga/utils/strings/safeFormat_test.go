@@ -7,11 +7,11 @@ import (
 
 func TestValidatePlaceholders(t *testing.T) {
 	tests := []struct {
-		name              string
-		format            string
-		restrictToString  bool
-		expectedCount     int
-		expectError       bool
+		name             string
+		format           string
+		restrictToString bool
+		expectedCount    int
+		expectError      bool
 	}{
 		{
 			name:             "valid %s only",

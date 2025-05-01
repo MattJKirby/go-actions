@@ -21,11 +21,10 @@ func TestNewAction(t *testing.T) {
 	act, err := flowDef.NewAction("ActionValidEmpty")
 
 	got, _ := flowDef.Actions.Get(act.Instance.Model.ActionUid)
-	assert.Equals(t, true,  got != nil)
+	assert.Equals(t, true, got != nil)
 	assert.Equals(t, nil, err)
 }
 
 // func TestNewReference(t *testing.T) {
 // 	a := app.NewApp("testApp")
 // }
-

@@ -6,13 +6,13 @@ type ActionUidBuilder interface {
 }
 
 type ActionConfig struct {
-	UidFormat string
+	UidFormat  string
 	UidBuilder *ActionUidBuilder
 }
 
 func DefaultActionConfig() *ActionConfig {
 	return &ActionConfig{
-		UidFormat: `ga:%s:%s:%s:%s`,
+		UidFormat:  `ga:%s:%s:%s:%s`,
 		UidBuilder: nil,
 	}
 }

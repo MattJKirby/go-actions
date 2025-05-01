@@ -9,8 +9,8 @@ func init() {
 	ga.RegisterAction[*BasicAction](nil)
 }
 
-type BasicAction struct {}
+type BasicAction struct{}
 
-func (ba *BasicAction) Init(inst *action.ActionInstance){}
+func (ba *BasicAction) Init(inst *action.ActionInstance) {}
 
-func (ba *BasicAction) Execute(){}
+func (ba *BasicAction) Execute() {}

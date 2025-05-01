@@ -1,8 +1,8 @@
 package action
 
 type ActionRegistration[Type GoAction] struct {
-	Name         string
-	Action       Type
+	Name   string
+	Action Type
 }
 
 type GoActionProps any

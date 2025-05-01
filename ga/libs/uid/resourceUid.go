@@ -8,24 +8,24 @@ import (
 )
 
 type ResourceUid struct {
-  prefix string
+	prefix    string
 	namespace string
-	resource string
-	uid string
+	resource  string
+	uid       string
 }
 
 func defaultResourceUid(config *config.GlobalConfig) *ResourceUid {
 	return &ResourceUid{
-    prefix: "ga",
+		prefix:    "ga",
 		namespace: "core",
-		resource: "",
-		uid: config.UidGenerator.GenerateUid(),
+		resource:  "",
+		uid:       config.UidGenerator.GenerateUid(),
 	}
 }
 
 func NewResourceUid(config *config.GlobalConfig, opts ...ResourceUidOption) *ResourceUid {
 	resourceUid := defaultResourceUid(config)
-	for _,opt := range opts {
+	for _, opt := range opts {
 		opt(resourceUid)
 	}
 	return resourceUid
@@ -36,7 +36,7 @@ func (ru *ResourceUid) getUidValue(resourceType, resourceName string) string {
 }
 
 func (ru *ResourceUid) GetString() string {
-  return ru.getUidValue("", "")
+	return ru.getUidValue("", "")
 }
 
 func (ru *ResourceUid) GetSecondaryUid(resourceType, resourceName string) string {
@@ -44,7 +44,7 @@ func (ru *ResourceUid) GetSecondaryUid(resourceType, resourceName string) string
 }
 
 func (ru *ResourceUid) MarshalJSON() ([]byte, error) {
-  return json.Marshal(ru.GetString())
+	return json.Marshal(ru.GetString())
 }
 
 func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
@@ -68,7 +68,7 @@ func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("%s: unexpected namespace: got '%s', expected '%s'", errorStub, elements[1], ru.namespace)
 	}
 
-  if elements[2] != strings.ToLower(ru.resource) {
+	if elements[2] != strings.ToLower(ru.resource) {
 		return fmt.Errorf("%s: unexpected resource: got '%s', expected '%s'", errorStub, elements[2], ru.resource)
 	}
 

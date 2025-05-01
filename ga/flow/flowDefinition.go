@@ -9,17 +9,16 @@ import (
 )
 
 type flowDefinition struct {
-	app *app.App
+	app     *app.App
 	Actions *store.ResourceStore[action.ActionInstance] `json:"Actions"`
 }
 
 func NewFlowDefinition(app *app.App) *flowDefinition {
 	return &flowDefinition{
-		app: app,
+		app:     app,
 		Actions: store.NewResourceStore[action.ActionInstance](false),
 	}
 }
-
 
 func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
 	action, err := app.GetActionByName(actionName)(fd.app)

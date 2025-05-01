@@ -31,43 +31,43 @@ func TestMarshal(t *testing.T) {
 	assert.Equals(t, fmt.Sprintf(`"%s"`, uid.GetString()), string(marshalled))
 }
 
-func TestUnmarshal(t *testing.T){
+func TestUnmarshal(t *testing.T) {
 	mockUidGen := &testHelpers.MockUidGenerator{MockUid: ""}
 	mockConfig := &config.GlobalConfig{UidGenerator: mockUidGen}
-	
+
 	tests := []struct {
-		name         string
-		jsonInput    string
-		expectedResource  string
-		expectedUid string
-		expectErr    bool
+		name             string
+		jsonInput        string
+		expectedResource string
+		expectedUid      string
+		expectErr        bool
 	}{
 		{
-			name:        "valid UID",
-			jsonInput:   `"ga:mynamespace:myresource:somevaliduid::"`,
+			name:             "valid UID",
+			jsonInput:        `"ga:mynamespace:myresource:somevaliduid::"`,
 			expectedResource: "resource",
-			expectedUid: "somevaliduid",
-			expectErr:   false,
+			expectedUid:      "somevaliduid",
+			expectErr:        false,
 		},
 		{
-			name:        "invalid prefix",
-			jsonInput:   `"wrongprefix:mynamespace:resource:uid::"`,
-			expectErr:   true,
+			name:      "invalid prefix",
+			jsonInput: `"wrongprefix:mynamespace:resource:uid::"`,
+			expectErr: true,
 		},
 		{
-			name:        "invalid namespace",
-			jsonInput:   `"ga:wrongnamespace:resource:uid::"`,
-			expectErr:   true,
+			name:      "invalid namespace",
+			jsonInput: `"ga:wrongnamespace:resource:uid::"`,
+			expectErr: true,
 		},
 		{
-			name:        "invalid resource",
-			jsonInput:   `"ga:mynamespace:wrongresource:uid::"`,
-			expectErr:   true,
+			name:      "invalid resource",
+			jsonInput: `"ga:mynamespace:wrongresource:uid::"`,
+			expectErr: true,
 		},
 		{
-			name:        "wrong format",
-			jsonInput:   `"ga:mynamespace:onlythreeparts"`,
-			expectErr:   true,
+			name:      "wrong format",
+			jsonInput: `"ga:mynamespace:onlythreeparts"`,
+			expectErr: true,
 		},
 	}
 

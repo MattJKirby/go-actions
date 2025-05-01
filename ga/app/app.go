@@ -28,7 +28,7 @@ func NewApp(name string, opts ...packageConfig.Option[ApplicationConfig]) *App {
 	}
 }
 
-func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) func(*App) {	
+func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) func(*App) {
 	return func(app *App) {
 		if reg != nil {
 			registration.AcceptRegistration(reg)(app.actionRegistry)
