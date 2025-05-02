@@ -21,7 +21,7 @@ type ActionModel struct {
 func NewActionModel(uid *uid.ResourceUid, globalConfig *config.GlobalConfig) *ActionModel {
 	return &ActionModel{
 		globalConfig: globalConfig,
-		ActionUid:    uid.GetSecondaryUid("", ""),
+		ActionUid:    uid.GetSecondaryId("model"),
 		Parameters:   store.NewResourceStore[store.IdentifiableResource](false),
 		Inputs:       store.NewResourceStore[input.ActionInput](false),
 		Outputs:      store.NewResourceStore[output.ActionOutput](false),

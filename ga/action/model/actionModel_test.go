@@ -21,7 +21,7 @@ func TestMarshalEmptyModel(t *testing.T) {
 	model := NewActionModel(uid, mockConfig)
 	mashalled, _ := json.Marshal(model)
 
-	assert.Equals(t, `{"uid":":::::","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
+	assert.Equals(t, `{"uid":"::::model:","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
 }
 
 func TestUnmarshalmodel(t *testing.T) {
