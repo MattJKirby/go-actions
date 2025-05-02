@@ -16,7 +16,7 @@ var mockActionConfig = &action.ActionConfig{}
 func TestNewAction(t *testing.T) {
 	reg := action.ActionRegistration[testActions.ActionValidEmpty]{Action: testActions.ActionValidEmpty{}}
 	definition := action.TypeDefinitionFromRegistration(&reg)
-	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig, mockActionConfig)
+	instance := action.NewActionInstance(mockGlobalConfig, mockActionConfig, definition)
 
 	expected := &Action[action.GoAction]{
 		Definition:       testActions.ActionValidEmpty{},

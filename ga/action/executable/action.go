@@ -28,7 +28,7 @@ func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 }
 
 func NewAction[T action.GoAction](config *config.GlobalConfig, actionConfig *action.ActionConfig, typeDef *action.TypeDefinition) (*Action[T], error) {
-	instance := action.NewActionInstance(typeDef.TypeName, config, actionConfig)
+	instance := action.NewActionInstance(config, actionConfig, typeDef)
 
 	action, err := action.InitialiseInstance[T](typeDef, instance)
 	if err != nil {

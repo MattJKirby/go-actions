@@ -15,7 +15,9 @@ var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 var actionConfig = &action.ActionConfig{}
 
 func TestNewActionInstance(t *testing.T) {
-	instance := action.NewActionInstance("test", mockConfig, actionConfig)
+	def := &action.TypeDefinition{TypeName: "test"}
+	
+	instance := action.NewActionInstance(mockConfig, actionConfig, def)
 	expectedModel := model.NewActionModel("test", mockConfig)
 
 	assert.Equals(t, expectedModel, instance.Model)

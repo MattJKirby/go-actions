@@ -82,7 +82,7 @@ func TestInitialiseInstance(t *testing.T) {
 	reg := action.ActionRegistration[ta.ActionValid]{Action: ta.ActionValid{}}
 	defReg := action.TypeDefinitionFromRegistration(&reg)
 
-	inst := action.NewActionInstance("", mockGlobalConfig, mockActionConfig)
+	inst := action.NewActionInstance(mockGlobalConfig, mockActionConfig, defReg)
 
 	act, err := action.InitialiseInstance[ta.ActionValid](defReg, inst)
 
