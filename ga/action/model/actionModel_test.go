@@ -18,7 +18,7 @@ var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestMarshalEmptyModel(t *testing.T) {
 	uid := &uid.ResourceUid{}
-	model := NewActionModel(uid, mockConfig)
+	model := NewActionModel(mockConfig, uid)
 	mashalled, _ := json.Marshal(model)
 
 	assert.Equals(t, `{"uid":"::::model:","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
@@ -26,7 +26,7 @@ func TestMarshalEmptyModel(t *testing.T) {
 
 func TestUnmarshalModel(t *testing.T) {
 	uid := &uid.ResourceUid{}
-	model := NewActionModel(uid, mockConfig)
+	model := NewActionModel(mockConfig, uid)
 	marshalled := `{"uid":"::::x:","parameters":[],"inputs":[],"outputs":[]}`
 
 	err := json.Unmarshal([]byte(marshalled), model)
@@ -36,7 +36,7 @@ func TestUnmarshalModel(t *testing.T) {
 
 func TestParameter(t *testing.T) {
 	uid := &uid.ResourceUid{}
-	model := NewActionModel(uid, mockConfig)
+	model := NewActionModel(mockConfig, uid)
 	expected := Parameter(model, "paramName", 0)
 
 	param, err := model.Parameters.Get("paramName")
@@ -57,7 +57,7 @@ func TestInput(t *testing.T) {
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
 			uid := &uid.ResourceUid{}
-			model := NewActionModel(uid, mockConfig)
+			model := NewActionModel(mockConfig, uid)
 			input := Input(model, "inputName", false, test.defaultSource)
 
 			expectedInput, err := model.Inputs.Get("inputName")
@@ -83,7 +83,7 @@ func TestOutput(t *testing.T) {
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
 			uid := &uid.ResourceUid{}
-			model := NewActionModel(uid, mockConfig)
+			model := NewActionModel(mockConfig, uid)
 			output := Output(model, "outputName", test.defaultTargets)
 
 			expectedOutput, err := model.Outputs.Get("outputName")

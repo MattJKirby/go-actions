@@ -15,7 +15,7 @@ func NewActionInstance(globalConfig *config.GlobalConfig, actionConfig *ActionCo
 	uid := uid.NewResourceUid(globalConfig, uid.WithResource(typedef.TypeName))
 	return &ActionInstance{
 		Uid:   uid,
-		Model: model.NewActionModel(uid, globalConfig),
+		Model: model.NewActionModel(globalConfig, uid),
 	}
 }
 

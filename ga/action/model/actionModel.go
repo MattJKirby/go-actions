@@ -18,7 +18,7 @@ type ActionModel struct {
 	Outputs      *store.ResourceStore[output.ActionOutput]        `json:"outputs"`
 }
 
-func NewActionModel(actionUid *uid.ResourceUid, globalConfig *config.GlobalConfig) *ActionModel {
+func NewActionModel(globalConfig *config.GlobalConfig, actionUid *uid.ResourceUid) *ActionModel {
 	return &ActionModel{
 		globalConfig: globalConfig,
 		ModelUid:     actionUid.FromParent(uid.WithSubResource("model")),
