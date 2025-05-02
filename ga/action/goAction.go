@@ -5,8 +5,6 @@ type ActionRegistration[Type GoAction] struct {
 	Action Type
 }
 
-type GoActionProps any
-
 type GoAction interface {
 	Init(*ActionInstance)
 	Execute()
