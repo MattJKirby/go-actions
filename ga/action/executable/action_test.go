@@ -15,7 +15,7 @@ var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 var mockActionConfig = &action.ActionConfig{}
 
 func TestNewAction(t *testing.T) {
-	reg := testActions.GenerateActionValidEmptyRegistration()
+	reg := action.ActionRegistration[testActions.ActionValidEmpty]{Action: testActions.ActionValidEmpty{}}
 	definition := definition.TypeDefinitionFromRegistration(&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig, mockActionConfig)
 
