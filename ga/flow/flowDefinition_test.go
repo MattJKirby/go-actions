@@ -1,7 +1,6 @@
 package flow
 
 import (
-	"go-actions/ga/action"
 	"go-actions/ga/app"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
@@ -15,7 +14,7 @@ var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestNewAction(t *testing.T) {
 	a := app.NewApp("testApp")
-	reg := action.ActionRegistration[testActions.ActionValidEmpty]{Action: testActions.ActionValidEmpty{}}
+	reg := testActions.GenerateActionValidEmptyRegistration()
 	app.RegisterAction(&reg)(a)
 
 	flowDef := NewFlowDefinition(a)

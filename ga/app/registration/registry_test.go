@@ -2,17 +2,16 @@ package registration
 
 import (
 	"fmt"
-	"go-actions/ga/action"
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testActions"
+	ta "go-actions/ga/utils/testing/testActions"
 	"testing"
 )
 
 func TestAcceptAction(t *testing.T) {
 	registry := NewActionRegistry()
-	reg := action.ActionRegistration[testActions.ActionValidEmpty]{Action: testActions.ActionValidEmpty{}}
+	registration := ta.GenerateActionValidEmptyRegistration()
 
-	AcceptRegistration(&reg)(registry)
+	AcceptRegistration(&registration)(registry)
 	abt := len(registry.actionsByType)
 	abn := len(registry.actionsByName)
 
@@ -27,8 +26,8 @@ func TestAcceptAction(t *testing.T) {
 
 func TestGetActionByName(t *testing.T) {
 	registry := NewActionRegistry()
-	reg := action.ActionRegistration[testActions.ActionValid]{Action: testActions.ActionValid{}}
-	AcceptRegistration(&reg)(registry)
+	registration := ta.GenerateActionValidRegistration()
+	AcceptRegistration(&registration)(registry)
 
 	tests := []struct {
 		name       string

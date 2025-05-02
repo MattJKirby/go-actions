@@ -10,3 +10,6 @@ func (atv ActionTriggerValid) Init(*action.ActionInstance) {}
 func (atv ActionTriggerValid) Execute()                    {}
 func (atv ActionTriggerValid) PublishTriggerConditions()   {}
 
+func GenerateActionTriggerValidRegistration() action.ActionRegistration[ActionTriggerValid] {
+	return GenerateRegistration(ActionTriggerValid{})
+}

@@ -24,3 +24,7 @@ func (tav ActionValid) Init(inst *action.ActionInstance) {
 func (tav ActionValid) Execute() {
 	fmt.Println(tav.Param1.Value())
 }
+
+func GenerateActionValidRegistration() action.ActionRegistration[ActionValid] {
+	return GenerateRegistration(ActionValid{})
+}
