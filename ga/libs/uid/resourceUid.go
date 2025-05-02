@@ -39,6 +39,10 @@ func (ru *ResourceUid) GetString() string {
 	return ru.getUidValue("", "")
 }
 
+func (ru *ResourceUid) GetSecondaryId(resourceType string) string {
+	return ru.getUidValue(resourceType, "")
+}
+
 func (ru *ResourceUid) GetSecondaryUid(resourceType, resourceName string) string {
 	return ru.getUidValue(resourceType, resourceName)
 }
