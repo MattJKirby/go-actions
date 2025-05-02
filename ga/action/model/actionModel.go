@@ -1,29 +1,27 @@
 package model
 
 import (
-	"fmt"
 	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/app/config"
 	"go-actions/ga/libs/store"
+	"go-actions/ga/libs/uid"
 )
 
 type ActionModel struct {
 	globalConfig *config.GlobalConfig
-	ActionName   string                                           `json:"name"`
 	ActionUid    string                                           `json:"uid"`
 	Parameters   *store.ResourceStore[store.IdentifiableResource] `json:"parameters"`
 	Inputs       *store.ResourceStore[input.ActionInput]          `json:"inputs"`
 	Outputs      *store.ResourceStore[output.ActionOutput]        `json:"outputs"`
 }
 
-func NewActionModel(typename string, globalConfig *config.GlobalConfig) *ActionModel {
+func NewActionModel(uid *uid.ResourceUid, globalConfig *config.GlobalConfig) *ActionModel {
 	return &ActionModel{
 		globalConfig: globalConfig,
-		ActionName:   typename,
-		ActionUid:    fmt.Sprintf("%s:%s", typename, globalConfig.UidGenerator.GenerateUid()),
+		ActionUid:    uid.GetSecondaryUid("", ""),
 		Parameters:   store.NewResourceStore[store.IdentifiableResource](false),
 		Inputs:       store.NewResourceStore[input.ActionInput](false),
 		Outputs:      store.NewResourceStore[output.ActionOutput](false),

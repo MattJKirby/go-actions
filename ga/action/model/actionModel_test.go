@@ -7,6 +7,7 @@ import (
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/app/config"
+	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/testing/assert"
 	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
@@ -16,24 +17,26 @@ var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestMarshalEmptyModel(t *testing.T) {
-	model := NewActionModel("someName", mockConfig)
+	uid := &uid.ResourceUid{}
+	model := NewActionModel(uid, mockConfig)
 	mashalled, _ := json.Marshal(model)
 
-	assert.Equals(t, `{"name":"someName","uid":"someName:uid","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
+	assert.Equals(t, `{"uid":":::::","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
 }
 
 func TestUnmarshalmodel(t *testing.T) {
-	model := NewActionModel("someName", mockConfig)
-	marshalled := `{"name":"otherName","uid":"otherUid","parameters":[],"inputs":[],"outputs":[]}`
+	uid := &uid.ResourceUid{}
+	model := NewActionModel(uid, mockConfig)
+	marshalled := `{"uid":"otherUid","parameters":[],"inputs":[],"outputs":[]}`
 
 	err := json.Unmarshal([]byte(marshalled), model)
 	assert.Equals(t, err, nil)
-	assert.Equals(t, model.ActionName, "otherName")
 	assert.Equals(t, model.ActionUid, "otherUid")
 }
 
 func TestParameter(t *testing.T) {
-	model := NewActionModel("", mockConfig)
+	uid := &uid.ResourceUid{}
+	model := NewActionModel(uid, mockConfig)
 	expected := Parameter(model, "paramName", 0)
 
 	param, err := model.Parameters.Get("paramName")
@@ -53,7 +56,8 @@ func TestInput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			model := NewActionModel("", mockConfig)
+			uid := &uid.ResourceUid{}
+			model := NewActionModel(uid, mockConfig)
 			input := Input(model, "inputName", false, test.defaultSource)
 
 			expectedInput, err := model.Inputs.Get("inputName")
@@ -78,7 +82,8 @@ func TestOutput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			model := NewActionModel("", mockConfig)
+			uid := &uid.ResourceUid{}
+			model := NewActionModel(uid, mockConfig)
 			output := Output(model, "outputName", test.defaultTargets)
 
 			expectedOutput, err := model.Outputs.Get("outputName")

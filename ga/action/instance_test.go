@@ -18,7 +18,7 @@ func TestNewActionInstance(t *testing.T) {
 	def := &action.TypeDefinition{TypeName: "test"}
 	
 	instance := action.NewActionInstance(mockConfig, actionConfig, def)
-	expectedModel := model.NewActionModel("test", mockConfig)
+	expectedModel := model.NewActionModel(instance.Uid, mockConfig)
 
 	assert.Equals(t, expectedModel, instance.Model)
 }
