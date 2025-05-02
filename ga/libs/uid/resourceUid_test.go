@@ -24,7 +24,6 @@ func TestChildUid(t *testing.T) {
 	assert.Equals(t, "ga:core:parent:abc:subresource:", child.GetString())
 }
 
-
 func TestMarshal(t *testing.T) {
 	uid := NewResourceUid(mockGlobalConfig, WithNamespace("testns"), WithResource("someAction"))
 

@@ -8,22 +8,22 @@ import (
 )
 
 type ResourceUid struct {
-	prefix    string
-	namespace string
-	resource  string
-	uid       string
+	prefix          string
+	namespace       string
+	resource        string
+	uid             string
 	subResourceType string
-	subResourceId string
+	subResourceId   string
 }
 
 func defaultResourceUid(config *config.GlobalConfig) *ResourceUid {
 	return &ResourceUid{
-		prefix:    "ga",
-		namespace: "core",
-		resource:  "",
-		uid:       config.UidGenerator.GenerateUid(),
+		prefix:          "ga",
+		namespace:       "core",
+		resource:        "",
+		uid:             config.UidGenerator.GenerateUid(),
 		subResourceType: "",
-		subResourceId: "",
+		subResourceId:   "",
 	}
 }
 
@@ -41,7 +41,7 @@ func (ru *ResourceUid) GetString() string {
 
 func (ru *ResourceUid) FromParent(opts ...ResourceUidOption) *ResourceUid {
 	child := ru
-	for _,opt := range opts {
+	for _, opt := range opts {
 		opt(child)
 	}
 	return child

@@ -24,4 +24,3 @@ func TestWithSubResourceId(t *testing.T) {
 	uid := NewResourceUid(mockGlobalConfig, WithSubResourceId("subResourceId"))
 	assert.Equals(t, "subResourceId", uid.subResourceId)
 }
-
