@@ -24,14 +24,14 @@ func TestMarshalEmptyModel(t *testing.T) {
 	assert.Equals(t, `{"uid":"::::model:","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
 }
 
-func TestUnmarshalmodel(t *testing.T) {
+func TestUnmarshalModel(t *testing.T) {
 	uid := &uid.ResourceUid{}
 	model := NewActionModel(uid, mockConfig)
-	marshalled := `{"uid":"otherUid","parameters":[],"inputs":[],"outputs":[]}`
+	marshalled := `{"uid":"::::x:","parameters":[],"inputs":[],"outputs":[]}`
 
 	err := json.Unmarshal([]byte(marshalled), model)
 	assert.Equals(t, err, nil)
-	assert.Equals(t, model.ActionUid, "otherUid")
+	assert.Equals(t, model.ModelUid.GetString(), "::::x:")
 }
 
 func TestParameter(t *testing.T) {

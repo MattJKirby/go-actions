@@ -26,7 +26,7 @@ func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[actio
 		return nil, err
 	}
 
-	fd.Actions.Insert(action.Instance.Model.ActionUid, action.Instance)
+	fd.Actions.Insert(action.Instance.Uid.GetString(), action.Instance)
 	return action, nil
 }
 

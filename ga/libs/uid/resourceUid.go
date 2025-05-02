@@ -12,6 +12,8 @@ type ResourceUid struct {
 	namespace string
 	resource  string
 	uid       string
+	subResourceType string
+	subResourceId string
 }
 
 func defaultResourceUid(config *config.GlobalConfig) *ResourceUid {
@@ -20,6 +22,8 @@ func defaultResourceUid(config *config.GlobalConfig) *ResourceUid {
 		namespace: "core",
 		resource:  "",
 		uid:       config.UidGenerator.GenerateUid(),
+		subResourceType: "",
+		subResourceId: "",
 	}
 }
 
@@ -31,20 +35,16 @@ func NewResourceUid(config *config.GlobalConfig, opts ...ResourceUidOption) *Res
 	return resourceUid
 }
 
-func (ru *ResourceUid) getUidValue(resourceType, resourceName string) string {
-	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", ru.prefix, ru.namespace, ru.resource, ru.uid, resourceType, resourceName))
-}
-
 func (ru *ResourceUid) GetString() string {
-	return ru.getUidValue("", "")
+	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId))
 }
 
-func (ru *ResourceUid) GetSecondaryId(resourceType string) string {
-	return ru.getUidValue(resourceType, "")
-}
-
-func (ru *ResourceUid) GetSecondaryUid(resourceType, resourceName string) string {
-	return ru.getUidValue(resourceType, resourceName)
+func (ru *ResourceUid) FromParent(opts ...ResourceUidOption) *ResourceUid {
+	child := ru
+	for _,opt := range opts {
+		opt(child)
+	}
+	return child
 }
 
 func (ru *ResourceUid) MarshalJSON() ([]byte, error) {
@@ -77,6 +77,8 @@ func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
 	}
 
 	ru.uid = elements[3]
+	ru.subResourceType = elements[4]
+	ru.subResourceId = elements[5]
 
 	return nil
 }

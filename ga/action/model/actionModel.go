@@ -12,16 +12,16 @@ import (
 
 type ActionModel struct {
 	globalConfig *config.GlobalConfig
-	ActionUid    string                                           `json:"uid"`
+	ModelUid    *uid.ResourceUid                                       `json:"uid"`
 	Parameters   *store.ResourceStore[store.IdentifiableResource] `json:"parameters"`
 	Inputs       *store.ResourceStore[input.ActionInput]          `json:"inputs"`
 	Outputs      *store.ResourceStore[output.ActionOutput]        `json:"outputs"`
 }
 
-func NewActionModel(uid *uid.ResourceUid, globalConfig *config.GlobalConfig) *ActionModel {
+func NewActionModel(actionUid *uid.ResourceUid, globalConfig *config.GlobalConfig) *ActionModel {
 	return &ActionModel{
 		globalConfig: globalConfig,
-		ActionUid:    uid.GetSecondaryId("model"),
+		ModelUid:    actionUid.FromParent(uid.WithSubResource("model")),
 		Parameters:   store.NewResourceStore[store.IdentifiableResource](false),
 		Inputs:       store.NewResourceStore[input.ActionInput](false),
 		Outputs:      store.NewResourceStore[output.ActionOutput](false),
@@ -30,7 +30,7 @@ func NewActionModel(uid *uid.ResourceUid, globalConfig *config.GlobalConfig) *Ac
 
 func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.ActionParameter[T] {
 	parameterFn := func() *store.IdentifiableResource {
-		value := store.IdentifiableResource(parameter.NewActionParameter(m.ActionUid, name, defaultValue))
+		value := store.IdentifiableResource(parameter.NewActionParameter(m.ModelUid.GetString(), name, defaultValue))
 		return &value
 	}
 	return (*m.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])
@@ -38,7 +38,7 @@ func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.Ac
 
 func Input(m *ActionModel, name string, required bool, defaultSource *output.ActionOutput) *input.ActionInput {
 	input := m.Inputs.GetDefault(name, func() *input.ActionInput {
-		return input.NewActionInput(name, m.ActionUid)
+		return input.NewActionInput(name, m.ModelUid.GetString())
 	})
 
 	if defaultSource != nil {
@@ -50,7 +50,7 @@ func Input(m *ActionModel, name string, required bool, defaultSource *output.Act
 
 func Output(m *ActionModel, name string, defaultTargets []*input.ActionInput) *output.ActionOutput {
 	output := m.Outputs.GetDefault(name, func() *output.ActionOutput {
-		return output.NewActionOutput(name, m.ActionUid)
+		return output.NewActionOutput(name, m.ModelUid.GetString())
 	})
 
 	for _, target := range defaultTargets {

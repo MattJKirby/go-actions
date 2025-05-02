@@ -13,3 +13,15 @@ func WithResource(resource string) ResourceUidOption {
 		ru.resource = resource
 	}
 }
+
+func WithSubResource(resourceType string) ResourceUidOption {
+	return func(ru *ResourceUid) {
+		ru.subResourceType = resourceType
+	}
+}
+
+func WithSubResourceId(resourceId string) ResourceUidOption {
+	return func(ru *ResourceUid) {
+		ru.subResourceId = resourceId
+	}
+}

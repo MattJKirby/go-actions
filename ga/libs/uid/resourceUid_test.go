@@ -17,15 +17,13 @@ func TestGetString(t *testing.T) {
 	assert.Equals(t, "ga:core:someaction:abc::", uid.GetString())
 }
 
-func TestGetSecondaryId(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithResource("someAction"))
-	assert.Equals(t, "ga:core:someaction:abc:a:", uid.GetSecondaryId("a"))
+func TestChildUid(t *testing.T) {
+	parent := NewResourceUid(mockGlobalConfig, WithResource("parent"))
+	child := parent.FromParent(WithSubResource("subResource"))
+
+	assert.Equals(t, "ga:core:parent:abc:subresource:", child.GetString())
 }
 
-func TestGetSecondaryUid(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithResource("someAction"))
-	assert.Equals(t, "ga:core:someaction:abc:a:b", uid.GetSecondaryUid("a", "b"))
-}
 
 func TestMarshal(t *testing.T) {
 	uid := NewResourceUid(mockGlobalConfig, WithNamespace("testns"), WithResource("someAction"))
