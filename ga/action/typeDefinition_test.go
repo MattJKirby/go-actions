@@ -78,13 +78,13 @@ func TestTriggerDefinitionFromRegistration(t *testing.T) {
 // 	}
 // }
 
-func TestNewAction(t *testing.T) {
+func TestInitialiseInstance(t *testing.T) {
 	reg := action.ActionRegistration[ta.ActionValid]{Action: ta.ActionValid{}}
 	defReg := action.TypeDefinitionFromRegistration(&reg)
 
 	inst := action.NewActionInstance("", mockGlobalConfig, mockActionConfig)
 
-	act, err := action.NewAction[ta.ActionValid](defReg, inst)
+	act, err := action.InitialiseInstance[ta.ActionValid](defReg, inst)
 
 	assert.Equals(t, nil, err)
 	assert.Equals(t, ta.ActionValid{}, act)

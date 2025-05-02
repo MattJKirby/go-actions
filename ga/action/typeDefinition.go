@@ -58,7 +58,7 @@ func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *Typ
 // 	return nil
 // }
 
-func NewAction[T GoAction](typedef *TypeDefinition, inst *ActionInstance) (T, error) {
+func InitialiseInstance[T GoAction](typedef *TypeDefinition, inst *ActionInstance) (T, error) {
 	act, ok := typedef.ActionValue.Interface().(T)
 	if !ok {
 		return act, fmt.Errorf("new action does not match expected type")
