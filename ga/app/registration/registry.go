@@ -7,14 +7,14 @@ import (
 )
 
 type ActionRegistry struct {
-	actionsByName map[string]*action.ActionTypeDefinition
-	actionsByType map[reflect.Type]*action.ActionTypeDefinition
+	actionsByName map[string]*action.TypeDefinition
+	actionsByType map[reflect.Type]*action.TypeDefinition
 }
 
 func NewActionRegistry() *ActionRegistry {
 	return &ActionRegistry{
-		actionsByName: make(map[string]*action.ActionTypeDefinition),
-		actionsByType: make(map[reflect.Type]*action.ActionTypeDefinition),
+		actionsByName: make(map[string]*action.TypeDefinition),
+		actionsByType: make(map[reflect.Type]*action.TypeDefinition),
 	}
 }
 
@@ -27,8 +27,8 @@ func AcceptRegistration[T action.GoAction](reg *action.ActionRegistration[T]) fu
 	}
 }
 
-func GetTypeDefinitionByName(actionName string) func(*ActionRegistry) (*action.ActionTypeDefinition, error) {
-	return func(ar *ActionRegistry) (*action.ActionTypeDefinition, error) {
+func GetTypeDefinitionByName(actionName string) func(*ActionRegistry) (*action.TypeDefinition, error) {
+	return func(ar *ActionRegistry) (*action.TypeDefinition, error) {
 		if def, exists := ar.actionsByName[actionName]; exists {
 			return def, nil
 		}
@@ -36,8 +36,8 @@ func GetTypeDefinitionByName(actionName string) func(*ActionRegistry) (*action.A
 	}
 }
 
-func GetTypeDefinitionByType(actionType reflect.Type) func(*ActionRegistry) (*action.ActionTypeDefinition, error) {
-	return func(ar *ActionRegistry) (*action.ActionTypeDefinition, error) {
+func GetTypeDefinitionByType(actionType reflect.Type) func(*ActionRegistry) (*action.TypeDefinition, error) {
+	return func(ar *ActionRegistry) (*action.TypeDefinition, error) {
 		if def, exists := ar.actionsByType[actionType]; exists {
 			return def, nil
 		}

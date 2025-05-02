@@ -27,7 +27,7 @@ func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 	}
 }
 
-func NewAction[T action.GoAction](config *config.GlobalConfig, actionConfig *action.ActionConfig, typeDef *action.ActionTypeDefinition) (*Action[T], error) {
+func NewAction[T action.GoAction](config *config.GlobalConfig, actionConfig *action.ActionConfig, typeDef *action.TypeDefinition) (*Action[T], error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config, actionConfig)
 
 	action, err := action.NewAction[T](typeDef, instance)

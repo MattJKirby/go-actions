@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-type ActionTypeDefinition struct {
+type TypeDefinition struct {
 	TypeName    string
 	TypePath    string
 	Trigger     bool
@@ -17,7 +17,7 @@ type ActionTypeDefinition struct {
 	PropsType   reflect.Type
 }
 
-func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *ActionTypeDefinition {
+func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *TypeDefinition {
 	vAction := reflect.ValueOf(reg.Action)
 	tAction := vAction.Type()
 
@@ -26,7 +26,7 @@ func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *Act
 
 	_, Trigger := any(new(T)).(TriggerAction)
 
-	return &ActionTypeDefinition{
+	return &TypeDefinition{
 		TypeName:    utils.TypeName(tAction),
 		TypePath:    utils.TypePath(tAction),
 		Trigger:     Trigger,
@@ -58,7 +58,7 @@ func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *Act
 // 	return nil
 // }
 
-func NewAction[T GoAction](typedef *ActionTypeDefinition, inst *ActionInstance) (T, error) {
+func NewAction[T GoAction](typedef *TypeDefinition, inst *ActionInstance) (T, error) {
 	act, ok := typedef.ActionValue.Interface().(T)
 	if !ok {
 		return act, fmt.Errorf("new action does not match expected type")

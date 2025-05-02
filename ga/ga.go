@@ -12,7 +12,7 @@ func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) {
 	app.RegisterAction(reg)(ga)
 }
 
-func GetRegisteredTypeDefinition[T action.GoAction]() (*action.ActionTypeDefinition, error) {
+func GetRegisteredTypeDefinition[T action.GoAction]() (*action.TypeDefinition, error) {
 	return app.GetDefinitionByType[T]()(ga)
 }
 
