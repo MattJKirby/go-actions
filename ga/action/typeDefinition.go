@@ -1,8 +1,7 @@
-package definition
+package action
 
 import (
 	"fmt"
-	"go-actions/ga/action"
 
 	"go-actions/ga/utils"
 	"reflect"
@@ -18,14 +17,14 @@ type ActionTypeDefinition struct {
 	PropsType   reflect.Type
 }
 
-func TypeDefinitionFromRegistration[T action.GoAction](reg *action.ActionRegistration[T]) *ActionTypeDefinition {
+func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *ActionTypeDefinition {
 	vAction := reflect.ValueOf(reg.Action)
 	tAction := vAction.Type()
 
 	// tProps := reflect.TypeOf(reg.DefaultProps)
 	// vProps := reflect.ValueOf(reg.DefaultProps)
 
-	_, Trigger := any(new(T)).(action.TriggerAction)
+	_, Trigger := any(new(T)).(TriggerAction)
 
 	return &ActionTypeDefinition{
 		TypeName:    utils.TypeName(tAction),
@@ -59,7 +58,7 @@ func TypeDefinitionFromRegistration[T action.GoAction](reg *action.ActionRegistr
 // 	return nil
 // }
 
-func NewAction[T action.GoAction](typedef *ActionTypeDefinition, inst *action.ActionInstance) (T, error) {
+func NewAction[T GoAction](typedef *ActionTypeDefinition, inst *ActionInstance) (T, error) {
 	act, ok := typedef.ActionValue.Interface().(T)
 	if !ok {
 		return act, fmt.Errorf("new action does not match expected type")

@@ -2,7 +2,7 @@ package executable
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
+
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/output"
@@ -27,10 +27,10 @@ func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 	}
 }
 
-func NewAction[T action.GoAction](config *config.GlobalConfig, actionConfig *action.ActionConfig, typeDef *definition.ActionTypeDefinition) (*Action[T], error) {
+func NewAction[T action.GoAction](config *config.GlobalConfig, actionConfig *action.ActionConfig, typeDef *action.ActionTypeDefinition) (*Action[T], error) {
 	instance := action.NewActionInstance(typeDef.TypeName, config, actionConfig)
 
-	action, err := definition.NewAction[T](typeDef, instance)
+	action, err := action.NewAction[T](typeDef, instance)
 	if err != nil {
 		return nil, err
 	}

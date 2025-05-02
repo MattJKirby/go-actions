@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
 	"go-actions/ga/action/executable"
 
 	"go-actions/ga/app/registration"
@@ -38,16 +37,16 @@ func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) func(*
 	}
 }
 
-func GetDefinitionByType[T action.GoAction]() func(*App) (*definition.ActionTypeDefinition, error) {
-	return func(app *App) (*definition.ActionTypeDefinition, error) {
+func GetDefinitionByType[T action.GoAction]() func(*App) (*action.ActionTypeDefinition, error) {
+	return func(app *App) (*action.ActionTypeDefinition, error) {
 		action := new(T)
 		actionType := reflect.TypeOf(*action)
 		return registration.GetTypeDefinitionByType(actionType)(app.actionRegistry)
 	}
 }
 
-func GetDefinitionByName(name string) func(*App) (*definition.ActionTypeDefinition, error) {
-	return func(app *App) (*definition.ActionTypeDefinition, error) {
+func GetDefinitionByName(name string) func(*App) (*action.ActionTypeDefinition, error) {
+	return func(app *App) (*action.ActionTypeDefinition, error) {
 		return registration.GetTypeDefinitionByName(name)(app.actionRegistry)
 	}
 }

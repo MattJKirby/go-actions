@@ -1,6 +1,7 @@
-package action
+package action_test
 
 import (
+	"go-actions/ga/action"
 	"go-actions/ga/action/model"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
@@ -11,10 +12,10 @@ import (
 
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
-var actionConfig = &ActionConfig{}
+var actionConfig = &action.ActionConfig{}
 
 func TestNewActionInstance(t *testing.T) {
-	instance := NewActionInstance("test", mockConfig, actionConfig)
+	instance := action.NewActionInstance("test", mockConfig, actionConfig)
 	expectedModel := model.NewActionModel("test", mockConfig)
 
 	assert.Equals(t, expectedModel, instance.Model)

@@ -2,7 +2,6 @@ package app
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
@@ -36,7 +35,7 @@ func TestGetDefinitionByName(t *testing.T) {
 	app, reg := appWithEmptyRegistration()
 	result, err := GetDefinitionByName("ActionValidEmpty")(app)
 
-	expectedTypeDef := definition.TypeDefinitionFromRegistration(&reg)
+	expectedTypeDef := action.TypeDefinitionFromRegistration(&reg)
 
 	assert.Equals(t, expectedTypeDef, result)
 	assert.Equals(t, nil, err)

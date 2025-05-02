@@ -1,16 +1,14 @@
-package definition
+package action_test
 
 import (
 	"go-actions/ga/action"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	ta "go-actions/ga/utils/testing/testActions"
-	"go-actions/ga/utils/testing/testHelpers"
 	"reflect"
 	"testing"
 )
 
-var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 var mockActionConfig = &action.ActionConfig{}
 
@@ -25,7 +23,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 	// expectedPropsValue := reflect.ValueOf(reg.DefaultProps)
 	expectedTriggerValue := false
 
-	defReg := TypeDefinitionFromRegistration(&reg)
+	defReg := action.TypeDefinitionFromRegistration(&reg)
 
 	assert.Equals(t, expectedTypeName, defReg.TypeName)
 	assert.Equals(t, expectedTypePath, defReg.TypePath)
@@ -38,7 +36,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 
 func TestTriggerDefinitionFromRegistration(t *testing.T) {
 	reg := action.ActionRegistration[ta.ActionTriggerValid]{Action: ta.ActionTriggerValid{}}
-	defReg := TypeDefinitionFromRegistration(&reg)
+	defReg := action.TypeDefinitionFromRegistration(&reg)
 
 	assert.Equals(t, true, defReg.Trigger)
 }
@@ -82,11 +80,11 @@ func TestTriggerDefinitionFromRegistration(t *testing.T) {
 
 func TestNewAction(t *testing.T) {
 	reg := action.ActionRegistration[ta.ActionValid]{Action: ta.ActionValid{}}
-	defReg := TypeDefinitionFromRegistration(&reg)
+	defReg := action.TypeDefinitionFromRegistration(&reg)
 
 	inst := action.NewActionInstance("", mockGlobalConfig, mockActionConfig)
 
-	act, err := NewAction[ta.ActionValid](defReg, inst)
+	act, err := action.NewAction[ta.ActionValid](defReg, inst)
 
 	assert.Equals(t, nil, err)
 	assert.Equals(t, ta.ActionValid{}, act)

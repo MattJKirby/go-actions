@@ -3,33 +3,32 @@ package registration
 import (
 	"fmt"
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
 	"reflect"
 )
 
 type ActionRegistry struct {
-	actionsByName map[string]*definition.ActionTypeDefinition
-	actionsByType map[reflect.Type]*definition.ActionTypeDefinition
+	actionsByName map[string]*action.ActionTypeDefinition
+	actionsByType map[reflect.Type]*action.ActionTypeDefinition
 }
 
 func NewActionRegistry() *ActionRegistry {
 	return &ActionRegistry{
-		actionsByName: make(map[string]*definition.ActionTypeDefinition),
-		actionsByType: make(map[reflect.Type]*definition.ActionTypeDefinition),
+		actionsByName: make(map[string]*action.ActionTypeDefinition),
+		actionsByType: make(map[reflect.Type]*action.ActionTypeDefinition),
 	}
 }
 
 func AcceptRegistration[T action.GoAction](reg *action.ActionRegistration[T]) func(*ActionRegistry) {
 	return func(ar *ActionRegistry) {
-		definition := definition.TypeDefinitionFromRegistration(reg)
+		definition := action.TypeDefinitionFromRegistration(reg)
 		ar.actionsByName[definition.TypeName] = definition
 		ar.actionsByType[definition.ActionType] = definition
 
 	}
 }
 
-func GetTypeDefinitionByName(actionName string) func(*ActionRegistry) (*definition.ActionTypeDefinition, error) {
-	return func(ar *ActionRegistry) (*definition.ActionTypeDefinition, error) {
+func GetTypeDefinitionByName(actionName string) func(*ActionRegistry) (*action.ActionTypeDefinition, error) {
+	return func(ar *ActionRegistry) (*action.ActionTypeDefinition, error) {
 		if def, exists := ar.actionsByName[actionName]; exists {
 			return def, nil
 		}
@@ -37,8 +36,8 @@ func GetTypeDefinitionByName(actionName string) func(*ActionRegistry) (*definiti
 	}
 }
 
-func GetTypeDefinitionByType(actionType reflect.Type) func(*ActionRegistry) (*definition.ActionTypeDefinition, error) {
-	return func(ar *ActionRegistry) (*definition.ActionTypeDefinition, error) {
+func GetTypeDefinitionByType(actionType reflect.Type) func(*ActionRegistry) (*action.ActionTypeDefinition, error) {
+	return func(ar *ActionRegistry) (*action.ActionTypeDefinition, error) {
 		if def, exists := ar.actionsByType[actionType]; exists {
 			return def, nil
 		}

@@ -2,7 +2,6 @@ package executable
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/definition"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
 	"go-actions/ga/utils/testing/testActions"
@@ -16,7 +15,7 @@ var mockActionConfig = &action.ActionConfig{}
 
 func TestNewAction(t *testing.T) {
 	reg := action.ActionRegistration[testActions.ActionValidEmpty]{Action: testActions.ActionValidEmpty{}}
-	definition := definition.TypeDefinitionFromRegistration(&reg)
+	definition := action.TypeDefinitionFromRegistration(&reg)
 	instance := action.NewActionInstance("ActionValidEmpty", mockGlobalConfig, mockActionConfig)
 
 	expected := &Action[action.GoAction]{
