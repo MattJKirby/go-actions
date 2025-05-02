@@ -15,7 +15,7 @@ var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 var mockActionConfig = &action.ActionConfig{}
 
 func TestTypeDefinitionFromRegistration(t *testing.T) {
-	reg := ta.GenerateActionValidEmptyRegistration()
+	reg := action.ActionRegistration[ta.ActionValidEmpty]{Action: ta.ActionValidEmpty{}}
 
 	expectedTypeName := "ActionValidEmpty"
 	expectedTypePath := "go-actions/ga/utils/testing/testActions/testActions.ActionValidEmpty"
@@ -37,7 +37,7 @@ func TestTypeDefinitionFromRegistration(t *testing.T) {
 }
 
 func TestTriggerDefinitionFromRegistration(t *testing.T) {
-	reg := ta.GenerateActionTriggerValidRegistration()
+	reg := action.ActionRegistration[ta.ActionTriggerValid]{Action: ta.ActionTriggerValid{}}
 	defReg := TypeDefinitionFromRegistration(&reg)
 
 	assert.Equals(t, true, defReg.Trigger)
@@ -81,7 +81,7 @@ func TestTriggerDefinitionFromRegistration(t *testing.T) {
 // }
 
 func TestNewAction(t *testing.T) {
-	reg := ta.GenerateActionValidRegistration()
+	reg := action.ActionRegistration[ta.ActionValid]{Action: ta.ActionValid{}}
 	defReg := TypeDefinitionFromRegistration(&reg)
 
 	inst := action.NewActionInstance("", mockGlobalConfig, mockActionConfig)
