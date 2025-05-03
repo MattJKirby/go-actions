@@ -29,3 +29,10 @@ func TestWithSubResourceId(t *testing.T) {
 	uid := NewResourceUid(WithSubResourceId("subResourceId"))
 	assert.Equals(t, "subResourceId", uid.subResourceId)
 }
+
+func TestWithParentUid(t *testing.T) {
+	parent := NewResourceUid(WithNamespace("ns"), WithResource("Resource"), WithUid("Uid"))
+	child := NewResourceUid(WithParentUid(parent))
+
+	assert.Equals(t, parent, child)
+}

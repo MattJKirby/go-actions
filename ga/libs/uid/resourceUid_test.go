@@ -7,19 +7,9 @@ import (
 	"testing"
 )
 
-// var mockUidGenerator = &testHelpers.MockUidGenerator{MockUid: "abc"}
-// var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockUidGenerator}
-
 func TestGetString(t *testing.T) {
 	uid := NewResourceUid(WithResource("someAction"), WithUid("uid"))
 	assert.Equals(t, "ga:core:someaction:uid::", uid.GetString())
-}
-
-func TestChildUid(t *testing.T) {
-	parent := NewResourceUid(WithResource("parent"), WithUid("uid"))
-	child := parent.FromParent(WithSubResource("subResource"))
-
-	assert.Equals(t, "ga:core:parent:uid:subresource:", child.GetString())
 }
 
 func TestMarshal(t *testing.T) {

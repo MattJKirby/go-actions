@@ -31,3 +31,9 @@ func WithSubResourceId(resourceId string) ResourceUidOption {
 		ru.subResourceId = resourceId
 	}
 }
+
+func WithParentUid(parent *ResourceUid) ResourceUidOption {
+	return func(ru *ResourceUid) {
+		*ru = *parent
+	}
+}

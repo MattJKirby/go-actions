@@ -38,13 +38,6 @@ func (ru *ResourceUid) GetString() string {
 	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId))
 }
 
-func (ru *ResourceUid) FromParent(opts ...ResourceUidOption) *ResourceUid {
-	child := ru
-	for _, opt := range opts {
-		opt(child)
-	}
-	return child
-}
 
 func (ru *ResourceUid) MarshalJSON() ([]byte, error) {
 	return json.Marshal(ru.GetString())
