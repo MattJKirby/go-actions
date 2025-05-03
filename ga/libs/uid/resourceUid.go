@@ -3,7 +3,6 @@ package uid
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/app/config"
 	"strings"
 )
 
@@ -16,19 +15,19 @@ type ResourceUid struct {
 	subResourceId   string
 }
 
-func defaultResourceUid(config *config.GlobalConfig) *ResourceUid {
+func defaultResourceUid() *ResourceUid {
 	return &ResourceUid{
 		prefix:          "ga",
 		namespace:       "core",
 		resource:        "",
-		uid:             config.UidGenerator.GenerateUid(),
+		uid:             "",
 		subResourceType: "",
 		subResourceId:   "",
 	}
 }
 
-func NewResourceUid(config *config.GlobalConfig, opts ...ResourceUidOption) *ResourceUid {
-	resourceUid := defaultResourceUid(config)
+func NewResourceUid(opts ...ResourceUidOption) *ResourceUid {
+	resourceUid := defaultResourceUid()
 	for _, opt := range opts {
 		opt(resourceUid)
 	}

@@ -3,29 +3,27 @@ package uid
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
 
-var mockUidGenerator = &testHelpers.MockUidGenerator{MockUid: "abc"}
-var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockUidGenerator}
+// var mockUidGenerator = &testHelpers.MockUidGenerator{MockUid: "abc"}
+// var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockUidGenerator}
 
 func TestGetString(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithResource("someAction"))
-	assert.Equals(t, "ga:core:someaction:abc::", uid.GetString())
+	uid := NewResourceUid(WithResource("someAction"), WithUid("uid"))
+	assert.Equals(t, "ga:core:someaction:uid::", uid.GetString())
 }
 
 func TestChildUid(t *testing.T) {
-	parent := NewResourceUid(mockGlobalConfig, WithResource("parent"))
+	parent := NewResourceUid(WithResource("parent"), WithUid("uid"))
 	child := parent.FromParent(WithSubResource("subResource"))
 
-	assert.Equals(t, "ga:core:parent:abc:subresource:", child.GetString())
+	assert.Equals(t, "ga:core:parent:uid:subresource:", child.GetString())
 }
 
 func TestMarshal(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithNamespace("testns"), WithResource("someAction"))
+	uid := NewResourceUid(WithNamespace("testns"), WithResource("someAction"))
 
 	marshalled, err := json.Marshal(uid)
 
@@ -34,9 +32,6 @@ func TestMarshal(t *testing.T) {
 }
 
 func TestUnmarshal(t *testing.T) {
-	mockUidGen := &testHelpers.MockUidGenerator{MockUid: ""}
-	mockConfig := &config.GlobalConfig{UidGenerator: mockUidGen}
-
 	tests := []struct {
 		name             string
 		jsonInput        string
@@ -75,7 +70,7 @@ func TestUnmarshal(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			uid := NewResourceUid(mockConfig, WithNamespace("myNamespace"), WithResource("myResource"))
+			uid := NewResourceUid(WithNamespace("myNamespace"), WithResource("myResource"), WithUid(""))
 			marshalled := []byte(test.jsonInput)
 			err := json.Unmarshal(marshalled, uid)
 

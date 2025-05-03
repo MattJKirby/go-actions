@@ -6,26 +6,26 @@ import (
 )
 
 func TestWithNamespace(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithNamespace("TestNameSpace"))
+	uid := NewResourceUid(WithNamespace("TestNameSpace"))
 	assert.Equals(t, "TestNameSpace", uid.namespace)
 }
 
 func TestWithResource(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithResource("Resource"))
+	uid := NewResourceUid(WithResource("Resource"))
 	assert.Equals(t, "Resource", uid.resource)
 }
 
 func TestWithUid(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithUid("Uid"))
+	uid := NewResourceUid(WithUid("Uid"))
 	assert.Equals(t, "Uid", uid.uid)
 }
 
 func TestWithSubResource(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithSubResource("subResource"))
+	uid := NewResourceUid(WithSubResource("subResource"))
 	assert.Equals(t, "subResource", uid.subResourceType)
 }
 
 func TestWithSubResourceId(t *testing.T) {
-	uid := NewResourceUid(mockGlobalConfig, WithSubResourceId("subResourceId"))
+	uid := NewResourceUid(WithSubResourceId("subResourceId"))
 	assert.Equals(t, "subResourceId", uid.subResourceId)
 }
