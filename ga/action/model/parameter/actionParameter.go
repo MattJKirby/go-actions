@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-actions/ga/action/model/io"
+	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/marshalling"
 )
 
@@ -14,14 +15,14 @@ type ActionParameter[T any] struct {
 }
 
 type marshalledActionParameter[T any] struct {
-	Uid   string
+	Uid   string `json:"uid"`
 	Name  string `json:"name"`
 	Value T      `json:"value"`
 }
 
-func NewActionParameter[T any](actionUid string, Name string, DefaultValue T) *ActionParameter[T] {
+func NewActionParameter[T any](modelUid *uid.ResourceUid, Name string, DefaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		ActionProperty: io.NewActionProperty(actionUid, "parameter", Name),
+		ActionProperty: io.NewActionProperty(modelUid.GetString(), "parameter", Name),
 		value:          DefaultValue,
 		defaultValue:   DefaultValue,
 	}

@@ -15,6 +15,11 @@ func TestWithResource(t *testing.T) {
 	assert.Equals(t, "Resource", uid.resource)
 }
 
+func TestWithUid(t *testing.T) {
+	uid := NewResourceUid(mockGlobalConfig, WithUid("Uid"))
+	assert.Equals(t, "Uid", uid.uid)
+}
+
 func TestWithSubResource(t *testing.T) {
 	uid := NewResourceUid(mockGlobalConfig, WithSubResource("subResource"))
 	assert.Equals(t, "subResource", uid.subResourceType)

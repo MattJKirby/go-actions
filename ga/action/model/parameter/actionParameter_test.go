@@ -2,12 +2,14 @@ package parameter
 
 import (
 	"encoding/json"
+	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/testing/assert"
 	"testing"
 )
 
 func TestNewParameter(t *testing.T) {
-	parameter := NewActionParameter("uid", "test", "default value")
+	uid := &uid.ResourceUid{}
+	parameter := NewActionParameter(uid, "test", "default value")
 
 	t.Run("test new parameter", func(t *testing.T) {
 		assert.Equals(t, "test", parameter.Name)
@@ -20,7 +22,7 @@ func TestNewParameter(t *testing.T) {
 	t.Run("test set parameter", func(t *testing.T) {
 		defaultVal := "some string"
 		newVal := "test"
-		param := NewActionParameter("uid", "test", defaultVal)
+		param := NewActionParameter(uid, "test", defaultVal)
 		param.SetValue(newVal)
 		assert.Equals(t, newVal, param.Value())
 		assert.Equals(t, defaultVal, param.DefaultValue())
@@ -28,8 +30,9 @@ func TestNewParameter(t *testing.T) {
 }
 
 func TestMarshalParameter(t *testing.T) {
-	parameter := NewActionParameter("uid", "parameterName", "defaultVal")
-	expectedMarshalResult := `{"Uid":"uid:parameter:parameterName","name":"parameterName","value":"defaultVal"}`
+	uid := &uid.ResourceUid{}
+	parameter := NewActionParameter(uid, "parameterName", "defaultVal")
+	expectedMarshalResult := `{"uid":"::::::parameter:parameterName","name":"parameterName","value":"defaultVal"}`
 
 	marshalled, err := json.Marshal(parameter)
 	if err != nil {
@@ -53,7 +56,8 @@ func TestUnmarshalParameter(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			parameter := NewActionParameter("uid", "parameterName", "defaultVal")
+			uid := &uid.ResourceUid{}
+			parameter := NewActionParameter(uid, "parameterName", "defaultVal")
 			err := json.Unmarshal([]byte(test.input), parameter)
 
 			if test.err != (err != nil) {

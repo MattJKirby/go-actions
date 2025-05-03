@@ -30,7 +30,7 @@ func NewActionModel(globalConfig *config.GlobalConfig, actionUid *uid.ResourceUi
 
 func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.ActionParameter[T] {
 	parameterFn := func() *store.IdentifiableResource {
-		value := store.IdentifiableResource(parameter.NewActionParameter(m.ModelUid.GetString(), name, defaultValue))
+		value := store.IdentifiableResource(parameter.NewActionParameter(m.ModelUid, name, defaultValue))
 		return &value
 	}
 	return (*m.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])
