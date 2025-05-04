@@ -36,26 +36,30 @@ func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.Ac
 	return (*m.Parameters.GetDefault(name, parameterFn)).(*parameter.ActionParameter[T])
 }
 
-func Input(m *ActionModel, name string, required bool, defaultSource *output.ActionOutput) *input.ActionInput {
+func Input(m *ActionModel, name string, required bool, source *output.ActionOutput) *input.ActionInput {
 	input := m.Inputs.GetDefault(name, func() *input.ActionInput {
-		return input.NewActionInput(name, m.ModelUid.GetString())
+		return input.NewActionInput(m.ModelUid, name)
 	})
 
-	if defaultSource != nil {
-		io.NewActionReference(m.globalConfig, defaultSource, input).AssignReferences()
+	if source != nil {
+		ref := io.NewActionReference(m.globalConfig, source.Uid, input.Uid)
+		source.AssignTargetReference(ref)
+		input.AssignSourceReference(ref)
 	}
 
 	return input
 }
 
-func Output(m *ActionModel, name string, defaultTargets []*input.ActionInput) *output.ActionOutput {
+func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.ActionOutput {
 	output := m.Outputs.GetDefault(name, func() *output.ActionOutput {
-		return output.NewActionOutput(name, m.ModelUid.GetString())
+		return output.NewActionOutput(m.ModelUid, name)
 	})
 
-	for _, target := range defaultTargets {
+	for _, target := range targets {
 		if target != nil {
-			io.NewActionReference(m.globalConfig, output, target).AssignReferences()
+			ref := io.NewActionReference(m.globalConfig, output.Uid, target.Uid)
+			output.AssignTargetReference(ref)
+			target.AssignSourceReference(ref)
 		}
 	}
 	return output

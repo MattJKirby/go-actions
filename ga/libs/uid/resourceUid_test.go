@@ -12,6 +12,11 @@ func TestGetString(t *testing.T) {
 	assert.Equals(t, "ga:core:someaction:uid::", uid.GetString())
 }
 
+func GetResourceUidString(t *testing.T) {
+	uid := NewResourceUid(WithResource("someAction"), WithUid("uid"), WithSubResource("sub"), WithSubResourceId("subId"))
+	assert.Equals(t, "ga:core:someaction:uid::", uid.GetResourceUidString())
+}
+
 func TestMarshal(t *testing.T) {
 	uid := NewResourceUid(WithNamespace("testns"), WithResource("someAction"))
 

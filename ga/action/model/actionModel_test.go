@@ -3,7 +3,6 @@ package model
 import (
 	"encoding/json"
 	"go-actions/ga/action/model/input"
-	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/app/config"
@@ -45,53 +44,50 @@ func TestParameter(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
+	uid := &uid.ResourceUid{}
+	
 	testcases := []struct {
 		name          string
 		defaultSource *output.ActionOutput
-		ref           *io.PartialActionReference
 	}{
 		{name: "without default source"},
-		{name: "with default source", defaultSource: output.NewActionOutput("o", "a"), ref: &io.PartialActionReference{ReferenceUid: "ref:uid", ActionUid: "a"}},
+		{name: "with default source", defaultSource: output.NewActionOutput(uid, "a")},
 	}
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			uid := &uid.ResourceUid{}
+			
 			model := NewActionModel(mockConfig, uid)
 			input := Input(model, "inputName", false, test.defaultSource)
 
 			expectedInput, err := model.Inputs.Get("inputName")
-			ref, _ := input.SourceReferences.Get("ref:uid")
 
 			assert.Equals(t, expectedInput, input)
 			assert.Equals(t, nil, err)
-			assert.Equals(t, test.ref, ref)
 		})
 	}
 }
 
 func TestOutput(t *testing.T) {
+	uid := &uid.ResourceUid{}
+
 	testcases := []struct {
 		name           string
 		defaultTargets []*input.ActionInput
-		ref            *io.PartialActionReference
 	}{
 		{name: "without default source", defaultTargets: make([]*input.ActionInput, 0)},
-		{name: "with default source", defaultTargets: []*input.ActionInput{input.NewActionInput("1", "a")}, ref: &io.PartialActionReference{ReferenceUid: "ref:uid", ActionUid: "a"}},
+		{name: "with default source", defaultTargets: []*input.ActionInput{input.NewActionInput(uid, "a")}},
 	}
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			uid := &uid.ResourceUid{}
 			model := NewActionModel(mockConfig, uid)
 			output := Output(model, "outputName", test.defaultTargets)
 
 			expectedOutput, err := model.Outputs.Get("outputName")
-			ref, _ := output.TargetReferences.Get("ref:uid")
 
 			assert.Equals(t, expectedOutput, output)
 			assert.Equals(t, nil, err)
-			assert.Equals(t, test.ref, ref)
 		})
 	}
 }

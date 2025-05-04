@@ -1,25 +1,25 @@
 package io
 
-import "fmt"
+import (
+	"go-actions/ga/libs/uid"
+)
 
 type ActionProperty struct {
-	actionUid string
-	Uid       string
-	Name      string
+	Uid       *uid.ResourceUid `json:"uid"`
+	Name      string `json:"name"`
 }
 
-func NewActionProperty(actionUid string, propertyType string, name string) *ActionProperty {
+func NewActionProperty(modelUid *uid.ResourceUid, propertyType string, name string) *ActionProperty {
 	return &ActionProperty{
-		actionUid: actionUid,
-		Uid:       fmt.Sprintf("%s:%s:%s", actionUid, propertyType, name),
+		Uid:       uid.NewResourceUid(uid.WithParentUid(modelUid), uid.WithSubResource(propertyType), uid.WithSubResourceId(name)),
 		Name:      name,
 	}
 }
 
 func (ap ActionProperty) GetActionUid() string {
-	return ap.actionUid
+	return ap.Uid.GetResourceUidString()
 }
 
 func (ap ActionProperty) GetResourceId() string {
-	return ap.Uid
+	return ap.Uid.GetString()
 }

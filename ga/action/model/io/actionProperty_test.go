@@ -1,12 +1,14 @@
 package io
 
 import (
+	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/testing/assert"
 	"testing"
 )
 
 func TestGetPropertyId(t *testing.T) {
-	prop := NewActionProperty("uid", "type", "name")
-	assert.Equals(t, "uid:type:name", prop.GetResourceId())
-	assert.Equals(t, "uid", prop.GetActionUid())
+	modelUid := uid.NewResourceUid()
+	prop := NewActionProperty(modelUid, "type", "name")
+	assert.Equals(t, "ga:core:::type:name", prop.GetResourceId())
+	assert.Equals(t, "ga:core::::", prop.GetActionUid())
 }

@@ -3,20 +3,21 @@ package input
 import (
 	"go-actions/ga/action/model/io"
 	"go-actions/ga/libs/store"
+	"go-actions/ga/libs/uid"
 )
 
 type ActionInput struct {
 	*io.ActionProperty
-	SourceReferences *store.ResourceStore[io.PartialActionReference]
+	SourceReferences *store.ResourceStore[io.ActionReference]
 }
 
-func NewActionInput(name string, actionUid string) *ActionInput {
+func NewActionInput(modelUid *uid.ResourceUid, name string) *ActionInput {
 	return &ActionInput{
-		ActionProperty:   io.NewActionProperty(actionUid, "input", name),
-		SourceReferences: store.NewResourceStore[io.PartialActionReference](true),
+		ActionProperty:   io.NewActionProperty(modelUid, "input", name),
+		SourceReferences: store.NewResourceStore[io.ActionReference](true),
 	}
 }
 
-func (ai *ActionInput) AssignSourceReference(ref *io.PartialActionReference) error {
+func (ai *ActionInput) AssignSourceReference(ref *io.ActionReference) error {
 	return ai.SourceReferences.NewResource(*ref)
 }

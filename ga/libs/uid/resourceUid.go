@@ -34,8 +34,16 @@ func NewResourceUid(opts ...ResourceUidOption) *ResourceUid {
 	return resourceUid
 }
 
+func (ru *ResourceUid) getString(prefix, ns, res, uid, subRes, subId string) string {
+	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", prefix, ns, res, uid, subRes, subId))
+}
+
 func (ru *ResourceUid) GetString() string {
-	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId))
+	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId)
+}
+
+func (ru *ResourceUid) GetResourceUidString() string {
+	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, "", "")
 }
 
 func (ru *ResourceUid) MarshalJSON() ([]byte, error) {

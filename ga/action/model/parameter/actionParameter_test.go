@@ -32,7 +32,7 @@ func TestNewParameter(t *testing.T) {
 func TestMarshalParameter(t *testing.T) {
 	uid := &uid.ResourceUid{}
 	parameter := NewActionParameter(uid, "parameterName", "defaultVal")
-	expectedMarshalResult := `{"uid":"::::::parameter:parameterName","name":"parameterName","value":"defaultVal"}`
+	expectedMarshalResult := `{"uid":"::::parameter:parametername","name":"parameterName","value":"defaultVal"}`
 
 	marshalled, err := json.Marshal(parameter)
 	if err != nil {

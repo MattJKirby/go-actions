@@ -20,11 +20,11 @@ type marshalledActionParameter[T any] struct {
 	Value T      `json:"value"`
 }
 
-func NewActionParameter[T any](modelUid *uid.ResourceUid, Name string, DefaultValue T) *ActionParameter[T] {
+func NewActionParameter[T any](modelUid *uid.ResourceUid, name string, defaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		ActionProperty: io.NewActionProperty(modelUid.GetString(), "parameter", Name),
-		value:          DefaultValue,
-		defaultValue:   DefaultValue,
+		ActionProperty: io.NewActionProperty(modelUid, "parameter", name),
+		value:          defaultValue,
+		defaultValue:   defaultValue,
 	}
 }
 
@@ -42,7 +42,7 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&marshalledActionParameter[T]{
-		Uid:   ap.Uid,
+		Uid:   ap.Uid.GetString(),
 		Name:  ap.Name,
 		Value: ap.value,
 	})
