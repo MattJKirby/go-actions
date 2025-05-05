@@ -7,13 +7,13 @@ import (
 )
 
 type ActionOutput struct {
-	*common.ActionProperty
+	*common.ModelProperty
 	TargetReferences *store.ResourceStore[common.ActionReference] `json:"references"`
 }
 
 func NewActionOutput(actionUid *uid.ResourceUid, name string) *ActionOutput {
 	return &ActionOutput{
-		ActionProperty:   common.NewActionProperty(actionUid, "output", name),
+		ModelProperty:   common.NewModelProperty(actionUid, "output", name),
 		TargetReferences: store.NewResourceStore[common.ActionReference](true),
 	}
 }

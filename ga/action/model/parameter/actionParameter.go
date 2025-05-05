@@ -9,7 +9,7 @@ import (
 )
 
 type ActionParameter[T any] struct {
-	*common.ActionProperty
+	*common.ModelProperty
 	value        T
 	defaultValue T
 }
@@ -22,7 +22,7 @@ type marshalledActionParameter[T any] struct {
 
 func NewActionParameter[T any](modelUid *uid.ResourceUid, name string, defaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		ActionProperty: common.NewActionProperty(modelUid, "parameter", name),
+		ModelProperty: common.NewModelProperty(modelUid, "parameter", name),
 		value:          defaultValue,
 		defaultValue:   defaultValue,
 	}

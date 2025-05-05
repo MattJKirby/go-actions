@@ -7,13 +7,13 @@ import (
 )
 
 type ActionInput struct {
-	*common.ActionProperty
+	*common.ModelProperty
 	SourceReferences *store.ResourceStore[common.ActionReference] `json:"references"`
 }
 
 func NewActionInput(modelUid *uid.ResourceUid, name string) *ActionInput {
 	return &ActionInput{
-		ActionProperty:   common.NewActionProperty(modelUid, "input", name),
+		ModelProperty:   common.NewModelProperty(modelUid, "input", name),
 		SourceReferences: store.NewResourceStore[common.ActionReference](true),
 	}
 }
