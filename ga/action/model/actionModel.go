@@ -38,9 +38,7 @@ func Input(m *ActionModel, name string, required bool, source *output.ActionOutp
 	input := m.Inputs.GetDefault(*value)
 
 	if source != nil {
-		ref := io.NewActionReference(m.globalConfig, source.Uid, input.Uid)
-		source.AssignTargetReference(ref)
-		input.AssignSourceReference(ref)
+		Reference(m, source, &input)
 	}
 
 	return &input
@@ -52,10 +50,15 @@ func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.A
 
 	for _, target := range targets {
 		if target != nil {
-			ref := io.NewActionReference(m.globalConfig, output.Uid, target.Uid)
-			output.AssignTargetReference(ref)
-			target.AssignSourceReference(ref)
+			Reference(m, &output, target)
 		}
 	}
 	return &output
+}
+
+func Reference(m *ActionModel, source *output.ActionOutput, target *input.ActionInput) *io.ActionReference {
+	ref := io.NewActionReference(m.globalConfig, source.Uid, target.Uid)
+	source.AssignTargetReference(ref)
+	target.AssignSourceReference(ref)
+	return ref
 }
