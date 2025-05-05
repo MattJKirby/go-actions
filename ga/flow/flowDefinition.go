@@ -1,10 +1,9 @@
 package flow
 
 import (
-	"encoding/json"
-	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/executable"
+	"go-actions/ga/action/model"
 	"go-actions/ga/app"
 	"go-actions/ga/libs/store"
 	"go-actions/ga/libs/uid"
@@ -37,25 +36,18 @@ func (fd *flowDefinition) NewReference(sourceUid *uid.ResourceUid, targetUid *ui
 	if err != nil {
 		return err
 	}
-	val, _ := json.Marshal(sourceAction)
-	fmt.Println(true, string(val))
-
 	source, err := sourceAction.Model.Outputs.GetResource(sourceUid.GetUid())
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(source)
-
-	// targetAction, err := fd.Actions.Get(targetActionUid)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// target, err := targetAction.Model.Inputs.Get(targetId)
-	// if err != nil {
-	// 	return err
-	// }
-
+	targetAction, err := fd.Actions.GetResource(targetUid.GetBaseUid())
+	if err != nil {
+		return err
+	}
+	target, err := targetAction.Model.Inputs.GetResource(targetUid.GetUid())
+	if err != nil {
+		return err
+	}
+	model.Reference(fd.app.Config.Global, source, target)
 	return nil
 }
