@@ -21,7 +21,7 @@ func TestNewResource(t *testing.T) {
 	err := store.NewResource(&IdProp{Id: "id", Value: "val"})
 
 	assert.Equals(t, nil, err)
-	assert.Equals(t, 1, len(store.entries))
+	assert.Equals(t, 1, len(store.store.entries))
 }
 
 func TestMarshalsResourceStore(t *testing.T) {
@@ -55,7 +55,7 @@ func TestUnmarshalUpdate(t *testing.T) {
 
 			err := store.UnmarshalJSON([]byte(test.input))
 			assert.Equals(t, test.expectErr, err != nil)
-			assert.Equals(t, test.expected, store.entries[test.expectedId])
+			assert.Equals(t, test.expected, store.store.entries[test.expectedId])
 		})
 	}
 }

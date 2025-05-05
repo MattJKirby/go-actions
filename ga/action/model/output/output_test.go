@@ -22,7 +22,7 @@ func TestAssignTargetReference(t *testing.T) {
 
 	output.AssignTargetReference(ref)
 
-	stored, err := output.TargetReferences.Get(ref.Uid.GetUid())
+	stored, err := output.TargetReferences.GetResource(ref.Uid.GetUid())
 	assert.Equals(t, nil, err)
 	assert.Equals(t, ref, stored)
 }

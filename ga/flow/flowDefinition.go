@@ -28,25 +28,29 @@ func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[actio
 		return nil, err
 	}
 
-	fd.Actions.Insert(action.Instance.Uid.GetUid(), action.Instance)
+	fd.Actions.NewResource(*action.Instance)
 	return action, nil
 }
 
 func (fd *flowDefinition) NewReference(sourceUid *uid.ResourceUid, targetUid *uid.ResourceUid) error {
-	sourceAction, err := fd.Actions.Get(sourceUid.GetBaseUid())
+	sourceAction, err := fd.Actions.GetResource(sourceUid.GetBaseUid())
+	if err != nil {
+		return err
+	}
+	val, _ := json.Marshal(sourceAction)
+	fmt.Println(true, string(val))
+
+	source, err := sourceAction.Model.Outputs.GetResource(sourceUid.GetUid())
 	if err != nil {
 		return err
 	}
 
-	fmt.Println(true, sourceAction)
 
-	test,_ := json.Marshal(sourceUid)
-	fmt.Println(string(test))
 
-	// source, err := sourceAction.Model.Outputs.Get(sourceId)
-	// if err != nil {
-	// 	return err
-	// }
+
+
+
+	fmt.Println(source)
 
 	// targetAction, err := fd.Actions.Get(targetActionUid)
 	// if err != nil {

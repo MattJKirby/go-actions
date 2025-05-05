@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"go-actions/examples"
@@ -23,7 +22,7 @@ func main() {
 	err := flow.Definition.NewReference(a1.ActionOutput.Uid, a2.ActionInput.Uid)
 	fmt.Println(err)
 
-	flowDef, _ := json.Marshal(flow.Definition)
-	fmt.Println(string(flowDef))
+	// flowDef, _ := json.Marshal(flow.Definition)
+	// fmt.Println(string(flowDef))
 
 }

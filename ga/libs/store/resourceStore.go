@@ -7,24 +7,32 @@ type IdentifiableResource interface {
 }
 
 type ResourceStore[T IdentifiableResource] struct {
-	*BaseStore[T]
+	store *BaseStore[T]
 }
 
 func NewResourceStore[T IdentifiableResource](unsafeUpdate bool) *ResourceStore[T] {
 	return &ResourceStore[T]{
-		NewBaseStore(
+		store: NewBaseStore(
 			WithUnsafeUpdate[T](unsafeUpdate),
 		),
 	}
 }
 
 func (aps *ResourceStore[T]) NewResource(property T) error {
-	return aps.Insert(property.GetResourceId(), &property)
+	return aps.store.Insert(property.GetResourceId(), &property)
+}
+
+func (aps *ResourceStore[T]) GetDefault(property T) T {
+	return *aps.store.GetDefault(property.GetResourceId(), func() *T { return &property})
+}
+
+func (aps *ResourceStore[T]) GetResource(propertyId string) (*T, error) {
+	return aps.store.Get(propertyId)
 }
 
 func (aps *ResourceStore[T]) MarshalJSON() ([]byte, error) {
-	values := make([]*T, 0, len(aps.entries))
-	for _, entry := range aps.entries {
+	values := make([]*T, 0, len(aps.store.entries))
+	for _, entry := range aps.store.entries {
 		values = append(values, entry)
 	}
 	return json.Marshal(values)
@@ -37,7 +45,7 @@ func (aps *ResourceStore[T]) UnmarshalJSON(data []byte) error {
 	}
 
 	for _, item := range values {
-		if err := aps.Update(item.GetResourceId(), &item); err != nil {
+		if err := aps.store.Update(item.GetResourceId(), &item); err != nil {
 			return err
 		}
 	}
