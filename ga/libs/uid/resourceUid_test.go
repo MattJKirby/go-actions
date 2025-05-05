@@ -8,14 +8,13 @@ import (
 )
 
 func TestGetString(t *testing.T) {
-	uid := &ResourceUid{prefix:"ga",namespace: "core", resource: "someaction", uid: "uid", subResource: "sub", subResourceId: "subId"}
+	uid := &ResourceUid{prefix: "ga", namespace: "core", resource: "someaction", uid: "uid", subResource: "sub", subResourceId: "subId"}
 	assert.Equals(t, "ga:core:someaction:uid:sub:subid", uid.FullUid())
 	assert.Equals(t, "ga:core:someaction:uid::", uid.BaseUid())
 }
 
-
 func TestMarshal(t *testing.T) {
-	uid := &ResourceUid{prefix:"ga",namespace: "core", resource: "someaction", uid: "uid", subResource: "sub", subResourceId: "subId"}
+	uid := &ResourceUid{prefix: "ga", namespace: "core", resource: "someaction", uid: "uid", subResource: "sub", subResourceId: "subId"}
 	marshalled, err := json.Marshal(uid)
 
 	assert.Equals(t, err, nil)
@@ -63,7 +62,7 @@ func TestUnmarshal(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			uid := &ResourceUid{prefix:"ga",namespace: "myNamespace"}
+			uid := &ResourceUid{prefix: "ga", namespace: "myNamespace"}
 			err := json.Unmarshal([]byte(test.jsonInput), uid)
 
 			fmt.Println(uid)

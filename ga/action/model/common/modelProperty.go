@@ -6,12 +6,12 @@ import (
 
 type ModelProperty struct {
 	Uid  uid.ResourceUid `json:"uid"`
-	Name string           `json:"name"`
+	Name string          `json:"name"`
 }
 
 func NewModelProperty(modelUid uid.ResourceUid, propertyType string, name string) *ModelProperty {
 	return &ModelProperty{
-		Uid: uid.NewUidBuilder().FromParent(modelUid).WithSubResource(propertyType).WithSubResourceId(name).Build(),
+		Uid:  uid.NewUidBuilder().FromParent(modelUid).WithSubResource(propertyType).WithSubResourceId(name).Build(),
 		Name: name,
 	}
 }

@@ -13,7 +13,7 @@ type ActionOutput struct {
 
 func NewActionOutput(actionUid uid.ResourceUid, name string) *ActionOutput {
 	return &ActionOutput{
-		ModelProperty:   common.NewModelProperty(actionUid, "output", name),
+		ModelProperty:    common.NewModelProperty(actionUid, "output", name),
 		TargetReferences: store.NewResourceStore[common.ActionReference](true),
 	}
 }

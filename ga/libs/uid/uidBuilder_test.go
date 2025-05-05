@@ -14,6 +14,6 @@ func TestBuild(t *testing.T) {
 		WithSubResourceId("Id").
 		Build()
 
-		assert.Equals(t, "ga:ns:res:uid:sub:id", uid.FullUid())
-		assert.Equals(t, "ga:ns:res:uid::", uid.BaseUid())
+	assert.Equals(t, "ga:ns:res:uid:sub:id", uid.FullUid())
+	assert.Equals(t, "ga:ns:res:uid::", uid.BaseUid())
 }

@@ -7,7 +7,7 @@ import (
 )
 
 type ActionInstance struct {
-	Uid   uid.ResourceUid   `json:"uid"`
+	Uid   uid.ResourceUid    `json:"uid"`
 	Model *model.ActionModel `json:"model"`
 }
 

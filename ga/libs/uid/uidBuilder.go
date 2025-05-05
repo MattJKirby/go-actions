@@ -43,11 +43,11 @@ func (ub *UidBuilder) WithSubResourceId(id string) *UidBuilder {
 func (ub *UidBuilder) Build() ResourceUid {
 	uid := defaultResourceUid()
 	uid.namespace = ub.namespace
-	uid.resource =       ub.resource
-	uid.uid = ub.uid   
+	uid.resource = ub.resource
+	uid.uid = ub.uid
 
-	uid.subResource =   ub.subResource
-	uid.subResourceId =  ub.subResourceId
+	uid.subResource = ub.subResource
+	uid.subResourceId = ub.subResourceId
 
 	return *uid
 }

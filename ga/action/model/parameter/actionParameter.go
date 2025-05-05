@@ -23,8 +23,8 @@ type marshalledActionParameter[T any] struct {
 func NewActionParameter[T any](modelUid uid.ResourceUid, name string, defaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
 		ModelProperty: common.NewModelProperty(modelUid, "parameter", name),
-		value:          defaultValue,
-		defaultValue:   defaultValue,
+		value:         defaultValue,
+		defaultValue:  defaultValue,
 	}
 }
 

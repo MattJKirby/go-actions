@@ -7,22 +7,22 @@ import (
 )
 
 type ResourceUid struct {
-	prefix          string
-	namespace       string
-	resource        string
-	uid             string
-	subResource string
-	subResourceId   string
+	prefix        string
+	namespace     string
+	resource      string
+	uid           string
+	subResource   string
+	subResourceId string
 }
 
 func defaultResourceUid() *ResourceUid {
 	return &ResourceUid{
-		prefix:          "ga",
-		namespace:       "core",
-		resource:        "",
-		uid:             "",
-		subResource: "",
-		subResourceId:   "",
+		prefix:        "ga",
+		namespace:     "core",
+		resource:      "",
+		uid:           "",
+		subResource:   "",
+		subResourceId: "",
 	}
 }
 

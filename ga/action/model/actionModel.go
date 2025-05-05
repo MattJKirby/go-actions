@@ -12,7 +12,7 @@ import (
 
 type ActionModel struct {
 	globalConfig *config.GlobalConfig
-	ModelUid     uid.ResourceUid                                 `json:"uid"`
+	ModelUid     uid.ResourceUid                                  `json:"uid"`
 	Parameters   *store.ResourceStore[store.IdentifiableResource] `json:"parameters"`
 	Inputs       *store.ResourceStore[input.ActionInput]          `json:"inputs"`
 	Outputs      *store.ResourceStore[output.ActionOutput]        `json:"outputs"`
