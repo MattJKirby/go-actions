@@ -23,7 +23,7 @@ func (aps *ResourceStore[T]) NewResource(property T) error {
 }
 
 func (aps *ResourceStore[T]) GetDefault(property T) T {
-	return *aps.store.GetDefault(property.GetResourceId(), func() *T { return &property})
+	return *aps.store.GetDefault(property.GetResourceId(), func() *T { return &property })
 }
 
 func (aps *ResourceStore[T]) GetResource(propertyId string) (*T, error) {

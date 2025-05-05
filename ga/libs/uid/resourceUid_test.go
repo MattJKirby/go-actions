@@ -52,11 +52,11 @@ func TestUnmarshal(t *testing.T) {
 			expectErr: true,
 		},
 		{
-			name:      "other resource",
-			jsonInput: `"ga:mynamespace:otherresource:uid::"`,
+			name:             "other resource",
+			jsonInput:        `"ga:mynamespace:otherresource:uid::"`,
 			expectedResource: "otherresource",
-			expectedUid: "uid",
-			expectErr: false,
+			expectedUid:      "uid",
+			expectErr:        false,
 		},
 		{
 			name:      "wrong format",

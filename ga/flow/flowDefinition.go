@@ -45,11 +45,6 @@ func (fd *flowDefinition) NewReference(sourceUid *uid.ResourceUid, targetUid *ui
 		return err
 	}
 
-
-
-
-
-
 	fmt.Println(source)
 
 	// targetAction, err := fd.Actions.Get(targetActionUid)

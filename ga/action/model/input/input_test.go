@@ -13,7 +13,7 @@ var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestAssignSourceReference(t *testing.T) {
-	
+
 	source := uid.NewResourceUid(uid.WithSubResource("source"))
 	target := uid.NewResourceUid(uid.WithSubResource("target"))
 	ref := io.NewActionReference(mockConfig, source, target)

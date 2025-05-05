@@ -9,7 +9,7 @@ func TestReference(t *testing.T) {
 	// target := NewResourceUid(WithSubResource("target"))
 
 	// ref := NewReference(source, target)
-	
+
 	// expectedSource := &PartialReference{
 	// 	ReferenceUid: ref.Uid,
 	// 	ResourceUid: source,

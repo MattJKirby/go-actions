@@ -7,4 +7,3 @@ import (
 
 var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
-

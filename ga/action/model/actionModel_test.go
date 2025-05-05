@@ -45,7 +45,7 @@ func TestParameter(t *testing.T) {
 
 func TestInput(t *testing.T) {
 	uid := &uid.ResourceUid{}
-	
+
 	testcases := []struct {
 		name          string
 		defaultSource *output.ActionOutput
@@ -56,7 +56,7 @@ func TestInput(t *testing.T) {
 
 	for _, test := range testcases {
 		t.Run(test.name, func(t *testing.T) {
-			
+
 			model := NewActionModel(mockConfig, uid)
 			input := Input(model, "inputName", false, test.defaultSource)
 
