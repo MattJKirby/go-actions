@@ -9,12 +9,12 @@ type ActionReference struct {
 	*uid.Reference
 }
 
-func NewActionReference(globalConfig *config.GlobalConfig, source *uid.ResourceUid, target *uid.ResourceUid) *ActionReference {
+func NewActionReference(globalConfig *config.GlobalConfig, source uid.ResourceUid, target uid.ResourceUid) *ActionReference {
 	return &ActionReference{
-		Reference: uid.NewReference(source, target, uid.WithUid(globalConfig.UidGenerator.GenerateUid())),
+		Reference: uid.NewReference(source, target, uid.NewUidBuilder().WithUid(globalConfig.UidGenerator.GenerateUid())),
 	}
 }
 
 func (ar ActionReference) GetResourceId() string {
-	return ar.Uid.GetUid()
+	return ar.Uid.FullUid()
 }

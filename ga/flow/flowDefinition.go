@@ -31,20 +31,20 @@ func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[actio
 	return action, nil
 }
 
-func (fd *flowDefinition) NewReference(sourceUid *uid.ResourceUid, targetUid *uid.ResourceUid) error {
-	sourceAction, err := fd.Actions.GetResource(sourceUid.GetBaseUid())
+func (fd *flowDefinition) NewReference(sourceUid uid.ResourceUid, targetUid uid.ResourceUid) error {
+	sourceAction, err := fd.Actions.GetResource(sourceUid.BaseUid())
 	if err != nil {
 		return err
 	}
-	source, err := sourceAction.Model.Outputs.GetResource(sourceUid.GetUid())
+	source, err := sourceAction.Model.Outputs.GetResource(sourceUid.FullUid())
 	if err != nil {
 		return err
 	}
-	targetAction, err := fd.Actions.GetResource(targetUid.GetBaseUid())
+	targetAction, err := fd.Actions.GetResource(targetUid.BaseUid())
 	if err != nil {
 		return err
 	}
-	target, err := targetAction.Model.Inputs.GetResource(targetUid.GetUid())
+	target, err := targetAction.Model.Inputs.GetResource(targetUid.FullUid())
 	if err != nil {
 		return err
 	}

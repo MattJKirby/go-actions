@@ -21,7 +21,7 @@ func TestNewAction(t *testing.T) {
 	flowDef := NewFlowDefinition(a)
 	act, err := flowDef.NewAction("ActionValidEmpty")
 
-	got, _ := flowDef.Actions.GetResource(act.Instance.Uid.GetUid())
+	got, _ := flowDef.Actions.GetResource(act.Instance.Uid.FullUid())
 	assert.Equals(t, true, got != nil)
 	assert.Equals(t, nil, err)
 }

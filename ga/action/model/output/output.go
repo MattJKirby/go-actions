@@ -11,7 +11,7 @@ type ActionOutput struct {
 	TargetReferences *store.ResourceStore[common.ActionReference] `json:"references"`
 }
 
-func NewActionOutput(actionUid *uid.ResourceUid, name string) *ActionOutput {
+func NewActionOutput(actionUid uid.ResourceUid, name string) *ActionOutput {
 	return &ActionOutput{
 		ModelProperty:   common.NewModelProperty(actionUid, "output", name),
 		TargetReferences: store.NewResourceStore[common.ActionReference](true),

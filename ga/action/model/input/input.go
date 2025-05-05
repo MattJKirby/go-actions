@@ -11,7 +11,7 @@ type ActionInput struct {
 	SourceReferences *store.ResourceStore[common.ActionReference] `json:"references"`
 }
 
-func NewActionInput(modelUid *uid.ResourceUid, name string) *ActionInput {
+func NewActionInput(modelUid uid.ResourceUid, name string) *ActionInput {
 	return &ActionInput{
 		ModelProperty:   common.NewModelProperty(modelUid, "input", name),
 		SourceReferences: store.NewResourceStore[common.ActionReference](true),

@@ -12,16 +12,16 @@ import (
 
 type ActionModel struct {
 	globalConfig *config.GlobalConfig
-	ModelUid     *uid.ResourceUid                                 `json:"uid"`
+	ModelUid     uid.ResourceUid                                 `json:"uid"`
 	Parameters   *store.ResourceStore[store.IdentifiableResource] `json:"parameters"`
 	Inputs       *store.ResourceStore[input.ActionInput]          `json:"inputs"`
 	Outputs      *store.ResourceStore[output.ActionOutput]        `json:"outputs"`
 }
 
-func NewActionModel(globalConfig *config.GlobalConfig, actionUid *uid.ResourceUid) *ActionModel {
+func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid) *ActionModel {
 	return &ActionModel{
 		globalConfig: globalConfig,
-		ModelUid:     uid.NewResourceUid(uid.WithParentUid(actionUid), uid.WithSubResource("Model")),
+		ModelUid:     uid.NewUidBuilder().FromParent(actionUid).WithSubResource("Model").Build(),
 		Parameters:   store.NewResourceStore[store.IdentifiableResource](false),
 		Inputs:       store.NewResourceStore[input.ActionInput](false),
 		Outputs:      store.NewResourceStore[output.ActionOutput](false),

@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewParameter(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 	parameter := NewActionParameter(uid, "test", "default value")
 
 	t.Run("test new parameter", func(t *testing.T) {
@@ -30,9 +30,9 @@ func TestNewParameter(t *testing.T) {
 }
 
 func TestMarshalParameter(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 	parameter := NewActionParameter(uid, "parameterName", "defaultVal")
-	expectedMarshalResult := `{"uid":"::::parameter:parametername","name":"parameterName","value":"defaultVal"}`
+	expectedMarshalResult := `{"uid":"ga:core:::parameter:parametername","name":"parameterName","value":"defaultVal"}`
 
 	marshalled, err := json.Marshal(parameter)
 	if err != nil {
@@ -56,7 +56,7 @@ func TestUnmarshalParameter(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			uid := &uid.ResourceUid{}
+			uid := uid.NewUidBuilder().Build()
 			parameter := NewActionParameter(uid, "parameterName", "defaultVal")
 			err := json.Unmarshal([]byte(test.input), parameter)
 

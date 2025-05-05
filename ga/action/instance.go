@@ -7,12 +7,12 @@ import (
 )
 
 type ActionInstance struct {
-	Uid   *uid.ResourceUid   `json:"uid"`
+	Uid   uid.ResourceUid   `json:"uid"`
 	Model *model.ActionModel `json:"model"`
 }
 
 func NewActionInstance(globalConfig *config.GlobalConfig, actionConfig *ActionConfig, typedef *TypeDefinition) *ActionInstance {
-	uid := uid.NewResourceUid(uid.WithResource(typedef.TypeName), uid.WithUid(globalConfig.UidGenerator.GenerateUid()))
+	uid := uid.NewUidBuilder().WithResource(typedef.TypeName).WithUid(globalConfig.UidGenerator.GenerateUid()).Build()
 	return &ActionInstance{
 		Uid:   uid,
 		Model: model.NewActionModel(globalConfig, uid),
@@ -20,5 +20,5 @@ func NewActionInstance(globalConfig *config.GlobalConfig, actionConfig *ActionCo
 }
 
 func (ai ActionInstance) GetResourceId() string {
-	return ai.Uid.GetUid()
+	return ai.Uid.FullUid()
 }

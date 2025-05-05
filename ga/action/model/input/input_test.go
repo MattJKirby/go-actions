@@ -14,15 +14,15 @@ var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestAssignSourceReference(t *testing.T) {
 
-	source := uid.NewResourceUid(uid.WithSubResource("source"))
-	target := uid.NewResourceUid(uid.WithSubResource("target"))
+	source := uid.NewUidBuilder().WithSubResource("source").Build()
+	target := uid.NewUidBuilder().WithSubResource("target").Build()
 	ref := common.NewActionReference(mockConfig, source, target)
-	modelUid := uid.NewResourceUid()
+	modelUid := uid.NewUidBuilder().Build()
 
 	input := NewActionInput(modelUid, "name")
 	input.AssignSourceReference(ref)
 
-	stored, err := input.SourceReferences.GetResource(ref.Uid.GetUid())
+	stored, err := input.SourceReferences.GetResource(ref.Uid.FullUid())
 	assert.Equals(t, ref, stored)
 	assert.Equals(t, nil, err)
 }

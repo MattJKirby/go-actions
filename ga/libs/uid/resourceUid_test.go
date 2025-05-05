@@ -8,22 +8,18 @@ import (
 )
 
 func TestGetString(t *testing.T) {
-	uid := NewResourceUid(WithResource("someAction"), WithUid("uid"))
-	assert.Equals(t, "ga:core:someaction:uid::", uid.GetUid())
+	uid := &ResourceUid{prefix:"ga",namespace: "core", resource: "someaction", uid: "uid", subResource: "sub", subResourceId: "subId"}
+	assert.Equals(t, "ga:core:someaction:uid:sub:subid", uid.FullUid())
+	assert.Equals(t, "ga:core:someaction:uid::", uid.BaseUid())
 }
 
-func GetResourceUidString(t *testing.T) {
-	uid := NewResourceUid(WithResource("someAction"), WithUid("uid"), WithSubResource("sub"), WithSubResourceId("subId"))
-	assert.Equals(t, "ga:core:someaction:uid::", uid.GetBaseUid())
-}
 
 func TestMarshal(t *testing.T) {
-	uid := NewResourceUid(WithNamespace("testns"), WithResource("someAction"))
-
+	uid := &ResourceUid{prefix:"ga",namespace: "core", resource: "someaction", uid: "uid", subResource: "sub", subResourceId: "subId"}
 	marshalled, err := json.Marshal(uid)
 
 	assert.Equals(t, err, nil)
-	assert.Equals(t, fmt.Sprintf(`"%s"`, uid.GetUid()), string(marshalled))
+	assert.Equals(t, fmt.Sprintf(`"%s"`, uid.FullUid()), string(marshalled))
 }
 
 func TestUnmarshal(t *testing.T) {
@@ -67,7 +63,7 @@ func TestUnmarshal(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			uid := NewResourceUid(WithNamespace("myNamespace"), WithResource(""), WithUid(""))
+			uid := &ResourceUid{prefix:"ga",namespace: "myNamespace"}
 			err := json.Unmarshal([]byte(test.jsonInput), uid)
 
 			fmt.Println(uid)

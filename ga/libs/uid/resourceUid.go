@@ -11,7 +11,7 @@ type ResourceUid struct {
 	namespace       string
 	resource        string
 	uid             string
-	subResourceType string
+	subResource string
 	subResourceId   string
 }
 
@@ -21,33 +21,25 @@ func defaultResourceUid() *ResourceUid {
 		namespace:       "core",
 		resource:        "",
 		uid:             "",
-		subResourceType: "",
+		subResource: "",
 		subResourceId:   "",
 	}
-}
-
-func NewResourceUid(opts ...ResourceUidOption) *ResourceUid {
-	resourceUid := defaultResourceUid()
-	for _, opt := range opts {
-		opt(resourceUid)
-	}
-	return resourceUid
 }
 
 func (ru *ResourceUid) getString(prefix, ns, res, uid, subRes, subId string) string {
 	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", prefix, ns, res, uid, subRes, subId))
 }
 
-func (ru *ResourceUid) GetUid() string {
-	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId)
+func (ru *ResourceUid) FullUid() string {
+	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResource, ru.subResourceId)
 }
 
-func (ru *ResourceUid) GetBaseUid() string {
+func (ru *ResourceUid) BaseUid() string {
 	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, "", "")
 }
 
 func (ru *ResourceUid) MarshalJSON() ([]byte, error) {
-	return json.Marshal(ru.GetUid())
+	return json.Marshal(ru.FullUid())
 }
 
 func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
@@ -73,7 +65,7 @@ func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
 
 	ru.resource = elements[2]
 	ru.uid = elements[3]
-	ru.subResourceType = elements[4]
+	ru.subResource = elements[4]
 	ru.subResourceId = elements[5]
 
 	return nil

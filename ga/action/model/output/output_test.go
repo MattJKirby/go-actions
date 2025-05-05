@@ -13,16 +13,16 @@ var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestAssignTargetReference(t *testing.T) {
-	source := uid.NewResourceUid(uid.WithSubResource("source"))
-	target := uid.NewResourceUid(uid.WithSubResource("target"))
+	source := uid.NewUidBuilder().WithSubResource("source").Build()
+	target := uid.NewUidBuilder().WithSubResource("target").Build()
 	ref := common.NewActionReference(mockConfig, source, target)
-	modelUid := uid.NewResourceUid()
+	modelUid := uid.NewUidBuilder().Build()
 
 	output := NewActionOutput(modelUid, "name")
 
 	output.AssignTargetReference(ref)
 
-	stored, err := output.TargetReferences.GetResource(ref.Uid.GetUid())
+	stored, err := output.TargetReferences.GetResource(ref.Uid.FullUid())
 	assert.Equals(t, nil, err)
 	assert.Equals(t, ref, stored)
 }

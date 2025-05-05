@@ -16,25 +16,25 @@ var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 
 func TestMarshalEmptyModel(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 	model := NewActionModel(mockConfig, uid)
 	mashalled, _ := json.Marshal(model)
 
-	assert.Equals(t, `{"uid":"::::model:","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
+	assert.Equals(t, `{"uid":"ga:core:::model:","parameters":[],"inputs":[],"outputs":[]}`, string(mashalled))
 }
 
 func TestUnmarshalModel(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 	model := NewActionModel(mockConfig, uid)
-	marshalled := `{"uid":"::::x:","parameters":[],"inputs":[],"outputs":[]}`
+	marshalled := `{"uid":"ga:core:::x:","parameters":[],"inputs":[],"outputs":[]}`
 
 	err := json.Unmarshal([]byte(marshalled), model)
 	assert.Equals(t, err, nil)
-	assert.Equals(t, model.ModelUid.GetUid(), "::::x:")
+	assert.Equals(t, model.ModelUid.FullUid(), "ga:core:::x:")
 }
 
 func TestParameter(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 	model := NewActionModel(mockConfig, uid)
 	expected := Parameter(model, "paramName", 0)
 
@@ -44,7 +44,7 @@ func TestParameter(t *testing.T) {
 }
 
 func TestInput(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 
 	testcases := []struct {
 		name          string
@@ -69,7 +69,7 @@ func TestInput(t *testing.T) {
 }
 
 func TestOutput(t *testing.T) {
-	uid := &uid.ResourceUid{}
+	uid := uid.NewUidBuilder().Build()
 
 	testcases := []struct {
 		name           string
