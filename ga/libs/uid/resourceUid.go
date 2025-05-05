@@ -71,10 +71,7 @@ func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("%s: unexpected namespace: got '%s', expected '%s'", errorStub, elements[1], ru.namespace)
 	}
 
-	if elements[2] != strings.ToLower(ru.resource) {
-		return fmt.Errorf("%s: unexpected resource: got '%s', expected '%s'", errorStub, elements[2], ru.resource)
-	}
-
+	ru.resource = elements[2]
 	ru.uid = elements[3]
 	ru.subResourceType = elements[4]
 	ru.subResourceId = elements[5]

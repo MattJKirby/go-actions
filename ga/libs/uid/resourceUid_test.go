@@ -36,7 +36,7 @@ func TestUnmarshal(t *testing.T) {
 	}{
 		{
 			name:             "valid UID",
-			jsonInput:        `"ga:mynamespace:myresource:somevaliduid::"`,
+			jsonInput:        `"ga:mynamespace:resource:somevaliduid::"`,
 			expectedResource: "resource",
 			expectedUid:      "somevaliduid",
 			expectErr:        false,
@@ -52,9 +52,11 @@ func TestUnmarshal(t *testing.T) {
 			expectErr: true,
 		},
 		{
-			name:      "invalid resource",
-			jsonInput: `"ga:mynamespace:wrongresource:uid::"`,
-			expectErr: true,
+			name:      "other resource",
+			jsonInput: `"ga:mynamespace:otherresource:uid::"`,
+			expectedResource: "otherresource",
+			expectedUid: "uid",
+			expectErr: false,
 		},
 		{
 			name:      "wrong format",
@@ -65,13 +67,14 @@ func TestUnmarshal(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			uid := NewResourceUid(WithNamespace("myNamespace"), WithResource("myResource"), WithUid(""))
-			marshalled := []byte(test.jsonInput)
-			err := json.Unmarshal(marshalled, uid)
+			uid := NewResourceUid(WithNamespace("myNamespace"), WithResource(""), WithUid(""))
+			err := json.Unmarshal([]byte(test.jsonInput), uid)
+
+			fmt.Println(uid)
 
 			assert.Equals(t, test.expectErr, err != nil)
 			assert.Equals(t, "myNamespace", uid.namespace)
-			assert.Equals(t, "myResource", uid.resource)
+			assert.Equals(t, test.expectedResource, uid.resource)
 			assert.Equals(t, test.expectedUid, uid.uid)
 		})
 	}
