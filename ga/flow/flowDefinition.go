@@ -1,10 +1,13 @@
 package flow
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-actions/ga/action"
 	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 	"go-actions/ga/libs/store"
+	"go-actions/ga/libs/uid"
 )
 
 type flowDefinition struct {
@@ -29,11 +32,16 @@ func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[actio
 	return action, nil
 }
 
-func (fd *flowDefinition) NewReference(sourceActionUid string, sourceId string, targetActionUid string, targetId string) error {
-	// sourceAction, err := fd.Actions.Get(sourceActionUid)
-	// if err != nil {
-	// 	return err
-	// }
+func (fd *flowDefinition) NewReference(sourceUid *uid.ResourceUid, targetUid *uid.ResourceUid) error {
+	sourceAction, err := fd.Actions.Get(sourceUid.GetBaseUid())
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(true, sourceAction)
+
+	test,_ := json.Marshal(sourceUid)
+	fmt.Println(string(test))
 
 	// source, err := sourceAction.Model.Outputs.Get(sourceId)
 	// if err != nil {

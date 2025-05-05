@@ -20,7 +20,7 @@ func main() {
 	a1, _ := flow.Definition.NewAction("BasicAction")
 	a2, _ := flow.Definition.NewAction("BasicAction")
 
-	err := flow.Definition.NewReference(a1.Instance.Uid.GetString(), a1.ActionOutput.Uid.GetString(), a2.Instance.Uid.GetString(), a2.ActionInput.Uid.GetString())
+	err := flow.Definition.NewReference(a1.ActionOutput.Uid, a2.ActionInput.Uid)
 	fmt.Println(err)
 
 	flowDef, _ := json.Marshal(flow.Definition)

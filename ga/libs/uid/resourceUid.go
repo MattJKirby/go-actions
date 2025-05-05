@@ -42,7 +42,7 @@ func (ru *ResourceUid) GetString() string {
 	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId)
 }
 
-func (ru *ResourceUid) GetResourceUidString() string {
+func (ru *ResourceUid) GetBaseUid() string {
 	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, "", "")
 }
 

@@ -17,7 +17,7 @@ func NewActionProperty(modelUid *uid.ResourceUid, propertyType string, name stri
 }
 
 func (ap ActionProperty) GetActionUid() string {
-	return ap.Uid.GetResourceUidString()
+	return ap.Uid.GetBaseUid()
 }
 
 func (ap ActionProperty) GetResourceId() string {
