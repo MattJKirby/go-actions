@@ -30,7 +30,7 @@ func TestUnmarshalModel(t *testing.T) {
 
 	err := json.Unmarshal([]byte(marshalled), model)
 	assert.Equals(t, err, nil)
-	assert.Equals(t, model.ModelUid.GetString(), "::::x:")
+	assert.Equals(t, model.ModelUid.GetUid(), "::::x:")
 }
 
 func TestParameter(t *testing.T) {

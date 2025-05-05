@@ -21,5 +21,5 @@ func (ap ActionProperty) GetActionUid() string {
 }
 
 func (ap ActionProperty) GetResourceId() string {
-	return ap.Uid.GetString()
+	return ap.Uid.GetUid()
 }

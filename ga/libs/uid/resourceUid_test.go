@@ -9,7 +9,7 @@ import (
 
 func TestGetString(t *testing.T) {
 	uid := NewResourceUid(WithResource("someAction"), WithUid("uid"))
-	assert.Equals(t, "ga:core:someaction:uid::", uid.GetString())
+	assert.Equals(t, "ga:core:someaction:uid::", uid.GetUid())
 }
 
 func GetResourceUidString(t *testing.T) {
@@ -23,7 +23,7 @@ func TestMarshal(t *testing.T) {
 	marshalled, err := json.Marshal(uid)
 
 	assert.Equals(t, err, nil)
-	assert.Equals(t, fmt.Sprintf(`"%s"`, uid.GetString()), string(marshalled))
+	assert.Equals(t, fmt.Sprintf(`"%s"`, uid.GetUid()), string(marshalled))
 }
 
 func TestUnmarshal(t *testing.T) {

@@ -20,5 +20,5 @@ func NewActionInstance(globalConfig *config.GlobalConfig, actionConfig *ActionCo
 }
 
 func (ai ActionInstance) GetResourceId() string {
-	return ai.Uid.GetString()
+	return ai.Uid.GetUid()
 }

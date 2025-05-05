@@ -22,7 +22,7 @@ func TestAssignSourceReference(t *testing.T) {
 	input := NewActionInput(modelUid, "name")
 	input.AssignSourceReference(ref)
 
-	stored, err := input.SourceReferences.Get(ref.Uid.GetString())
+	stored, err := input.SourceReferences.Get(ref.Uid.GetUid())
 	assert.Equals(t, ref, stored)
 	assert.Equals(t, nil, err)
 }

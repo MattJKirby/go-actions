@@ -42,7 +42,7 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&marshalledActionParameter[T]{
-		Uid:   ap.Uid.GetString(),
+		Uid:   ap.Uid.GetUid(),
 		Name:  ap.Name,
 		Value: ap.value,
 	})

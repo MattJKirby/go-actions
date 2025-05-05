@@ -17,5 +17,5 @@ func NewActionReference(globalConfig *config.GlobalConfig, source *uid.ResourceU
 }
 
 func (ar ActionReference) GetResourceId() string {
-	return ar.Uid.GetString()
+	return ar.Uid.GetUid()
 }

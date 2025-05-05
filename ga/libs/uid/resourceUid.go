@@ -38,7 +38,7 @@ func (ru *ResourceUid) getString(prefix, ns, res, uid, subRes, subId string) str
 	return strings.ToLower(fmt.Sprintf("%s:%s:%s:%s:%s:%s", prefix, ns, res, uid, subRes, subId))
 }
 
-func (ru *ResourceUid) GetString() string {
+func (ru *ResourceUid) GetUid() string {
 	return ru.getString(ru.prefix, ru.namespace, ru.resource, ru.uid, ru.subResourceType, ru.subResourceId)
 }
 
@@ -47,7 +47,7 @@ func (ru *ResourceUid) GetBaseUid() string {
 }
 
 func (ru *ResourceUid) MarshalJSON() ([]byte, error) {
-	return json.Marshal(ru.GetString())
+	return json.Marshal(ru.GetUid())
 }
 
 func (ru *ResourceUid) UnmarshalJSON(data []byte) error {
