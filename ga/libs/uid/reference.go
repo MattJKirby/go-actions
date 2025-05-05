@@ -2,15 +2,15 @@ package uid
 
 type Reference struct {
 	Uid *ResourceUid
-	source *ResourceUid
-	target *ResourceUid
+	Source *ResourceUid
+	Target *ResourceUid
 }
 
 func NewReference(source *ResourceUid, target *ResourceUid, opts ...ResourceUidOption) *Reference {
 	return &Reference{
 		Uid: NewResourceUid(append(opts, WithResource("Ref"))...,),
-		source: source,
-		target: target,
+		Source: source,
+		Target: target,
 	}
 }
 
