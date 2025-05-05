@@ -11,7 +11,7 @@ import (
 
 type flowDefinition struct {
 	app     *app.App
-	Actions *store.ResourceStore[action.ActionInstance] `json:"Actions"`
+	Actions *store.ResourceStore[action.ActionInstance] `json:"actions"`
 }
 
 func NewFlowDefinition(app *app.App) *flowDefinition {
