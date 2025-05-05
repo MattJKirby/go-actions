@@ -3,13 +3,13 @@ package parameter
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/action/model/io"
+	"go-actions/ga/action/model/common"
 	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/marshalling"
 )
 
 type ActionParameter[T any] struct {
-	*io.ActionProperty
+	*common.ActionProperty
 	value        T
 	defaultValue T
 }
@@ -22,7 +22,7 @@ type marshalledActionParameter[T any] struct {
 
 func NewActionParameter[T any](modelUid *uid.ResourceUid, name string, defaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		ActionProperty: io.NewActionProperty(modelUid, "parameter", name),
+		ActionProperty: common.NewActionProperty(modelUid, "parameter", name),
 		value:          defaultValue,
 		defaultValue:   defaultValue,
 	}

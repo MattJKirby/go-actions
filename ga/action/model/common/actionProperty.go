@@ -1,4 +1,4 @@
-package io
+package common
 
 import (
 	"go-actions/ga/libs/uid"

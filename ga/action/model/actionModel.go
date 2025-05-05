@@ -1,8 +1,8 @@
 package model
 
 import (
+	"go-actions/ga/action/model/common"
 	"go-actions/ga/action/model/input"
-	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/output"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/app/config"
@@ -56,8 +56,8 @@ func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.A
 	return &output
 }
 
-func Reference(globalConfig *config.GlobalConfig, source *output.ActionOutput, target *input.ActionInput) *io.ActionReference {
-	ref := io.NewActionReference(globalConfig, source.Uid, target.Uid)
+func Reference(globalConfig *config.GlobalConfig, source *output.ActionOutput, target *input.ActionInput) *common.ActionReference {
+	ref := common.NewActionReference(globalConfig, source.Uid, target.Uid)
 	source.AssignTargetReference(ref)
 	target.AssignSourceReference(ref)
 	return ref
