@@ -8,7 +8,7 @@ import (
 
 type ActionOutput struct {
 	*io.ActionProperty
-	TargetReferences *store.ResourceStore[io.ActionReference]
+	TargetReferences *store.ResourceStore[io.ActionReference] `json:"references"`
 }
 
 func NewActionOutput(actionUid *uid.ResourceUid, name string) *ActionOutput {
