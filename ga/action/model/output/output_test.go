@@ -20,9 +20,9 @@ func TestAssignTargetReference(t *testing.T) {
 
 	output := NewActionOutput(modelUid, "name")
 
-	output.AssignTargetReference(ref)
+	output.AssignTargetReference(ref.GetTargetReference())
 
 	stored, err := output.TargetReferences.GetResource(ref.Uid.FullUid())
 	assert.Equals(t, nil, err)
-	assert.Equals(t, ref, stored)
+	assert.Equals(t, ref.GetTargetReference(), stored)
 }

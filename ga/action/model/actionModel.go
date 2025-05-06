@@ -58,7 +58,7 @@ func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.A
 
 func Reference(globalConfig *config.GlobalConfig, source *output.ActionOutput, target *input.ActionInput) *common.ActionReference {
 	ref := common.NewActionReference(globalConfig, source.Uid, target.Uid)
-	source.AssignTargetReference(ref)
-	target.AssignSourceReference(ref)
+	source.AssignTargetReference(ref.GetTargetReference())
+	target.AssignSourceReference(ref.GetTargetReference())
 	return ref
 }

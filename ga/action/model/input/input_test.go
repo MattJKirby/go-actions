@@ -20,9 +20,9 @@ func TestAssignSourceReference(t *testing.T) {
 	modelUid := uid.NewUidBuilder().Build()
 
 	input := NewActionInput(modelUid, "name")
-	input.AssignSourceReference(ref)
+	input.AssignSourceReference(ref.GetSourceReference())
 
 	stored, err := input.SourceReferences.GetResource(ref.Uid.FullUid())
-	assert.Equals(t, ref, stored)
+	assert.Equals(t, ref.GetSourceReference(), stored)
 	assert.Equals(t, nil, err)
 }

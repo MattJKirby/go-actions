@@ -8,16 +8,16 @@ import (
 
 type ActionInput struct {
 	*common.ModelProperty
-	SourceReferences *store.ResourceStore[common.ActionReference] `json:"references"`
+	SourceReferences *store.ResourceStore[common.ResourceReference] `json:"references"`
 }
 
 func NewActionInput(modelUid uid.ResourceUid, name string) *ActionInput {
 	return &ActionInput{
 		ModelProperty:    common.NewModelProperty(modelUid, "input", name),
-		SourceReferences: store.NewResourceStore[common.ActionReference](true),
+		SourceReferences: store.NewResourceStore[common.ResourceReference](true),
 	}
 }
 
-func (ai *ActionInput) AssignSourceReference(ref *common.ActionReference) error {
+func (ai *ActionInput) AssignSourceReference(ref *common.ResourceReference) error {
 	return ai.SourceReferences.NewResource(*ref)
 }

@@ -8,16 +8,16 @@ import (
 
 type ActionOutput struct {
 	*common.ModelProperty
-	TargetReferences *store.ResourceStore[common.ActionReference] `json:"references"`
+	TargetReferences *store.ResourceStore[common.ResourceReference] `json:"references"`
 }
 
 func NewActionOutput(actionUid uid.ResourceUid, name string) *ActionOutput {
 	return &ActionOutput{
 		ModelProperty:    common.NewModelProperty(actionUid, "output", name),
-		TargetReferences: store.NewResourceStore[common.ActionReference](true),
+		TargetReferences: store.NewResourceStore[common.ResourceReference](true),
 	}
 }
 
-func (ao *ActionOutput) AssignTargetReference(ref *common.ActionReference) error {
+func (ao *ActionOutput) AssignTargetReference(ref *common.ResourceReference) error {
 	return ao.TargetReferences.NewResource(*ref)
 }
