@@ -45,7 +45,6 @@ func (ub *UidBuilder) Build() ResourceUid {
 	uid.namespace = ub.namespace
 	uid.resource = ub.resource
 	uid.uid = ub.uid
-
 	uid.subResource = ub.subResource
 	uid.subResourceId = ub.subResourceId
 
