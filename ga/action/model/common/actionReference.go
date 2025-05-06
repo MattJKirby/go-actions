@@ -6,7 +6,7 @@ import (
 )
 
 type ResourceReference struct {
-	Uid uid.ResourceUid `json:"uid"`
+	Uid      uid.ResourceUid  `json:"uid"`
 	Source   *uid.ResourceUid `json:"source,omitempty"`
 	Target   *uid.ResourceUid `json:"target,omitempty"`
 	Resource *uid.ResourceUid `json:"resource,omitempty"`
@@ -14,7 +14,7 @@ type ResourceReference struct {
 
 func NewActionReference(globalConfig *config.GlobalConfig, source *uid.ResourceUid, target *uid.ResourceUid) *ResourceReference {
 	return &ResourceReference{
-		Uid: uid.NewUidBuilder().WithResource("Ref").WithUid(globalConfig.UidGenerator.GenerateUid()).Build(),
+		Uid:    uid.NewUidBuilder().WithResource("Ref").WithUid(globalConfig.UidGenerator.GenerateUid()).Build(),
 		Source: source,
 		Target: target,
 	}
@@ -22,18 +22,17 @@ func NewActionReference(globalConfig *config.GlobalConfig, source *uid.ResourceU
 
 func (ar *ResourceReference) GetSourceReference() *ResourceReference {
 	return &ResourceReference{
-		Uid: ar.Uid,
+		Uid:    ar.Uid,
 		Source: ar.Source,
 	}
 }
 
 func (ar *ResourceReference) GetTargetReference() *ResourceReference {
 	return &ResourceReference{
-		Uid: ar.Uid,
+		Uid:    ar.Uid,
 		Target: ar.Target,
 	}
 }
-
 
 func (rr ResourceReference) GetResourceId() string {
 	return rr.Uid.FullUid()

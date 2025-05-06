@@ -18,12 +18,12 @@ func TestResourceReference(t *testing.T) {
 	ref := NewActionReference(mockGlobalConfig, &sourceUid, &targetUid)
 
 	expectedSourceRef := &ResourceReference{
-		Uid: ref.Uid,
+		Uid:    ref.Uid,
 		Source: &sourceUid,
 	}
 
 	expecedTargetRef := &ResourceReference{
-		Uid: ref.Uid,
+		Uid:    ref.Uid,
 		Target: &targetUid,
 	}
 
@@ -31,7 +31,7 @@ func TestResourceReference(t *testing.T) {
 	assert.Equals(t, expecedTargetRef, ref.GetTargetReference())
 }
 
-func TestMarshalSourceAndTarget(t *testing.T){
+func TestMarshalSourceAndTarget(t *testing.T) {
 	sourceUid := uid.NewUidBuilder().WithSubResource("source").Build()
 	targetUid := uid.NewUidBuilder().WithSubResource("target").Build()
 	ref := NewActionReference(mockGlobalConfig, &sourceUid, &targetUid)
