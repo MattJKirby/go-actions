@@ -6,12 +6,16 @@ import (
 )
 
 type ActionReference struct {
-	*uid.Reference
+	Uid uid.ResourceUid `json:"uid"`
+	Source uid.ResourceUid `json:"source"`
+	Target uid.ResourceUid `json:"target"`
 }
 
 func NewActionReference(globalConfig *config.GlobalConfig, source uid.ResourceUid, target uid.ResourceUid) *ActionReference {
 	return &ActionReference{
-		Reference: uid.NewReference(source, target, uid.NewUidBuilder().WithUid(globalConfig.UidGenerator.GenerateUid())),
+		Uid: uid.NewUidBuilder().WithResource("Res").WithUid(globalConfig.UidGenerator.GenerateUid()).Build(),
+		Source: source,
+		Target: target,
 	}
 }
 
