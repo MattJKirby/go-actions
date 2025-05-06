@@ -16,7 +16,7 @@ func TestAssignSourceReference(t *testing.T) {
 
 	source := uid.NewUidBuilder().WithSubResource("source").Build()
 	target := uid.NewUidBuilder().WithSubResource("target").Build()
-	ref := common.NewActionReference(mockConfig, source, target)
+	ref := common.NewActionReference(mockConfig, &source, &target)
 	modelUid := uid.NewUidBuilder().Build()
 
 	input := NewActionInput(modelUid, "name")

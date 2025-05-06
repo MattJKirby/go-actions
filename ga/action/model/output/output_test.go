@@ -15,7 +15,7 @@ var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
 func TestAssignTargetReference(t *testing.T) {
 	source := uid.NewUidBuilder().WithSubResource("source").Build()
 	target := uid.NewUidBuilder().WithSubResource("target").Build()
-	ref := common.NewActionReference(mockConfig, source, target)
+	ref := common.NewActionReference(mockConfig, &source, &target)
 	modelUid := uid.NewUidBuilder().Build()
 
 	output := NewActionOutput(modelUid, "name")
