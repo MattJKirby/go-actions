@@ -87,6 +87,18 @@ func TestGetDefault(t *testing.T) {
 	}
 }
 
+func TestGetEntries(t *testing.T) {
+	store := NewBaseStore[prop]()
+	p1 := &prop{"1"}
+	p2 := &prop{"2"}
+	store.Insert("1", p1)
+	store.Insert("2", p2)
+
+	expected := []prop{*p1, *p2}
+
+	assert.Equals(t, expected, store.GetEntries())
+}
+
 func TestMarshal(t *testing.T) {
 	store := NewBaseStore[prop]()
 	store.Insert("id", &prop{"val"})

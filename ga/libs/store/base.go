@@ -63,6 +63,14 @@ func (bs *BaseStore[T]) Update(key string, value *T) error {
 	return nil
 }
 
+func (bs *BaseStore[T]) GetEntries() []T {
+	entries := make([]T, 0, len(bs.entries))
+	for _, item := range bs.entries {
+		entries = append(entries, *item)
+	}
+	return entries
+}
+
 func (bs *BaseStore[T]) MarshalJSON() ([]byte, error) {
 	marshalledEntries := make([]*marshalledEntry[T], 0, len(bs.entries))
 	for key, value := range bs.entries {
