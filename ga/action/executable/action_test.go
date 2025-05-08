@@ -9,8 +9,8 @@ import (
 	"testing"
 )
 
-var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
-var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var mockGenerator = &testHelpers.MockUidProvider{MockUid: "uid"}
+var mockGlobalConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 var mockActionConfig = &action.ActionConfig{}
 
 func TestNewAction(t *testing.T) {

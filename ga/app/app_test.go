@@ -10,8 +10,8 @@ import (
 	"testing"
 )
 
-var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
-var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var mockGenerator = &testHelpers.MockUidProvider{MockUid: "uid"}
+var mockGlobalConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 var mockAppConfig = &ApplicationConfig{Global: mockGlobalConfig}
 
 func appWithEmptyRegistration() (*App, action.ActionRegistration[ta.ActionValidEmpty]) {

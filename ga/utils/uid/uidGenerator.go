@@ -2,12 +2,12 @@ package uid
 
 import "github.com/google/uuid"
 
-type UidGenerator interface {
-	GenerateUid() string
+type Provider interface {
+	New() string
 }
 
-type DefaultUidGenerator struct{}
+type DefaultProvider struct{}
 
-func (ug *DefaultUidGenerator) GenerateUid() string {
+func (ug *DefaultProvider) New() string {
 	return uuid.New().String()
 }

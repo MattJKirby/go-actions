@@ -6,7 +6,7 @@ import (
 )
 
 func TestGenerateUid(t *testing.T) {
-	generator := &DefaultUidGenerator{}
+	generator := &DefaultProvider{}
 
-	assert.Equals(t, 36, len(generator.GenerateUid()))
+	assert.Equals(t, 36, len(generator.New()))
 }

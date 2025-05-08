@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-var mockGlobalConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var mockGlobalConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 var mockActionConfig = &action.ActionConfig{}
 
 func TestTypeDefinitionFromRegistration(t *testing.T) {

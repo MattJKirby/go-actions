@@ -7,13 +7,13 @@ import (
 	"testing"
 )
 
-var mockUidGenerator = testHelpers.MockUidGenerator{MockUid: "uid"}
+var mockUidGenerator = testHelpers.MockUidProvider{MockUid: "uid"}
 
 func TestWithGlobalConfig(t *testing.T) {
 	cfg := DefaultApplicationConfig()
 	WithGlobalConfigOptions(
-		config.WithCustomUidGenerator(mockUidGenerator),
+		config.WithCustomUidProvider(mockUidGenerator),
 	)(cfg)
 
-	assert.Equals(t, "uid", cfg.Global.UidGenerator.GenerateUid())
+	assert.Equals(t, "uid", cfg.Global.UidProvider.New())
 }

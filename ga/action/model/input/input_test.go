@@ -9,8 +9,8 @@ import (
 	"testing"
 )
 
-var mockGenerator = &testHelpers.MockUidGenerator{MockUid: "uid"}
-var mockConfig = &config.GlobalConfig{UidGenerator: mockGenerator}
+var mockGenerator = &testHelpers.MockUidProvider{MockUid: "uid"}
+var mockConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 
 func TestAssignSourceReference(t *testing.T) {
 

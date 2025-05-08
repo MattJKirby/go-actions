@@ -12,7 +12,7 @@ type ActionInstance struct {
 }
 
 func NewActionInstance(globalConfig *config.GlobalConfig, actionConfig *ActionConfig, typedef *TypeDefinition) *ActionInstance {
-	uid := uid.NewUidBuilder().WithResource(typedef.TypeName).WithUid(globalConfig.UidGenerator.GenerateUid()).Build()
+	uid := uid.NewUidBuilder().WithResource(typedef.TypeName).WithUid(globalConfig.UidProvider.New()).Build()
 	return &ActionInstance{
 		Uid:   uid,
 		Model: model.NewActionModel(globalConfig, uid),

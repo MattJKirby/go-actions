@@ -1,9 +1,9 @@
 package testHelpers
 
-type MockUidGenerator struct {
+type MockUidProvider struct {
 	MockUid string
 }
 
-func (mac MockUidGenerator) GenerateUid() string {
+func (mac MockUidProvider) New() string {
 	return mac.MockUid
 }

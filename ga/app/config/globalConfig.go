@@ -6,17 +6,17 @@ import (
 )
 
 type GlobalConfig struct {
-	UidGenerator uid.UidGenerator
+	UidProvider uid.Provider
 }
 
 func DefaultGlobalConfig() *GlobalConfig {
 	return &GlobalConfig{
-		UidGenerator: &uid.DefaultUidGenerator{},
+		UidProvider: &uid.DefaultProvider{},
 	}
 }
 
-func WithCustomUidGenerator(gen uid.UidGenerator) packageConfig.Option[GlobalConfig] {
+func WithCustomUidProvider(gen uid.Provider) packageConfig.Option[GlobalConfig] {
 	return func(gc *GlobalConfig) {
-		gc.UidGenerator = gen
+		gc.UidProvider = gen
 	}
 }

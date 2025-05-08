@@ -14,7 +14,7 @@ type ResourceReference struct {
 
 func NewActionReference(globalConfig *config.GlobalConfig, source *uid.ResourceUid, target *uid.ResourceUid) *ResourceReference {
 	return &ResourceReference{
-		Uid:    uid.NewUidBuilder().WithResource("Ref").WithUid(globalConfig.UidGenerator.GenerateUid()).Build(),
+		Uid:    uid.NewUidBuilder().WithResource("Ref").WithUid(globalConfig.UidProvider.New()).Build(),
 		Source: source,
 		Target: target,
 	}
