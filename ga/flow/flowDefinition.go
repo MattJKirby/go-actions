@@ -21,6 +21,14 @@ func NewFlowDefinition(app *app.App) *flowDefinition {
 	}
 }
 
+func (fd *flowDefinition) GetModels() []*model.ActionModel {
+	models := make([]*model.ActionModel, 0, len(fd.Actions.Store.GetEntries()))
+	for _, action := range fd.Actions.Store.GetEntries() {
+		models = append(models, action.Model)
+	}
+	return models
+}
+
 func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
 	action, err := app.GetActionByName(actionName)(fd.app)
 	if err != nil {
