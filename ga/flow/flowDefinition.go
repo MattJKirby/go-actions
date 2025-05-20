@@ -21,10 +21,10 @@ func NewFlowDefinition(app *app.App) *flowDefinition {
 	}
 }
 
-func (fd *flowDefinition) GetModels() []*model.ActionModel {
-	models := make([]*model.ActionModel, 0, len(fd.Actions.Store.GetEntries()))
+func (fd *flowDefinition) GetModels() map[string]*model.ActionModel {
+	models := make(map[string]*model.ActionModel)
 	for _, action := range fd.Actions.Store.GetEntries() {
-		models = append(models, action.Model)
+		models[action.Uid.FullUid()] = action.Model
 	}
 	return models
 }

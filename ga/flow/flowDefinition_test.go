@@ -33,10 +33,9 @@ func TestGetModels(t *testing.T) {
 	a1, _ := flowDef.NewAction("ActionValidEmpty")
 	a2, _ := flowDef.NewAction("ActionValidEmpty")
 
-	expected := []*model.ActionModel{
-		a1.Instance.Model,
-		a2.Instance.Model,
-	}
+	expected := make(map[string]*model.ActionModel)
+	expected[a1.Instance.Uid.FullUid()] = a1.Instance.Model
+	expected[a2.Instance.Uid.FullUid()] = a2.Instance.Model
 
 	assert.Equals(t, expected, flowDef.GetModels())
 }
