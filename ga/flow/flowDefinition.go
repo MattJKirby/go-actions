@@ -9,19 +9,19 @@ import (
 	"go-actions/ga/libs/uid"
 )
 
-type flowDefinition struct {
+type FlowDefinition struct {
 	app     *app.App
 	Actions *store.ResourceStore[action.ActionInstance] `json:"actions"`
 }
 
-func NewFlowDefinition(app *app.App) *flowDefinition {
-	return &flowDefinition{
+func NewFlowDefinition(app *app.App) *FlowDefinition {
+	return &FlowDefinition{
 		app:     app,
 		Actions: store.NewResourceStore[action.ActionInstance](false),
 	}
 }
 
-func (fd *flowDefinition) GetModels() map[string]*model.ActionModel {
+func (fd *FlowDefinition) GetModels() map[string]*model.ActionModel {
 	models := make(map[string]*model.ActionModel)
 	for _, action := range fd.Actions.Store.GetEntries() {
 		models[action.Uid.FullUid()] = action.Model
@@ -29,7 +29,7 @@ func (fd *flowDefinition) GetModels() map[string]*model.ActionModel {
 	return models
 }
 
-func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
+func (fd *FlowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
 	action, err := app.GetActionByName(actionName)(fd.app)
 	if err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func (fd *flowDefinition) NewAction(actionName string) (*executable.Action[actio
 	return action, nil
 }
 
-func (fd *flowDefinition) NewReference(sourceUid uid.ResourceUid, targetUid uid.ResourceUid) error {
+func (fd *FlowDefinition) NewReference(sourceUid uid.ResourceUid, targetUid uid.ResourceUid) error {
 	sourceAction, err := fd.Actions.GetResource(sourceUid.BaseUid())
 	if err != nil {
 		return err

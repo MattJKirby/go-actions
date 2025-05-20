@@ -6,7 +6,7 @@ import (
 
 type Flow struct {
 	flowApp    *app.App
-	Definition *flowDefinition
+	Definition *FlowDefinition
 }
 
 func NewFlow(app *app.App) *Flow {
