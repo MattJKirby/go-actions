@@ -23,12 +23,21 @@ func NewInstanceResolver(app *app.App) *InstanceResolver {
 
 func (ir *InstanceResolver) Resolve(flowDef flow.FlowDefinition) error {
 	for _, instance := range flowDef.Actions.Store.GetEntries() {
-		_, err := flowDef.NewAction(instance.Name)
+		typeDef, err := app.GetDefinitionByName(instance.Name)(ir.app)
+		if err != nil {
+			return err
+		}
+		
+		act, err := app.GetActionByName(typeDef, &instance)(ir.app)
 		if err != nil {
 			return err
 		}
 
+		if typeDef.Trigger {
+			ir.triggers[instance.Uid.FullUid()] = act
+		} else {
+			ir.actions[instance.Uid.FullUid()] = act
+		}
 	}
-
 	return nil
 }

@@ -43,29 +43,10 @@ func TestGetDefinitionByName(t *testing.T) {
 
 func TestAppGetActionByName(t *testing.T) {
 	app, _ := appWithEmptyRegistration()
-
-	tests := []struct {
-		name      string
-		inputName string
-		expectErr bool
-	}{
-		{name: "valid - existing action name", inputName: "ActionValidEmpty", expectErr: false},
-		{name: "invalid - not existing action name", inputName: "notregistered", expectErr: true},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			_, err := GetActionByName(test.inputName, nil)(app)
-			hasErr := err != nil
-			assert.Equals(t, test.expectErr, hasErr)
-		})
-	}
-}
-
-func TestGetAction(t *testing.T) {
-	app, _ := appWithEmptyRegistration()
-
-	_, err := GetAction[ta.ActionValidEmpty]()(app)
+	typeDef,_ := GetDefinitionByName("ActionValidEmpty")(app)
+	
+	_, err := GetActionByName(typeDef, nil)(app)
 
 	assert.Equals(t, nil, err)
+
 }

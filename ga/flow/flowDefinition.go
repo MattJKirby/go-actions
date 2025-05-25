@@ -21,16 +21,13 @@ func NewFlowDefinition(app *app.App) *FlowDefinition {
 	}
 }
 
-func (fd *FlowDefinition) GetModels() map[string]*model.ActionModel {
-	models := make(map[string]*model.ActionModel)
-	for _, action := range fd.Actions.Store.GetEntries() {
-		models[action.Uid.FullUid()] = action.Model
-	}
-	return models
-}
-
 func (fd *FlowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
-	action, err := app.GetActionByName(actionName, nil)(fd.app)
+	typeDef, err := app.GetDefinitionByName(actionName)(fd.app)
+	if err != nil {
+		return nil, err
+	}
+	
+	action, err := app.GetActionByName(typeDef, nil)(fd.app)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package flow
 
 import (
-	"go-actions/ga/action/model"
 	"go-actions/ga/app"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
@@ -25,20 +24,6 @@ func TestNewAction(t *testing.T) {
 	assert.Equals(t, nil, err)
 }
 
-func TestGetModels(t *testing.T) {
-	a := app.NewApp("testApp")
-	app.RegisterAction[testActions.ActionValidEmpty](nil)(a)
-
-	flowDef := NewFlowDefinition(a)
-	a1, _ := flowDef.NewAction("ActionValidEmpty")
-	a2, _ := flowDef.NewAction("ActionValidEmpty")
-
-	expected := make(map[string]*model.ActionModel)
-	expected[a1.Instance.Uid.FullUid()] = a1.Instance.Model
-	expected[a2.Instance.Uid.FullUid()] = a2.Instance.Model
-
-	assert.Equals(t, expected, flowDef.GetModels())
-}
 
 // func TestNewReference(t *testing.T) {
 // 	a := app.NewApp("testApp")
