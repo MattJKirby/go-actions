@@ -51,13 +51,18 @@ func GetDefinitionByName(name string) func(*App) (*action.TypeDefinition, error)
 	}
 }
 
-func GetActionByName(actionName string) func(*App) (*executable.Action[action.GoAction], error) {
+func GetActionByName(actionName string, inst *action.ActionInstance) func(*App) (*executable.Action[action.GoAction], error) {
 	return func(app *App) (*executable.Action[action.GoAction], error) {
 		typeDef, err := registration.GetTypeDefinitionByName(actionName)(app.actionRegistry)
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[action.GoAction](app.Config.Global, app.Config.Action, typeDef)
+
+		if inst == nil {
+			inst = action.NewActionInstance(app.Config.Global, app.Config.Action, typeDef)
+		}
+
+		return executable.NewAction[action.GoAction](typeDef, inst)
 	}
 }
 
@@ -67,6 +72,7 @@ func GetAction[T action.GoAction]() func(*App) (*executable.Action[T], error) {
 		if err != nil {
 			return nil, err
 		}
-		return executable.NewAction[T](app.Config.Global, app.Config.Action, def)
+		inst := action.NewActionInstance(app.Config.Global, app.Config.Action, def)
+		return executable.NewAction[T](def, inst)
 	}
 }

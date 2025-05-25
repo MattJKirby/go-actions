@@ -24,7 +24,7 @@ func TestNewAction(t *testing.T) {
 		BaseActionFields: NewBaseActionFields(instance),
 	}
 
-	actual, err := NewAction[action.GoAction](mockGlobalConfig, mockActionConfig, definition)
+	actual, err := NewAction[action.GoAction](definition, instance)
 	assert.Equals(t, nil, err)
 	assert.Equals(t, expected, actual)
 }

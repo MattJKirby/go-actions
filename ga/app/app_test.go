@@ -55,7 +55,7 @@ func TestAppGetActionByName(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			_, err := GetActionByName(test.inputName)(app)
+			_, err := GetActionByName(test.inputName, nil)(app)
 			hasErr := err != nil
 			assert.Equals(t, test.expectErr, hasErr)
 		})

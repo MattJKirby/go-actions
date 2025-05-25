@@ -30,7 +30,7 @@ func (fd *FlowDefinition) GetModels() map[string]*model.ActionModel {
 }
 
 func (fd *FlowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
-	action, err := app.GetActionByName(actionName)(fd.app)
+	action, err := app.GetActionByName(actionName, nil)(fd.app)
 	if err != nil {
 		return nil, err
 	}

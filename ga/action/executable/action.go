@@ -6,7 +6,6 @@ import (
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
 	"go-actions/ga/action/model/output"
-	"go-actions/ga/app/config"
 )
 
 type Action[T action.GoAction] struct {
@@ -27,17 +26,15 @@ func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 	}
 }
 
-func NewAction[T action.GoAction](config *config.GlobalConfig, actionConfig *action.ActionConfig, typeDef *action.TypeDefinition) (*Action[T], error) {
-	instance := action.NewActionInstance(config, actionConfig, typeDef)
-
-	action, err := action.InitialiseInstance[T](typeDef, instance)
+func NewAction[T action.GoAction](typeDef *action.TypeDefinition, inst *action.ActionInstance) (*Action[T], error) {
+	action, err := action.InitialiseInstance[T](typeDef, inst)
 	if err != nil {
 		return nil, err
 	}
 
 	return &Action[T]{
-		BaseActionFields: NewBaseActionFields(instance),
+		BaseActionFields: NewBaseActionFields(inst),
 		Definition:       action,
-		Instance:         instance,
+		Instance:         inst,
 	}, nil
 }
