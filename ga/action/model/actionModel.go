@@ -23,8 +23,8 @@ func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid
 		globalConfig: globalConfig,
 		ModelUid:     uid.NewUidBuilder().FromParent(actionUid).WithSubResource("Model").Build(),
 		Parameters:   store.NewResourceStore(store.Identifiable.GetId, false),
-		Inputs:       store.NewResourceStore(input.ActionInput.GetId, false),
-		Outputs:      store.NewResourceStore(output.ActionOutput.GetId, false),
+		Inputs:       store.NewResourceStore(input.ActionInput.GetInputId, false),
+		Outputs:      store.NewResourceStore(output.ActionOutput.GetOutputId, false),
 	}
 }
 

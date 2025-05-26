@@ -12,7 +12,7 @@ func TestNewParameter(t *testing.T) {
 	parameter := NewActionParameter(uid, "test", "default value")
 
 	t.Run("test new parameter", func(t *testing.T) {
-		assert.Equals(t, "test", parameter.Name)
+		assert.Equals(t, "test", parameter.name)
 		assert.Equals(t, "default value", parameter.value)
 		assert.Equals(t, "default value", parameter.defaultValue)
 		assert.Equals(t, parameter.value, parameter.Value())

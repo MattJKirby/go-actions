@@ -7,15 +7,21 @@ import (
 )
 
 type ActionInput struct {
-	*common.ModelProperty
+	Name string `json:"name"`
+	Uid uid.ResourceUid `json:"uid"`
 	SourceReferences *store.ResourceStore[common.ResourceReference] `json:"references"`
 }
 
 func NewActionInput(modelUid uid.ResourceUid, name string) *ActionInput {
 	return &ActionInput{
-		ModelProperty:    common.NewModelProperty(modelUid, "input", name),
+		Name: name,
+		Uid:  uid.NewUidBuilder().FromParent(modelUid).WithSubResource("input").WithSubResourceId(name).Build(),
 		SourceReferences: store.NewResourceStore(common.ResourceReference.GetId, true),
 	}
+}
+
+func (ai ActionInput) GetInputId() string {
+	return ai.Uid.FullUid()
 }
 
 func (ai *ActionInput) AssignSourceReference(ref *common.ResourceReference) error {

@@ -3,13 +3,13 @@ package parameter
 import (
 	"encoding/json"
 	"fmt"
-	"go-actions/ga/action/model/common"
 	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/marshalling"
 )
 
 type ActionParameter[T any] struct {
-	*common.ModelProperty
+	name string
+	uid uid.ResourceUid
 	value        T
 	defaultValue T
 }
@@ -22,10 +22,15 @@ type marshalledActionParameter[T any] struct {
 
 func NewActionParameter[T any](modelUid uid.ResourceUid, name string, defaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		ModelProperty: common.NewModelProperty(modelUid, "parameter", name),
+		name: name,
+		uid: uid.NewUidBuilder().FromParent(modelUid).WithSubResource("parameter").WithSubResourceId(name).Build(),
 		value:         defaultValue,
 		defaultValue:  defaultValue,
 	}
+}
+
+func (ap ActionParameter[T]) GetId() string {
+	return ap.uid.FullUid()
 }
 
 func (ap *ActionParameter[T]) Value() T {
@@ -42,8 +47,8 @@ func (ap *ActionParameter[T]) SetValue(value T) {
 
 func (ap *ActionParameter[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&marshalledActionParameter[T]{
-		Uid:   ap.Uid.FullUid(),
-		Name:  ap.Name,
+		Uid:   ap.uid.FullUid(),
+		Name:  ap.name,
 		Value: ap.value,
 	})
 }
@@ -54,8 +59,8 @@ func (ap *ActionParameter[T]) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	if marshalled.Name != ap.Name {
-		return fmt.Errorf("failed to unmarshal action parameter: '%s': name '%s' does not match expected '%s'", ap.Name, marshalled.Name, ap.Name)
+	if marshalled.Name != ap.name {
+		return fmt.Errorf("failed to unmarshal action parameter: '%s': name '%s' does not match expected '%s'", ap.name, marshalled.Name, ap.name)
 	}
 
 	ap.SetValue(marshalled.Value)

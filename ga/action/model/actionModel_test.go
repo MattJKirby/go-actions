@@ -60,7 +60,7 @@ func TestInput(t *testing.T) {
 			model := NewActionModel(mockConfig, uid)
 			input := Input(model, "inputName", false, test.defaultSource)
 
-			expectedInput, err := model.Inputs.GetResource(input.GetId())
+			expectedInput, err := model.Inputs.GetResource(input.GetInputId())
 
 			assert.Equals(t, expectedInput, input)
 			assert.Equals(t, nil, err)
@@ -84,7 +84,7 @@ func TestOutput(t *testing.T) {
 			model := NewActionModel(mockConfig, uid)
 			output := Output(model, "outputName", test.defaultTargets)
 
-			expectedOutput, err := model.Outputs.GetResource(output.GetId())
+			expectedOutput, err := model.Outputs.GetResource(output.GetOutputId())
 
 			assert.Equals(t, expectedOutput, output)
 			assert.Equals(t, nil, err)
