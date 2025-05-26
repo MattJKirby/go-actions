@@ -1,6 +1,7 @@
 package executable
 
 import (
+	"fmt"
 	"go-actions/ga/action"
 
 	"go-actions/ga/action/model"
@@ -12,6 +13,7 @@ type Action[T action.GoAction] struct {
 	*BaseActionFields
 	Definition T
 	Instance   *action.ActionInstance
+	typeDef *action.TypeDefinition
 }
 
 type BaseActionFields struct {
@@ -27,14 +29,17 @@ func NewBaseActionFields(inst *action.ActionInstance) *BaseActionFields {
 }
 
 func NewAction[T action.GoAction](typeDef *action.TypeDefinition, inst *action.ActionInstance) (*Action[T], error) {
-	action, err := action.InitialiseInstance[T](typeDef, inst)
-	if err != nil {
-		return nil, err
+	act, ok := typeDef.ActionValue.Interface().(T)
+	if !ok {
+		return nil, fmt.Errorf("new action does not match expected type")
 	}
+
+	act.Init(inst)
 
 	return &Action[T]{
 		BaseActionFields: NewBaseActionFields(inst),
-		Definition:       action,
 		Instance:         inst,
+		Definition: act,
+		typeDef: typeDef,
 	}, nil
 }

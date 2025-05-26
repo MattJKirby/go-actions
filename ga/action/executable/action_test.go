@@ -21,6 +21,7 @@ func TestNewAction(t *testing.T) {
 		Definition:       testActions.ActionValidEmpty{},
 		Instance:         instance,
 		BaseActionFields: NewBaseActionFields(instance),
+		typeDef: definition,
 	}
 
 	actual, err := NewAction[action.GoAction](definition, instance)

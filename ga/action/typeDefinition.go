@@ -1,8 +1,6 @@
 package action
 
 import (
-	"fmt"
-
 	"go-actions/ga/utils"
 	"reflect"
 )
@@ -58,12 +56,7 @@ func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *Typ
 // 	return nil
 // }
 
-func InitialiseInstance[T GoAction](typedef *TypeDefinition, inst *ActionInstance) (T, error) {
-	act, ok := typedef.ActionValue.Interface().(T)
-	if !ok {
-		return act, fmt.Errorf("new action does not match expected type")
-	}
+// func InitialiseInstance[T GoAction](typedef *TypeDefinition, inst *ActionInstance) (T, error) {
 
-	act.Init(inst)
-	return act, nil
-}
+// 	return act, nil
+// }
