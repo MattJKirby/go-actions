@@ -6,7 +6,7 @@ type baseStoreOptions struct {
 	unsafeUpdate bool
 }
 
-func baseStoreDefaultOptions () baseStoreOptions {
+func baseStoreDefaultOptions() baseStoreOptions {
 	return baseStoreOptions{
 		unsafeUpdate: false,
 	}

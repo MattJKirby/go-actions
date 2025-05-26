@@ -76,4 +76,3 @@ func TestTriggerDefinitionFromRegistration(t *testing.T) {
 // 		})
 // 	}
 // }
-

@@ -13,7 +13,7 @@ type Action[T action.GoAction] struct {
 	*BaseActionFields
 	Definition T
 	Instance   *action.ActionInstance
-	typeDef *action.TypeDefinition
+	typeDef    *action.TypeDefinition
 }
 
 type BaseActionFields struct {
@@ -39,7 +39,7 @@ func NewAction[T action.GoAction](typeDef *action.TypeDefinition, inst *action.A
 	return &Action[T]{
 		BaseActionFields: NewBaseActionFields(inst),
 		Instance:         inst,
-		Definition: act,
-		typeDef: typeDef,
+		Definition:       act,
+		typeDef:          typeDef,
 	}, nil
 }

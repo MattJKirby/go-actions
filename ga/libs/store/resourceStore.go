@@ -3,15 +3,15 @@ package store
 import "encoding/json"
 
 type Identifiable interface {
-	GetId () string
+	GetId() string
 }
 
 type ResourceStore[T any] struct {
-	Store *BaseStore[T]
-	GetResourceId func (T) string
+	Store         *BaseStore[T]
+	GetResourceId func(T) string
 }
 
-func NewResourceStore[T any](id func (T) string, unsafeUpdate bool) *ResourceStore[T] {
+func NewResourceStore[T any](id func(T) string, unsafeUpdate bool) *ResourceStore[T] {
 	return &ResourceStore[T]{
 		Store: NewBaseStore(
 			WithUnsafeUpdate[T](unsafeUpdate),

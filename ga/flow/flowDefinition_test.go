@@ -24,7 +24,6 @@ func TestNewAction(t *testing.T) {
 	assert.Equals(t, nil, err)
 }
 
-
 // func TestNewReference(t *testing.T) {
 // 	a := app.NewApp("testApp")
 // }

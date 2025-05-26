@@ -8,8 +8,8 @@ import (
 )
 
 type ActionParameter[T any] struct {
-	name string
-	uid uid.ResourceUid
+	name         string
+	uid          uid.ResourceUid
 	value        T
 	defaultValue T
 }
@@ -22,10 +22,10 @@ type marshalledActionParameter[T any] struct {
 
 func NewActionParameter[T any](modelUid uid.ResourceUid, name string, defaultValue T) *ActionParameter[T] {
 	return &ActionParameter[T]{
-		name: name,
-		uid: uid.NewUidBuilder().FromParent(modelUid).WithSubResource("parameter").WithSubResourceId(name).Build(),
-		value:         defaultValue,
-		defaultValue:  defaultValue,
+		name:         name,
+		uid:          uid.NewUidBuilder().FromParent(modelUid).WithSubResource("parameter").WithSubResourceId(name).Build(),
+		value:        defaultValue,
+		defaultValue: defaultValue,
 	}
 }
 

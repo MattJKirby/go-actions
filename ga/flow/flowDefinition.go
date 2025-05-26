@@ -26,7 +26,7 @@ func (fd *FlowDefinition) NewAction(actionName string) (*executable.Action[actio
 	if err != nil {
 		return nil, err
 	}
-	
+
 	action, err := app.GetAction(typeDef, nil)(fd.app)
 	if err != nil {
 		return nil, err

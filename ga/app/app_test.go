@@ -43,8 +43,8 @@ func TestGetDefinitionByName(t *testing.T) {
 
 func TestAppGetActionByName(t *testing.T) {
 	app, _ := appWithEmptyRegistration()
-	typeDef,_ := GetDefinitionByName("ActionValidEmpty")(app)
-	
+	typeDef, _ := GetDefinitionByName("ActionValidEmpty")(app)
+
 	_, err := GetAction(typeDef, nil)(app)
 
 	assert.Equals(t, nil, err)

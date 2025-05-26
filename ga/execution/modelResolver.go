@@ -27,7 +27,7 @@ func (ir *InstanceResolver) Resolve(flowDef flow.FlowDefinition) error {
 		if err != nil {
 			return err
 		}
-		
+
 		act, err := app.GetAction(typeDef, &instance)(ir.app)
 		if err != nil {
 			return err

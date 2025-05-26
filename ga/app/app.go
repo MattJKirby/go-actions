@@ -60,4 +60,3 @@ func GetAction(typeDef *action.TypeDefinition, inst *action.ActionInstance) func
 		return executable.NewAction[action.GoAction](typeDef, inst)
 	}
 }
-

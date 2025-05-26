@@ -8,7 +8,7 @@ import (
 
 type BaseStore[T any] struct {
 	entries map[string]*T
-	options  baseStoreOptions
+	options baseStoreOptions
 }
 
 type marshalledEntry[T any] struct {
