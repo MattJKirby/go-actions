@@ -21,6 +21,6 @@ func NewActionInstance(globalConfig *config.GlobalConfig, typedef *TypeDefinitio
 	}
 }
 
-func (ai ActionInstance) GetResourceId() string {
+func (ai ActionInstance) GetId() string {
 	return ai.Uid.FullUid()
 }

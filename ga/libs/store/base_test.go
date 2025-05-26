@@ -94,7 +94,7 @@ func TestGetEntries(t *testing.T) {
 	store.Insert("1", p1)
 	store.Insert("2", p2)
 
-	expected := []prop{*p1, *p2}
+	expected := map[string]prop{"1": *p1, "2": *p2}
 
 	assert.Equals(t, expected, store.GetEntries())
 }

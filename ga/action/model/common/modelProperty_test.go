@@ -9,5 +9,5 @@ import (
 func TestGetPropertyId(t *testing.T) {
 	modelUid := uid.NewUidBuilder().Build()
 	prop := NewModelProperty(modelUid, "type", "name")
-	assert.Equals(t, "ga:core:::type:name", prop.GetResourceId())
+	assert.Equals(t, "ga:core:::type:name", prop.GetId())
 }

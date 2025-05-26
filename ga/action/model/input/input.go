@@ -14,7 +14,7 @@ type ActionInput struct {
 func NewActionInput(modelUid uid.ResourceUid, name string) *ActionInput {
 	return &ActionInput{
 		ModelProperty:    common.NewModelProperty(modelUid, "input", name),
-		SourceReferences: store.NewResourceStore[common.ResourceReference](true),
+		SourceReferences: store.NewResourceStore(common.ResourceReference.GetId, true),
 	}
 }
 

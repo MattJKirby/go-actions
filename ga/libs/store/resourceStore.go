@@ -2,28 +2,30 @@ package store
 
 import "encoding/json"
 
-type IdentifiableResource interface {
-	GetResourceId() string
+type Identifiable interface {
+	GetId () string
 }
 
-type ResourceStore[T IdentifiableResource] struct {
+type ResourceStore[T any] struct {
 	Store *BaseStore[T]
+	GetResourceId func (T) string
 }
 
-func NewResourceStore[T IdentifiableResource](unsafeUpdate bool) *ResourceStore[T] {
+func NewResourceStore[T any](id func (T) string, unsafeUpdate bool) *ResourceStore[T] {
 	return &ResourceStore[T]{
 		Store: NewBaseStore(
 			WithUnsafeUpdate[T](unsafeUpdate),
 		),
+		GetResourceId: id,
 	}
 }
 
 func (aps *ResourceStore[T]) NewResource(property T) error {
-	return aps.Store.Insert(property.GetResourceId(), &property)
+	return aps.Store.Insert(aps.GetResourceId(property), &property)
 }
 
 func (aps *ResourceStore[T]) GetDefault(property T) T {
-	return *aps.Store.GetDefault(property.GetResourceId(), func() *T { return &property })
+	return *aps.Store.GetDefault(aps.GetResourceId(property), func() *T { return &property })
 }
 
 func (aps *ResourceStore[T]) GetResource(propertyId string) (*T, error) {
@@ -45,7 +47,7 @@ func (aps *ResourceStore[T]) UnmarshalJSON(data []byte) error {
 	}
 
 	for _, item := range values {
-		if err := aps.Store.Update(item.GetResourceId(), &item); err != nil {
+		if err := aps.Store.Update(aps.GetResourceId(item), &item); err != nil {
 			return err
 		}
 	}

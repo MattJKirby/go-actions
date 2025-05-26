@@ -16,6 +16,6 @@ func NewModelProperty(modelUid uid.ResourceUid, propertyType string, name string
 	}
 }
 
-func (ap ModelProperty) GetResourceId() string {
+func (ap ModelProperty) GetId() string {
 	return ap.Uid.FullUid()
 }

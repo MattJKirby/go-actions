@@ -17,7 +17,7 @@ type FlowDefinition struct {
 func NewFlowDefinition(app *app.App) *FlowDefinition {
 	return &FlowDefinition{
 		app:     app,
-		Actions: store.NewResourceStore[action.ActionInstance](false),
+		Actions: store.NewResourceStore(action.ActionInstance.GetId, false),
 	}
 }
 

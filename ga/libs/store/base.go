@@ -61,10 +61,10 @@ func (bs *BaseStore[T]) Update(key string, value *T) error {
 	return nil
 }
 
-func (bs *BaseStore[T]) GetEntries() []T {
-	entries := make([]T, 0, len(bs.entries))
-	for _, item := range bs.entries {
-		entries = append(entries, *item)
+func (bs *BaseStore[T]) GetEntries() map[string]T {
+	entries := make(map[string]T)
+	for name, item := range bs.entries {
+		entries[name] = *item
 	}
 	return entries
 }

@@ -34,6 +34,6 @@ func (ar *ResourceReference) GetTargetReference() *ResourceReference {
 	}
 }
 
-func (rr ResourceReference) GetResourceId() string {
+func (rr ResourceReference) GetId() string {
 	return rr.Uid.FullUid()
 }
