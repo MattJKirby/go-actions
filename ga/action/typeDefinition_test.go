@@ -10,7 +10,6 @@ import (
 )
 
 var mockGlobalConfig = &config.GlobalConfig{UidProvider: mockGenerator}
-var mockActionConfig = &action.ActionConfig{}
 
 func TestTypeDefinitionFromRegistration(t *testing.T) {
 	reg := action.ActionRegistration[ta.ActionValidEmpty]{Action: ta.ActionValidEmpty{}}
@@ -82,7 +81,7 @@ func TestInitialiseInstance(t *testing.T) {
 	reg := action.ActionRegistration[ta.ActionValid]{Action: ta.ActionValid{}}
 	defReg := action.TypeDefinitionFromRegistration(&reg)
 
-	inst := action.NewActionInstance(mockGlobalConfig, mockActionConfig, defReg)
+	inst := action.NewActionInstance(mockGlobalConfig, defReg)
 
 	act, err := action.InitialiseInstance[ta.ActionValid](defReg, inst)
 
