@@ -8,7 +8,7 @@ import (
 
 type BaseStore[T any] struct {
 	entries map[string]*T
-	config  baseStoreConfig
+	options  baseStoreOptions
 }
 
 type marshalledEntry[T any] struct {
@@ -19,9 +19,7 @@ type marshalledEntry[T any] struct {
 func NewBaseStore[T any](opts ...baseStoreOption[T]) *BaseStore[T] {
 	store := &BaseStore[T]{
 		entries: make(map[string]*T),
-		config: baseStoreConfig{
-			unsafeUpdate: false,
-		},
+		options: baseStoreDefaultOptions(),
 	}
 
 	for _, opt := range opts {
@@ -55,7 +53,7 @@ func (bs *BaseStore[T]) GetDefault(key string, defaultFn func() *T) *T {
 
 func (bs *BaseStore[T]) Update(key string, value *T) error {
 	_, exists := bs.entries[key]
-	if !exists && !bs.config.unsafeUpdate {
+	if !exists && !bs.options.unsafeUpdate {
 		return fmt.Errorf("failed to unmarshal: entry with identifier '%s' does not exist", key)
 	}
 

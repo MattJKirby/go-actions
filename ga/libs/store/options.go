@@ -2,12 +2,18 @@ package store
 
 type baseStoreOption[T any] func(*BaseStore[T])
 
-type baseStoreConfig struct {
+type baseStoreOptions struct {
 	unsafeUpdate bool
+}
+
+func baseStoreDefaultOptions () baseStoreOptions {
+	return baseStoreOptions{
+		unsafeUpdate: false,
+	}
 }
 
 func WithUnsafeUpdate[T any](enabled bool) func(*BaseStore[T]) {
 	return func(bs *BaseStore[T]) {
-		bs.config.unsafeUpdate = enabled
+		bs.options.unsafeUpdate = enabled
 	}
 }
