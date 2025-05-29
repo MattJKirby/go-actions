@@ -11,6 +11,7 @@ type InstanceResolver struct {
 	app      *app.App
 	triggers map[string]*executable.Action[action.GoAction]
 	actions  map[string]*executable.Action[action.GoAction]
+	sources  map[string]struct{}
 }
 
 func NewInstanceResolver(app *app.App) *InstanceResolver {
@@ -18,26 +19,38 @@ func NewInstanceResolver(app *app.App) *InstanceResolver {
 		app:      app,
 		triggers: make(map[string]*executable.Action[action.GoAction]),
 		actions:  make(map[string]*executable.Action[action.GoAction]),
+		sources:  make(map[string]struct{}),
 	}
 }
 
 func (ir *InstanceResolver) Resolve(flowDef flow.FlowDefinition) error {
-	for _, instance := range flowDef.Actions.Store.GetEntries() {
+	for id, instance := range flowDef.Actions.Store.GetEntries() {
 		typeDef, err := app.GetDefinitionByName(instance.Name)(ir.app)
 		if err != nil {
 			return err
 		}
 
-		act, err := app.GetAction(typeDef, &instance)(ir.app)
+		act, err := app.GetAction[action.GoAction](typeDef, &instance)(ir.app)
 		if err != nil {
 			return err
 		}
 
-		if typeDef.Trigger {
-			ir.triggers[instance.Uid.FullUid()] = act
-		} else {
-			ir.actions[instance.Uid.FullUid()] = act
+		if ir.isSource(act) {
+			ir.sources[id] = struct{}{}
 		}
+
+		ir.actions[id] = act
 	}
 	return nil
+}
+
+func (ir *InstanceResolver) isSource(act *executable.Action[action.GoAction]) bool {
+	if len(act.Instance.Model.Inputs.Store.GetEntries()) != 1 {
+		return false
+	}
+
+	if len(act.BaseActionFields.ActionInput.SourceReferences.Store.GetEntries()) != 0 {
+		return false
+	}
+	return true
 }

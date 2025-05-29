@@ -4,6 +4,7 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
+	"go-actions/ga/utils/testing/testActions"
 	ta "go-actions/ga/utils/testing/testActions"
 	"go-actions/ga/utils/testing/testHelpers"
 
@@ -45,7 +46,7 @@ func TestAppGetActionByName(t *testing.T) {
 	app, _ := appWithEmptyRegistration()
 	typeDef, _ := GetDefinitionByName("ActionValidEmpty")(app)
 
-	_, err := GetAction(typeDef, nil)(app)
+	_, err := GetAction[testActions.ActionValidEmpty](typeDef, nil)(app)
 
 	assert.Equals(t, nil, err)
 

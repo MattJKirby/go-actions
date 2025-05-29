@@ -51,12 +51,12 @@ func GetDefinitionByName(name string) func(*App) (*action.TypeDefinition, error)
 	}
 }
 
-func GetAction(typeDef *action.TypeDefinition, inst *action.ActionInstance) func(*App) (*executable.Action[action.GoAction], error) {
-	return func(app *App) (*executable.Action[action.GoAction], error) {
+func GetAction[T action.GoAction](typeDef *action.TypeDefinition, inst *action.ActionInstance) func(*App) (*executable.Action[T], error) {
+	return func(app *App) (*executable.Action[T], error) {
 		if inst == nil {
 			inst = action.NewActionInstance(app.Config.Global, typeDef)
 		}
 
-		return executable.NewAction[action.GoAction](typeDef, inst)
+		return executable.NewAction[T](typeDef, inst)
 	}
 }

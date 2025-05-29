@@ -1,6 +1,8 @@
 package flow
 
 import (
+	"go-actions/ga/action"
+	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 )
 
@@ -14,4 +16,13 @@ func NewFlow(app *app.App) *Flow {
 		flowApp:    app,
 		Definition: NewFlowDefinition(app),
 	}
+}
+
+func AddAction[T action.GoAction](f *Flow) (*executable.Action[T], error) {
+	typeDef, err :=  app.GetDefinitionByType[T]()(f.flowApp)
+	if err != nil {
+		return nil, err
+	}
+	return addAction[T](f.Definition, typeDef)
+
 }

@@ -21,19 +21,25 @@ func NewFlowDefinition(app *app.App) *FlowDefinition {
 	}
 }
 
+func addAction[T action.GoAction](fd *FlowDefinition, td *action.TypeDefinition) (*executable.Action[T], error){
+	action, err := app.GetAction[T](td, nil)(fd.app)
+		if err != nil {
+			return nil, err
+		}
+	
+	if err := fd.Actions.NewResource(*action.Instance); err != nil {
+		return nil, err
+	}
+
+	return action, nil
+}
+
 func (fd *FlowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
 	typeDef, err := app.GetDefinitionByName(actionName)(fd.app)
 	if err != nil {
 		return nil, err
 	}
-
-	action, err := app.GetAction(typeDef, nil)(fd.app)
-	if err != nil {
-		return nil, err
-	}
-
-	fd.Actions.NewResource(*action.Instance)
-	return action, nil
+	return addAction[action.GoAction](fd, typeDef)
 }
 
 func (fd *FlowDefinition) NewReference(sourceUid uid.ResourceUid, targetUid uid.ResourceUid) error {
