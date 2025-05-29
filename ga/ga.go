@@ -2,6 +2,7 @@ package ga
 
 import (
 	"go-actions/ga/action"
+	"go-actions/ga/action/executable"
 	"go-actions/ga/app"
 	"go-actions/ga/flow"
 )
@@ -20,4 +21,8 @@ func NewFlow() *flow.Flow {
 	return flow.NewFlow(ga)
 }
 
-// func GetActionByName(name string)
+func AddAction[T action.GoAction](f *flow.Flow) (*executable.Action[T]) {
+	act, _ := flow.AddAction[T](f)
+	return act
+}
+

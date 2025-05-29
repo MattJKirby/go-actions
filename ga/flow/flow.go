@@ -24,5 +24,4 @@ func AddAction[T action.GoAction](f *Flow) (*executable.Action[T], error) {
 		return nil, err
 	}
 	return addAction[T](f.Definition, typeDef)
-
 }

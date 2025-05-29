@@ -13,7 +13,9 @@ func TestAddAction(t *testing.T) {
 	app.RegisterAction[testActions.ActionValidEmpty](nil)(a)
 	
 	act, err := AddAction[testActions.ActionValidEmpty](flow)
+	got, _ := flow.Definition.Actions.Store.Get(act.Instance.Uid.FullUid())
 
 	assert.Equals(t, nil, err)
 	assert.Equals(t, true, act != nil)
+	assert.Equals(t, true, got != nil)
 }
