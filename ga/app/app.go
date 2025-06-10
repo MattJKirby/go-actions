@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"go-actions/ga/action"
-	"go-actions/ga/action/executable"
 
 	"go-actions/ga/app/registration"
 	"go-actions/ga/libs/packageConfig"
@@ -51,12 +50,12 @@ func GetDefinitionByName(name string) func(*App) (*action.TypeDefinition, error)
 	}
 }
 
-func GetAction[T action.GoAction](typeDef *action.TypeDefinition, inst *action.ActionInstance) func(*App) (*executable.Action[T], error) {
-	return func(app *App) (*executable.Action[T], error) {
+func GetAction[T action.GoAction](typeDef *action.TypeDefinition, inst *action.ActionInstance) func(*App) (*action.Action[T], error) {
+	return func(app *App) (*action.Action[T], error) {
 		if inst == nil {
 			inst = action.NewActionInstance(app.Config.Global, typeDef)
 		}
 
-		return executable.NewAction[T](typeDef, inst)
+		return action.NewAction[T](typeDef, inst)
 	}
 }

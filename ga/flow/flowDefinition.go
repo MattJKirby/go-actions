@@ -2,7 +2,6 @@ package flow
 
 import (
 	"go-actions/ga/action"
-	"go-actions/ga/action/executable"
 	"go-actions/ga/action/model"
 	"go-actions/ga/app"
 	"go-actions/ga/libs/store"
@@ -21,7 +20,7 @@ func NewFlowDefinition(app *app.App) *FlowDefinition {
 	}
 }
 
-func addAction[T action.GoAction](fd *FlowDefinition, td *action.TypeDefinition) (*executable.Action[T], error){
+func addAction[T action.GoAction](fd *FlowDefinition, td *action.TypeDefinition) (*action.Action[T], error){
 	action, err := app.GetAction[T](td, nil)(fd.app)
 		if err != nil {
 			return nil, err
@@ -34,7 +33,7 @@ func addAction[T action.GoAction](fd *FlowDefinition, td *action.TypeDefinition)
 	return action, nil
 }
 
-func (fd *FlowDefinition) NewAction(actionName string) (*executable.Action[action.GoAction], error) {
+func (fd *FlowDefinition) NewAction(actionName string) (*action.Action[action.GoAction], error) {
 	typeDef, err := app.GetDefinitionByName(actionName)(fd.app)
 	if err != nil {
 		return nil, err
