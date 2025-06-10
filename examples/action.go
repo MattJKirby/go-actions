@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	ga.RegisterAction[*ExampleAction](nil)
+	ga.RegisterAction(&ExampleAction{}, nil)
 }
 
 type ExampleAction struct {
