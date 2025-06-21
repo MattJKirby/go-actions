@@ -25,7 +25,7 @@ func appWithEmptyRegistration() (*App, action.ActionRegistration[ta.ActionValidE
 
 func TestRegisterActionAndGet(t *testing.T) {
 	app, _ := appWithEmptyRegistration()
-	result, _ := GetDefinitionByType[ta.ActionValidEmpty]()(app)
+	result, _ := GetDefinitionByType(ta.ActionValidEmpty{})(app)
 
 	if result == nil {
 		t.Errorf("Error during registration: expected %v, got %v", nil, result)

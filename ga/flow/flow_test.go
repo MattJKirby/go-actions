@@ -12,7 +12,7 @@ func TestAddAction(t *testing.T) {
 	flow := NewFlow(a)
 	app.RegisterAction[testActions.ActionValidEmpty](nil)(a)
 	
-	act, err := AddAction[testActions.ActionValidEmpty](flow)
+	act, err := AddAction(flow, testActions.ActionValidEmpty{})
 	got, _ := flow.Definition.Actions.Store.Get(act.Instance.Uid.FullUid())
 
 	assert.Equals(t, nil, err)

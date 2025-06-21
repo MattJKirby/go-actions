@@ -17,8 +17,8 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func AddAction[T action.GoAction](f *Flow) (*action.Action[T], error) {
-	typeDef, err :=  app.GetDefinitionByType[T]()(f.flowApp)
+func AddAction[T action.GoAction](f *Flow, a T) (*action.Action[T], error) {
+	typeDef, err :=  app.GetDefinitionByType(a)(f.flowApp)
 	if err != nil {
 		return nil, err
 	}

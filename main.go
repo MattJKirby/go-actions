@@ -14,7 +14,7 @@ func main() {
 	// fmt.Println(definition)
 	// fmt.Println(action)
 
-	fmt.Println(ga.GetRegisteredTypeDefinition[*examples.BasicAction]())
+	fmt.Println(ga.GetRegisteredTypeDefinition(&examples.BasicAction{}))
 
 	flow := ga.NewFlow()
 	a1, _ := flow.Definition.NewAction("BasicAction")
@@ -27,12 +27,12 @@ func main() {
 	fmt.Println(string(flowDef))
 
 
-	// f := ga.NewFlow()
-	// b1 := ga.AddAction[*examples.BasicAction](f)
-	// b2 := ga.AddAction[*examples.BasicAction](f)
+	f := ga.NewFlow()
+	b1 := ga.AddAction(f, &examples.BasicAction{})
+	b2 := ga.AddAction(f, &examples.BasicAction{})
 	
 
-	// fmt.Println(b1, b2)
+	fmt.Println(b1, b2)
 
 	// flowDef, _ := json.Marshal(f.Definition)
 	// fmt.Println(string(flowDef))

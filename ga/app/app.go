@@ -36,10 +36,9 @@ func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) func(*
 	}
 }
 
-func GetDefinitionByType[T action.GoAction]() func(*App) (*action.TypeDefinition, error) {
+func GetDefinitionByType[T action.GoAction](a T) func(*App) (*action.TypeDefinition, error) {
 	return func(app *App) (*action.TypeDefinition, error) {
-		action := new(T)
-		actionType := reflect.TypeOf(*action)
+		actionType := reflect.TypeOf(a)
 		return registration.GetTypeDefinitionByType(actionType)(app.actionRegistry)
 	}
 }
