@@ -22,9 +22,9 @@ func NewFlowDefinition(app *app.App) *FlowDefinition {
 
 func addAction[T action.GoAction](fd *FlowDefinition, td *action.TypeDefinition) (*action.Action[T], error){
 	action, err := app.GetAction[T](td, nil)(fd.app)
-		if err != nil {
-			return nil, err
-		}
+	if err != nil {
+		return nil, err
+	}
 	
 	if err := fd.Actions.NewResource(*action.Instance); err != nil {
 		return nil, err
@@ -58,6 +58,6 @@ func (fd *FlowDefinition) NewReference(sourceUid uid.ResourceUid, targetUid uid.
 	if err != nil {
 		return err
 	}
-	model.Reference(fd.app.Config.Global, source, target)
+	model.Reference(fd.app.Config.Global, &source, &target)
 	return nil
 }

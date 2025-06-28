@@ -6,6 +6,7 @@ import (
 
 	"go-actions/examples"
 	"go-actions/ga"
+	"go-actions/ga/action"
 )
 
 func main() {
@@ -23,18 +24,20 @@ func main() {
 	err := flow.Definition.NewReference(a1.ActionOutput.Uid, a2.ActionInput.Uid)
 	fmt.Println(err)
 
-	flowDef, _ := json.Marshal(flow.Definition)
-	fmt.Println(string(flowDef))
+	// flowDef, _ := json.Marshal(flow.Definition)
+	// fmt.Println(string(flowDef))
 
 
 	f := ga.NewFlow()
 	b1 := ga.AddAction(f, &examples.BasicAction{})
-	b2 := ga.AddAction(f, &examples.BasicAction{})
+	b2 := ga.AddActionConfigurable(f, func(a *action.Action[*examples.ExampleAction]) {
+		a.Definition.IntegerParameter.SetValue(1000)
+	})
 	
 
 	fmt.Println(b1, b2)
 
-	// flowDef, _ := json.Marshal(f.Definition)
-	// fmt.Println(string(flowDef))
+	flowDef, _ := json.Marshal(f.Definition)
+	fmt.Println(string(flowDef))
 
 }

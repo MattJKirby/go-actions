@@ -11,7 +11,7 @@ type prop struct {
 }
 
 func TestInsert(t *testing.T) {
-	existingProp := &prop{"val"}
+	existingProp := prop{"val"}
 	tests := []struct {
 		name        string
 		input       string
@@ -27,7 +27,7 @@ func TestInsert(t *testing.T) {
 			store := NewBaseStore[prop]()
 			store.Insert("exists", existingProp)
 
-			err := store.Insert(test.input, &prop{})
+			err := store.Insert(test.input, prop{})
 			assert.Equals(t, test.expectedLen, len(store.entries))
 			assert.Equals(t, test.err, err != nil)
 		})
@@ -35,15 +35,15 @@ func TestInsert(t *testing.T) {
 }
 
 func TestGet2(t *testing.T) {
-	existingProp := &prop{"value"}
+	existingProp := prop{"value"}
 	tests := []struct {
 		name   string
 		key    string
-		expect *prop
+		expect prop
 		err    bool
 	}{
 		{name: "existing prop", key: "id", expect: existingProp, err: false},
-		{name: "not existing prop", key: "badId", expect: nil, err: true},
+		{name: "not existing prop", key: "badId", expect: prop{}, err: true},
 	}
 
 	for _, test := range tests {
@@ -58,50 +58,21 @@ func TestGet2(t *testing.T) {
 	}
 }
 
-func TestGetDefault(t *testing.T) {
-	existing := &prop{"idA"}
-	defaultProp := &prop{"idB"}
-
-	tests := []struct {
-		name        string
-		input       string
-		expected    *prop
-		expectedLen int
-	}{
-		{name: "existing Id - get path", input: "id", expected: existing, expectedLen: 1},
-		{name: "non-existing Id - default path", input: "nonExisting", expected: defaultProp, expectedLen: 2},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			store := NewBaseStore[prop]()
-			store.Insert("id", existing)
-
-			retrieved := store.GetDefault(test.input, func() *prop {
-				return defaultProp
-			})
-
-			assert.Equals(t, test.expected, retrieved)
-			assert.Equals(t, test.expectedLen, len(store.entries))
-		})
-	}
-}
-
 func TestGetEntries(t *testing.T) {
 	store := NewBaseStore[prop]()
-	p1 := &prop{"1"}
-	p2 := &prop{"2"}
+	p1 := prop{"1"}
+	p2 := prop{"2"}
 	store.Insert("1", p1)
 	store.Insert("2", p2)
 
-	expected := map[string]prop{"1": *p1, "2": *p2}
+	expected := map[string]prop{"1": p1, "2": p2}
 
 	assert.Equals(t, expected, store.GetEntries())
 }
 
 func TestMarshal(t *testing.T) {
 	store := NewBaseStore[prop]()
-	store.Insert("id", &prop{"val"})
+	store.Insert("id", prop{"val"})
 
 	marshalled, err := json.Marshal(store)
 
@@ -113,20 +84,20 @@ func TestUnmarshal(t *testing.T) {
 	tests := []struct {
 		name          string
 		input         string
-		expectedValue *prop
+		expectedValue prop
 		err           bool
 	}{
-		{name: "valid, entry already exists", input: `[{"Id":"id","Value":{"Val":"1"}}]`, expectedValue: &prop{"1"}, err: false},
-		{name: "invalid, entry doesnt exist", input: `[{"Id":"x","Value":{"Val":"1"}}]`, expectedValue: &prop{"0"}, err: true},
-		{name: "invalid, wrong entry json", input: `[{"X":"x","Value":{"Val":"1"}}]`, expectedValue: &prop{"0"}, err: true},
-		{name: "invalid, wrong value json", input: `[{"Id":"id","Value":{"X":"1"}}]`, expectedValue: &prop{"0"}, err: true},
-		{name: "invalid, bad store json", input: `0`, expectedValue: &prop{"0"}, err: true},
+		{name: "valid, entry already exists", input: `[{"Id":"id","Value":{"Val":"1"}}]`, expectedValue: prop{"1"}, err: false},
+		{name: "invalid, entry doesnt exist", input: `[{"Id":"x","Value":{"Val":"1"}}]`, expectedValue: prop{"0"}, err: true},
+		{name: "invalid, wrong entry json", input: `[{"X":"x","Value":{"Val":"1"}}]`, expectedValue: prop{"0"}, err: true},
+		{name: "invalid, wrong value json", input: `[{"Id":"id","Value":{"X":"1"}}]`, expectedValue: prop{"0"}, err: true},
+		{name: "invalid, bad store json", input: `0`, expectedValue: prop{"0"}, err: true},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			store := NewBaseStore[prop]()
-			store.Insert("id", &prop{"0"})
+			store.Insert("id", prop{"0"})
 
 			err := json.Unmarshal([]byte(test.input), store)
 
@@ -143,5 +114,5 @@ func TestUnsafeDecodeMarshal(t *testing.T) {
 
 	err := json.Unmarshal([]byte(`[{"id":"id","Value":{"Val":"val"}}]`), store)
 	assert.Equals(t, nil, err)
-	assert.Equals(t, &prop{"val"}, store.entries["id"])
+	assert.Equals(t, prop{"val"}, store.entries["id"])
 }

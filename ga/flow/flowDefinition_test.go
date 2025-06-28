@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"go-actions/ga/action"
 	"go-actions/ga/app"
 	"go-actions/ga/app/config"
 	"go-actions/ga/utils/testing/assert"
@@ -22,7 +23,7 @@ func TestAddActionDefinition(t *testing.T) {
 	act, err := addAction[testActions.ActionValidEmpty](flowDef, typedef)
 
 	got, _ := flowDef.Actions.GetResource(act.Instance.Uid.FullUid())
-	assert.Equals(t, true, got != nil)
+	assert.Equals(t, true, got != action.ActionInstance{})
 	assert.Equals(t, nil, err)
 }
 
@@ -34,7 +35,7 @@ func TestNewAction(t *testing.T) {
 	act, err := flowDef.NewAction("ActionValidEmpty")
 
 	got, _ := flowDef.Actions.GetResource(act.Instance.Uid.FullUid())
-	assert.Equals(t, true, got != nil)
+	assert.Equals(t, true, got != action.ActionInstance{})
 	assert.Equals(t, nil, err)
 }
 

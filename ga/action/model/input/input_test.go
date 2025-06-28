@@ -23,6 +23,6 @@ func TestAssignSourceReference(t *testing.T) {
 	input.AssignSourceReference(ref.GetSourceReference())
 
 	stored, err := input.SourceReferences.GetResource(ref.Uid.FullUid())
-	assert.Equals(t, ref.GetSourceReference(), stored)
+	assert.Equals(t, ref.GetSourceReference(), &stored)
 	assert.Equals(t, nil, err)
 }

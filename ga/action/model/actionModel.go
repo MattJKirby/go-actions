@@ -29,13 +29,17 @@ func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid
 }
 
 func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.ActionParameter[T] {
-	value := parameter.NewActionParameter(m.ModelUid, name, defaultValue)
-	return m.Parameters.GetDefault(value).(*parameter.ActionParameter[T])
+	defaultFn := func () store.Identifiable {
+		return parameter.NewActionParameter(m.ModelUid, name, defaultValue)
+	}
+	return m.Parameters.GetDefault(name, defaultFn).(*parameter.ActionParameter[T])
 }
 
 func Input(m *ActionModel, name string, required bool, source *output.ActionOutput) *input.ActionInput {
-	value := input.NewActionInput(m.ModelUid, name)
-	input := m.Inputs.GetDefault(*value)
+	defaultFn := func () input.ActionInput {
+		return *input.NewActionInput(m.ModelUid, name)
+	}
+	input := m.Inputs.GetDefault(name, defaultFn)
 
 	if source != nil {
 		Reference(m.globalConfig, source, &input)
@@ -45,8 +49,11 @@ func Input(m *ActionModel, name string, required bool, source *output.ActionOutp
 }
 
 func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.ActionOutput {
-	value := output.NewActionOutput(m.ModelUid, name)
-	output := m.Outputs.GetDefault(*value)
+	defaultFn := func () output.ActionOutput {
+		return *output.NewActionOutput(m.ModelUid, name)
+	}
+
+	output := m.Outputs.GetDefault(name, defaultFn)
 
 	for _, target := range targets {
 		if target != nil {

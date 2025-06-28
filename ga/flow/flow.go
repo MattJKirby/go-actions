@@ -17,10 +17,18 @@ func NewFlow(app *app.App) *Flow {
 	}
 }
 
-func AddAction[T action.GoAction](f *Flow, a T) (*action.Action[T], error) {
-	typeDef, err :=  app.GetDefinitionByType(a)(f.flowApp)
+func AddAction[T action.GoAction](f *Flow, configurationFn func (*action.Action[T])) (*action.Action[T], error) {
+	actionType := new(T)
+	typeDef, err :=  app.GetDefinitionByType(*actionType)(f.flowApp)
 	if err != nil {
 		return nil, err
 	}
-	return addAction[T](f.Definition, typeDef)
+
+	action, err := addAction[T](f.Definition, typeDef)
+	if err != nil {
+		return nil, err
+	}
+
+	configurationFn(action)
+	return action, nil
 }

@@ -21,7 +21,11 @@ func NewFlow() *flow.Flow {
 }
 
 func AddAction[T action.GoAction](f *flow.Flow, a T) (*action.Action[T]) {
-	act, _ := flow.AddAction(f, a)
+	act, _ := flow.AddAction(f, func(a *action.Action[T]) {})
 	return act
 }
 
+func AddActionConfigurable[T action.GoAction](f *flow.Flow, fn func(*action.Action[T])) (*action.Action[T]) {
+	act, _ := flow.AddAction(f, fn)
+	return act
+}

@@ -40,7 +40,7 @@ func TestParameter(t *testing.T) {
 
 	param, err := model.Parameters.GetResource(expected.GetId())
 	assert.Equals(t, nil, err)
-	assert.Equals(t, expected, any(*param).(*parameter.ActionParameter[int]))
+	assert.Equals(t, expected, any(param).(*parameter.ActionParameter[int]))
 }
 
 func TestInput(t *testing.T) {
@@ -62,7 +62,7 @@ func TestInput(t *testing.T) {
 
 			expectedInput, err := model.Inputs.GetResource(input.GetInputId())
 
-			assert.Equals(t, expectedInput, input)
+			assert.Equals(t, expectedInput, *input)
 			assert.Equals(t, nil, err)
 		})
 	}
@@ -86,7 +86,7 @@ func TestOutput(t *testing.T) {
 
 			expectedOutput, err := model.Outputs.GetResource(output.GetOutputId())
 
-			assert.Equals(t, expectedOutput, output)
+			assert.Equals(t, expectedOutput, *output)
 			assert.Equals(t, nil, err)
 		})
 	}
