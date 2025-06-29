@@ -15,7 +15,7 @@ var mockConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 
 func TestAddActionDefinition(t *testing.T) { 
 	a := app.NewApp("testApp")
-	app.RegisterAction[testActions.ActionValidEmpty](nil)(a)
+	app.RegisterAction(testActions.ActionValidEmpty{}, nil)(a)
 
 	flowDef := NewFlowDefinition(a)
 	typedef, _ := app.GetDefinitionByName("ActionValidEmpty")(a)
@@ -29,7 +29,7 @@ func TestAddActionDefinition(t *testing.T) {
 
 func TestNewAction(t *testing.T) {
 	a := app.NewApp("testApp")
-	app.RegisterAction[testActions.ActionValidEmpty](nil)(a)
+	app.RegisterAction(testActions.ActionValidEmpty{}, nil)(a)
 
 	flowDef := NewFlowDefinition(a)
 	act, err := flowDef.NewAction("ActionValidEmpty")

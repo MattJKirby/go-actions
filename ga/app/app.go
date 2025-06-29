@@ -26,13 +26,13 @@ func NewApp(name string, opts ...packageConfig.Option[ApplicationConfig]) *App {
 	}
 }
 
-func RegisterAction[T action.GoAction](reg *action.ActionRegistration[T]) func(*App) {
+func RegisterAction[T action.GoAction](act T, reg *action.ActionRegistration[T]) func(*App) {
 	return func(app *App) {
 		if reg != nil {
 			registration.AcceptRegistration(reg)(app.actionRegistry)
 			return
 		}
-		registration.AcceptRegistration(&action.ActionRegistration[T]{Action: *new(T)})(app.actionRegistry)
+		registration.AcceptRegistration(&action.ActionRegistration[T]{Action: act})(app.actionRegistry)
 	}
 }
 

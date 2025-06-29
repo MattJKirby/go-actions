@@ -9,7 +9,7 @@ import (
 var ga = app.NewApp("GoActionsDefaultApp")
 
 func RegisterAction[T action.GoAction](act T, reg *action.ActionRegistration[T]) {
-	app.RegisterAction(reg)(ga)
+	app.RegisterAction(act, reg)(ga)
 }
 
 func GetRegisteredTypeDefinition[T action.GoAction](act T) (*action.TypeDefinition, error) {

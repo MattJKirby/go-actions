@@ -11,8 +11,6 @@ type TypeDefinition struct {
 	Trigger     bool
 	ActionValue reflect.Value
 	ActionType  reflect.Type
-	PropsValue  reflect.Value
-	PropsType   reflect.Type
 }
 
 func TypeDefinitionFromRegistration[T GoAction](reg *ActionRegistration[T]) *TypeDefinition {

@@ -19,7 +19,7 @@ func appWithEmptyRegistration() (*App, action.ActionRegistration[ta.ActionValidE
 	app := NewApp("test")
 	app.Config = mockAppConfig
 	reg := action.ActionRegistration[ta.ActionValidEmpty]{Action: ta.ActionValidEmpty{}}
-	RegisterAction(&reg)(app)
+	RegisterAction(ta.ActionValidEmpty{}, nil)(app)
 	return app, reg
 }
 
