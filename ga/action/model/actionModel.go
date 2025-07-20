@@ -3,7 +3,7 @@ package model
 import (
 	"go-actions/ga/action/model/common"
 	"go-actions/ga/action/model/input"
-	"go-actions/ga/action/model/output"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/app/config"
 	"go-actions/ga/libs/store"
@@ -15,7 +15,7 @@ type ActionModel struct {
 	ModelUid     uid.ResourceUid                           `json:"uid"`
 	Parameters   *store.ResourceStore[store.Identifiable]  `json:"parameters"`
 	Inputs       *store.ResourceStore[input.ActionInput]   `json:"inputs"`
-	Outputs      *store.ResourceStore[output.ActionOutput] `json:"outputs"`
+	Outputs      *store.ResourceStore[io.ActionOutput] `json:"outputs"`
 }
 
 func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid) *ActionModel {
@@ -24,7 +24,7 @@ func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid
 		ModelUid:     uid.NewUidBuilder().FromParent(actionUid).WithSubResource("Model").Build(),
 		Parameters:   store.NewResourceStore(store.Identifiable.GetId, false),
 		Inputs:       store.NewResourceStore(input.ActionInput.GetInputId, false),
-		Outputs:      store.NewResourceStore(output.ActionOutput.GetOutputId, false),
+		Outputs:      store.NewResourceStore(io.ActionOutput.GetOutputId, false),
 	}
 }
 
@@ -35,7 +35,7 @@ func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.Ac
 	return m.Parameters.GetDefault(name, defaultFn).(*parameter.ActionParameter[T])
 }
 
-func Input(m *ActionModel, name string, required bool, source *output.ActionOutput) *input.ActionInput {
+func Input(m *ActionModel, name string, required bool, source *io.ActionOutput) *input.ActionInput {
 	defaultFn := func () input.ActionInput {
 		return *input.NewActionInput(m.ModelUid, name)
 	}
@@ -48,9 +48,9 @@ func Input(m *ActionModel, name string, required bool, source *output.ActionOutp
 	return &input
 }
 
-func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.ActionOutput {
-	defaultFn := func () output.ActionOutput {
-		return *output.NewActionOutput(m.ModelUid, name)
+func Output(m *ActionModel, name string, targets []*input.ActionInput) *io.ActionOutput {
+	defaultFn := func () io.ActionOutput {
+		return *io.NewActionOutput(m.ModelUid, name)
 	}
 
 	output := m.Outputs.GetDefault(name, defaultFn)
@@ -63,7 +63,7 @@ func Output(m *ActionModel, name string, targets []*input.ActionInput) *output.A
 	return &output
 }
 
-func Reference(globalConfig *config.GlobalConfig, source *output.ActionOutput, target *input.ActionInput) *common.ResourceReference {
+func Reference(globalConfig *config.GlobalConfig, source *io.ActionOutput, target *input.ActionInput) *common.ResourceReference {
 	ref := common.NewActionReference(globalConfig, &source.Uid, &target.Uid)
 	source.AssignTargetReference(ref.GetTargetReference())
 	target.AssignSourceReference(ref.GetSourceReference())

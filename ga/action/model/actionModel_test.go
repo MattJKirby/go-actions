@@ -3,7 +3,7 @@ package model
 import (
 	"encoding/json"
 	"go-actions/ga/action/model/input"
-	"go-actions/ga/action/model/output"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 	"go-actions/ga/app/config"
 	"go-actions/ga/libs/uid"
@@ -48,10 +48,10 @@ func TestInput(t *testing.T) {
 
 	testcases := []struct {
 		name          string
-		defaultSource *output.ActionOutput
+		defaultSource *io.ActionOutput
 	}{
 		{name: "without default source"},
-		{name: "with default source", defaultSource: output.NewActionOutput(uid, "a")},
+		{name: "with default source", defaultSource: io.NewActionOutput(uid, "a")},
 	}
 
 	for _, test := range testcases {

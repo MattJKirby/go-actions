@@ -6,7 +6,7 @@ import (
 	"go-actions/ga/action"
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
-	"go-actions/ga/action/model/output"
+	"go-actions/ga/action/model/io"
 	"go-actions/ga/action/model/parameter"
 )
 
@@ -18,7 +18,7 @@ type ExampleAction struct {
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *input.ActionInput
-	Output           *output.ActionOutput
+	Output           *io.ActionOutput
 }
 
 func (ex *ExampleAction) Init(inst *action.ActionInstance) {

@@ -5,7 +5,7 @@ import (
 
 	"go-actions/ga/action/model"
 	"go-actions/ga/action/model/input"
-	"go-actions/ga/action/model/output"
+	"go-actions/ga/action/model/io"
 )
 
 type Action[T GoAction] struct {
@@ -17,7 +17,7 @@ type Action[T GoAction] struct {
 
 type BaseActionFields struct {
 	ActionInput  *input.ActionInput
-	ActionOutput *output.ActionOutput
+	ActionOutput *io.ActionOutput
 }
 
 func NewBaseActionFields(inst *ActionInstance) *BaseActionFields {
