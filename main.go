@@ -27,13 +27,17 @@ func main() {
 	// flowDef, _ := json.Marshal(flow.Definition)
 	// fmt.Println(string(flowDef))
 
+
 	f := ga.NewFlow()
 	b1 := ga.AddAction(f, &examples.BasicAction{})
 	b2 := ga.AddActionConfigurable(f, func(a *action.Action[*examples.ExampleAction]) {
 		a.Definition.IntegerParameter.SetValue(1000)
 	})
+	
 
 	fmt.Println(b1, b2)
+
+
 
 	flowDef, _ := json.Marshal(f.Definition)
 	fmt.Println(string(flowDef))
