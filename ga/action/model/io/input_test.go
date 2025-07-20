@@ -1,16 +1,11 @@
-package input
+package io
 
 import (
 	"go-actions/ga/action/model/common"
-	"go-actions/ga/app/config"
 	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
-
-var mockGenerator = &testHelpers.MockUidProvider{MockUid: "uid"}
-var mockConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 
 func TestAssignSourceReference(t *testing.T) {
 

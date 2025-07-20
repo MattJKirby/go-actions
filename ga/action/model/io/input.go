@@ -1,4 +1,4 @@
-package input
+package io
 
 import (
 	"go-actions/ga/action/model/common"
