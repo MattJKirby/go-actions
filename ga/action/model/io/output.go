@@ -6,8 +6,8 @@ import (
 )
 
 type ActionOutput struct {
-	Name             string                                         `json:"name"`
-	Uid              uid.ResourceUid                                `json:"uid"`
+	Name             string                                  `json:"name"`
+	Uid              uid.ResourceUid                         `json:"uid"`
 	TargetReferences *store.ResourceStore[ResourceReference] `json:"references"`
 }
 

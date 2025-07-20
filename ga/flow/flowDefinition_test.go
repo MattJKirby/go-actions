@@ -13,7 +13,7 @@ import (
 var mockGenerator = &testHelpers.MockUidProvider{MockUid: "uid"}
 var mockConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 
-func TestAddActionDefinition(t *testing.T) { 
+func TestAddActionDefinition(t *testing.T) {
 	a := app.NewApp("testApp")
 	app.RegisterAction(testActions.ActionValidEmpty{}, nil)(a)
 

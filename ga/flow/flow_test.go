@@ -12,7 +12,7 @@ func TestAddAction(t *testing.T) {
 	a := app.NewApp("test")
 	flow := NewFlow(a)
 	app.RegisterAction(testActions.ActionValidEmpty{}, nil)(a)
-	
+
 	act, err := AddAction(flow, func(a *action.Action[testActions.ActionValidEmpty]) {})
 	got, _ := flow.Definition.Actions.Store.Get(act.Instance.Uid.FullUid())
 

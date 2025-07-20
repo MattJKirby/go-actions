@@ -13,7 +13,7 @@ type BaseStore[T any] struct {
 
 type marshalledEntry[T any] struct {
 	Id    string `json:"Id"`
-	Value T     `json:"Value"`
+	Value T      `json:"Value"`
 }
 
 func NewBaseStore[T any](opts ...baseStoreOption[T]) *BaseStore[T] {

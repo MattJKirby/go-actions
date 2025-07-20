@@ -10,10 +10,10 @@ import (
 
 type ActionModel struct {
 	globalConfig *config.GlobalConfig
-	ModelUid     uid.ResourceUid                           `json:"uid"`
-	Parameters   *store.ResourceStore[store.Identifiable]  `json:"parameters"`
-	Inputs       *store.ResourceStore[io.ActionInput]   `json:"inputs"`
-	Outputs      *store.ResourceStore[io.ActionOutput] `json:"outputs"`
+	ModelUid     uid.ResourceUid                          `json:"uid"`
+	Parameters   *store.ResourceStore[store.Identifiable] `json:"parameters"`
+	Inputs       *store.ResourceStore[io.ActionInput]     `json:"inputs"`
+	Outputs      *store.ResourceStore[io.ActionOutput]    `json:"outputs"`
 }
 
 func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid) *ActionModel {
@@ -27,14 +27,14 @@ func NewActionModel(globalConfig *config.GlobalConfig, actionUid uid.ResourceUid
 }
 
 func Parameter[T any](m *ActionModel, name string, defaultValue T) *parameter.ActionParameter[T] {
-	defaultFn := func () store.Identifiable {
+	defaultFn := func() store.Identifiable {
 		return parameter.NewActionParameter(m.ModelUid, name, defaultValue)
 	}
 	return m.Parameters.GetDefault(name, defaultFn).(*parameter.ActionParameter[T])
 }
 
 func Input(m *ActionModel, name string, required bool, source *io.ActionOutput) *io.ActionInput {
-	defaultFn := func () io.ActionInput {
+	defaultFn := func() io.ActionInput {
 		return *io.NewActionInput(m.ModelUid, name)
 	}
 	input := m.Inputs.GetDefault(name, defaultFn)
@@ -47,7 +47,7 @@ func Input(m *ActionModel, name string, required bool, source *io.ActionOutput) 
 }
 
 func Output(m *ActionModel, name string, targets []*io.ActionInput) *io.ActionOutput {
-	defaultFn := func () io.ActionOutput {
+	defaultFn := func() io.ActionOutput {
 		return *io.NewActionOutput(m.ModelUid, name)
 	}
 
