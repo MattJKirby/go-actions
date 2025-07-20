@@ -1,15 +1,13 @@
-package common
+package io
 
 import (
 	"encoding/json"
 	"go-actions/ga/app/config"
 	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/testing/assert"
-	"go-actions/ga/utils/testing/testHelpers"
 	"testing"
 )
 
-var mockGenerator = &testHelpers.MockUidProvider{MockUid: "uid"}
 var mockGlobalConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 
 func TestResourceReference(t *testing.T) {

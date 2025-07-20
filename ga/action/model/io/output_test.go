@@ -1,7 +1,6 @@
 package io
 
 import (
-	"go-actions/ga/action/model/common"
 	"go-actions/ga/app/config"
 	"go-actions/ga/libs/uid"
 	"go-actions/ga/utils/testing/assert"
@@ -15,7 +14,7 @@ var mockConfig = &config.GlobalConfig{UidProvider: mockGenerator}
 func TestAssignTargetReference(t *testing.T) {
 	source := uid.NewUidBuilder().WithSubResource("source").Build()
 	target := uid.NewUidBuilder().WithSubResource("target").Build()
-	ref := common.NewActionReference(mockConfig, &source, &target)
+	ref := NewActionReference(mockConfig, &source, &target)
 	modelUid := uid.NewUidBuilder().Build()
 
 	output := NewActionOutput(modelUid, "name")

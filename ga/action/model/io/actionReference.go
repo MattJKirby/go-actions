@@ -1,4 +1,4 @@
-package common
+package io
 
 import (
 	"go-actions/ga/app/config"
