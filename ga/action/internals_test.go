@@ -15,5 +15,10 @@ func TestNewActionInternals(t *testing.T) {
 	
 	internals := action.NewActionInternals(instance)
 
-	assert.Equals(t, internals.Instance, instance)
+	_, hasActionInput := internals.GetInstance().Model.Inputs.GetResource("Action")
+	_, hasActionOutput := internals.GetInstance().Model.Outputs.GetResource("Action")
+
+	assert.Equals(t, internals.GetInstance(), instance)
+	assert.Equals(t, true, hasActionInput != nil)
+	assert.Equals(t, true, hasActionOutput != nil)
 }
