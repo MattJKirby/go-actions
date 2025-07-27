@@ -8,6 +8,7 @@ import (
 )
 
 type ActionValid struct {
+	*action.Internals
 	Param1 *parameter.ActionParameter[string]
 }
 

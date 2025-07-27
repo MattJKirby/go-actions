@@ -14,6 +14,7 @@ func init() {
 }
 
 type ExampleAction struct {
+	*action.Internals
 	IntegerParameter *parameter.ActionParameter[int]
 	StringParameter  *parameter.ActionParameter[string]
 	Input            *io.ActionInput

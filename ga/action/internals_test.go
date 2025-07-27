@@ -8,17 +8,25 @@ import (
 )
 
 func TestNewActionInternals(t *testing.T) {
-	
 	reg := action.ActionRegistration[testActions.ActionValidEmpty]{Action: testActions.ActionValidEmpty{}}
 	definition := action.TypeDefinitionFromRegistration(&reg)
 	instance := action.NewActionInstance(mockConfig, definition)
 	
-	internals := action.NewActionInternals(instance)
+	internals := action.NewInternals(instance)
 
-	_, hasActionInput := internals.GetInstance().Model.Inputs.GetResource("Action")
-	_, hasActionOutput := internals.GetInstance().Model.Outputs.GetResource("Action")
+	assert.Equals(t, instance, internals.GetInstance(), )
+	assert.Equals(t, true, internals.GetInput() != nil)
+	assert.Equals(t, true, internals.GetOutput() != nil)
+}
 
-	assert.Equals(t, internals.GetInstance(), instance)
-	assert.Equals(t, true, hasActionInput != nil)
-	assert.Equals(t, true, hasActionOutput != nil)
+func TestInitInternals(t *testing.T) {
+	internals := &action.Internals{}
+	internals.SetInstance(&action.ActionInstance{Name: "a"})
+	newInternals := &action.Internals{}
+	newInternals.SetInstance(&action.ActionInstance{Name: "b"})
+
+	internals.InitInternals(newInternals)
+
+	assert.Equals(t, internals, newInternals)
+
 }

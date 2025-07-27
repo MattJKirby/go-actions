@@ -4,7 +4,9 @@ import (
 	"go-actions/ga/action"
 )
 
-type ActionValidEmpty struct{}
+type ActionValidEmpty struct{
+	*action.Internals
+}
 
 type ActionValidEmptyProps struct{}
 

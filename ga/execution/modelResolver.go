@@ -48,7 +48,7 @@ func (ir *InstanceResolver) isSource(act *action.Action[action.GoAction]) bool {
 		return false
 	}
 
-	if len(act.BaseActionFields.ActionInput.SourceReferences.Store.GetEntries()) != 0 {
+	if len(act.Definition.GetInput().SourceReferences.Store.GetEntries()) != 0 {
 		return false
 	}
 	return true

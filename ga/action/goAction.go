@@ -6,6 +6,7 @@ type ActionRegistration[Type GoAction] struct {
 }
 
 type GoAction interface {
+	ActionInternals
 	Init(*ActionInstance)
 	Execute()
 }

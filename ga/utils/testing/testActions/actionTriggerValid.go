@@ -2,7 +2,9 @@ package testActions
 
 import "go-actions/ga/action"
 
-type ActionTriggerValid struct{}
+type ActionTriggerValid struct{
+	*action.Internals
+}
 
 type ActionTriggerValidProps struct{}
 
