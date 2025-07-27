@@ -6,7 +6,6 @@ import (
 
 	"go-actions/examples"
 	"go-actions/ga"
-	"go-actions/ga/action"
 )
 
 func main() {
@@ -29,9 +28,9 @@ func main() {
 
 
 	f := ga.NewFlow()
-	b1 := ga.AddAction(f, &examples.BasicAction{})
-	b2 := ga.AddActionConfigurable(f, func(a *action.Action[*examples.ExampleAction]) {
-		a.Definition.IntegerParameter.SetValue(1000)
+	b1 := ga.AddAction(f, func(*examples.BasicAction){})
+	b2 := ga.AddAction(f, func(a *examples.ExampleAction) {
+		a.IntegerParameter.SetValue(99999999999999)
 	})
 	
 
